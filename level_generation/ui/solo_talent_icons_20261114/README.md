@@ -39,7 +39,7 @@ keyed out; the export nudges any such texel, there were none).
 | Archery | Marksman | drawn recurve bow with nocked arrow |
 | Archery | Multishot | fan of five green-fletched arrows |
 | Archery | Piercing Arrows | arrow passing through two wooden target discs |
-| Archery | Pinning Shot | arrow driven into the earth, thorny vines coiling up it |
+| Archery | Power Shot (2026-11-16, replaced Pinning Shot) | one arrow wrapped in a golden-green burst and a shock ring, motion streaks behind |
 | Archery | Steady Aim | straw target, arrow in the bullseye |
 | Archery | Quickfoot | single leather boot with one green wing |
 | Arcana | Attunement | open spellbook with a violet sigil rising |
@@ -49,6 +49,8 @@ keyed out; the export nudges any such texel, there were none).
 | Arcana | Overload | crackling orb splitting into four linked orbs |
 | Arcana | Binding Circle | glowing double rune ring with chains of light rising |
 | Any | Bloodthirst | ivory fang dripping a crimson blood drop |
+| Any | Conditioning (2026-11-16) | seven-pointed old gold star, a gem of a different colour on each point |
+| Any | Spell Suppression (2026-11-16) | gold gauntlet crushing an orange-violet spell orb into fading sparks |
 | Keystone | Cheat Death | cracked bone skull, a gold spark of life bursting out |
 | Keystone | Unbroken | whole stone heart bound in crossed gold bands |
 
@@ -76,6 +78,10 @@ Review notes: every icon reads at 40 px and each tree's colour reads as a row. T
 glossier than the grittier MM6-MM8 spellbook paintings; it sits well beside them on the bar but is not
 indistinguishable from them. Cleave is the least distinct at 40 px (a red disc with an axe), but its silhouette
 differs from the other Arms icons.
+
+2026-11-16: Conditioning and Spell Suppression added (`run_batch.sh f "17"` and `g "18"`, one generation each, no
+retry; 29,940 and 32,631 Codex tokens) and installed the same way. Weapon Training, Marksman and Attunement left the
+table that day; their masters and runtime copies stay here, unused.
 
 Spend: no paid API calls. Codex subscription only: 25 image generations and about 220,000 Codex tokens (batches
 a 45,952, b 41,533, c 49,277, d 50,073, e 32,802).

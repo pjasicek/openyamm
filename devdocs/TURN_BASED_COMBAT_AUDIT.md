@@ -4,7 +4,7 @@ Started 2026-11-06 from player reports on the 1.21 release. This is the referenc
 how the original turn engine works, what OpenYAMM matches, and each defect that gave the party an advantage or a
 disadvantage. Every reproducible defect has a headless scenario under `tests/scenarios/turn_based/` that asserts the
 original's behaviour; it failed before its fix and now guards it from `tests/scenarios/release/scenarios.txt`. TB-1 to
-TB-8 and TB-10 were fixed on 2026-11-06; TB-9 turned out not to be a defect. A new finding gets a scenario that fails
+TB-8 and TB-10 were fixed on 2026-11-06, TB-11 on 2026-11-16; TB-9 turned out not to be a defect. A new finding gets a scenario that fails
 first.
 
 ```bash
@@ -25,6 +25,7 @@ see [RIZIN_GUIDE](../re_mm8/RIZIN_GUIDE.md)). OpenYAMM's engine is `game/gamepla
 | "my mana didn't regenerate" | TB-2 |
 | "problems casting spells" | TB-1 (swallowed and repeated Quick Cast presses) |
 | "did you change the casting animation" of Drain Life | yes: every projectile and impact is new art (Lifedrain, spell 111, `engine/effects/projectiles.yml`); damage and healing follow MM8 ([LIFEDRAIN](../re_mm8/LIFEDRAIN.md)); no TB defect found |
+| "I increased the turn speed, but I am always hitting" (2026-11-15, a bow against a Goblin King across a field) | design (below: a melee monster out of reach stands on its turn, and the Goblin King casts Fire Bolt on 30 % of them), plus TB-11 at high speeds |
 | "you changed the speed of the game" | not found. Candidates: F2 toggles a 2x mode and is not on the key binding pages (`KeyboardBindings.cpp:76`, `GameApplication::updateDoubleSpeedInput`); the new TB speed settings (default 1x); 1.21's new run clips. Monsters chasing at twice their speed is original. |
 
 ## How the original turn engine works
@@ -84,6 +85,7 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 | TB-8 | low | fixed | a monster's entry initiative was a fixed hash of its index, not random | none (random) |
 | TB-9 | low | not a defect | stealing was thought to cost only the 30-tick minimum | none |
 | TB-10 | low | fixed | walking in TB ran buffs and regeneration on frame time | covered by `item_regeneration.yml` |
+| TB-11 | medium | fixed | at a high game speed monsters walked less each turn | `fast_speed_monsters_walk.yml` |
 
 ### TB-1: one press acts for two members
 
@@ -199,11 +201,31 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
   and `advanceTimedStates` on the walking time, so a walk wore buffs down and regenerated on top of the turn's time.
   Turn-based walking now runs neither; the turn's game time does.
 
+### TB-11: monsters walk less at a high game speed
+
+- **Cause.** Fast mode (F2: 1x to 4x) and the turn-based speed settings (1x to 4x) multiply each frame's time
+  (`GameApplication::gameplaySpeed`). The turn engine counts the whole multiplied time against the monsters' 64-tick
+  wait stage, but the world let actors catch up at most 0.1 s per frame (`MaxAccumulatedActorUpdateSeconds`) and
+  missiles four 1/60 s steps. Once the multiplied frame passed 0.1 s (above 6x at 60 frames a second, above 3x at
+  30), the wait ended before the monsters had walked its 64 ticks. At 16x and 30 frames a second a monster walked
+  18 % of its distance per turn, so a ranged party got many more free shots at a melee monster closing in.
+- **Original.** Monsters walk 64 ticks per wait stage whatever the speed (MM8Patch's TurnBasedSpeed only shortens
+  the real time it takes).
+- **Fix.** `IGameplayWorldRuntime::setGameSpeed` (from `GameSession::setGameSpeed` every frame) multiplies the
+  world's catch-up limits (actor AI, missiles, indoor world items) by the game speed, so they stay 0.1 s of real time
+  and the actors get the whole time the turn engine counts.
+- **Scenario.** Lizardman Peasant 11 walks about 355 units a turn at normal speed; over four turns at 16x it walks at
+  least 950 (190 before the fix). `turn_based_turns` takes `game_speed` for this.
+- **Not changed.** The party's own walking in real-time fast mode keeps its 0.05 s and 0.1 s per-frame limits, so F2
+  4x walks at about 3x at 60 frames a second; that does not touch turn-based fairness (the party's turn-based walk is
+  never sped up).
+
 ## Scenario support
 
 The runner gained, for this audit (documented in `tests/scenarios/README.md`):
 
-- `turn_based_turns: {count, max_seconds}` plays turns through the input path, pressing Pass whenever the party may.
+- `turn_based_turns: {count, max_seconds, game_speed}` plays turns through the input path, pressing Pass whenever the
+  party may; `game_speed` multiplies each frame's time as fast mode and the turn-based speed settings do.
 - `assert: {turn_based: {active, stage, front_member, actor_index, actor_queued, actor_effect, effect_min, effect_max,
   report}}`.
 - `assert: {member_points: {member_index, spell_points_min/max, health_min/max}}`.

@@ -4,8 +4,9 @@
 #
 # rules:
 #   power_cap: N                      potion power is clamped to N before any effect
-#   duration: {hours: H, gm_alchemy_minutes_per_skill: M}   timed effects last H game hours, plus M game minutes per
-#                                     Alchemy point of the party's best Grandmaster alchemist
+#   duration: {hours: H, gm_alchemy_minutes_per_skill: M, solo_hours: S}   timed effects last H game hours (S in a
+#                                     solo run), plus M game minutes per Alchemy point of the party's best Grandmaster
+#                                     alchemist
 #   combat_recovery: {value: N, only_when_enemies_near: true}   a drink needs a ready member: the drinker if ready,
 #                                     else the active member, else the first ready one; near monsters it costs them N
 #                                     recovery ticks; in turn-based combat it always costs the ready member N ticks
@@ -37,7 +38,7 @@
 
 rules:
   power_cap: 500
-  duration: {hours: 6, gm_alchemy_minutes_per_skill: 6}
+  duration: {hours: 6, gm_alchemy_minutes_per_skill: 6, solo_hours: 24}
   combat_recovery: {value: 60, only_when_enemies_near: true}
   all_recipes_known: true
 

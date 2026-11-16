@@ -3,29 +3,41 @@
 # may replace this table like any other. Numbers are first values to tune in play.
 #
 # Each talent:
-#   id, name, tree (arms, archery, arcana, any), kind (passive, active), max_rank.
+#   id, name, tree (arms, archery, arcana, any), kind (passive, active), max_rank (1 to 50, or unlimited).
 #   icon_item (an inventory icon name: the talents' own talent_<id> icons, made in level_generation/ui/solo_talent_icons_20261114/) or icon_spell (a spell id).
 #   requires: the mastery the tree's skill needs before the talent can be learned (none, expert, master). The tree's skill
 #     is the best melee weapon skill or Armsmaster for arms, Bow for archery, the best magic school for arcana.
 #   needs: another talent that must have a rank first.
 #   per_rank: a passive's percent (or amount) per rank; per_rank_calm: the same out of combat (no yellow alert).
+#   first_rank: a passive's value at rank 1 when it differs; each rank after adds per_rank.
 #   cooldown, cooldown_per_rank (added per rank above the first; negative shortens), duration, duration_per_rank: seconds.
 #   cooldown_per_attack: seconds each ordinary weapon attack (melee or bow, not a talent's blow) takes off the cooldown.
+#   cooldown_per_hit: the same for each ordinary weapon attack that hits a monster (once per attack: a bow shot's other
+#     arrows and an arrow's chained leaps add nothing).
+#   cooldown_per_crit: the same for each critical hit of an ordinary weapon attack's own arrows and blow (every critical
+#     arrow of a shot counts; a chained leap or a Sweeping Blows blow does not).
 #   targets, share (percent of a normal blow or shot), share_per_skill (percent per point of the tree's weapon skill,
 #     added to share), share_cap, distance (world units), arc (degrees either side of the view).
+#   share_by_rank: an active's share at each rank, in place of share (its {value}).
+#   recovery: an active's recovery, and its clip's time, as a percent of an ordinary attack's (default 100).
 #   text: the effect line on the Talents page; {value} is the current rank's number.
 # Keystones: no points; one slot opens at each of keystone_levels, and each keystone can be bound once.
-levels_per_point: 10
+levels_per_point: 5
 keystone_levels: [150, 300]
+# The solo run's early monster cut (not a talent; devdocs/solo_action/POWER_CURVE_DIRECTION.md §8): [character level,
+# divisor] pairs, linear between them, nothing past the last. A monster's hits on the character are divided by the
+# divisor and the character's hits on monsters multiplied by it, which is the monster's HP and damage both divided,
+# on every difficulty. First sized against the simulated party of five (2.5 to level 5, 2.0 at 10, 1.8 at 20, gone
+# at 100), then lowered and shortened after play (user, 2026-11-15): the simulation's builds had no Regeneration and
+# stood toe to toe, so a regenerating bow character could hardly die. Then the tail lengthened (user, 2026-11-15):
+# 1.4 at level 50 as the simulation asks, fading linearly to nothing at 75. Remove the list for no cut.
+early_monster_cut: [[1, 2.5], [5, 2.0], [10, 1.6], [50, 1.4], [75, 1.0]]
+# The solo run's experience surcharge (not a talent; POWER_CURVE_DIRECTION.md §8): past level 100 each level costs this
+# much more per level above 100, in place of MAW's 0.005 (MAW 5.0). The solo character trains by it; monster levels and
+# the continent banks keep MAW's curve, and kills give what MAW gives. Halved for solo runs (user, 2026-11-15). Remove
+# the line for MAW's curve.
+experience_surcharge: 0.0025
 talents:
-  - id: weapon_training
-    name: Weapon Training
-    tree: arms
-    kind: passive
-    max_rank: 5
-    icon_item: talent_weapon_training
-    per_rank: 2
-    text: "+{value} % Might, Endurance and Speed"
   - id: cleave
     name: Cleave
     tree: arms
@@ -38,7 +50,9 @@ talents:
     targets: 64
     share: 150
     arc: 60
-    text: "A burst: every monster in the 120° arc in front takes a blow at 150 %; cooldown 12, 9 or 6 s"
+    # Half an ordinary swing's recovery (user, 2026-11-16).
+    recovery: 50
+    text: "A burst: every monster in the 120° arc in front takes a blow at 150 %, in half a swing's recovery; cooldown 12, 9 or 6 s"
   - id: sweeping_blows
     name: Sweeping Blows
     tree: arms
@@ -60,8 +74,8 @@ talents:
     max_rank: 3
     icon_item: talent_onslaught
     per_rank: 10
-    duration: 30
-    text: "Each kill: +1 % attack speed, at most {value} stacks; they last 30 s and every kill refreshes them"
+    duration: 60
+    text: "Each kill: +1 % attack speed, at most {value} stacks; they last 60 s and every kill refreshes them"
   - id: charge
     name: Charge
     tree: arms
@@ -87,14 +101,6 @@ talents:
     duration: 6
     per_rank: 50
     text: "With a shield: 50 % less damage for 6 s"
-  - id: marksman
-    name: Marksman
-    tree: archery
-    kind: passive
-    max_rank: 5
-    icon_item: talent_marksman
-    per_rank: 2
-    text: "+{value} % Accuracy and Speed"
   - id: multishot
     name: Multishot
     tree: archery
@@ -104,13 +110,14 @@ talents:
     requires: expert
     cooldown: 10
     cooldown_per_rank: -2
+    cooldown_per_hit: 1
     targets: 2
     share: 75
     arc: 12
     per_rank: 1
-    text: "One shot of 2, 3 or 4 arrows (by rank) fanned over ±12°, 75 % each; each hits the first monster in its line"
+    text: "One shot of 2, 3 or 4 arrows (by rank) fanned over ±12°, 75 % each; each hits the first monster in its line; each ordinary attack that hits a monster takes 1 s off the cooldown"
   - id: piercing_arrows
-    name: Piercing Arrows
+    name: Chaining Arrows
     tree: archery
     kind: passive
     max_rank: 3
@@ -120,25 +127,31 @@ talents:
     share: 30
     share_per_skill: 0.25
     share_cap: 50
-    text: "Every arrow of a bow shot flies on through {value} more monsters at 30 % + 0.25 % per Bow point (at most 50 %)"
-  - id: pinning_shot
-    name: Pinning Shot
+    distance: 1024
+    text: "Every arrow of a bow shot leaps on to the nearest other monster within 10 m of the one it strikes, up to {value} times, each at 30 % + 0.25 % per Bow point (at most 50 %)"
+  # Power Shot replaced Pinning Shot (user, 2026-11-16); a save's Pinning Shot ranks become Power Shot's.
+  - id: power_shot
+    name: Power Shot
     tree: archery
     kind: active
     max_rank: 3
-    icon_item: talent_pinning_shot
+    icon_item: talent_power_shot
     requires: expert
-    cooldown: 10
-    duration: 4
-    duration_per_rank: 1
-    text: "A shot that slows the target by half for {value} s"
+    cooldown: 6
+    cooldown_per_rank: -1
+    # A critical hit of an ordinary attack takes 0.5 s off (user, 2026-11-16).
+    cooldown_per_crit: 0.5
+    share_by_rank: [135, 170, 200]
+    # Half an ordinary shot's recovery (user, 2026-11-16).
+    recovery: 50
+    text: "One shot at {value} % of a normal shot's power, in half a shot's recovery; each critical hit of an ordinary attack takes 0.5 s off the cooldown"
   - id: steady_aim
     name: Steady Aim
     tree: archery
     kind: passive
     max_rank: 3
     icon_item: talent_steady_aim
-    per_rank: 5
+    per_rank: 10
     text: "After standing still for 1 s: +{value} % Luck (critical chance)"
   - id: quickfoot
     name: Quickfoot
@@ -149,14 +162,6 @@ talents:
     per_rank: 3
     per_rank_calm: 15
     text: "+{value} % movement speed (five times as much out of combat)"
-  - id: attunement
-    name: Attunement
-    tree: arcana
-    kind: passive
-    max_rank: 5
-    icon_item: talent_attunement
-    per_rank: 2
-    text: "+{value} % Intellect, Personality, Endurance, spell damage and healing"
   - id: blink
     name: Blink
     tree: arcana
@@ -210,14 +215,40 @@ talents:
     duration_per_rank: 0.5
     distance: 500
     text: "Every hostile within 5 m is held almost still, its attacks slowed, for {value} s"
+  # Five ranks of 2 % (user, 2026-11-16; was three of 2 %, then five and ten of 1 %); the floor still reaches ÷2.5 at
+  # the last rank, half a step a rank.
   - id: bloodthirst
     name: Bloodthirst
     tree: any
     kind: passive
-    max_rank: 3
+    max_rank: 5
     icon_item: talent_bloodthirst
     per_rank: 2
-    text: "+{value} % leech on melee, bow and spells; the leech floor grows (÷4, ÷3, ÷2.5 instead of ÷5)"
+    text: "+{value} % leech on melee, bow and spells; the leech floor grows (÷5 less 0.5 a rank: ÷2.5 at rank 5)"
+  # Conditioning replaced Weapon Training, Marksman and Attunement (user, 2026-11-16): the points past the trees go
+  # here, as many as the character has. The first rank gives 10 %, each after 1 % (user, 2026-11-16).
+  - id: conditioning
+    name: Conditioning
+    tree: any
+    kind: passive
+    max_rank: unlimited
+    icon_item: talent_conditioning
+    first_rank: 10
+    per_rank: 1
+    text: "+{value} % to all seven stats"
+  # Spell Suppression (user, 2026-11-16): the last cut of every non-physical hit, after armour, resistances and their
+  # 90 % cap, so it still counts for a character at the cap. Late Beyond Madness spells hit 2.3 times harder than blows
+  # and come in spikes (devdocs/solo_action/TALENT_TREE_V2_BUILD.md). The first rank gives 8 %, each after 0.8 %, up
+  # to 40 % at rank 41 (user, 2026-11-16; was 50 ranks of 0.8 %). Last in the table so the bar's indexes keep.
+  - id: spell_suppression
+    name: Spell Suppression
+    tree: any
+    kind: passive
+    max_rank: 41
+    icon_item: talent_spell_suppression
+    first_rank: 8
+    per_rank: 0.8
+    text: "{value} % less damage from every hit that is not physical, after armour, resistances and their cap"
 keystones:
   - id: cheat_death
     name: Cheat Death

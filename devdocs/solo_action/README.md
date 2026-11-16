@@ -31,6 +31,13 @@ recovery, which counts from the press, so the rate of attacks is unchanged. Rule
   even at melee range (WEAPONS.md, "Bow swap"). With the melee weapon in the arms it never shoots: out of reach the
   blow swings at the air, where a party member would fire the bow (`PartyAttackConfig::preferMelee`; talent shots
   excepted).
+- **Scrolls, potions and shops (user, 2026-11-16).** In a solo run every buff a scroll gives lasts 24 game hours
+  (`soloScrollBuffSeconds` in `PartySpellSystem.cpp`); under MAW a scroll's aura keeps that day on any map instead of
+  ending on another outdoor map (`MawGameState::fixedAuraEndMinutes`, saved from version 188), while pedestals and
+  temples keep MAW's map rule. Timed potion effects last at least `solo_hours` (24) of `potion_effects.yml`'s
+  `duration`, plus MAW's Grandmaster alchemist minutes. The alchemists of Ravenshore (111) and Erathia (118) and Free
+  Haven's "Alchemy and Incantations" (107) always stock 3–5 Invisibility scrolls in a solo run
+  (`engine/data_tables/solo_shop_stock.yml`). MAW's potion notes still say "6 hours".
 - **The Oblivion art ships (user, 2026-11-14).** The converted Oblivion arms, clips and weapons in
   `assets_dev/engine/view_model/` are committed and packaged with the solo run from release 2.4, by the user's decision
   after the licence risk was raised (Bethesda still sells Oblivion). Our own arms, rig, clips and held weapons remain
@@ -254,6 +261,12 @@ code reading (the test characters had no spell orders).
 - **Balance and talent trees** (the solo power gap measured on MAW at Nightmare and Beyond Madness, the proposed Lone
   Hero rule, the trees per MM skill and the point economy; scenarios and the model in `tests/scenarios/solo_balance/`):
   [BALANCE_AND_TALENTS.md](BALANCE_AND_TALENTS.md).
+- **Power curve handoff** (state of 2026-11-15: what the user decided, what is built, the simulator, next steps):
+  [HANDOFF_POWER_CURVE.md](HANDOFF_POWER_CURVE.md). Start there.
+- **Power curve direction** (2026-11-15: the user's aims for a smoother solo run, the early game and the level lead
+  in numbers, the experience surcharge, the simulator's gear problem, a bigger tree, next steps and open questions;
+  then the corrected simulation against a party of five, [the curve results](../maw/solo_sim/CURVE_RESULTS.md)):
+  [POWER_CURVE_DIRECTION.md](POWER_CURVE_DIRECTION.md).
 - **Talents as built** (MAW solo run: the table, points, passives in MAW's rules, the actives from the action bar, the
   Talents page behind the Skills / Talents switch, respec at training halls, the `talent` console command):
   [TALENTS.md](TALENTS.md).

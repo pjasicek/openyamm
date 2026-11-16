@@ -1,0 +1,100 @@
+id: solo_validate_dragon
+title: "Solo validation dragon breath"
+world: mm6
+mode: faithful
+tags: [measurement]
+steps:
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: {id: maw, difficulty: nightmare, progression: free}
+      party:
+        gold: 0
+        food: 50
+        members:
+          - name: Lone
+            class: GreatWyrm
+            race_id: 5
+            portrait_id: 24
+            level: 200
+            might: 30
+            intellect: 10
+            personality: 10
+            endurance: 25
+            accuracy: 20
+            speed: 20
+            luck: 15
+            skills:
+              - {name: DragonAbility, level: 41, mastery: 4}
+              - {name: Regeneration, level: 37, mastery: 4}
+              - {name: Bodybuilding, level: 33, mastery: 4}
+              - {name: Unarmed, level: 25, mastery: 4}
+            equipment: {}
+  - console: {line: "ruleset banks 0 0 0 0"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - clear_hostiles: {radius: 6000}
+  - setup_shortcut: {kind: immortal, value: true}
+  - spawn_actor: {monster_id: 195, x: -9028, y: -11319, z: 200, boss_affix: 14}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "player sheet"}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "actor remaining"}

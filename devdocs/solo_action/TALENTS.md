@@ -21,7 +21,7 @@ presentation; 6 captures and tests. Each stage updates this note.
   `Character::talentState` (`game/party/SoloTalentState.h`, transient). The gate: `soloTalentsActive(ruleset)` (solo run
   and ruleset `maw`); inside MAW's rules, `options().soloRun`.
 - **Stage 2 (built).** `game/rules/maw/MawSoloTalents.{h,cpp}`, called from MAW's rules only in a solo run:
-  `applyClassBonuses` adds the passives (Weapon Training, Marksman, Attunement, Resolve, Steady Aim while still) as a
+  `applyClassBonuses` adds the passives (now Conditioning, Resolve, Steady Aim while still; see the v2 build; Spell Suppression is a damage stage instead) as a
   share of the base stat; `MawClassRules::update` ticks cooldowns and timed effects, Mana Font and Steady Aim;
   `characterAttackRecoveryTicks` takes Frenzy; `absorbCharacterDamage` Shield Wall; `blocksMonsterCondition` Purify;
   `rollSpellDamage`, `healAmount`, `manaCost` and `afterCast` Attunement and Spell Surge (the original bodies kept as

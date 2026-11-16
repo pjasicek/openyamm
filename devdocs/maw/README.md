@@ -41,6 +41,7 @@ Lua where possible):
 | [CLASS_SPELLBOOKS.md](CLASS_SPELLBOOKS.md) | Proposal: the Death Knight's and Assassin's own spellbook pages, pictures and names over unchanged rules; mockup and open decisions |
 | [ITEMS_DATA.md](ITEMS_DATA.md) | Item, random-item and special-enchant patches in our formats; item tooltip spec; item record and save notes |
 | [MAPS_CONTENT.md](MAPS_CONTENT.md) | The 12 edited maps, every map and quest script change, dropped base fixes, overlay operations needed |
+| [solo_sim/](solo_sim/README.md) | Solo-class simulation (2026-11-14): simulated solo playthroughs, gear from their loot, fights against the real map groups; [results](solo_sim/RESULTS.md) |
 
 Machine-readable drafts extracted from MAW are in [data/](data/): YAML in the proposed ruleset shape (loot, legendary
 affixes, artifacts, special enchants, crafting items, spells, buff auras, crowd control, class perks, promotions, race

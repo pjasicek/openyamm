@@ -1,0 +1,665 @@
+<title>MAW Solo Classes</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=Alegreya+Sans:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column for the verdict and prose, full-width scroll boxes for the measured tables. Carved obsidian and brass, after the game's HUD. */
+:root {
+  --bg: #eef0f3;
+  --panel: #ffffff;
+  --sunk: #e3e6eb;
+  --fg: #1a1d23;
+  --muted: #5a606c;
+  --line: #c9ced7;
+  --brass: #8a6418;
+  --good: #1e7a4a;
+  --ok: #8a6a00;
+  --bad: #b23a2a;
+  --cell0: #f6d7d2;
+  --cell1: #f6e7c4;
+  --cell2: #dcefd9;
+  --cell3: #b9e0c3;
+  --display: "Fondamento", "Palatino Linotype", Georgia, serif;
+  --body: "Alegreya Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #121418; --panel: #1b1e24; --sunk: #23272f; --fg: #ece6d6; --muted: #a59e8c; --line: #343a44;
+    --brass: #d2ad62; --good: #74c792; --ok: #e0b74e; --bad: #ec7b69;
+    --cell0: #4a2420; --cell1: #4a3c1c; --cell2: #213d2b; --cell3: #2c5a3a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #121418; --panel: #1b1e24; --sunk: #23272f; --fg: #ece6d6; --muted: #a59e8c; --line: #343a44;
+  --brass: #d2ad62; --good: #74c792; --ok: #e0b74e; --bad: #ec7b69;
+  --cell0: #4a2420; --cell1: #4a3c1c; --cell2: #213d2b; --cell3: #2c5a3a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--fg); font-family: var(--body); font-size: 16px; line-height: 1.55;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 28px 64px; }
+main { max-width: 1900px; margin: 0 auto; display: grid; gap: 40px; }
+main > header, main > section > p, main > section > .tiers, main > section > .qa, main > section > .two, main > section > ul, main > section > .stages, main > footer { max-width: 1240px; }
+.prose { max-width: 74ch; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; line-height: 1.2; }
+h1 { font-size: clamp(2rem, 4vw, 2.8rem); color: var(--brass); }
+h2 { font-size: 1.65rem; color: var(--brass); }
+h3 { font-size: 1.2rem; }
+p { margin: 0; }
+section { display: grid; gap: 14px; min-width: 0; }
+.lede { font-size: 1.12rem; }
+.eyebrow { font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+.muted { color: var(--muted); }
+.num { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+code { font-family: var(--mono); font-size: .86em; background: var(--sunk); padding: 1px 5px; border-radius: 3px; }
+ul { margin: 0; padding-left: 1.2em; display: grid; gap: 6px; }
+.tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 14px; }
+.tier { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 16px; display: grid; gap: 10px; align-content: start; min-width: 0; }
+.tier h3 { display: flex; gap: 10px; align-items: baseline; }
+.tier .tag { font-family: var(--body); font-size: .74rem; letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; border: 1px solid currentColor; }
+.t1 .tag { color: var(--good); } .t2 .tag { color: var(--ok); } .t3 .tag { color: var(--muted); } .t4 .tag { color: var(--bad); }
+.tier li b { font-weight: 700; }
+.qa { display: grid; grid-template-columns: repeat(auto-fit, minmax(330px, 1fr)); gap: 12px 22px; }
+.qa div { display: grid; gap: 4px; min-width: 0; }
+.qa dt, .qa .q { font-weight: 700; }
+.verdict { font-family: var(--mono); font-size: .8rem; padding: 1px 6px; border-radius: 3px; margin-right: 6px; }
+.v-yes { background: var(--cell3); } .v-mid { background: var(--cell1); } .v-no { background: var(--cell0); }
+.scroll { overflow-x: auto; border: 1px solid var(--line); border-radius: 6px; background: var(--panel); }
+table { border-collapse: collapse; width: 100%; font-size: .9rem; }
+th, td { padding: 6px 8px; text-align: right; white-space: nowrap; border-bottom: 1px solid var(--line); }
+#detail td:first-child { white-space: normal; min-width: 15em; }
+th { font-weight: 500; color: var(--muted); font-size: .78rem; letter-spacing: .03em; text-transform: uppercase; background: var(--sunk); position: sticky; top: 0; }
+td:first-child, th:first-child { text-align: left; }
+td.n { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+tbody tr:hover td { background: var(--sunk); }
+.heat td.c { text-align: center; font-family: var(--mono); font-variant-numeric: tabular-nums; padding: 5px 4px; min-width: 2.3em; }
+.heat th.c { text-align: center; padding: 5px 4px; }
+.heat th.grp { text-align: center; border-left: 2px solid var(--line); }
+.heat td.first { border-left: 2px solid var(--line); }
+.h0 { background: var(--cell0); } .h1 { background: var(--cell1); } .h2 { background: var(--cell2); } .h3 { background: var(--cell3); }
+.controls { display: flex; flex-wrap: wrap; gap: 10px 22px; align-items: end; }
+.controls label { display: grid; gap: 4px; font-size: .8rem; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; }
+select, .seg button { font: inherit; font-size: .95rem; color: var(--fg); background: var(--panel); border: 1px solid var(--line); border-radius: 5px; padding: 6px 10px; }
+.seg { display: inline-flex; }
+.seg button { border-radius: 0; margin-left: -1px; cursor: pointer; }
+.seg button:first-child { border-radius: 5px 0 0 5px; margin-left: 0; }
+.seg button:last-child { border-radius: 0 5px 5px 0; }
+.seg button[aria-pressed="true"] { background: var(--brass); color: var(--bg); border-color: var(--brass); }
+button:focus-visible, select:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+.pill { display: inline-block; padding: 0 7px; border-radius: 999px; font-family: var(--mono); font-size: .8rem; }
+.p-dead { background: var(--cell0); } .p-low { background: var(--cell1); } .p-ok { background: var(--cell2); } .p-good { background: var(--cell3); }
+.stages { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; }
+.stage { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px; display: grid; gap: 6px; }
+.stage .big { font-family: var(--display); font-size: 1.6rem; color: var(--brass); }
+.stage dl { display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0; font-size: .9rem; }
+.stage dt { color: var(--muted); } .stage dd { margin: 0; text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 18px 30px; }
+.two > div { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.note { font-size: .88rem; color: var(--muted); }
+.groups { white-space: normal; text-align: left !important; min-width: 520px; font-size: .84rem; line-height: 1.7; }
+.skills { font-family: var(--mono); font-size: .8rem; white-space: normal; text-align: left !important; min-width: 360px; }
+footer { font-size: .85rem; color: var(--muted); }
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+
+<main>
+  <header class="prose" style="display:grid;gap:12px">
+    <div class="eyebrow">OpenYAMM · MAW ruleset · party of one · measured 2026-11-14 · real groups and class progression added · talent tree v2 simulated</div>
+    <h1>MAW Solo Classes</h1>
+    <p class="lede">Which classes can play MAW alone, at character levels 10, 50, 200 and 500, on every difficulty from Normal to Beyond Madness. Every number comes from OpenYAMM's own MAW code. A simulated solo playthrough clears the real MM6–MM8 maps (their spawned monsters, chests, completion rewards and quests); each build then wears the best gear that playthrough's loot offers, crafted with the materials it found, and fights the monsters of the maps it has reached. The key formulas were checked against live headless game runs.</p>
+  </header>
+
+  <section>
+    <h2>The answer</h2>
+    <p class="prose">Ranked by how much of the real maps each build handles at each stage: the actual monster groups of the maps the simulated playthrough is clearing, pulled four at a time without potions, with the class the character has by then and gear from that playthrough's loot. "Nightmare 50 / 200 / 500" is the share of those maps' monsters it beats; Doom, Road to Insanity and Beyond Madness are given at level 500, where they separate the builds. The generic pack test further down (B-tier melee monsters all attacking at once) gives the same order.</p>
+    <div class="tiers">
+      <div class="tier t1"><h3>Best solo <span class="tag">tier 1</span></h3>
+        <ul>
+          <li><b>Great Wyrm (Dragon).</b> 100 % at every Nightmare stage and at level 500 in Doom and Road to Insanity, 84 % in Beyond Madness, the best of all; the fastest clears (under 1 s per monster). Breath hits an area and takes the monster's lowest resistance, and dragons count every item stat three times. Even a level-10 Dragon beats everything around it.</li>
+          <li><b>Archangel (Seraph), two-handed sword + shield.</b> 100 % on Nightmare from level 50, 97 % (Doom) and 89 % (Road to Insanity) at level 500, 47 % in Beyond Madness, second best there. Spirit cuts every hit to its 25 % floor and Body heals it on every blow. Part of this comes from an OpenYAMM port error (below); it stays near the top either way.</li>
+        </ul></div>
+      <div class="tier t2"><h3>Strong <span class="tag">tier 2</span></h3>
+        <ul>
+          <li><b>War Troll.</b> 100 % at level 500 in Doom and Road to Insanity and 57 % in Beyond Madness, on 8–15 % of its HP regenerated per second, but the slowest killer: about 9 s per monster at Nightmare L500 and far more in Beyond Madness.</li>
+          <li><b>Marabou (Shaman)</b> in melee: 100 % on Nightmare from level 50, 90 % (Doom) and 72 % (Road to Insanity) at level 500; falls apart in Beyond Madness (3 %). Same port-error caveat as the Seraph.</li>
+          <li><b>Minotaur Lord (two axes)</b> and the <b>Troll-race Champion</b>: 100 % on Nightmare at every stage from 50, 89–92 % (Doom) and 63–69 % (Road to Insanity) at level 500; the best plain melee.</li>
+        </ul></div>
+      <div class="tier t3"><h3>Workable with pulls <span class="tag">tier 3</span></h3>
+        <ul>
+          <li><b>Knights:</b> Vampire-race Black Knight and Human Champion, 95–100 % on Nightmare, 80–84 % in Doom and 54–61 % in Road to Insanity at level 500.</li>
+          <li><b>Death Knights</b> (Lich King, Vampire race one axe or Minotaur race two axes), <b>Nosferatu</b>, <b>Monk</b>: 90–100 % on Nightmare but only 32–56 % at level 500 in Doom and Road to Insanity.</li>
+          <li><b>Master Archer</b> does better in real groups than in packs (91–94 % on Nightmare, about half in Doom and Road to Insanity at level 500).</li>
+          <li><b>Casters</b> (Arch Mage, Elementalist): fine around level 50–200 (80–92 % on Nightmare), 69–77 % at Nightmare L500 and 11–22 % in Doom and Road to Insanity.</li>
+        </ul></div>
+      <div class="tier t4"><h3>Not viable <span class="tag">avoid</span></h3>
+        <ul>
+          <li><b>Priest of Light (Cleric):</b> 46 / 47 / 19 % on Nightmare, 2–4 % at level 500 in Doom and Road to Insanity, and the slowest kills.</li>
+          <li><b>Assassin (Thief line):</b> 86 / 82 / 80 % on Nightmare but 25–38 % at level 500 in Doom and Road to Insanity; no Armsmaster in MAW, 5 HP per level.</li>
+        </ul></div>
+    </div>
+    <p class="note prose">Early game: at level 10 on Nightmare and harder, before any promotion, most builds still need potions or careful pulls (a plain Knight beats only 27 % of the groups around it on Nightmare, 4 % on Road to Insanity); the Dragon, Seraph, Troll and Shaman are the exceptions. From level 50 the first promotion and gear carry everyone but the Cleric.</p>
+  </section>
+
+  <section>
+    <h2>Your candidates, one by one</h2>
+    <div class="qa">
+      <div><span class="q"><span class="verdict v-yes">good</span>Troll</span><p>Yes for survival, no for speed. Grandmaster Regeneration (with the Regeneration potion) heals 8–15 % of max HP per second in combat, more as HP drops, and it has 12 HP per level: 100 % of the real groups at level 500 up to Road to Insanity, but the slowest clears. A Troll-race Knight (Champion) only gets Novice Regeneration but is one of the best plain melee builds.</p></div>
+      <div><span class="q"><span class="verdict v-mid">middle</span>Death Knight</span><p>Fine on Nightmare (91–100 %), weak late on the harder difficulties: 49–55 % at level 500 in Doom and Road to Insanity (Vampire race), behind the Knights. It cannot learn Armsmaster and only gets Expert Bodybuilding, so it has 7 HP per level; 10–15 % melee leech and Blood's physical cut make up for some of it. Its spells (Death Coil heals) are not simulated, so it may be a little better than this.</p></div>
+      <div><span class="q"><span class="verdict v-mid">ok</span>Vampire knight</span><p>A Vampire-race Black Knight (5 % race leech, Knight HP and Armsmaster): 100 % on Nightmare, 80 % (Doom) and 61 % (Road to Insanity) at level 500, a little ahead of a Human Champion.</p></div>
+      <div><span class="q"><span class="verdict v-mid">middle</span>Bowman</span><p>Master Archer bows hit hard, but 6 HP per level and nothing that heals. In real groups, pulled four at a time, it beats 91–94 % on Nightmare and about half at level 500 in Doom and Road to Insanity; standing in a whole pack it is among the worst.</p></div>
+      <div><span class="q"><span class="verdict v-yes">best</span>Dragon</span><p>The best solo class, early and late. Breath hits an area and takes the lowest resistance; Regeneration is Grandmaster; rings, amulet and gauntlets count three times. It cannot wear armour or dodge, so Beyond Madness L500 is where it struggles (84 % in pulls, 60 % taking whole groups), and it is still the best there.</p></div>
+      <div><span class="q"><span class="verdict v-yes">best</span>Seraphim</span><p>Yes, despite about 2,100 HP at L200: Spirit's flat cut pushes most hits to 25 % of their post-armour value and Body heals it on every blow. OpenYAMM makes that cut larger than MAW does (bug below); with MAW's formula it is still near the top because the 25 % floor binds either way.</p></div>
+      <div><span class="q"><span class="verdict v-mid">ok</span>Minotaur knight</span><p>A Minotaur Lord with two axes is the best plain melee build in real groups (92 % in Doom, 69 % in Road to Insanity at level 500) despite no helm or boots. A Minotaur-race Champion with two two-handed axes has the fastest single-target kills.</p></div>
+      <div><span class="q"><span class="verdict v-mid">middle</span>Minotaur death knight with axes</span><p>Works on Nightmare (90–100 %), drops to 44–56 % at level 500 in Doom and Road to Insanity; the second axe speeds kills but the Death Knight's HP and the missing helm and boots hold it back.</p></div>
+      <div><span class="q"><span class="verdict v-no">paper</span>Casters</span><p>Good from about level 50 to 200 on Nightmare (Grandmaster Mana Shield absorbs hits at up to 5 HP per spell point), weak at L500 where one hit takes most of their 3–6 k HP. Keep Learning low: Ascension raises mana cost far faster than damage. A Sorcerer at level 10 knows little and beats 20 % of the Nightmare groups.</p></div>
+      <div><span class="q"><span class="verdict v-no">avoid</span>Thief: dagger, Armsmaster, Dodging</span><p>The Thief line cannot learn Armsmaster in MAW. Dual daggers with Grandmaster Dodging hit hard, but 2,000 HP at L200 and an energy pool that pays for about a third of its blows in long fights; a quarter to a third of the groups at level 500 in Doom and Road to Insanity.</p></div>
+      <div><span class="q"><span class="verdict v-no">avoid</span>Cleric</span><p>Confirmed not viable: the slowest kills and the worst survival of all 22 builds, in real groups and in packs.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Why the Seraph is this strong</h2>
+    <p class="prose">Two class mechanics, Spirit and Body, both of which a solo gets in full; together they carry a character with a third of a Knight's HP. Numbers from the simulated Nightmare playthrough.</p>
+    <div class="two">
+      <div>
+        <h3>Spirit: most hits land at 25 %</h3>
+        <p>After armour every hit is cut by a flat amount, never below 25 % of the hit: <span class="num">max(hit − flat, 0.25·hit)</span>. The flat amount is sized for an average party member at the level bank: about the bank monster's hit before armour × your Spirit skill ÷ that member's expected skill. It assumes average armour, and a solo is about twice the bank level (L200: bank 99, Spirit 27 against an expected 19), so the cut exceeds the whole hit and every hit falls to its floor: a permanent 75 % reduction, physical and magic alike.</p>
+        <div class="scroll"><table>
+          <thead><tr><th>Nightmare L200</th><th>Champion</th><th>Archangel</th></tr></thead>
+          <tbody>
+            <tr><td>HP</td><td class="n">5,049</td><td class="n">2,203</td></tr>
+            <tr><td>B monster hit after armour</td><td class="n">94</td><td class="n">131</td></tr>
+            <tr><td>Spirit's flat cut</td><td class="n">–</td><td class="n">335 (MAW's formula: 254)</td></tr>
+            <tr><td>Damage landing per hit</td><td class="n">94 (1.9 % of HP)</td><td class="n">33 (1.5 % of HP)</td></tr>
+          </tbody></table></div>
+      </div>
+      <div>
+        <h3>Body: a big heal on every blow</h3>
+        <p>Each melee hit heals the most wounded member by <span class="num">Body^1.3 × mastery × 2 × speed factor × (1 + Personality/1000)</span>. A party shares it; a solo is always the one healed. It grows faster than the Seraph's 3–4 HP per level, and Light speeds the swings (one per 0.5 s at L200), so it heals about twice a second. The heal does not depend on the damage dealt or the monster's resistances.</p>
+        <div class="scroll"><table>
+          <thead><tr><th>Nightmare</th><th>Heal per blow</th><th>% of its HP per second</th></tr></thead>
+          <tbody>
+            <tr><td>L50 (Angel)</td><td class="n">94</td><td class="n">21 %</td></tr>
+            <tr><td>L200 (Archangel)</td><td class="n">467</td><td class="n">42 %</td></tr>
+            <tr><td>L500 (Archangel)</td><td class="n">2,264</td><td class="n">44 %</td></tr>
+          </tbody></table></div>
+      </div>
+    </div>
+    <ul class="prose">
+      <li>Together, at L200 one monster takes about 1 % of its HP per second and the heals return 42 % per second: around 40 monsters hitting at once before it loses ground. The Champion has more HP and no healing, so damage just accumulates.</li>
+      <li>Where it breaks is the low HP: the floor still lets the biggest hits through and the heal comes between swings. In Beyond Madness L500 a B hit lands for 1,248 (16 % of its 7,977 HP) and a room of C-tier casters deals more than its HP in a second; it beats 47 % of the real groups there.</li>
+      <li>OpenYAMM's flat cut leaves out two factors MAW includes (the expected chance to be hit and the legendary damage-taken factor), so it is 25–40 % larger. Up to Road to Insanity both versions exceed the hit and the floor binds anyway; in Beyond Madness L500 MAW's formula would land 2,692 per hit instead of 1,248. The Shaman's Water cut uses the same formula.</li>
+      <li>Divine Protection (once every five minutes, saved from a killing blow) is not simulated.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Why a solo works at all</h2>
+    <div class="two">
+      <div>
+        <h3>Monsters are not scaled down for you</h3>
+        <p>Every monster's HP and damage are sized against <b>one</b> expected character of the monster's own level: a B-tier monster takes 1 (Easy) to 5 (Beyond Madness) of that character's attacks and kills it in 14 down to 4 hits. Party size changes nothing except Cover. A party is five such characters; a solo is one.</p>
+        <p>What a solo gets back is experience. Each kill banks the awarded experience divided by 5, whatever the party size, and the level bank sets the monsters' levels. A solo member receives the whole award, five times a party member's share. Quests and map completion pay <span class="num">× 5 / party size</span> too. A kill's experience does shrink against easy monsters, but MAW measures that against the levels banked (monster HP over the HP a monster of the bank's level has), not against your character, so a solo far above its bank loses nothing extra (zzzMaw_Experience.lua:192-205, the same in OpenYAMM).</p>
+      </div>
+      <div>
+        <h3>Your level against the monsters' level</h3>
+        <div class="scroll"><table>
+          <thead><tr><th>Monster (bank) level</th><th>Solo level</th><th>Ratio</th><th>Pair (2 members)</th></tr></thead>
+          <tbody>
+            <tr><td class="n">5</td><td class="n">10</td><td class="n">2.1</td><td class="n">8</td></tr>
+            <tr><td class="n">23</td><td class="n">51</td><td class="n">2.2</td><td class="n">36</td></tr>
+            <tr><td class="n">99</td><td class="n">201</td><td class="n">2.0</td><td class="n">151</td></tr>
+            <tr><td class="n">200</td><td class="n">371</td><td class="n">1.9</td><td class="n">286</td></tr>
+            <tr><td class="n">275</td><td class="n">500</td><td class="n">1.8</td><td class="n">388</td></tr>
+          </tbody></table></div>
+        <p class="note">So a level-500 solo meets monsters built for a level-275 character, the same monsters a party of five level-275 characters would meet. In free progression monster levels follow the bank; in horizontal progression and Beyond Madness they are fixed per map, so the "at your level" view below shows what happens on maps above your bank.</p>
+      </div>
+    </div>
+    <ul class="prose">
+      <li>Group sizes per spawn: MAW 1–3, Hard and Hell 1–4, Nightmare 2–4, Doom 2–5, Road to Insanity 3–5, Beyond Madness 3–6. A "pack of 4" is a normal Nightmare pull; 10 is two or three groups at once.</li>
+      <li>Solo rules that help: Identify, Repair, Merchant, Perception, Disarm, Identify Monster and Alchemy reach Expert, Master and Grandmaster at skill 4, 7 and 10 whatever the class; Cover halves a hit instead of passing it on; poison and disease are halved; crowd control lasts twice as long.</li>
+      <li>The solo's one hard limit: if its only member is paralysed, stoned or knocked unconscious, the game is over. Protection from Magic (MAW keeps it at 50 charges; the Magic Protection potion provides it) blocks paralysis, stone and death. Keep it up against basilisks, gorgons, medusas, cyclopes and gargoyles. The tables below do not model conditions.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>A solo playthrough, simulated</h2>
+    <p class="prose">A fresh MAW game per difficulty, five times with different seeds (medians shown). The solo always clears the uncleared MM6–MM8 map whose monsters are lowest at that moment, killing every monster the map spawns on that difficulty (MAW's density and bosses, read from headless map loads), opening every chest, taking the completion reward and its quests. Experience, corpse loot, chest loot and crafting materials all come from the game's own code. The rows show where the character passes each level.</p>
+    <div class="scroll" id="ptWrap"></div>
+    <ul class="prose">
+      <li>A full clear of the 189 maps ends at level 486–498 on Normal to Hell, 503 on Nightmare, about 470 in Doom and Road to Insanity and 804 in Beyond Madness. A first clear reaches level 500 only on Nightmare (at its very end) and in Beyond Madness; elsewhere the level-500 column shows the character at the end of its full clear (level 469–498), and level 500 itself needs map resets or dimension maps.</li>
+      <li>The monsters at each point are lower than my first estimate (about 16 / 90 / 235 at L50 / 200 / 500 in free progression, against 23 / 99 / 275), because kills, quests and map completion all pay a solo five times a party member's share while the monster bank grows as for a party. Even with no quests at all a level-50 solo meets level 14–20 monsters.</li>
+      <li>Quests: 196 events that give experience, counting one reward per event because the branches of one quest are alternatives (9.4 M before MAW's bonus), handed out smallest first along the route. MAW pays each <span class="num">value·(1 + P/100) + 500·P</span>, P being the levels banked on the other continents, so late quests are worth a lot: they are 14–26 % of the experience up to level 200 in free progression, about half in Doom and Road to Insanity, and about half by the end of a Nightmare clear. Without quests a Nightmare full clear stops at level 379.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>The four stages</h2>
+    <p class="prose">At Nightmare: where the playthrough is when the character reaches each level, and what it has to build with.</p>
+    <div class="stages" id="stages"></div>
+    <p class="note prose">Skill points: 5 + ⌊level/10⌋ per level. Raising a skill to <i>s</i> costs <i>s</i>; a second weapon or school at the same level costs half, a third a third (Seraph, Shaman, Death Knight and Assassin share only their schools). Gear: for each slot, the item from that run's loot that makes the build strongest (its damage × MAW's vitality, leech counted); then the run's Emeralds, Hourglasses, Eyes of Void, gems, Pandora's Cubes and Crafting Cubes applied with the game's crafting code. Potion power: best map reagent (drop level = content level / 3, base 30) plus the Grandmaster Alchemy level.</p>
+  </section>
+
+  <section>
+    <h2>Every build, every difficulty</h2>
+    <p class="prose">The generic test: how many B-tier melee monsters of the content level, attacking it at the same time, each build survives standing and trading, with no potions and every monster attacking from the first second (Nightmare 50 / 200 / 500: Dragon and Seraph 40+, Troll 18 / 27 / 25, Shaman 16, the Knights and Death Knights 8–17, Priest 2–4). Green is comfortable, red is one or none, a dash is a level the playthrough does not reach. Hover a cell for its range over the runs.</p>
+    <div class="controls">
+      <label for="heatMode">Gear and monsters
+        <select id="heatMode"><option value="route">Simulated playthrough: its loot, crafted</option><option value="route_v2">Same, with talent tree v2</option><option value="pace">First version: random gear, monsters at the bank level</option><option value="par">First version: random gear, monsters at your level</option></select></label>
+    </div>
+    <div class="scroll" id="heatWrap"></div>
+  </section>
+
+  <section>
+    <h2>Real map groups</h2>
+    <p class="prose">The packs above are generic: B-tier melee monsters with no resistances. Here every build fights the actual groups of the maps it is clearing at that stage: the last five maps the playthrough cleared and the next five it would take, each monster with its own tier, level, HP, attacks, spells, damage types, recovery and resistances at that moment. A group is the monsters standing within 512 units of each other, as the map spawns them on that difficulty. The class is the one the character has by then (see the notes below the table).</p>
+    <div class="controls">
+      <label for="realMetric">Show
+        <select id="realMetric"><option value="ok4">Pulled 4 at a time, no potions</option><option value="ok4p">Pulled 4 at a time, with potions</option><option value="ok">Whole group at once, no potions</option><option value="okp">Whole group at once, with potions</option></select></label>
+    </div>
+    <div class="scroll" id="realHeat"></div>
+    <p class="note prose">Each cell is the share of those maps' monsters that stand in groups the build beats (a pull of 4 resting to full between pulls, or the whole group at once). Hover for the class, clear time and potions.</p>
+    <div class="controls">
+      <label>Character level <span class="seg" id="realLevel"></span></label>
+      <label for="realDiff">Difficulty <select id="realDiff"></select></label>
+      <label for="realBuild">Build <select id="realBuild"></select></label>
+    </div>
+    <p class="note" id="realHead"></p>
+    <div class="scroll"><table id="realTable"></table></div>
+    <ul class="prose note">
+      <li>Monster damage: attack 1 is the map's MAW value for the monster's own row; attack 2 scales by its dice against attack 1; a spell from the player schools deals the monster's magic damage times MAW's per-spell multiplier (Fire Bolt 0.75, Fireball 0.5, Lightning Bolt 0.95, Mind Blast 0.8, Psychic Shock 1.25 …). Each monster casts spell 1 at its chance, then spell 2, then attack 2, else attack 1; buffs and curses cost it the turn. Missiles and spells roll the Speed dodge twice. Bosses: their HP as spawned, damage × 1.3 (MAW's average).</li>
+      <li>Your hits are cut by the monster's resistance to their type (÷ 2^(resistance/100), capped at 200); a dragon's breath takes its lowest resistance. You kill the monster with the most damage per HP first.</li>
+      <li>Class at each stage: the base class until 15 % of one continent's maps are cleared, the first promotion until 40 % of one, then the final class; Elder (× 1.25 HP and SP per level) at two continents past 40 %, Ultimate (× 1.5) at three. Skill caps, masteries and spells follow that class and the difficulty's mastery thresholds; a spell the character cannot cast yet is not used. Promotion quests are not simulated: the 15 % and 40 % marks stand in for doing them along the way.</li>
+      <li>Not modelled: special attacks (paralysis, stone, disease), monsters' buffs, terrain and doors, line of sight and kiting. Fights are expected values, so a lucky or unlucky run can differ.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Talent tree v2 for the solo run</h2>
+    <p class="prose">The solo rules as talents of the MAW solo run, simulated against the same real map groups (proposal: <code>devdocs/maw/solo_sim/proposals/TALENT_TREE_V2.md</code>, results: <code>TALENT_TREE_V2_RESULTS.md</code>). Bodybuilding to Grandmaster is innate; talent points come from levels (one per 10); the big effects are keystones, one slot at each of levels 150, 300, 450, 600 and 750. No Legend lines (dropped).</p>
+    <ul class="prose note">
+      <li><b>Today</b>: no talents. <b>Today, old model</b>: the same without range (every monster adjacent from the start, as the tables above). <b>Current tree</b>: the 17 talents as built, one point per 10 levels. <b>Tree v2</b>: Lone Discipline, the trees Arms, Archery and Arcana with the new rows (Cleave a 150 % burst, Sweeping Blows at most 50 %, Onslaught a passive instead of Frenzy, Multishot instead of Volley; Whirlwind, Purify and Mana Font dropped), keystones by level, all 50 points of level 500 spent.</li>
+      <li>The fight model adds range: groups start 1200 units away, monsters that shoot stand off at 600 and the rest walk in at their own speed. A melee solo walks in (Charge: at once); a bow or spell solo shoots while they come, and can get away only with Blink, Disengage or Binding Circle (no free back-pedalling). The actives fire when they are worth the most, with their cooldowns.</li>
+      <li>The passives the game code has (Weapon Training, Marksman, Attunement, Resolve) and the Bodybuilding mastery come from the harness; the new talents and keystones are applied in the fight (proposal numbers, not built).</li>
+    </ul>
+    <div class="controls">
+      <label for="tfDiff">Difficulty <select id="tfDiff"></select></label>
+      <label>Character level <span class="seg" id="tfLevel"></span></label>
+      <label for="tfMetric">Show <select id="tfMetric"><option value="0">Pulled 4 at a time</option><option value="1">Whole group at once</option><option value="2">Seconds per monster, pulls of 4</option><option value="3">Seconds per monster, whole groups</option></select></label>
+    </div>
+    <div class="scroll" id="tfHeat"></div>
+    <p class="note prose">Share of the maps' monsters in groups the build beats (or seconds of fighting per monster beaten), median of five playthroughs. Hover for what the build has learned.</p>
+    <h3>Melee builds, weakest and median</h3>
+    <div class="scroll" id="tfSummary"></div>
+    <h3>What each talent does in the fights</h3>
+    <div class="controls">
+      <label for="tfBuild">Build <select id="tfBuild"></select></label>
+    </div>
+    <p class="note" id="tfUseHead"></p>
+    <div class="scroll"><table id="tfUse"></table></div>
+    <h3>Taking one away (level 500, tree v2, pulls of 4)</h3>
+    <div class="scroll" id="tfAblate"></div>
+    <p class="note prose">Change in the share of monsters beaten when one keystone or talent is removed, median and worst over the builds that have it. Melee area: see TALENT_TREE_V2_RESULTS.md for Cleave and Sweeping Blows taken away together.</p>
+    <h3>The talent page, mockups</h3>
+    <div class="two">
+      <div><img src="mockups/a.png" alt="Mockup A: the built Talents page extended with keystone strip and new rows" style="width:100%;border:1px solid var(--line);border-radius:6px"><p class="note">A: the built layout extended: points header, keystone strip, new rows, an any-tree line with Bloodthirst and the innate Lone Discipline, Legend line cards.</p></div>
+      <div><img src="mockups/b.png" alt="Mockup B: a Keystones sub-page with the slots on a ring and the picker open" style="width:100%;border:1px solid var(--line);border-radius:6px"><p class="note">B: keystones on their own sub-page: the five sockets on a ring that doubles as the level track, the picker with each keystone's effect "for you", a deliberate Bind.</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2>One stage in detail</h2>
+    <div class="controls">
+      <label>Character level <span class="seg" id="segLevel"></span></label>
+      <label for="selDiff">Difficulty <select id="selDiff"></select></label>
+      <label for="selMode">Gear and monsters <select id="selMode"><option value="route">Simulated playthrough</option><option value="route_v2">With talent tree v2</option><option value="pace">First version, bank level</option><option value="par">First version, your level</option></select></label>
+    </div>
+    <p class="note" id="detailHead"></p>
+    <div class="scroll"><table id="detail"></table></div>
+    <p class="note prose">This is the harsh generic test: 4 or 10 identical B-tier monsters, all hitting from the first second, no walking in, no actives. "With talent tree v2" adds everything this test can hold: Grandmaster Bodybuilding (Lone Discipline), the passives, the Oath, Unbroken, Archon, Sweeping Blows, Overload, Bloodthirst and Mana Font. Range and the actives (Cleave, Frenzy, Charge, Shield Wall, Blink, Binding Circle, Disengage, Multishot) need the real-group model; see "Talent tree v2 for the solo run" above.</p>
+    <p class="note prose">DPS is against one B-tier monster of the content level: melee from MAW's own attack resolver (hit chance, crits, enchantments, class add-ons), bow from MAW's power report, breath per target, spells at full mana (sustained figure after it). Incoming is per monster, per second, as a share of your HP, after Speed dodge, armour, class cuts and the 25 % floor; "magic" is the same for an elemental caster. Sustain is regeneration (Grandmaster at half HP) plus the Regeneration potion; leech and on-hit heals are in the fights but not in this column. Packs: clear time and lowest HP reached, without potions; "drinks" is Divine Cures needed when drinking below 35 %. The packs hit only physically, so a build whose defence is weak against magic looks better here than in the real maps: in Beyond Madness at L500 a monster's magic hit (71 k) is about twice its physical one, and 74 % of the damage in the real maps is magic. The Seraph's flat cut still floors physical hits there (1,248 lands, 16 % of its HP) but not magic ones (6.7 k lands, 84 % of its HP), which is why the real-group section ranks the Dragon first. HP spreads widely because Death Knights and Seraphim stop at Expert Bodybuilding while Minotaurs, Trolls and Dragons reach Grandmaster.</p>
+  </section>
+
+  <section>
+    <h2>Build sheets</h2>
+    <p class="prose">The skill levels the simulation used at the chosen stage, with the masteries the chosen difficulty allows. Points went first to Alchemy (for buff potions), then by fixed weights per build with MAW's exact raise costs.</p>
+    <div class="scroll"><table id="builds"></table></div>
+  </section>
+
+  <section>
+    <h2>Gear and potions for a solo</h2>
+    <div class="two">
+      <div>
+        <h3>Buff potions are your party</h3>
+        <ul>
+          <li>A buff potion casts its aura on the drinker as a Master caster with skill <span class="num">50·(f − 1)</span> and level <span class="num">0.5·P·f</span>, where <span class="num">f = 0.75 + 0.75·min(P, 200)/200</span>. Below power 34 the skill is negative.</li>
+          <li>Haste and Heroism stop improving at power 200; Stone Skin, Bless and the resistances keep growing with the potion's level.</li>
+          <li>Brew Champion's Potion (Haste, Heroism, Bless), Paladin's Potion (Shield, Stone Skin, Preservation), Elemental and Self Resistance, and from Master Alchemy Divine Blessing (Day of the Gods).</li>
+          <li>Pure Power, Wisdom and Resilience add 20 to their stats per 50 power, once per step.</li>
+        </ul>
+      </div>
+      <div>
+        <h3>Healing potions fall behind</h3>
+        <ul>
+          <li>Cure Wounds heals 20 + 25 %, Divine Cure 50 + 35 % of the HP a <i>level-P character</i> is expected to have. A solo has 2–5 times that, so at L200 a Divine Cure restores 7 % of a Minotaur's HP and 35 % of an Arch Mage's.</li>
+          <li>The Regeneration potion heals <span class="num">√maxHP · ⌊P/2⌋^1.25 · 0.005</span> per second, 0.5–1 % of HP per second for big-HP classes and up to about 3 % for casters.</li>
+          <li>Leech is the healing that scales: a blow heals (damage ÷ a B monster's HP) × leech share × your max HP, at least share/5 × recovery/100 of max HP per hit. Vampiric and Darkness weapons add 10 % melee leech to anyone.</li>
+          <li>Dragons triple every item stat; Crafting Cubes add 2 power per cube to weapons and body armour (4 to the rest) up to ⌊your level / 5⌋.</li>
+          <li>The portrait limits the slots: dragon portraits wear only rings, an amulet and gauntlets; Minotaur portraits wear no helm and no boots. The simulation applies these rules (the game's doll types).</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>What I found along the way</h2>
+    <div class="two">
+      <div>
+        <h3>A port error that flatters Seraphs and Shamans</h3>
+        <p>MAW sizes the Seraph's Spirit and the Shaman's Water flat cut with the expected character's damage share <i>including</i> its chance to be hit and its legendary reduction (<code>local _,_,_,avgTaken = getPlayerEstimatedVitality(lvl+1)</code>, zzMaw-Stats.lua:754; Estimates.lua:448). OpenYAMM's <code>mawClassDefense</code> (MawClassRules.cpp, near line 837) uses <code>(physical + magic) / 2</code> without those two factors, so its cut is about 1.3 times MAW's at level 100 and 1.6 times at level 275. It has been like this since the first port (MAW changed it before ef23ee17). With MAW's formula the Seraph's packs at L500 Nightmare drop from about 20 to 16; the ranking does not change.</p>
+      </div>
+      <div>
+        <h3>A correction to this page (2026-11-14)</h3>
+        <p>An earlier version gave every build with Body magic the Seraph's and the Shaman's on-hit heals; the game gives each only to its own class line. Death Knights (whose Blood is Body magic), Shamans and the Priest were overrated and are corrected here.</p>
+        <h3>Corrections to the 2026-11-13 solo study</h3>
+        <ul>
+          <li>Death Knights cannot learn Armsmaster; its Death Knight build used it as a core skill.</li>
+          <li>Reagents drop at a third of the level, not half, so solo potion powers are about 32 / 49 / 97 / 193 at these stages, not 100–375.</li>
+          <li>Its "Monk" was measured with a staff (the test party picks the best weapon). Bare-handed, a Monk deals a flat 162 at L200; the staff is MAW's Monk weapon.</li>
+          <li>The Stats page's Melee Power reads about 40 % below the real attack for the dual-dagger Assassin; I did not trace why.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>How the numbers were checked</h2>
+    <p class="prose">A scratch harness links OpenYAMM's game code, loads the real data with the MAW ruleset active and calls the same functions the game does. The same characters, with the same rolled items, were then played in headless game runs:</p>
+    <div class="scroll"><table>
+      <thead><tr><th>Check</th><th>Harness</th><th>Live game run</th></tr></thead>
+      <tbody>
+        <tr><td>Champion L100: max HP, damage range, attack</td><td class="n">2,568 · 149–187 · 188</td><td class="n">2,568 · 149–187 · 188</td></tr>
+        <tr><td>Dire Wolf at bank 60: HP, attack damage</td><td class="n">1,358 · 500.6</td><td class="n">1,360 · 500.6</td></tr>
+        <tr><td>Champion melee DPS against L75 (300 swings)</td><td class="n">164.0</td><td class="n">163.9</td></tr>
+        <tr><td>HP lost per second to one wolf (60 windows)</td><td class="n">84.3</td><td class="n">81.3</td></tr>
+        <tr><td>HP lost per second to three wolves, Troll without Regeneration</td><td class="n">1,130</td><td class="n">1,036 ± 29</td></tr>
+        <tr><td>Troll Grandmaster Regeneration, measured / predicted</td><td class="n">1.00</td><td class="n">1.01 · 1.01 · 1.02</td></tr>
+        <tr><td>Vampire Death Knight leech per swing (floor)</td><td class="n">56.5</td><td class="n">57</td></tr>
+        <tr><td>Seraph with flat cut, HP per second to three wolves</td><td class="n">300</td><td class="n">267 · 274</td></tr>
+        <tr><td>Great Wyrm with rolled jewellery (dragon portrait): Might, breath range</td><td class="n">72 · 126–210</td><td class="n">72 · 126–210</td></tr>
+      </tbody></table></div>
+    <p class="note prose">The fight model slightly over-predicts damage taken (by 4–10 %), so its survival numbers are a little pessimistic. Each MAW rule the results depend on was read in the C++, and the flat cut, Minotaur off-hand axes and Protection from Magic were also checked in MAW's own Lua (8967ae88).</p>
+  </section>
+
+  <section class="prose">
+    <h2>Limits</h2>
+    <ul>
+      <li>Stand and trade: every monster in the pack attacks from the first second, and there is no kiting, terrain, crowd control or first strike from range. Ranged builds that open from range do better (3 free seconds lift the L200 Nightmare Arch Mage from 5 to 10 monsters and the L500 Dragon from 4 to 15).</li>
+      <li>In the generic pack test all monsters are B-tier with physical melee attacks and monster recovery 80 (one attack per 1.4 s), without resistances. The real-group section uses each monster's own tier, attacks, spells, recovery and resistances instead (A-tier hit for 0.66, C-tier for 1.5; bosses have their spawned HP and 1.3 times the damage).</li>
+      <li>The playthrough: easiest map first, every map cleared once, no map resets, dimension maps, Arena or bounties; quests paid smallest first along the route rather than where they are given. Shops are not used (their stock could only add gear), and the Mirror, Pearl and the Orbs are not spent.</li>
+      <li>Gear is chosen per slot by the build's damage × MAW's vitality (leech counted, casters' mana weighted); immunity specials (of Freedom, of the Medusa) are worth more to a solo than that measure says.</li>
+      <li>Conditions are not modelled; see the Protection from Magic note.</li>
+      <li>The builds use one sensible skill split each, not an exhaustive optimisation. Death Knight spells, Shaman spells, the Assassin's combo finishers and the Seraph's Divine Protection are not used, so those classes are slightly undersold. Elementalist stacks are held at 5.</li>
+      <li>Class progression: the base class until 15 % of a continent's maps are cleared, then the first promotion, the final class at 40 %; Elder and Ultimate (HP and SP per level × 1.25 and × 1.5) from two and three continents past 40 %. The promotion quests themselves are not played; Chedian's fourth promotion (Supreme) is not reached because MM9 is not in the route.</li>
+      <li>This is plain MAW solo (a party of one). OpenYAMM's optional augmented solo run with talents (Cleave, Whirlwind, Shield Wall…) is not included.</li>
+    </ul>
+  </section>
+
+  <footer class="prose">Playthrough: 189 MM6–MM8 maps, monsters from headless loads at each difficulty, 1,049 chests from the map scenes, 5 runs per difficulty; 4,200 geared characters. Sources: game/rules/maw/ (MawBalanceModel, MawCombatRules, MawClassRules, MawSkillRules, MawExperienceRules, MawItemRules), engine/rulesets/maw/, MAW at /home/pjasicek/github/Maw-Mod-MMMerge (8967ae88). 1,792 characters × 4 gear rolls; fights simulated in 0.1 s steps.</footer>
+</main>
+
+<script id="data" type="application/json">__DATA__</script>
+<script>
+(function () {
+  const DATA = JSON.parse(document.getElementById('data').textContent);
+  const rows = DATA.rows, labels = DATA.labels;
+  const DIFFS = [['normal', 'Normal'], ['maw', 'MAW'], ['hard', 'Hard'], ['hell', 'Hell'], ['nightmare', 'Nightmare'], ['doom', 'Doom'], ['insanity', 'Road to Insanity'], ['madness', 'Beyond Madness']];
+  const LEVELS = [10, 50, 200, 500];
+  // Ordered by the real-group ranking (tiers above).
+  const ORDER = ['dragon', 'seraph', 'troll', 'troll_staff', 'shaman', 'minotaur_dual', 'troll_knight', 'vamp_knight', 'knight_sns', 'knight_2h', 'minotaur_knight_dual', 'minotaur_one', 'dk_vampire', 'dk_minotaur_dual', 'dk_minotaur', 'nosferatu', 'monk', 'archer', 'archmage', 'elementalist', 'assassin', 'priest'];
+  const SKILL = {FireMagic: 'Fire', AirMagic: 'Air', WaterMagic: 'Water', EarthMagic: 'Earth', SpiritMagic: 'Spirit', MindMagic: 'Mind', BodyMagic: 'Body', LightMagic: 'Light', DarkMagic: 'Dark', PlateArmor: 'Plate', ChainArmor: 'Chain', LeatherArmor: 'Leather', DragonAbility: 'Dragon', ManaShield: 'Mana Shield'};
+  const DK = {WaterMagic: 'Frost', BodyMagic: 'Blood', DarkMagic: 'Unholy'};
+  const AS = {FireMagic: 'Combat', AirMagic: 'Subtlety', WaterMagic: 'Poisons', EarthMagic: 'Assassination'};
+  const MAST = ['', 'N', 'E', 'M', 'G'];
+  const TH = {normal: [4, 7, 10], maw: [4, 7, 10], hard: [4, 7, 10], hell: [4, 7, 10], nightmare: [4, 7, 10], doom: [6, 12, 20], insanity: [8, 16, 25], madness: [10, 24, 40]};
+  const idx = new Map();
+  rows.forEach(r => idx.set(r.b + '|' + r.L + '|' + r.d + '|' + r.m, r));
+  const get = (b, L, d, m) => idx.get(b + '|' + L + '|' + d + '|' + m);
+  const fmt = n => n >= 10000 ? (n / 1000).toFixed(1) + 'k' : n.toLocaleString('en-US');
+  const heatClass = n => n >= 12 ? 'h3' : n >= 6 ? 'h2' : n >= 3 ? 'h1' : 'h0';
+  const esc = s => String(s).replace(/[&<>"]/g, c => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+
+  // stages
+  const st = document.getElementById('stages');
+  const PTS = {10: 46, 50: 350, 200: 2915, 500: 14795};
+  const PT = DATA.pt;
+  LEVELS.forEach(L => {
+    const r = get('knight_sns', L, 'nightmare', 'route');
+    const p = PT.nightmare[String(L)];
+    st.insertAdjacentHTML('beforeend', `<div class="stage"><div class="eyebrow">Character level</div><div class="big">${L}</div><dl>
+      <dt>Monster level there</dt><dd>${r.M}</dd><dt>Maps cleared</dt><dd>${p.maps}</dd><dt>Monsters killed</dt><dd>${p.kills.toLocaleString('en-US')}</dd>
+      <dt>Chests opened</dt><dd>${p.chests.toLocaleString('en-US')}</dd><dt>Gear items found</dt><dd>${p.items.toLocaleString('en-US')}</dd>
+      <dt>Crafting Cubes · gems</dt><dd>${p.cubes} · ${p.gems}</dd><dt>Skill points</dt><dd>${PTS[L].toLocaleString('en-US')}</dd>
+      <dt>Potion power</dt><dd>${r.P}</dd><dt>B monster HP · hit</dt><dd>${fmt(r.mh)} · ${fmt(r.md)}</dd></dl></div>`);
+  });
+
+  // playthrough table
+  (function () {
+    let h = '<table><thead><tr><th>Difficulty</th>' + LEVELS.map(L => `<th>Level ${L}: monsters · maps · kills · chests</th>`).join('') + '<th>Full clear</th></tr></thead><tbody>';
+    DIFFS.forEach(([d, name]) => {
+      h += `<tr><td>${name}</td>` + LEVELS.map(L => {
+        const p = PT[d][String(L)];
+        const r = get('knight_sns', L, d, 'route');
+        if (p) return `<td class="n">L${r ? r.M : '?'} · ${p.maps} · ${p.kills.toLocaleString('en-US')} · ${p.chests}</td>`;
+        return r ? `<td class="n">not reached; full clear (level ${PT[d].final}): monsters L${r.M}</td>` : '<td class="n">not reached</td>';
+      }).join('') + `<td class="n">level ${PT[d].final}</td></tr>`;
+    });
+    document.getElementById('ptWrap').innerHTML = h + '</tbody></table>';
+  })();
+
+  // heatmap
+  function heat() {
+    const mode = document.getElementById('heatMode').value;
+    let h = '<table class="heat"><thead><tr><th rowspan="2">Build</th>' + LEVELS.map(L => `<th class="grp" colspan="8">Level ${L}</th>`).join('') + '</tr><tr>' +
+      LEVELS.map(() => DIFFS.map((d, i) => `<th class="c" title="${d[1]}">${d[1].slice(0, 3)}</th>`).join('')).join('') + '</tr></thead><tbody>';
+    ORDER.forEach(b => {
+      h += `<tr><td>${esc(labels[b])}</td>`;
+      LEVELS.forEach(L => DIFFS.forEach((d, i) => {
+        const r = get(b, L, d[0], mode);
+        if (!r) { h += `<td class="c${i === 0 ? ' first' : ''}" title="not reached">–</td>`; return; }
+        const v = Math.round(r.mx);
+        h += `<td class="c ${heatClass(v)}${i === 0 ? ' first' : ''}" title="${esc(labels[b])}, level ${L}, ${d[1]}: ${v}${v >= 40 ? '+' : ''} (runs ${r.lo}–${r.hi})">${v >= 40 ? '40+' : v}</td>`;
+      }));
+      h += '</tr>';
+    });
+    document.getElementById('heatWrap').innerHTML = h + '</tbody></table>';
+  }
+
+  // detail
+  let level = 200;
+  const seg = document.getElementById('segLevel');
+  LEVELS.forEach(L => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = L; b.setAttribute('aria-pressed', L === level);
+    b.addEventListener('click', () => { level = L; [...seg.children].forEach(c => c.setAttribute('aria-pressed', c === b)); detail(); builds(); });
+    seg.appendChild(b);
+  });
+  const selDiff = document.getElementById('selDiff');
+  DIFFS.forEach(d => selDiff.insertAdjacentHTML('beforeend', `<option value="${d[0]}"${d[0] === 'nightmare' ? ' selected' : ''}>${d[1]}</option>`));
+  const pack = p => {
+    if (p[0] >= 2) return `<span class="pill p-dead">dies</span>`;
+    const cls = p[1] >= 60 ? 'p-good' : p[1] >= 30 ? 'p-ok' : 'p-low';
+    return `<span class="pill ${cls}">${p[2]} s · ${p[1]} %</span>`;
+  };
+  function detail() {
+    const d = selDiff.value, m = document.getElementById('selMode').value;
+    const r0 = get('knight_sns', level, d, m);
+    if (!r0) { document.getElementById('detailHead').textContent = `The playthrough does not reach level ${level} on this difficulty (a full clear ends near level ${DATA.pt[d].final}).`; document.getElementById('detail').innerHTML = ''; return; }
+    const standIn = m.startsWith('route') && level === 500 && !DATA.pt[d]['500'] ? ` (a first clear ends at level ${DATA.pt[d].final}; this is that character)` : '';
+    document.getElementById('detailHead').textContent = `Level ${level}${standIn} character against level-${r0.M} monsters (${DIFFS.find(x => x[0] === d)[1]}): a B monster has ${fmt(r0.mh)} HP and hits for ${fmt(r0.md)} before armour. Potion power ${r0.P}.`;
+    let h = '<thead><tr><th>Build</th><th>HP</th><th>DPS</th><th>Attack</th><th>Kill one</th><th>Incoming</th><th>Magic</th><th>Sustain</th><th>Pack of 4</th><th>Pack of 10</th><th>10 + drinks</th><th title=\"How many monsters attacking at the same time it survives, standing, without potions; 40+ means it survived every size tried\">Largest pack ⓘ</th></tr></thead><tbody>';
+    ORDER.map(b => get(b, level, d, m)).filter(Boolean).forEach(r => {
+      const sus = r.sus[r.dm] !== undefined && r.sus[r.dm] < r.dv ? '<br><span class="muted">' + fmt(r.sus[r.dm]) + ' sustained</span>' : '';
+      const extra = (r.b === 'seraph' || r.b === 'shaman') ? ` <span class="muted" title="with MAW's flat-cut formula">(MAW ${Math.round(r.mxf)})</span>` :
+        (['archer', 'dragon', 'archmage', 'elementalist', 'priest'].includes(r.b) && r.mxo !== r.mx) ? ` <span class="muted" title="3 s opener from range">(opener ${Math.round(r.mxo)})</span>` : '';
+      const drinks = r.n10p[0] >= 2 ? '<span class="pill p-dead">dies</span>' : `${r.n10p[3]} drinks`;
+      h += `<tr><td>${esc(labels[r.b])}</td><td class="n">${fmt(r.hp)}</td><td class="n">${fmt(r.dv)}${sus}</td><td>${esc(r.dm)}</td>
+        <td class="n">${r.t1 <= 0.15 ? 'one hit' : r.t1 + ' s'}</td><td class="n">${r.inc} %/s</td><td class="n">${r.im} %/s</td><td class="n">${r.rg} %/s</td>
+        <td>${pack(r.n4)}</td><td>${pack(r.n10)}</td><td>${drinks}</td><td class="n">${Math.round(r.mx) >= 40 ? '40+' : Math.round(r.mx)}${extra}</td></tr>`;
+    });
+    document.getElementById('detail').innerHTML = h + '</tbody>';
+  }
+  function builds() {
+    const d = selDiff.value, th = TH[d];
+    let h = '<thead><tr><th>Build</th><th>Skills (level and mastery allowed on this difficulty)</th></tr></thead><tbody>';
+    ORDER.forEach(b => {
+      const r = get(b, level, d, 'route') || get(b, level, d, 'pace');
+      const name = k => (b.startsWith('dk_') && DK[k]) || (b === 'assassin' && AS[k]) || SKILL[k] || k;
+      const list = Object.entries(r.sk).sort((a, c) => c[1][0] - a[1][0]).map(([k, v]) => `${name(k)} ${v[0]}${MAST[v[1]]}`).join(' · ');
+      h += `<tr><td>${esc(labels[b])}</td><td class="skills">${esc(list)}</td></tr>`;
+    });
+    document.getElementById('builds').innerHTML = h + '</tbody>';
+  }
+  // real map groups
+  const REAL = DATA.real || [];
+  REAL.forEach(r => { r.cls = r.cls.replace(/([a-z])([A-Z])/g, '$1 $2').replace('Priest Light', 'Priest of the Light'); });
+  const ridx = new Map();
+  REAL.forEach(r => ridx.set(r.b + '|' + r.L + '|' + r.d, r));
+  const rget = (b, L, d) => ridx.get(b + '|' + L + '|' + d);
+  const pctClass = v => v >= 90 ? 'h3' : v >= 70 ? 'h2' : v >= 40 ? 'h1' : 'h0';
+  function realHeat() {
+    const k = document.getElementById('realMetric').value;
+    let h = '<table class="heat"><thead><tr><th rowspan="2">Build</th>' + LEVELS.map(L => `<th class="grp" colspan="8">Level ${L}</th>`).join('') + '</tr><tr>' +
+      LEVELS.map(() => DIFFS.map(d => `<th class="c" title="${d[1]}">${d[1].slice(0, 3)}</th>`).join('')).join('') + '</tr></thead><tbody>';
+    ORDER.forEach(b => {
+      h += `<tr><td>${esc(labels[b])}</td>`;
+      LEVELS.forEach(L => DIFFS.forEach((d, i) => {
+        const r = rget(b, L, d[0]);
+        if (!r) { h += `<td class="c${i === 0 ? ' first' : ''}" title="not reached">–</td>`; return; }
+        const v = r[k];
+        const tip = `${labels[b]}: ${r.cls} at level ${L}, ${d[1]}: ${v} % of the monsters. Pulls of 4: ${r.spm4} s and ${r.dpm4} potions per 100 monsters. Whole groups: ${r.ok} % standing, ${r.okp} % with potions.`;
+        h += `<td class="c ${pctClass(v)}${i === 0 ? ' first' : ''}" title="${esc(tip)}">${v}</td>`;
+      }));
+      h += '</tr>';
+    });
+    document.getElementById('realHeat').innerHTML = h + '</tbody></table>';
+  }
+  let rlevel = 200;
+  const rseg = document.getElementById('realLevel');
+  LEVELS.forEach(L => {
+    const b = document.createElement('button'); b.type = 'button'; b.textContent = L; b.setAttribute('aria-pressed', L === rlevel);
+    b.addEventListener('click', () => { rlevel = L; [...rseg.children].forEach(c => c.setAttribute('aria-pressed', c === b)); realTable(); });
+    rseg.appendChild(b);
+  });
+  const rDiff = document.getElementById('realDiff'), rBuild = document.getElementById('realBuild');
+  DIFFS.forEach(d => rDiff.insertAdjacentHTML('beforeend', `<option value="${d[0]}"${d[0] === 'nightmare' ? ' selected' : ''}>${d[1]}</option>`));
+  ORDER.forEach(b => rBuild.insertAdjacentHTML('beforeend', `<option value="${b}"${b === 'dk_minotaur_dual' ? ' selected' : ''}>${esc(labels[b])}</option>`));
+  const verdict = v => v === 0 ? '<span class="pill p-good">wins</span>' : v === 1 ? '<span class="pill p-low">needs potions</span>' : '<span class="pill p-dead">dies</span>';
+  function realTable() {
+    const r = rget(rBuild.value, rlevel, rDiff.value);
+    const head = document.getElementById('realHead'), tab = document.getElementById('realTable');
+    if (!r) { head.textContent = `The playthrough does not reach level ${rlevel} on this difficulty.`; tab.innerHTML = ''; return; }
+    head.textContent = `${labels[r.b]}: ${r.cls} at level ${rlevel}, ${DIFFS.find(x => x[0] === r.d)[1]}. Pulled 4 at a time it beats the groups holding ${r.ok4} % of the monsters (${r.ok4p} % with potions); taking whole groups at once ${r.ok} % (${r.okp} % with potions). Groups: median ${r.gmed}, largest ${r.gmax} monsters. The run shown is the median of five.`;
+    let h = '<thead><tr><th>Map</th><th>Monster level</th><th>Monsters · groups</th><th>Groups won: whole · pulls of 4</th><th>Most dangerous groups (size, top level, who, damage per second as % of your HP)</th></tr></thead><tbody>';
+    r.maps.forEach(m => {
+      const gs = m.g.map(g => `<div>${g[0]} · L${g[1]} · ${esc(g[2])} · ${g[6]} %/s · whole ${verdict(g[3])} · pulls ${verdict(g[7])}</div>`).join('');
+      h += `<tr><td>${esc(m.f)}${m.nx ? ' <span class="muted">(next)</span>' : ''}</td><td class="n">${m.lv}</td><td class="n">${m.n} · ${m.ng}</td><td class="n">${m.ok}/${m.ng} · ${m.ok4}/${m.ng}</td><td class="groups">${gs}</td></tr>`;
+    });
+    tab.innerHTML = h + '</tbody>';
+  }
+  // talent tree v2
+  (function () {
+    const TF = DATA.tf; if (!TF) return;
+    const CFG = [['old', 'Today, old model'], ['today', 'Today'], ['v1', 'Current tree'], ['v2', 'Tree v2']];
+    const T = k => TF.cells[k];
+    const tfDiff = document.getElementById('tfDiff'), tfMetric = document.getElementById('tfMetric'), tfBuild = document.getElementById('tfBuild');
+    DIFFS.forEach(d => tfDiff.insertAdjacentHTML('beforeend', `<option value="${d[0]}"${d[0] === 'madness' ? ' selected' : ''}>${d[1]}</option>`));
+    ORDER.forEach(b => tfBuild.insertAdjacentHTML('beforeend', `<option value="${b}"${b === 'dk_vampire' ? ' selected' : ''}>${esc(labels[b])}</option>`));
+    let tfL = 500;
+    const seg = document.getElementById('tfLevel');
+    LEVELS.forEach(L => {
+      const b = document.createElement('button'); b.type = 'button'; b.textContent = L; b.setAttribute('aria-pressed', L === tfL);
+      b.addEventListener('click', () => { tfL = L; [...seg.children].forEach(c => c.setAttribute('aria-pressed', c === b)); draw(); });
+      seg.appendChild(b);
+    });
+    const secClass = v => v === null ? '' : v <= 1.5 ? 'h3' : v <= 2.5 ? 'h2' : v <= 4 ? 'h1' : 'h0';
+    const learned = e => {
+      if (!e || !e[5]) return '';
+      const c = e[5];
+      const r = Object.entries(c.r).map(([k, v]) => `${k.replace(/_/g, ' ')} ${v}`).join(', ');
+      return ` · ${c.p} points: ${r}` + (c.k.length ? ` · keystones: ${c.k.join(', ')}` : '');
+    };
+    function heatTable() {
+      const d = tfDiff.value, m = +tfMetric.value;
+      let h = '<table class="heat"><thead><tr><th>Build</th>' + CFG.map(c => `<th class="c">${c[1]}</th>`).join('') + '</tr></thead><tbody>';
+      ORDER.forEach(b => {
+        h += `<tr><td>${esc(labels[b])}</td>`;
+        CFG.forEach(([c, name]) => {
+          const e = T(`${d}|${tfL}|${b}|${c}`);
+          if (!e) { h += '<td class="c">–</td>'; return; }
+          const v = e[m];
+          const cls = m < 2 ? pctClass(v) : secClass(v);
+          const tip = `${labels[b]}, ${name}: pulls of 4 ${e[0]} % (${e[2] ?? '–'} s per monster), whole groups ${e[1]} % (${e[3] ?? '–'} s)` + learned(e);
+          h += `<td class="c ${cls}" title="${esc(tip)}">${v === null ? '–' : v}</td>`;
+        });
+        h += '</tr>';
+      });
+      document.getElementById('tfHeat').innerHTML = h + '</tbody></table>';
+    }
+    function summaryTable() {
+      let h = '<table class="heat"><thead><tr><th>Difficulty</th><th>Level</th>' + CFG.map(c => `<th class="c">${c[1]}</th>`).join('') + '</tr></thead><tbody>';
+      DIFFS.forEach(([d, name]) => LEVELS.forEach(L => {
+        if (!['nightmare', 'doom', 'insanity', 'madness'].includes(d) && L !== 500) return;
+        h += `<tr><td>${name}</td><td class="n">${L}</td>`;
+        CFG.forEach(([c]) => {
+          const s = TF.summary[`${d}|${L}|${c}`];
+          h += s ? `<td class="c ${pctClass(s[1])}" title="weakest ${s[0]} %, median ${s[1]} %, ${s[2]} s per monster">${s[0]} / ${s[1]} · ${s[2]}s</td>` : '<td class="c">–</td>';
+        });
+        h += '</tr>';
+      }));
+      document.getElementById('tfSummary').innerHTML = h + '</tbody></table>';
+    }
+    function useTable() {
+      const d = tfDiff.value, b = tfBuild.value;
+      const cs = ['v1', 'v2'];
+      const es = cs.map(c => T(`${d}|${tfL}|${b}|${c}`));
+      const head = document.getElementById('tfUseHead');
+      if (!es[1]) { head.textContent = 'No data for this choice.'; document.getElementById('tfUse').innerHTML = ''; return; }
+      head.textContent = `${labels[b]}, level ${tfL}, ${DIFFS.find(x => x[0] === d)[1]}, pulls of 4: uses per minute of fighting and share of the damage dealt.` + learned(es[1]);
+      const keys = [...new Set(es.flatMap(e => e && e[4] ? Object.keys(e[4]) : []))];
+      keys.sort((x, y) => ((es[1][4][y] || [0, 0])[1] - (es[1][4][x] || [0, 0])[1]) || ((es[1][4][y] || [0])[0] - (es[1][4][x] || [0])[0]));
+      let h = '<thead><tr><th>Action</th>' + ['Current tree', 'Tree v2'].map(n => `<th>${n}: per min · damage</th>`).join('') + '</tr></thead><tbody>';
+      keys.forEach(k => {
+        h += `<tr><td>${esc(k === 'frenzy' ? 'frenzy (v2: Onslaught)' : k.replace(/_/g, ' '))}</td>` + es.map(e => { const u = e && e[4] && e[4][k]; return `<td class="n">${u ? `${u[0]} · ${u[1]} %` : '–'}</td>`; }).join('') + '</tr>';
+      });
+      document.getElementById('tfUse').innerHTML = h + '</tbody>';
+    }
+    function ablateTable() {
+      const cuts = ['oath', 'unbroken', 'warlord', 'deadeye', 'archon', 'overload', 'blink', 'binding_circle', 'multishot', 'piercing_arrows', 'bloodthirst', 'sweeping_blows', 'cleave', 'frenzy'];
+      const ds = [['madness', 'Beyond Madness'], ['insanity', 'Road to Insanity'], ['doom', 'Doom']];
+      let h = '<table><thead><tr><th>Removed</th>' + ds.map(d => `<th>${d[1]}: median · worst</th>`).join('') + '</tr></thead><tbody>';
+      cuts.forEach(c => {
+        h += `<tr><td>${c === 'frenzy' ? 'Onslaught' : c.replace(/_/g, ' ')}</td>` + ds.map(([d]) => {
+          const v = Object.entries(TF.ablate).filter(([k]) => k.startsWith(d + '|') && k.endsWith('|' + c)).map(([k, x]) => [x, k.split('|')[1]]);
+          if (!v.length) return '<td class="n">–</td>';
+          v.sort((a, b) => a[0] - b[0]);
+          const med = v.map(x => x[0]).sort((a, b) => a - b)[Math.floor(v.length / 2)];
+          return `<td class="n">${med} · ${v[0][0]} (${esc(labels[v[0][1]] || v[0][1])})</td>`;
+        }).join('') + '</tr>';
+      });
+      document.getElementById('tfAblate').innerHTML = h + '</tbody></table>';
+    }
+    function draw() { heatTable(); useTable(); }
+    tfDiff.addEventListener('change', draw); tfMetric.addEventListener('change', heatTable); tfBuild.addEventListener('change', useTable);
+    draw(); summaryTable(); ablateTable();
+  })();
+  document.getElementById('realMetric').addEventListener('change', realHeat);
+  rDiff.addEventListener('change', realTable); rBuild.addEventListener('change', realTable);
+  realHeat(); realTable();
+  document.getElementById('heatMode').addEventListener('change', heat);
+  selDiff.addEventListener('change', () => { detail(); builds(); });
+  document.getElementById('selMode').addEventListener('change', detail);
+  heat(); detail(); builds();
+})();
+</script>

@@ -11,7 +11,8 @@ turn-based combat. The same in every ruleset (Standard and MAW). The design is t
   are at most sixteen (`BattleOrderLimit`). An order is one of three kinds:
   - a spell;
   - **Melee**: a blow, only with a target in the weapon's reach;
-  - **Shoot**: the ranged weapon (bow, crossbow, wand, blaster, a dragon's breath), only with one.
+  - **Shoot**: the ranged weapon (bow, crossbow, wand, blaster, a dragon's breath), only with one;
+  - **a talent** (a MAW solo run's learned active talent, [below](#talent-orders)).
 - **Conditions.** Each order has optional conditions, and all of them must hold:
   - **Target distance**: a range in game units (0–5120; a maximum of 5120 means any). The presets are *in melee reach*
     (0–407) and *beyond melee reach* (407 up). 407 stands for the blow's exact reach, 407.2 units. A minimum is
@@ -49,6 +50,31 @@ turn-based combat. The same in every ruleset (Standard and MAW). The design is t
 - **MAW.**
   - The Elementalist's rotation turns the order that names the cast spell, where it used to turn the attack spell.
   - The power report reads the first spell order.
+
+## Talent orders
+
+Built 2026-11-16 at the user's request: in a MAW solo run the orders also take the character's active talents (Power
+Shot, Multishot, Cleave, Charge, Blink, Binding Circle, Shield Wall, Spell Surge).
+
+- **When.** The order is used where it stands in the list when its conditions hold and the talent can act now: learned,
+  off cooldown, and with what it needs (a target in reach for Cleave or Charge, the bow drawn for a bow talent). Else
+  it is passed over like a spell without a target. Never in turn-based combat (the talents are real-time only), so
+  there the orders below it decide.
+- **Where it lands.** The talent is used where the Attack lands (`PartyAttackConfig::useTalentOrder`, called from
+  the order walk in `GameplayActionController::executePartyAttack`; `useSoloTalent` with a `TalentOrderUse`). With the
+  arms shown, the Attack's ordinary swing or bow draw plays and the talent strikes at its blow or release, with no
+  clip of its own after it; the clip's time comes off the recovery as for any blow. A ready talent order above the
+  first spell order keeps the swing (no cast clip at the press). It starts its cooldown and pays its recovery as when
+  used from the action bar.
+- **Conditions.** Target distance, HP and place, as for the weapon orders; "Keep SP" is for spells only. Its line says
+  "when ready", or "not learned" (a talent taken back).
+- **In the window.** The palette lists the learned active talents after Melee and Shoot (their talent icons; hovering
+  one shows its effect at the current rank). Copy from another member skips a talent the member has not learned.
+- **Data.** `BattleOrderKind::Talent` with `BattleOrder::talentId` (the talents.yml id), saved from version 189
+  (`SaveVersionTalentOrders`). Scenarios: `{talent: <id>}` in `battle_orders`
+  (`tests/scenarios/rulesets/maw_solo_talent_battle_order.yml`).
+- **Not done.** A press with the arms shown that ends in a talent also strikes Sweeping Blows' extra blows first, as
+  any Attack whose target is in reach does (also when a spell order casts).
 
 ## Upkeep
 
@@ -139,9 +165,10 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
   - Attack Spell makes the spell the member's only order, replacing any plan, with the fallback an older save's attack
     spell gets (`setAttackSpell`: hold for a spell for a member, otherwise the weapon). Clearing it leaves no orders
     and the weapon.
-- **Spell menu.** A quick right click (up to 300 ms) on a spell in the book opens a short menu. It sets Quick Cast or a
-  Quick Spell key (or clears one), adds the spell to the attack orders or to the upkeep list, or opens the window. Held
-  longer, the right button shows the spell's description as before.
+- **Spell menu.** A quick right click (released within 300 ms) on a spell in the book opens a short menu. It sets Quick
+  Cast or a Quick Spell key (or clears one), adds the spell to the attack orders or to the upkeep list, or opens the
+  window. The right button shows the spell's description as soon as it goes down, as before the menu existed (a
+  Discord report on 2026-11-15 found the 300 ms wait for it a delay); a quick release then swaps it for the menu.
 - **Quick Reference.**
   - An Orders row under QSpell shows each member's orders that are on, as small icons, with the fallback's mark last;
     of more than six, the first five and how many follow. Pointing at a member's cell lists the first ten orders

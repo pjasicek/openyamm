@@ -4193,7 +4193,7 @@ items:
   notes: Developer could not reproduce (bosses scale in code and in game) and asked for a save next to a small boss.
 - id: OY-218
   kind: bug
-  status: open
+  status: done
   title: Monster spell projectiles cannot be dodged
   summary: Monster missiles home so hard that strafing never dodges them. The developer made homing frame-rate independent
     on purpose, but the MAW author said the undodgeable homing is a bug, not intended.
@@ -4203,7 +4203,7 @@ items:
   - projectiles
   - ai
   reported: '2026-10-30'
-  updated: '2026-11-07'
+  updated: '2026-11-16'
   sources:
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1565855244146053161
   - https://discord.com/channels/1563263436400623696/1563589245061308518/1566001587099533393
@@ -4215,6 +4215,10 @@ items:
 
     2026-11-07: held for the user: DEVIATIONS 181 records the user''s 300 deg/s homing choice (2026-10-27, kept over MAW''s
     21 deg/s on 2026-11-05).'
+  resolution: 'Working tree, 2026-11-16 (not yet released): the lock is 60 deg/s (MawCombatRules::monsterMissileHomingLockRate),
+    set to the MAW author''s answer (2026-11-16: dodge by running sideways, not by simple strafing). A strafe (384) is hit,
+    a run straight across the flight (768, also a flying strafe) escapes every missile, a run at 45 deg sometimes does.
+    DEVIATIONS 181; test "MAW monster missiles hit a strafing party but miss one running across their flight".'
 - id: OY-219
   kind: bug
   status: done

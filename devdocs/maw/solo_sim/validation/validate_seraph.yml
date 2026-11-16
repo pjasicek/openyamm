@@ -1,0 +1,108 @@
+id: solo_validate_seraph
+title: "Solo validation seraph"
+world: mm8
+mode: faithful
+tags: [measurement]
+steps:
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: nightmare, progression: free}
+      party:
+        gold: 0
+        food: 50
+        members:
+          - name: Lone
+            class: Archangel
+            race_id: 0
+            level: 200
+            might: 30
+            intellect: 20
+            personality: 20
+            endurance: 25
+            accuracy: 20
+            speed: 20
+            luck: 15
+            skills:
+            - {name: Sword, level: 44, mastery: 4}
+            - {name: LightMagic, level: 35, mastery: 4}
+            - {name: BodyMagic, level: 27, mastery: 3}
+            - {name: SpiritMagic, level: 27, mastery: 3}
+            - {name: PlateArmor, level: 22, mastery: 3}
+            - {name: Shield, level: 18, mastery: 3}
+            - {name: Bodybuilding, level: 13, mastery: 2}
+            equipment: {}
+  - grant_item: {item_id: 10, roll_level: 98, seed: 21, equip: main_hand}
+  - grant_item: {item_id: 103, roll_level: 98, seed: 22, equip: off_hand}
+  - grant_item: {item_id: 98, roll_level: 98, seed: 23, equip: armor}
+  - console: {line: "ruleset banks 0 92 0 0"}
+  - load_map: {map: out02.odm}
+  - console: {line: "ruleset mapmonsters /tmp/maw_solo_validation/val_seraph_mm.tsv"}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "hp full"}
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 86, near_party: true, count: 3}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3}
+  - setup_shortcut: {kind: immortal, value: false}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}

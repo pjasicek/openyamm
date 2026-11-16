@@ -202,6 +202,12 @@ In a solo run the player can swap the arms and the attack between the melee weap
   first in a party.
 - **Archers:** a member with a bow and nothing (or only a broken weapon) in the main hand holds the bow without a
   swap and shoots at any range too.
+- **No break the repair would undo** (user, 2026-11-16): a monster's break attack leaves a solo run's held weapon
+  (main hand, off hand, bow) whole when the rules' auto-repair would mend it anyway (MAW: the party's best Repair
+  skill x mastery reaches the item's repair difficulty, mended on the 5-minute regeneration tick;
+  `CombatRules::autoRepairs`). Breaking it would only swap the arms to the other weapon until the tick. Armour and
+  carried items still break; a party run breaks everything as before (`GameplayRuleRegressionTests`, "a solo run's
+  weapon that auto-repair would mend").
 - **The choice:** transient (`ViewModelLink::bowSelected`). A loaded game starts with the melee weapon. It clears when
   no bow is equipped.
 - **Verified in game:** combat trace `had_melee_target=true mode=bow`, the arrow killed the target.

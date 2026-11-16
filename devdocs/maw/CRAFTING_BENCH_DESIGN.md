@@ -50,7 +50,15 @@ Properties the Workbench keeps:
 - No item is consumed by a plain drag; consuming actions are buttons.
 
 What crafting needs that alchemy does not: alchemy slots hold **item ids** and use the strongest carried instance
-(`findStrongestItem`, AlchemyBenchRuntime.cpp:18-60). Crafting targets one **specific item**, possibly worn, so the
+(`findMixItems` in AlchemyBenchRuntime.cpp), or the copy of the power the player chose: since 2026-11-16 a slot whose
+item is carried at several powers shows a power button under it that lists them with their counts (`AlchemyPowerChoice`;
+Mix All then mixes only the copies of the chosen powers, and Automatic hands the pick back to the bench). A brew
+chain has the same button under the result slot: it lists the powers the chain can brew the potion at
+(`AlchemyChainPlanner::powerOptions`, at most about sixteen), and a chosen one makes the planner aim at it with the
+weakest ingredients that reach it (`plan(..., aim)`, a greedy search whose steps name the copies they mix; Brew All
+then brews only potions of at least that power). The list is cached in the bench state and planned again only when
+the ingredients, the recipes or the choice change (0.1 to 0.4 ms measured under MAW with 60 reagents). Crafting
+targets one **specific item**, possibly worn, so the
 crafting state holds item references.
 
 ## 3. Why one Workbench with tabs

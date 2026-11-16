@@ -10,7 +10,8 @@ see no change.
 
 ## The tree (user decisions, 2026-11-14)
 
-- **Points:** one per 10 levels (`levels_per_point: 10`; was 15 until the user's change later on 2026-11-14).
+- **Points:** one per 5 levels (`levels_per_point: 5`; was 15 until the user's change later on 2026-11-14, then 10
+  until the user's change on 2026-11-16).
 - **Keystones:** one slot per 150 levels (levels 150 and 300), chosen from **Cheat Death** and **Unbroken**. They cost
   no points. No class Oaths; Warlord, Deadeye and Archon are dropped.
 - **Trees** name what they train: Arms (was melee), Archery (bows only, never a Dragon's breath), Arcana (was caster),
@@ -19,34 +20,43 @@ see no change.
   that normally cannot) up to Expert at once, Master after the first promotion, Grandmaster after the final one, and
   Regeneration (at a temple; user, 2026-11-15) up to Expert at once and Master after the final promotion. A class
   whose own cap is higher keeps it; neither skill is given, only learnable (`MawSkillRules::masteryCap`).
+- **Early monster cut** (built 2026-11-15, not a talent): in a solo run monsters' damage and, in effect, their HP
+  are divided by 2.5 at character level 1, 1.6 at 10, 1.4 at 50, fading to nothing at level 75 (`early_monster_cut`
+  in `talents.yml`;
+  [POWER_CURVE_DIRECTION.md](POWER_CURVE_DIRECTION.md) §8).
+- **Experience surcharge 0.25 %** (built 2026-11-15, not a talent): a solo character's levels past 100 cost 0.25 %
+  more per level above 100 instead of MAW's 0.5 % (`experience_surcharge` in `talents.yml`); banks, monster levels and
+  kill awards keep MAW's curve (POWER_CURVE_DIRECTION.md §8).
 - **Dragon items ×3** in a solo run, as in MAW (the 2.4 build's ×2.5 was reverted on 2026-11-15, `MawItemRules`).
 
 | Tree | Talent | Kind, ranks | Effect |
 | --- | --- | --- | --- |
-| Arms | Weapon Training | passive 5 | +2 % Might, Endurance, Speed per rank (unchanged) |
 | Arms | Cleave | active 3 | Burst: 150 % to every monster in the 120° arc in front (no stagger, user 2026-11-14); cooldown 12/9/6 s |
 | Arms | Sweeping Blows | passive 3, needs Cleave | Every ordinary swing also strikes 1/2/3 more in the same arc at 30 % + 0.25 % per weapon-skill point, at most 50 % |
-| Arms | Onslaught | passive 3 | Each kill +1 % attack speed, at most 10/20/30 stacks; the stacks last 30 s, every kill refreshes them |
+| Arms | Onslaught | passive 3 | Each kill +1 % attack speed, at most 10/20/30 stacks; the stacks last 60 s, every kill refreshes them |
 | Arms | Charge | active 3 | Unchanged, but each ordinary weapon attack takes 1 s off its cooldown (`cooldown_per_attack`, user 2026-11-14) |
 | Arms | Shield Wall | active 3 | Unchanged |
-| Archery | Marksman | passive 5 | Unchanged |
-| Archery | Multishot | active 3 | 2/3/4 bow attacks at once over ±12° (was ±30°), 75 % each; each arrow hits the first monster in its line; cooldown 10/8/6 s |
-| Archery | Piercing Arrows | passive 3 | Every ordinary bow shot also hits 1/2/3 monsters behind the target at 30 % + 0.25 % per Bow point, at most 50 % |
-| Archery | Pinning Shot | active 3 | Unchanged |
-| Archery | Steady Aim | passive 3 | +5 % Luck per rank while still (was 3 %) |
+| Archery | Multishot | active 3 | 2/3/4 bow attacks at once over ±12° (was ±30°), 75 % each; each arrow hits the first monster in its line; cooldown 10/8/6 s, 1 s off for each ordinary attack that hits a monster (`cooldown_per_hit`, user 2026-11-16) |
+| Archery | Chaining Arrows (was Piercing Arrows; the id stays `piercing_arrows`) | passive 3 | Every arrow of an ordinary bow shot leaps on from the monster it strikes to the nearest other within 1024, up to 1/2/3 times, at 30 % + 0.25 % per Bow point, at most 50 % |
+| Archery | Power Shot (replaced Pinning Shot, user 2026-11-16) | active 3 | One bow shot at 135/170/200 % of a normal shot (`share_by_rank`), cooldown 6/5/4 s; each critical hit of an ordinary attack's own arrows or blow takes 0.5 s off (`cooldown_per_crit`, user 2026-11-16; Chaining Arrows leaps, Sweeping Blows and talent shots do not count); a save's Pinning Shot ranks become Power Shot's (save 189). Its sound `talent_power_shot` plays over the bow shot's: the shot an octave down, a sub thump, a charged whoosh and a shimmer, made by `level_generation/sounds/power_shot_20261116/make_power_shot.py` |
+| Archery | Steady Aim | passive 3 | +10/20/30 % Luck while still (user 2026-11-16; was 5 % a rank, first 3 %) |
 | Archery | Quickfoot | passive 3 | +3/6/9 % movement speed; +15/30/45 % out of combat (no yellow alert) |
-| Arcana | Attunement | passive 5 | Unchanged |
 | Arcana | Blink | active 3 | Unchanged |
 | Arcana | Spell Surge | active 3 | Unchanged |
 | Arcana | Resolve | passive 5 | Unchanged |
 | Arcana | Overload | passive 3 | Area spells +10/20/30 % per monster near the target beyond the first (at most 3 more) |
 | Arcana | Binding Circle | active 3 | Every hostile within 500 is held (slowed to a standstill) for 2/2.5/3 s; cooldown 20/18/16 s |
-| Any | Bloodthirst | passive 3 | +2 % leech on melee, bow and spells per rank; the leech floor's ÷5 becomes ÷4/÷3/÷2.5 |
+| Any | Bloodthirst | passive 5 | +2 % leech on melee, bow and spells per rank (user 2026-11-16; was 3 ranks of 2 %, then 5 and 10 of 1 %); the leech floor's ÷5 shrinks by 0.5 a rank, ÷2.5 at rank 5 |
+| Any | Conditioning (user 2026-11-16) | passive, no last rank | +10 % to all seven base stats at rank 1, +1 % each rank after; takes every point the character has (ranks are two bytes in the save) |
+| Any | Spell Suppression (user 2026-11-16) | passive 41 | less damage from every hit that is not physical: 8 % at rank 1, 0.8 % more each rank after, 40 % at rank 41 (`first_rank` in the table): the last stage of MAW's damage pipeline (`solo-spell-suppression`), after armour, resistances and their 90 % floor, so it still counts at the cap; Unbroken and Cheat Death then take theirs. Last in the table so the bar's indexes keep. Why: at solo level 703 on Beyond Madness (the solo sim's real groups) a spell lands 2.3 times as hard as a blow with both defences at or near the cap; a Bowman's median spell takes 66 % of its HP and 18 % of spells kill outright (blows: 30 %, never), and the full 40 % cuts the one-shots to 0.2 % |
 | Keystone | Cheat Death | — | A hit that would kill leaves 5 % HP, then 2 s of 95 % less damage; 3 minutes (real time) cooldown |
 | Keystone | Unbroken | — | The part of one hit above 30 % of max HP is halved |
 
 Removed: Whirlwind, Volley (became Multishot), Disengage (became Quickfoot), Frenzy (became Onslaught), Purify,
-Mana Font. Saved ranks of removed talents are ignored and their points come back.
+Mana Font. Saved ranks of removed talents are ignored and their points come back. Weapon Training, Marksman and
+Attunement went on 2026-11-16 (user: Conditioning in their place; Attunement's spell damage and healing went with it).
+Save 190 drops their ranks and moves the action bar's talent keys up past their three places in the table
+(`migrateRemovedTalents`; the bar keeps talents by index).
 
 ## Build steps
 
@@ -71,9 +81,9 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
   runtimes.
 - **Overload** reads `CharacterSpellCast::monstersNearTarget` (living monsters within 384 of the spell's named target),
   so it counts only when the spell names a monster.
-- **Sweeping Blows and Piercing Arrows** strike as talent extra blows just before the ordinary attack, which then pays
-  the recovery. Melee or bow is guessed from the target's distance and a drawn bow; a battle order that casts instead
-  still lets the extra blows land.
+- **Sweeping Blows** strikes as talent extra blows just before the ordinary attack, which then pays the recovery
+  (Piercing Arrows did too at first; Chaining Arrows rides on the arrows, below). Melee or bow is guessed from the
+  target's distance and a drawn bow; a battle order that casts instead still lets the extra blows land.
 - **Lone Discipline** is `SkillRules::masteryCap` (now) and `promotedMasteryCap` (after promotions), read by the guilds'
   learnable skills, `Party::canMemberLearnSkill`, the mastery teacher, MAW's mastery regain and the skill popup's
   "needs a promotion" colouring.
@@ -103,14 +113,14 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
 
 ## Changes after the first in-game look (user, 2026-11-14)
 
-- **Points:** one per 10 levels (was 15). The simulation tables still use 15.
+- **Points:** one per 10 levels (was 15; one per 5 since 2026-11-16). The simulation tables still use 15.
 - **Talents page fills the window** (`GameplaySoloTalentsPage`, a 800 x 450 canvas scaled to fit over a dark backdrop):
   Fondamento names and headers, Lucida text, the detail card at the right with wrapped text. "Back to Skills" or Esc
   returns to the Skills page (`GameplayInputController` leaves the character screen open while the page is shown).
   Only learned talents wear a gold rim and gold pips; the teal "learnable" marks are gone.
 - **The Talents button** sits in the bottom-right panel above Workbench (34 units above `CharacterAlchemyButton`,
   where the inventory page has Sort), on the Skills page.
-- **Buff row** (`GameplaySoloHud` `buffTiles`): Onslaught with its stacks in the corner and its 30 s timer; a bound
+- **Buff row** (`GameplaySoloHud` `buffTiles`): Onslaught with its stacks in the corner and its 60 s timer; a bound
   Cheat Death (lit when ready, its seconds while it protects, veiled with the cooldown after).
 - **Sounds** (`engine/audio/solo_talents/`, ElevenLabs job in `level_generation/sounds/solo_talents_20261114/`):
   Cleave once per monster its strike hits, at that monster (the user's `CleaveTarget.ogg`), Charge as the dash starts, Cheat Death when it saves (queued by `MawCombatRules` through the
@@ -128,10 +138,10 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
   Every talent's interactions: [TALENT_INTERACTIONS.md](TALENT_INTERACTIONS.md).
 - **Arms effects** (`FirstPersonViewModelFx`): Onslaught's red and yellow dots rise off both hands (a dragon's talon
   tips; **off for now**, user 2026-11-14: `GameApplication` does not pass `Input::onslaught`), about 12 a second per hand at one stack and 60 at thirty, larger as they grow (`Input::onslaught`, stacks / 30);
-  a non-cast active talent (Cleave, Charge, Multishot, Pinning Shot) sends gold sparks along the weapon (blade, bow;
+  a non-cast active talent (Cleave, Charge, Multishot, Power Shot) sends gold sparks along the weapon (blade, bow;
   around the hands for fists and talons) while its clip plays, and Shield Wall around the guarding hands while it holds
   (no shield is shown in the first person).
-  Review: `talent stacks <n>` sets Onslaught's stacks for 30 s.
+  Review: `talent stacks <n>` sets Onslaught's stacks for its duration (60 s).
 
 ## Fixes after the talent check (user, 2026-11-14)
 
@@ -147,25 +157,36 @@ Mana Font. Saved ranks of removed talents are ignored and their points come back
   Portal, Lloyd's Beacon, doors.
 - **Multishot** is one shot of 2/3/4 arrows fanned over ±12° (`PartyAttackConfig::talentFanArrows`, the volley fan
   MAW's shots use), each on its own heading; measured: four arrows, one into each of four monsters across the fan.
-- **Multishot and Pinning Shot** wait for the bow's release like Cleave waits for its blow, when the arms hold the bow;
+- **Multishot's `cooldown_per_hit`** (user, 2026-11-16): each ordinary weapon attack, melee or bow, that hits a
+  monster takes 1 s off its cooldown, once per attack. A bow attack's arrows share one credit
+  (`ProjectileState::hitCredit`, spent in `GameplayCombatController` when the first of them hits), so a Master bow's
+  second arrow, MAW's volley and Chaining Arrows' leaps (`chainArrow` drops the credit) add nothing; a melee blow
+  credits in `executePartyAttack`. Talent blows (Cleave, Sweeping Blows, Multishot's own arrows) credit nothing.
+  Measured in `tests/scenarios/rulesets/maw_solo_multishot_cooldown_per_hit.yml`.
+- **Multishot and Power Shot** wait for the bow's release like Cleave waits for its blow, when the arms hold the bow;
   with the melee weapon drawn they shoot at once.
-- **Piercing Arrows** rides on the arrows (`ProjectileState::pierceLeft`): every arrow of an ordinary bow shot, a Master
-  bow's two included, flies on through up to 1/2/3 more monsters at the share, never strikes one twice, stops homing
-  after a pierce, and passes a monster it misses without spending a pierce. Measured on a column of four: both arrows
-  hit the first at full damage and each of the three behind at half.
+- **Chaining Arrows** (user, 2026-11-16; it replaced Piercing Arrows, whose arrows flew straight on through the monsters
+  behind) rides on the arrows (`ProjectileState::chainLeft`, `GameplayProjectileService::chainArrow`): every arrow of an
+  ordinary bow shot, a Master bow's two included, leaps on from the monster it strikes to the nearest other living
+  hostile one it has not struck, up to 1/2/3 times at the share. The next monster must stand within the talent's
+  `distance` (1024 since 2026-11-16, first 512; to its body) of the struck one, in clear sight of the hit point; with
+  none the arrow ends there. It leaves aimed at the monster and homes on it, never strikes one twice, and a leap's
+  monster it misses spends no leap. A miss on the shot's own target ends the arrow there (user, 2026-11-16): only a hit
+  starts the chain, so a miss never becomes a full-damage shot at a neighbour. The talent's id is still
+  `piercing_arrows` (saves and its icon keep it).
 - **Sounds:** Cleave plays once per monster it hits, at that monster; Blink plays the user's `569766.ogg`
   (`talent_blink.wav`).
 - **Checked in the game:** Cleave, Sweeping Blows, Onslaught, Charge, Shield Wall, Multishot, Piercing Arrows,
-  Pinning Shot, Quickfoot, Blink, Binding Circle, Cheat Death's tile. The passives, Spell Surge, Overload, Bloodthirst,
+  Power Shot, Quickfoot, Blink, Binding Circle, Cheat Death's tile. The passives, Spell Surge, Overload, Bloodthirst,
   Unbroken and Cheat Death's save rest on `tests/SoloTalentTests.cpp`.
-- **Talent timing = an attack's** (user, 2026-11-14): a waited talent's clip (Cleave, Multishot, Pinning Shot) plays
+- **Talent timing = an attack's** (user, 2026-11-14): a waited talent's clip (Cleave, Multishot, Power Shot) plays
   fitted to the member's recovery for that attack (`attackRecoverySeconds`, the swing's own rule), and the clip's time
-  comes off the recovery the paying blow sets (`TalentBlow::recoverySpent`). Measured: Multishot and Pinning Shot
+  comes off the recovery the paying blow sets (`TalentBlow::recoverySpent`). Measured: Multishot and Power Shot
   release at 0.70 s with 0.14 s left (an ordinary shot's 0.85 s; were 0.9 s plus the full 0.85 s), Cleave strikes at
   0.24 s with 0.12 s left (an ordinary swing's 0.37 s). They quicken with attack speed as attacks do.
 - **Multishot with a Master bow** shoots each heading's arrow twice, the second beside the first, as the bow's ordinary
   shot does (`arrowsPerHeading` in `GameplayActionController`): rank 3 is eight arrows.
 - **Multishot's volley** leaves close together (sources 4 units apart across the aim) in a fan of ±12° (was ±30°, which
   read as shrapnel; user, 2026-11-14).
-- **Bow talents need the bow drawn** (user, 2026-11-14): with the melee weapon in the arms, Multishot and Pinning Shot
+- **Bow talents need the bow drawn** (user, 2026-11-14): with the melee weapon in the arms, Multishot and Power Shot
   refuse ("… needs the bow drawn") and spend no cooldown; without the arms they shoot at once as before.

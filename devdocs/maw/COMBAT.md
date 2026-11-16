@@ -496,7 +496,10 @@ the pipeline applies ×0.25 to physical damage (`zzMaw-Stats.lua:690-717`). This
   re-acquires.
 - The angle ignores Z, so flying up or down does not help.
 - Tested once a rendered frame, so the lock grows with the frame rate. OpenYAMM uses a frame-rate independent
-  rate instead, 300° a second, firm enough to hit a party strafing in flight (DEVIATIONS.md #181).
+  rate instead, 60° a second: a strafe is hit, a run straight across the flight escapes and a run at 45° sometimes
+  does, as MAW's author describes the intent (DEVIATIONS.md #181). Each 1/60 s projectile step sees the party where
+  it was at that step, between its last frame's position and this one's (`partyPositionAtStep`); otherwise at 30 fps
+  a step would see two steps' movement and a strafe would escape.
 - Cosmetic projectiles without a target (obelisk, lava fireballs) get pulled toward the party.
   This is a known issue noted in a code comment.
 

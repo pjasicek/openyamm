@@ -178,7 +178,7 @@ main row. They are drawn in `GameplaySoloHud`, with one quad batch for all slot 
 |---|---|---|
 | Spell | spell id | the quick-cast path: `GameplaySpellActionController::tryBeginQuickSpellCast` generalised from "main or extra slot" to a spell source, so a bar spell gets the same targeting, failure, recovery, hold, repeat and attack fallback (`QuickSpellState`) |
 | Special skill | talent id | the talent runtime's activation (its cooldown and recovery) |
-| Item kind | a `QuickItemSlot` (the potion radial's shape: a kind of potion or scroll) | the quick item use path in `GameplayQuickItems` |
+| Item kind | a `QuickItemSlot` (the potion radial's shape: a kind of potion or scroll) | the quick item use path in `GameplayQuickItems`; the strongest bottle or scroll of the kind first (user, 2026-11-16; the bar has no weakest-first choice, unlike the radial) |
 | Weapon action | Melee / Shoot | the battle orders' order kinds, for players who want the swing on a key |
 | Empty | — | nothing, and the key stays reserved |
 
@@ -209,6 +209,11 @@ main row. They are drawn in `GameplaySoloHud`, with one quad batch for all slot 
   are listed only in MAW.
 - The Shift row is Shift held with the same keys, handled in code the way the bag keys read Shift. `InputBinding` has
   no modifiers, so it needs no second set of actions.
+- A left click on a key (the cursor free: the classic controls, or the right button held under mouse look) uses it as
+  its key does, held while the button stays down, so a spell repeats as a held key does (built 2026-11-16, at the
+  user's request; `SoloBarSelectorState::clickedSlot`, read where the bar keys are read in
+  `GameplayInputController`). The click is the bar's: the world does not attack or interact under it, and a click on
+  an empty key does nothing. The hover hint says "{name} (click: use, Ctrl+click: change this key)".
 - Conflicts that solo mode resolves:
   - The number keys select party members through `NumberHotkeyScancodes` in `GameplayScreenController`. With one
     member there is nothing to select, so the bar takes them.

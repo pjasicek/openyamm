@@ -9,6 +9,7 @@ Sounds of the MAW solo run's talents (`devdocs/solo_action/TALENT_TREE_V2_BUILD.
 | `talent_charge.wav` | Charge, as the dash starts (`useSoloTalent`) | ElevenLabs, `level_generation/sounds/solo_talents_20261114/jobs.yml` |
 | `talent_blink.wav` | Blink, where the party arrives (`queueTalentMovePresentation`) | the user's `569766.ogg` (`supplied/`), converted to WAV |
 | `talent_cheat_death.wav` | Cheat Death saving the solo (`MawCombatRules`) | the same |
+| `talent_power_shot.wav` | Power Shot, with the ordinary bow shot as the arrow leaves (`useSoloTalent`) | made by script from `shoot bow01.wav` and synthesis: `level_generation/sounds/power_shot_20261116/make_power_shot.py` (take in its `picks.yml`) |
 
 The user's first Cleave and Charge sounds (`CleaveTarget.ogg`, `568712.ogg`) are kept in that folder's `supplied/`;
 installing one is a conversion to WAV under the same name (`ffmpeg -i <file>.ogg -acodec pcm_s16le <name>.wav`).

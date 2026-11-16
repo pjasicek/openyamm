@@ -2,7 +2,8 @@
 # potion ids to item ids). A ruleset replaces this whole file (devdocs/maw/data/potion_effects.yml drafts MAW's).
 #
 # rules:
-#   duration: {per_power_minutes: N}   timed buffs last N game minutes per point of potion power
+#   duration: {per_power_minutes: N, solo_hours: S}   timed buffs last N game minutes per point of potion power, and
+#                                     at least S game hours in a solo run
 #   combat_recovery: {value: N, payer: drinker|active, only_when_enemies_near: bool}
 #                                     a drink needs a ready member and costs the payer N recovery ticks: the active
 #                                     member (else the first ready one), or the drinker when ready (the default)
@@ -28,7 +29,7 @@
 # least 1).
 
 rules:
-  duration: {per_power_minutes: 30}
+  duration: {per_power_minutes: 30, solo_hours: 24}
   # As in the original games, every drink costs the active member 100 ticks, in combat or not.
   combat_recovery: {value: 100, payer: active}
 

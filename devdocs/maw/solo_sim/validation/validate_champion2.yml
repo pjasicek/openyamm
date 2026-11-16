@@ -1,0 +1,227 @@
+id: solo_validate_champion
+title: "Solo validation - harness vs runtime"
+world: mm8
+mode: faithful
+tags: [measurement]
+steps:
+  - new_game_flow:
+      start_map: out02.odm
+      ruleset: {id: maw, difficulty: nightmare, progression: free}
+      party:
+        gold: 0
+        food: 50
+        members:
+          - name: Lone
+            class: Champion
+            level: 100
+            might: 60
+            intellect: 15
+            personality: 15
+            endurance: 60
+            accuracy: 50
+            speed: 50
+            luck: 30
+            skills:
+              - {name: Sword, level: 30, mastery: 4}
+              - {name: Shield, level: 25, mastery: 4}
+              - {name: PlateArmor, level: 25, mastery: 4}
+              - {name: Armsmaster, level: 30, mastery: 4}
+              - {name: Bodybuilding, level: 20, mastery: 4}
+            equipment: {}
+  - grant_item: {item_id: 5, roll_level: 100, seed: 11, equip: main_hand}
+  - grant_item: {item_id: 103, roll_level: 100, seed: 12, equip: off_hand}
+  - grant_item: {item_id: 98, roll_level: 100, seed: 13, equip: armor}
+  - console: {line: "ruleset banks 0 60 0 0"}
+  - load_map: {map: out02.odm}
+  - console: {line: "ruleset mapmonsters /tmp/maw_solo_validation/val_mapmonsters.tsv"}
+  - console: {line: "actor kill 200000"}
+  - console: {line: "hp full"}
+  - console: {line: "player sheet"}
+  - console: {line: "hp show"}
+  - spawn_actor: {monster_id: 87, near_party: true}
+  - party_attack: {actor_index: last, count: 300, report: true}
+  - console: {line: "actor kill 200000"}
+  - spawn_actor: {monster_id: 86, near_party: true, count: 1}
+  - setup_shortcut: {kind: immortal, value: true}
+  - advance_runtime: {seconds: 3}
+  - setup_shortcut: {kind: immortal, value: false}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "hp show"}

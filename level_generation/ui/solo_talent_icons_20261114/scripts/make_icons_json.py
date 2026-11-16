@@ -41,8 +41,10 @@ SUBJECTS = {
     'piercing_arrows': 'ONE wooden arrow flying left to right, passing clean through two round wooden target discs '
                        'standing one behind the other in a line; the arrow shaft runs through both discs and its '
                        'head emerges past the second.',
-    'pinning_shot': 'ONE wooden arrow with green fletching driven deep into the earth at an angle, with green '
-                    'thorny vines coiling up around its shaft and pinning it fast.',
+    # Power Shot replaced Pinning Shot (2026-11-16); its icon (masters/pinning_shot.png) is kept but unused.
+    'power_shot': 'ONE heavy wooden arrow with green fletching flying from lower left to upper right, its steel '
+                  'head wrapped in a bright burst of golden-green force and a shock ring around the shaft, with '
+                  'thick motion streaks behind it: a single overcharged shot.',
     'steady_aim': 'ONE round woven straw archery target seen from the front, with green and cream rings, and one '
                   'arrow struck dead centre in the bullseye, seen slightly from the side.',
     'quickfoot': 'ONE single tall brown leather ranger boot in side view with ONE green-tinted feathered wing at '
@@ -63,6 +65,13 @@ SUBJECTS = {
                       'faint chains of light rising from its rim.',
     'bloodthirst': 'ONE large curved bone-ivory fang with a big glossy crimson blood drop dripping from its tip; '
                    'the drop and the fang share the main silhouette.',
+    # Conditioning and Spell Suppression (user, 2026-11-16): +1 % to all seven stats; less damage from spells.
+    'conditioning': 'ONE seven-pointed star of old gold seen from the front, each of its seven points tipped with a '
+                    'small round gem of a different colour (red, blue, green, yellow, violet, white, orange), around '
+                    'a glowing bone-ivory centre; balanced, symmetrical, a strong compact silhouette.',
+    'spell_suppression': 'ONE old gold armoured gauntlet closing its fist around a crackling orange-and-violet spell '
+                         'orb, smothering it: the orb is crushed and its light breaks into dim fading sparks and '
+                         'wisps of smoke between the fingers. The fist is the main shape (not a shield, not a dome).',
     'cheat_death': 'ONE bone-ivory human skull seen from the front with a jagged crack across its brow, and a '
                    'bright golden spark of life bursting out through the crack.',
     'unbroken': 'ONE heart carved of solid grey stone, bound with crossed bands of old gold, whole and unbroken, '

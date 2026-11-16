@@ -12,12 +12,20 @@ is an ordinary hit for the rules (`MawCombatRules::applyPartyHitEffects`). Three
 
 | Kind | Made by | Damage | Recovery, sound | Battle orders |
 | --- | --- | --- | --- | --- |
-| **Paying blow** | Cleave's first monster (the crosshair's, else the nearest in the arc), Charge, Pinning Shot | the talent's share (Cleave 150 %, Charge and Pinning Shot 100 %) | pays the recovery, less the clip's time already spent; plays the attack sound | skipped (`PartyAttackConfig::talentBlow`) |
+| **Paying blow** | Cleave's first monster (the crosshair's, else the nearest in the arc), Charge, Power Shot | the talent's share (Cleave 150 %, Charge 100 %, Power Shot 135/170/200 % by rank) | pays the recovery times the talent's `recovery` (Cleave and Power Shot 50 %; its clip plays in that time), less the clip's time already spent; plays the attack sound | skipped (`PartyAttackConfig::talentBlow`) |
 | **Extra blow** (`PartyHitOnMonster::extraBlow`) | Cleave's other monsters; Sweeping Blows' 1/2/3 monsters beside an ordinary swing | Cleave 150 %; Sweeping Blows 30 % + 0.25 % per weapon-skill point, at most 50 % | none (the paying blow or the swing pays); no attack sound (Cleave plays `talent_cleave` at each monster struck) | skipped |
 | **Talent shot** | Multishot's arrows (2/3/4 headings, twice with a Master bow) | 75 % each | one recovery for the volley | skipped |
 
-Ordinary attacks are not talent blows. An ordinary bow shot's arrows can pierce (Piercing Arrows): each monster after
-the first is struck at the talent's share (30 % + per weapon skill) and is an ordinary missile hit.
+Ordinary attacks are not talent blows. An ordinary bow shot's arrows can chain (Chaining Arrows, once Piercing
+Arrows): each arrow leaps on from the monster it strikes to the nearest other within 1024, and each monster after the
+first is struck at the talent's share (30 % + per weapon skill) and is an ordinary missile hit.
+
+**No flinch** (user, 2026-11-16): Sweeping Blows' extra blows and an arrow's Chaining Arrows leaps make the monster
+neither play its hit reaction (the GotHit flinch, the stagger rules' wince) nor take the knockback; the main blow or
+the arrow's first monster still do. `IGameplayWorldRuntime::applyPartyAttackMeleeDamage(..., hitReaction)`:
+`TalentBlow::noHitReaction` for Sweeping Blows, and a projectile that has struck a monster before
+(`ProjectileState::chainStruckActorIds`) for the leaps. Cleave's other monsters still flinch. Checked headless at
+0.05 s steps: the swept and chained Mercenary Captains are hurt but never in GotHit.
 
 ## Per hit, by kind
 
@@ -27,7 +35,7 @@ the first is struck at the talent's share (30 % + per weapon skill) and is an or
 first monster struck, an extra blow (they strike before the paying blow), so a Knight's burst landed at Sweeping Blows'
 30 % on a side monster; now the main target always gets it.
 
-| Effect | Paying blow | Extra blow | Talent shot (Multishot) | Pierced monster |
+| Effect | Paying blow | Extra blow | Talent shot (Multishot) | Chained monster |
 | --- | --- | --- | --- | --- |
 | Leech (weapons' Vampiric/Darkness, Vampire race, Death Knight, aura 91, a dragon's Regeneration, Bloodthirst), floor included | full | **⅓** (floor included) | full, ranged rate | full, ranged rate |
 | Dragon's bite SP (10, Great Wyrm 20) | full | **⅓** (3 / 7) | — | — |
@@ -50,7 +58,7 @@ first monster struck, an extra blow (they strike before the paying blow), so a K
 | Reflection (a monster's or a dimension's) | yes | yes | yes | yes |
 | Charge's cooldown −1 s (`cooldown_per_attack`): ordinary attacks only, once per attack | no | no | no | — |
 | Sweeping Blows follows the blow | no (talent blows never sweep) | no | no | — |
-| Piercing Arrows | — | — | no (only an ordinary shot's arrows pierce) | — |
+| Chaining Arrows | — | — | no (only an ordinary shot's arrows chain) | — |
 
 Measured on a level-100 Great Wyrm against three Chaos Overlords (2026-11-15): before the cut, each monster Cleave
 struck healed about +430 to +520 HP and gave +20 SP. The proportional heal, not the floor, made most of it: it is the
@@ -66,13 +74,13 @@ extra blow.
 
 - **Multishot leeches in full per arrow:** eight arrows (rank 3, Master bow) into a crowd heal eight times, floor
   included, at the ranged rate.
-- **Pierced monsters leech in full,** floor included, at the ranged rate.
+- **Chained monsters leech in full,** floor included, at the ranged rate.
 - **Legendary 24** (a kill restores 10 % HP and 5 % SP) acts in full on an extra blow's kill.
 
 ## Code
 
-- `GameplayInteractionController.cpp`: `useSoloTalent` (Cleave, Charge, Multishot, Pinning Shot),
-  `strikeFollowUpTalentBlows` (Sweeping Blows), `executePartyAttack` (Piercing Arrows' count, the per-attack
+- `GameplayInteractionController.cpp`: `useSoloTalent` (Cleave, Charge, Multishot, Power Shot),
+  `strikeFollowUpTalentBlows` (Sweeping Blows), `executePartyAttack` (Chaining Arrows' count, the per-attack
   cooldowns).
 - `GameplayActionController.cpp`: `PartyAttackConfig::talentBlow` (skips the battle orders), `talentShare`,
   `talentExtraBlow`, `talentShot`; the hit's `extraBlow`. Until 2026-11-15 a talent blow was guessed from its share, so
