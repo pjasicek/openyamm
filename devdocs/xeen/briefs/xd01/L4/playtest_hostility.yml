@@ -1,0 +1,127 @@
+# Hostility check of Joe's Warehouse (XD-01) (written by output/studio_cal/hostility/gen_hostility_tests.py; devdocs/xeen/ACT2_BUILD.md, "Hostility pass"):
+# its foes hostile to the party, its peaceful ones peaceful, its kinds not fighting each other.
+id: xeen.xd01.l4.hostility
+title: 'Joe''s Warehouse (XD-01): foes hostile to the party, no fights among them'
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_xd01.blv
+    party:
+      gold: 0
+      food: 10
+      members:
+      - name: Hilda
+        class: Knight
+        level: 2
+        skills: []
+        equipment: {}
+      - name: Oswin
+        class: Cleric
+        level: 2
+        skills: []
+        equipment: {}
+      - name: Brann
+        class: Archer
+        level: 2
+        skills: []
+        equipment: {}
+      - name: Mirel
+        class: Sorcerer
+        level: 2
+        skills: []
+        equipment: {}
+- setup_shortcut:
+    kind: immortal
+    value: true
+- note: The map entry events run (the build's evt:studio_relations sets the map's relations).
+- advance_runtime:
+    seconds: 2
+- assert:
+    actor_count:
+      monster_id: 385
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 386
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 387
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 226
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 227
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 228
+      hostile: false
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 226
+      hostile: true
+      min: 1
+- assert:
+    actor_count:
+      monster_id: 385
+      hostile: true
+      min: 1
+- note: 'Kinds of the map side by side, nearer each other than the party (a monster takes the nearest of its foes): they must
+    not take each other on.'
+- console:
+    line: arena trace on
+- spawn_actor:
+    monster_id: 226
+    x: 250
+    y: -700
+    z: 128
+- spawn_actor:
+    monster_id: 385
+    x: 346
+    y: -700
+    z: 128
+- spawn_actor:
+    monster_id: 387
+    x: 442
+    y: -700
+    z: 128
+- advance_runtime:
+    seconds: 12
+- assert:
+    ai_trace:
+      event: target
+      target: actor
+      max_count: 0
+      report: true
+- assert:
+    ai_trace:
+      actor_index: last
+      event: target
+      target: party
+      min_count: 1
+- assert:
+    actor_count:
+      monster_id: 226
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 385
+      hurt: true
+      max: 0
+- assert:
+    actor_count:
+      monster_id: 387
+      hurt: true
+      max: 0

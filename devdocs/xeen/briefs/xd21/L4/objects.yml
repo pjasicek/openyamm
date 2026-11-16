@@ -1,0 +1,664 @@
+format: 0
+start:
+  room: room:quay_cellar
+  at: [-2560, 320]
+  facing: 90
+  notes: "Just inside the quay door, facing in (north)."
+doors:
+  - id: door:boss
+    opening: open:boss
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: 7trimda, size: [256, 128]}
+    edge_surface: {texture: 7trim9_32, size: [32, 64]}
+    tile: true
+  - id: door:bunks
+    opening: open:bunks
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: 7trimda, size: [256, 128]}
+    edge_surface: {texture: 7trim9_32, size: [32, 64]}
+    tile: true
+  - id: door:den
+    opening: open:den
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: 7trimda, size: [256, 128]}
+    edge_surface: {texture: 7trim9_32, size: [32, 64]}
+    tile: true
+    notes: The plank door at the head of the crawl (d01's door).
+  - id: door:fence
+    opening: open:fence
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: 7trimda, size: [256, 128]}
+    edge_surface: {texture: 7trim9_32, size: [32, 64]}
+    tile: true
+    notes: The fence's locked door.
+  - id: door:secret
+    opening: open:secret
+    kind: slide_left
+    thickness: 32
+    speed: 80
+    surface: {texture: twb2, size: [128, 256]}
+    secret: true
+    back_surface: {texture: wall, size: [128, 256]}
+    tile: true
+    notes: "The hidden way in: a block of the cellar's own dressed stone that slides aside (secret: pulses for a party with the Perception to see it)."
+  - id: door:sluice
+    opening: open:sluice_door
+    kind: slide_up
+    fold: true
+    thickness: 16
+    speed: 160
+    surface: {texture: 7trimda, size: [256, 128]}
+    edge_surface: {texture: 7trim9_32, size: [32, 64]}
+    tile: true
+  - id: door:vault
+    opening: open:vault
+    kind: slide_up
+    fold: true
+    thickness: 24
+    speed: 60
+    surface: {texture: xwiron, size: [128, 256]}
+    tile: true
+    notes: "The vault's iron door (XD-04's generated studded iron, xwiron): three locks, the boss's ring of keys."
+movers:
+  - id: mover:drawbridge
+    room: room:undercroft
+    at: [392, 3968]
+    size: [256, 256]
+    bottom: -14
+    height: 16
+    travel: [-520, 0, 0]
+    speed: 128
+    stretch: true
+    surface: {texture: 7trimda, size: [256, 128]}
+    top_surface: {texture: 7t1books1, size: [128, 128]}
+    kerbs:
+      height: 24
+      width: 16
+    notes: "The robbers' plank bridge, drawn back onto the east bank; the winch runs it out across the race to the west bank."
+plates:
+  - id: plate:dart_1
+    room: room:strongroom_walk
+    at: [3904, 5056]
+    size: [288, 192]
+    surface: {texture: 7tfb11, size: [128, 128]}
+    secret: true
+  - id: plate:dart_2
+    room: room:strongroom_walk
+    at: [3904, 5440]
+    size: [288, 192]
+    surface: {texture: 7tfb11, size: [128, 128]}
+    secret: true
+  - id: plate:dart_3
+    room: room:strongroom_walk
+    at: [3904, 5824]
+    size: [288, 192]
+    surface: {texture: 7tfb11, size: [128, 128]}
+    secret: true
+  - id: plate:footprints
+    room: room:quay_cellar
+    at: [-2560, 832]
+    size: [384, 192]
+    notes: "Where the wet footprints end at the north wall (the clue's step event; drawn as the floor)."
+  - id: plate:tripwire
+    room: room:crawl
+    at: [-2560, 2304]
+    size: [288, 32]
+    secret: true
+    notes: "The tripwire across the crawl (secret: pulses for a perceptive party)."
+sounds:
+  - {id: sound:crawl_drip, room: room:crawl, at: [-2560, 2000], sound: drip02, radius: 1200, volume: 0.6, loop: false, wait: [3, 9]}
+  - {id: sound:drain, room: room:quay_cellar, at: [-2112, 64], sound: water lapping loop, radius: 2200, inner_radius: 500, volume: 0.7, notes: The river lapping at the drain grate.}
+  - {id: sound:race_out, room: room:undercroft, at: [0, 3120], sound: rushing water loop, radius: 2600, inner_radius: 600, volume: 0.5, notes: The race running out through its grate.}
+  - {id: sound:river, room: room:sluice, at: [0, 6100], sound: rushing water loop, radius: 5000, inner_radius: 1200, volume: 0.9, notes: "The river pouring in through the grate: heard through the undercroft."}
+  - {id: sound:vault_drip, room: room:vault, at: [3904, 6300], sound: drip01, radius: 1000, volume: 0.5, loop: false, wait: [4, 12]}
+lights:
+  - id: light:boss_desk
+    room: room:boss_quarters
+    at: [4352, 3968]
+    height: 140
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:bunks
+    room: room:bunk_room
+    at: [-2432, 5632]
+    height: 160
+    radius: 675
+    color: [230, 150, 80]
+  - id: light:crawl
+    room: room:crawl
+    at: [-2560, 3200]
+    height: 200
+    radius: 450
+    color: [255, 170, 90]
+  - id: light:dice_lamp
+    room: room:dicing_room
+    at: [-2432, 4224]
+    height: 200
+    radius: 900
+    color: [255, 170, 90]
+    pulse: {intensity: [0.8, 1], frequency: 1.1}
+    notes: Candles on the dicing table.
+  - id: light:dicing_side
+    room: room:dicing_room
+    at: [-1856, 3776]
+    height: 180
+    radius: 525
+    color: [255, 170, 90]
+  - id: light:drain
+    room: room:quay_cellar
+    at: [-2112, 220]
+    height: 40
+    radius: 450
+    color: [140, 190, 170]
+    pulse: {intensity: [0.7, 1], frequency: 0.3}
+    notes: Light off the water in the drain basin.
+  - id: light:fence
+    room: room:fence_store
+    at: [1856, 5888]
+    height: 200
+    radius: 675
+    color: [255, 170, 90]
+  - id: light:hearth
+    room: room:boss_quarters
+    at: [3904, 4500]
+    height: 60
+    radius: 900
+    color: [255, 140, 60]
+    pulse: {intensity: [0.75, 1], frequency: 1.3}
+  - id: light:quay_door
+    room: room:quay_cellar
+    at: [-2560, 120]
+    height: 200
+    radius: 525
+    color: [190, 210, 230]
+    notes: Grey daylight round the quay door.
+  - id: light:race
+    room: room:undercroft
+    at: [0, 3968]
+    height: -100
+    radius: 825
+    color: [120, 180, 170]
+    pulse: {intensity: [0.7, 1], frequency: 0.25}
+    notes: "The race's water, catching the torchlight."
+  - id: light:sluice_day
+    room: room:sluice
+    at: [0, 6040]
+    height: 300
+    radius: 1125
+    color: [190, 210, 230]
+    notes: Daylight through the river grate.
+  - id: light:sluice_w
+    room: room:sluice
+    at: [-1000, 5632]
+    height: 250
+    radius: 600
+    color: [255, 170, 90]
+  - id: light:stair
+    room: room:boss_stair
+    at: [2300, 3968]
+    height: 300
+    radius: 525
+    color: [255, 170, 90]
+  - id: light:strongroom
+    room: room:strongroom_walk
+    at: [3904, 5440]
+    height: 200
+    radius: 525
+    color: [200, 160, 110]
+  - id: light:under_e
+    room: room:undercroft
+    at: [1000, 3968]
+    height: 300
+    radius: 1050
+    color: [255, 170, 90]
+  - id: light:under_w
+    room: room:undercroft
+    at: [-1000, 3968]
+    height: 300
+    radius: 1050
+    color: [255, 170, 90]
+  - id: light:vault
+    room: room:vault
+    at: [3904, 6528]
+    height: 300
+    radius: 675
+    color: [255, 220, 150]
+    notes: A lamp over the strongbox.
+switches:
+  - id: switch:catch
+    room: room:boss_quarters
+    kind: lever
+    reach: 56
+    base: {texture: 7trim9_32, size: [32, 64]}
+    at: [4224, 4608]
+    height: 130
+    size: [16, 64]
+    notes: "The strongroom catch: a lever on the north wall east of the passage, by the hearth."
+  - id: switch:winch
+    room: room:undercroft
+    kind: lever
+    reach: 48
+    base: {texture: 7trimda, size: [256, 128]}
+    block: platform:winch
+    side: w
+    height: 112
+    size: [12, 40]
+    notes: "The bridge winch's lever on its post, facing the race."
+chests:
+  - id: chest:boss
+    room: room:boss_quarters
+    at: [3392, 3840]
+    kind: 7gt002
+    facing: e
+    treasure_level: 2
+    random_items: 2
+    gold: 400
+    trap_level: 2
+    notes: The boss's own chest at the foot of his bed (trapped).
+  - id: chest:fence
+    room: room:fence_store
+    at: [1856, 5280]
+    kind: 7gt002
+    facing: n
+    treasure_level: 2
+    random_items: 2
+    gold: 350
+    trap_level: 2
+    notes: "The fence's chest: takings and two stolen pieces (trapped)."
+  - id: chest:vault
+    room: room:vault
+    at: [3904, 6656]
+    floor_height: 288
+    kind: 7gt002
+    facing: s
+    treasure_level: 3
+    random_items: 2
+    gold: 800
+    items: [roxannes_tiara]
+    trap_level: 3
+    notes: "The gang's strongbox: Princess Roxanne's tiara, the gang's takings (the map's hoard, one level up; trapped)."
+spawns:
+  - id: spawn:boss
+    room: room:boss_quarters
+    at: [3700, 3700]
+    slot: 1
+    tier: c
+    notes: "Master Thieves, the boss's lieutenants."
+  - id: spawn:bunks_1
+    room: room:bunk_room
+    at: [-2700, 5500]
+    slot: 1
+    tier: b
+    notes: Asleep.
+  - id: spawn:bunks_2
+    room: room:bunk_room
+    at: [-2100, 5700]
+    slot: 1
+    tier: b
+  - id: spawn:dicing_1
+    room: room:dicing_room
+    at: [-2900, 4300]
+    slot: 1
+    tier: b
+    notes: Rogues at the dicing table.
+  - id: spawn:dicing_2
+    room: room:dicing_room
+    at: [-2000, 4500]
+    slot: 1
+    tier: b
+  - id: spawn:fence
+    room: room:fence_store
+    at: [1500, 5700]
+    slot: 1
+    tier: b
+    notes: The fence's men.
+  - id: spawn:sluice
+    room: room:sluice
+    at: [-800, 5600]
+    slot: 2
+    tier: b
+    notes: Raiders guarding the catwalk.
+  - id: spawn:stair
+    room: room:boss_stair
+    at: [1900, 3968]
+    slot: 2
+    tier: b
+    notes: Raiders at the foot of the boss's stair.
+  - id: spawn:under_e
+    room: room:undercroft
+    at: [800, 4400]
+    slot: 1
+    tier: b
+    notes: "Rogues on the east bank: they shoot across the race."
+  - id: spawn:under_w
+    room: room:undercroft
+    at: [-800, 4400]
+    slot: 2
+    tier: b
+    notes: Raiders on the west bank.
+monsters:
+  - id: monster:bodyguard_1
+    room: room:boss_quarters
+    monster: 257
+    at: [3600, 4300]
+    facing: 180
+    hostile: true
+    group: 2
+    notes: A Raider (MM7's level 14 Fighter Leather B).
+  - id: monster:bodyguard_2
+    room: room:boss_quarters
+    monster: 257
+    at: [3600, 3700]
+    facing: 180
+    hostile: true
+    group: 2
+    notes: The second bodyguard.
+  - id: monster:robber_boss
+    room: room:boss_quarters
+    monster: 408
+    at: [4100, 4000]
+    facing: 180
+    hostile: true
+    group: 2
+    hp: 260
+    name: Robber Boss
+    carries: ring_of_keys
+    notes: "The Robber Boss: a Master Thief (MM7's level-18 thief, the band's top) for the Xeen Robber Boss; boss hit points asked (the game ignores hp: a boss row is needed). He carries the vault's ring of keys."
+decorations:
+  - id: deco:boss_cask
+    room: room:boss_quarters
+    decoration: 7dec21
+    at: [4500, 3400]
+  - id: deco:boss_chandelier
+    room: room:boss_quarters
+    decoration: dec27
+    at: [3904, 3968]
+    hangs: true
+  - id: deco:boss_desk_candle
+    room: room:boss_quarters
+    decoration: cndlab0
+    at: [4352, 4060]
+    floor_height: 328
+  - id: deco:boss_fire
+    room: room:boss_quarters
+    decoration: ckfyr00
+    at: [3904, 4544]
+    floor_height: 288
+  - id: deco:boss_fruit
+    room: room:boss_quarters
+    decoration: 7dec08
+    at: [3460, 4200]
+    floor_height: 328
+  - id: deco:boss_goblet
+    room: room:boss_quarters
+    decoration: 7dec46
+    at: [3520, 4224]
+    floor_height: 328
+  - id: deco:boss_torch_e
+    room: room:boss_quarters
+    decoration: torch01
+    at: [4608, 3600]
+    wall: east
+    height: 160
+  - id: deco:boss_torch_w
+    room: room:boss_quarters
+    decoration: torch01
+    at: [3200, 4100]
+    wall: west
+    height: 160
+  - id: deco:bunk_bowl
+    room: room:bunk_room
+    decoration: foodbowl
+    at: [-2300, 5300]
+  - id: deco:bunk_candle
+    room: room:bunk_room
+    decoration: dec02
+    at: [-2432, 5632]
+  - id: deco:bunk_sack_1
+    room: room:bunk_room
+    decoration: bag01
+    at: [-2560, 5250]
+  - id: deco:bunk_trash
+    room: room:bunk_room
+    decoration: trasheap
+    at: [-1800, 5250]
+  - id: deco:cellar_barrel
+    room: room:quay_cellar
+    decoration: bigbarel
+    at: [-3050, 150]
+  - id: deco:cellar_bucket
+    room: room:quay_cellar
+    decoration: Bucket
+    at: [-2400, 520]
+  - id: deco:cellar_torch
+    room: room:quay_cellar
+    decoration: torch01
+    at: [-2900, 0]
+    wall: south
+    height: 160
+  - id: deco:cellar_trash
+    room: room:quay_cellar
+    decoration: 7dec10
+    at: [-3000, 800]
+  - id: deco:crawl_bones
+    room: room:crawl
+    decoration: dec29
+    at: [-2520, 1700]
+  - id: deco:crawl_torch
+    room: room:crawl
+    decoration: torch01
+    at: [-2688, 3200]
+    wall: west
+    height: 160
+  - id: deco:dice_candle_1
+    room: room:dicing_room
+    decoration: cndlab0
+    at: [-2560, 4224]
+    floor_height: 72
+  - id: deco:dice_goblet_1
+    room: room:dicing_room
+    decoration: 7dec46
+    at: [-2350, 4280]
+    floor_height: 72
+  - id: deco:dice_goblet_2
+    room: room:dicing_room
+    decoration: 7dec48
+    at: [-2250, 4180]
+    floor_height: 72
+  - id: deco:dice_plate
+    room: room:dicing_room
+    decoration: dec36
+    at: [-2600, 4160]
+    floor_height: 72
+  - id: deco:dicing_barrel
+    room: room:dicing_room
+    decoration: 7dec32
+    at: [-1780, 4760]
+  - id: deco:dicing_cask
+    room: room:dicing_room
+    decoration: 7dec21
+    at: [-3100, 4750]
+  - id: deco:dicing_keg_1
+    room: room:dicing_room
+    decoration: smlbarel
+    at: [-3100, 3700]
+  - id: deco:dicing_keg_2
+    room: room:dicing_room
+    decoration: smlbarel
+    at: [-3000, 3680]
+  - id: deco:dicing_torch_n
+    room: room:dicing_room
+    decoration: torch01
+    at: [-2000, 4864]
+    wall: north
+    height: 160
+  - id: deco:dicing_torch_w
+    room: room:dicing_room
+    decoration: torch01
+    at: [-3200, 3900]
+    wall: west
+    height: 160
+  - id: deco:fence_bag
+    room: room:fence_store
+    decoration: bag_A
+    at: [1950, 5500]
+  - id: deco:fence_barrel
+    room: room:fence_store
+    decoration: bigbarel
+    at: [1150, 5650]
+  - id: deco:fence_candle
+    room: room:fence_store
+    decoration: cndlab0
+    at: [1856, 5888]
+    floor_height: 64
+  - id: deco:fence_plates
+    room: room:fence_store
+    decoration: dec39
+    at: [1800, 5880]
+    floor_height: 64
+  - id: deco:fence_sack_1
+    room: room:fence_store
+    decoration: floursac
+    at: [1200, 6000]
+  - id: deco:fence_sack_2
+    room: room:fence_store
+    decoration: bag01
+    at: [1350, 6020]
+  - id: deco:side_candle
+    room: room:dicing_room
+    decoration: cndlab0
+    at: [-1856, 3776]
+    floor_height: 64
+  - id: deco:sluice_torch_e
+    room: room:sluice
+    decoration: torch01
+    at: [768, 5500]
+    wall: east
+    height: 160
+  - id: deco:sluice_torch_w
+    room: room:sluice
+    decoration: torch01
+    at: [-1408, 5500]
+    wall: west
+    height: 160
+  - id: deco:sluice_trash
+    room: room:sluice
+    decoration: 7dec10
+    at: [-1100, 6000]
+  - id: deco:stair_torch
+    room: room:boss_stair
+    decoration: torch01
+    at: [2300, 4224]
+    wall: north
+    height: 160
+  - id: deco:strong_corpse
+    room: room:strongroom_walk
+    decoration: Corpse03
+    at: [3980, 5480]
+    notes: A robber who forgot the catch.
+  - id: deco:strong_torch
+    room: room:strongroom_walk
+    decoration: torch01
+    at: [3744, 5632]
+    wall: west
+    height: 160
+  - id: deco:under_bag
+    room: room:undercroft
+    decoration: bag_A
+    at: [1000, 3250]
+  - id: deco:under_barrels_1
+    room: room:undercroft
+    decoration: bigbarel
+    at: [-900, 3250]
+  - id: deco:under_barrels_2
+    room: room:undercroft
+    decoration: 7dec32
+    at: [-780, 3220]
+  - id: deco:under_crate_cask
+    room: room:undercroft
+    decoration: 7dec21
+    at: [900, 4650]
+  - id: deco:under_sacks
+    room: room:undercroft
+    decoration: floursac
+    at: [900, 3300]
+  - id: deco:under_torch_ne
+    room: room:undercroft
+    decoration: torch01
+    at: [700, 4864]
+    wall: north
+    height: 160
+  - id: deco:under_torch_nw
+    room: room:undercroft
+    decoration: torch01
+    at: [-700, 4864]
+    wall: north
+    height: 160
+  - id: deco:under_torch_se
+    room: room:undercroft
+    decoration: torch01
+    at: [700, 3072]
+    wall: south
+    height: 160
+  - id: deco:under_torch_sw
+    room: room:undercroft
+    decoration: torch01
+    at: [-700, 3072]
+    wall: south
+    height: 160
+  - id: deco:under_trash
+    room: room:undercroft
+    decoration: 7dec01
+    at: [-1000, 4600]
+  - id: deco:vault_bag_1
+    room: room:vault
+    decoration: bag01
+    at: [3600, 6800]
+  - id: deco:vault_bag_2
+    room: room:vault
+    decoration: bag_A
+    at: [4200, 6800]
+  - id: deco:vault_barrel
+    room: room:vault
+    decoration: 7dec32
+    at: [4250, 6300]
+  - id: deco:vault_torch_e
+    room: room:vault
+    decoration: torch01
+    at: [4352, 6528]
+    wall: east
+    height: 160
+  - id: deco:vault_torch_w
+    room: room:vault
+    decoration: torch01
+    at: [3456, 6528]
+    wall: west
+    height: 160
+placeholders:
+  - id: placeholder:dice
+    room: room:dicing_room
+    stands_for: Dice and cups on the dicing table
+    at: [-2432, 4224]
+    size: [96, 64, 16]
+exits:
+  - id: exit:quay
+    room: room:quay_cellar
+    at: [-2560, 0]
+    size: [256, 256]
+    surface: {texture: 7trimda, size: [256, 128], uneven: true}
+    to: door:xd21
+    notes: "The quay door: the way out onto Rivercity's south quay under the great bridge (X2)."
+relations:
+  - {of: [256, 257, 258], toward: party, relation: hostile}

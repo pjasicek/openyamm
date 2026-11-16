@@ -1,0 +1,29 @@
+# Playtest of the Temple of Yak's way out to X2 (XD-06, L4): from the porch the party leaves by the temple door and
+# arrives on X2 in the fairy woods' dark south end, 400 in front of X2's door:xd06, facing north (DOORS.md's final
+# arrival), then walks off into the woods. Needs a mount holding both maps: output/studio_cal/xd06/play_mount.sh builds
+# one from X2's mount and this one (run with --extra-mount output/studio_cal/xd06/play_mount).
+id: xeen.xd06.l4.exit
+title: Temple of Yak (XD-06 L4), out to X2
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd06.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, experience: 105000, skills: [], equipment: {}}
+  - assert: {map: xeen_xd06.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3)"}
+  - walk_to: {x: 0, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - execute_event: {id: 20}
+  - assert:
+      dialog: {text_contains: "leave Temple of Yak"}
+  - select_topic: {match_label: "OK"}
+  - advance_runtime: {seconds: 1.0, follow_map_move: true}
+  - assert: {map: xeen_x2.odm}
+  - assert: {party_position: {x: -1024, y: -17840, radius: 128, z_min: 970, z_max: 1130}}
+  - walk_to: {x: -1024, y: -17300, z: 1053, z_tolerance: 250, radius: 160, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}

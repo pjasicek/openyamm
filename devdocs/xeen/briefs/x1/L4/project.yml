@@ -50,12 +50,6 @@ neighbours:
     to: xeen_xd05.blv
     kind: door
     arrival_hint: "Inside the skull-hung mouth, facing in."
-  - id: door:xd06
-    to: xeen_xd06.blv
-    kind: door
-    listed_only: true
-    condition: {qbit: yak_stone}
-    notes: "XD-06 Temple of Yak: not built (Act II). The doorway stands sealed and says so."
   - id: edge:north
     to: 7out04.odm
     kind: edge
@@ -66,14 +60,14 @@ neighbours:
     screened: true
     notes: "X7 (Mount Firestone) in the design. Stand-in until X7 exists: the Tularean Forest (MM7)."
   - id: edge:west
-    to: 7out03.odm
+    to: xeen_x2.odm
     kind: edge
     side: west
-    days: 5
+    days: 3
     arrival_side: east
     approach: "The west road along the creek to the west edge, at y 46."
     screened: true
-    notes: "X3 (Newcastle and Nightshadow) in the design. Stand-in until X3 exists: Erathia (MM7)."
+    notes: "X2 Rivercity and Lake Darzog, the hub (the river road): arrives at X2's east start."
   - id: pyramid:castleview
     to: xeen_d1.odm
     kind: pyramid

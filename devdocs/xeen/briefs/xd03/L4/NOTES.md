@@ -613,3 +613,14 @@ byte-equal to the build of the backup). Installed in `xeen_root`. Arrival points
 the door face, clear of the doorway model, on open ground; the playtest walks off from there. Pictures of every arrival,
 facing out and turned back to the door: `output/studio_cal/x1/exits_pics/sheet.jpg`. On first arrival on X1 from a
 dungeon Mayor Gunther's errand window opens (X1's one-shot timer), as on a new game there.
+
+## Hostility pass (2026-11-16)
+
+The user found monsters peaceful to the party beside hostile ones of their kind and monsters fighting each other
+(devdocs/xeen/ACT2_BUILD.md, "Hostility pass"). MMerge's `hostile.txt` decides a slot monster's relation to the party
+and two kinds' to each other; the studio now warns of both (`oymap build`) and the map says its relations in objects.yml
+`relations` (the build's load event `evt:studio_relations`). As XD-02 (`add_relations.py`, `drop_clan_lua.py`): the
+Dwarves the party's foes by `relations` instead of `evt:clan_hostile`'s Lua, kept from the Spiders and the Troglodytes.
+`playtest_hostility.yml` (written by `output/studio_cal/hostility/gen_hostility_tests.py`) checks the slot and placed
+foes hostile, the peaceful ones peaceful and the map's kinds, spawned side by side near the party, not taking each other
+on; it passes twice, as do the map's other playtests.

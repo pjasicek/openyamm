@@ -67,8 +67,8 @@ def build():
     for suffix in ['map.yml', 'terrain.yml']:
         shutil.copy2(PROJECT/'implementation/source'/('mm5_sw.'+suffix), source/('mm5_sw.'+suffix))
     with (OUTPUT/'native_build.log').open('w') as log:
-        subprocess.run([str(ROOT/'build/editor/openyamm-editor'), '--asset-root', str(assets), '--world', 'mm5',
-                        '--headless-build-map', str(source/'mm5_sw.map.yml')], stdout=log,
+        subprocess.run([str(ROOT/'openyamm-studio/build/oymap'), 'build-map', str(source/'mm5_sw.map.yml'),
+                        '--asset-root', str(assets), '--world', 'mm5'], stdout=log,
                        stderr=subprocess.STDOUT, check=True)
     for suffix in ['odm', 'scene.yml']:
         shutil.copy2(source/('mm5_sw.'+suffix), assets/'worlds/mm5/maps'/('mm5_sw.'+suffix))

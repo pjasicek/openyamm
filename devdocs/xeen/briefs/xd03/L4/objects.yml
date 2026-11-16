@@ -1296,4 +1296,12 @@ exits:
     surface: {texture: c2b, size: [256, 256]}
     to: exit:x1_shaft
     notes: "The shaft head's hatch: up to the hills north of Vertigo."
+relations:
+  - {of: [229, 230, 231], toward: party, relation: hostile}
+  - {of: [229, 230, 231], toward: 400, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 401, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 402, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 412, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 413, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 414, relation: friendly, both_ways: true}
 notes: "Objects of the L4 brief (first written by output/studio_cal/xd03/tools/gen_objects.py). Stand-ins: Mad Dwarves and Clan Sergeants are MM7 Dwarven Soldiers (229, level 10), the Clan King a Dwarven Lieutenant (230, level 20) with 300 hit points and a name, the Bat Queens Inferno Bats (207, level 9); slots 1 Dwarf, 2 Spider (tier 3), 3 Troglodyte (the tiger moles)."

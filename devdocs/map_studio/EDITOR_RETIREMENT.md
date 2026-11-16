@@ -1,5 +1,10 @@
 # Retiring `editor/`
 
+**Done in S7 (2026-11-15, [S7_PLAN.md](S7_PLAN.md)).** The indoor compiler and the outdoor build live in
+`core/compile/` (library `openyamm_core_compile`); `mm9_compile_indoor_source` keeps its name and arguments; the
+outdoor callers run `openyamm-studio/build/oymap build-map`; the `assets_editor_dev` rule moved from the engine into
+`core/compile/EditorDocument.cpp`; `editor/` is deleted. The rest of this page is the plan as written.
+
 The desktop editor (`editor/`, 56 681 lines: ImGui, bgfx and SDL) is replaced by Map Studio. Most of it can be
 deleted, but two parts are production build steps today and move into the core first. This happens in the last
 milestone (S7 in [PLAN.md](PLAN.md)), after the studio is complete in `openyamm-studio/`; until then nothing here

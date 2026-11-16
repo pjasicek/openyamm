@@ -181,7 +181,7 @@ For aerial diagnostics only, `capture_gameplay.py --diagnostic-flying` enables f
 after faithful save preparation. Use a `J` hold action to ascend; an elevated `--pose` alone can fall during loading.
 The capture metadata labels this override. Ordinary access/collision evidence must keep it disabled.
 
-This uses the existing `build/editor/openyamm-editor` with `--world mm5`, a fresh temporary source package and an
+This uses Map Studio's outdoor build (`openyamm-studio/build/oymap build-map`, built by `openyamm-studio/build.sh`) with `--world mm5`, a fresh temporary source package and an
 isolated composed base. It checks terrain arrays, model/entity counts and native door bindings, and writes
 `review/native/build.json` plus the build log.
 All BModel material keys must fit the native ten-byte texture-name field. The builder rejects overlong/non-ASCII

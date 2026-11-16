@@ -31,5 +31,5 @@ for kind in ['map','scene','terrain','geometry']:
   data.pop('source_fingerprint',None);data.pop('built_source_fingerprint',None)
  (F/f'oute3.{kind}.yml').write_text(json.dumps(data,indent=2)+'\n')
 (F/'pads.json').write_text(json.dumps(pads,indent=2)+'\n')
-with (F/'build.log').open('w') as f:subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(ROOT/'assets_dev'),'--headless-build-map',str(F/'oute3.map.yml')],stdout=f,stderr=subprocess.STDOUT,check=True)
+with (F/'build.log').open('w') as f:subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(F/'oute3.map.yml'),'--asset-root',str(ROOT/'assets_dev')],stdout=f,stderr=subprocess.STDOUT,check=True)
 print('Built14 flat shore/water pads.')

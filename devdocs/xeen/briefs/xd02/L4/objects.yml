@@ -1619,4 +1619,12 @@ exits:
     surface: {texture: sky_clo1, size: [512, 512]}
     to: exit:x4_adit
     notes: "The far end of the west adit, open to the sky once the fall is gone."
+relations:
+  - {of: [229, 230, 231], toward: party, relation: hostile}
+  - {of: [229, 230, 231], toward: 400, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 401, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 402, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 412, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 413, relation: friendly, both_ways: true}
+  - {of: [229, 230, 231], toward: 414, relation: friendly, both_ways: true}
 notes: "Objects of the L4 brief (written by output/studio_cal/xd02/tools/gen_objects.py). Stand-ins: Mad Dwarves are MM7 Dwarves (Dwarven Soldier, level 10), the Tallymaster one of them with hp 80 and a name; Tiger Moles are Troglodyte Drones (412, level 9); the cocoon's level-10 spiders are Venomous Spiders (401, level 8); slots: 1 Dwarf, 2 Spider, 3 Bat. The brake key is the plain Key 2111."

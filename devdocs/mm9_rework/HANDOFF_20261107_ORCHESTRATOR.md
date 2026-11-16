@@ -52,7 +52,8 @@ let each agent rebuild every map on its own (that is what made 2026-11-07 slow).
   list (`output/mm9_rework/owned.txt`, `isleofashes_blv_owned.txt`); `level_generation/projects/mm9r_common/
   review_root.py` `refresh()` relinks everything not owned from `assets_dev`.
 - **Full rebuild script**: `output/mm9_rework/final_r7_20261107/r7.sh` (copy to `final_r8_<date>/r8.sh`, replace the
-  `r7`/`R7` names; it also builds `mm9_compile_indoor_source`). It builds `openyamm openyamm_unit_tests openyamm-editor`, runs the unit suite, refreshes both
+  `r7`/`R7` names). It builds `openyamm openyamm_unit_tests mm9_compile_indoor_source` (no `openyamm-editor`: removed
+  in S7 of the map studio), runs the unit suite, refreshes both
   roots, runs `convert_one` for all 44 maps in parallel through the map lanes (`convert.py`, then
   `mm9r_common/dungeon/lighting.py <project> --layout-only --no-install`, then `mm9r_common/lightmap_transfer.py
   <project> --install`; regions add `--root output/mm9_rework/isleofashes_blv_root`), then every

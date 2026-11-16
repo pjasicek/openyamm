@@ -65,10 +65,10 @@ neighbours:
     kind: edge
     side: west
     days: 5
-    arrival_side: west
+    arrival_side: east
     approach: "The west road winding through its hill valley to the west edge, a little south of mid-height."
     screened: true
-    notes: "Erathia. The travel table's row for this route says 'left' (the party arrives on Erathia's west side), as the original's row has it."
+    notes: "Erathia. The travel table's row for this route says 'left', as the original's row has it: the game enters by Erathia's east start (S8g: was `arrival_side: west`, written for the studio's inverted arrival words)."
   - id: stable:arena
     to: 7d05.blv
     kind: stable

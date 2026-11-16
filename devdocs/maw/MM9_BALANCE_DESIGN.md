@@ -285,8 +285,10 @@ Built (2026-11-09, third step: MAW plays in MM9):
   (`mm9r_common/dungeon/density.py` `grow`, every rule of it) on each installed map, beside its actors, for up to
   2 x its monsters, and writes the copies as MAW's overlay `rulesets/maw/maps/<stem>_zz_maw.scene.yml`
   (`initial_state.pack_reserve`). The copies of all packs are interleaved by each pack's share and numbered map-wide, the
-  k-th joining at factor 1 + k / N. The scene overlay carries `scene_actors` and `scene_check`; a map rebuilt since
-  uses no reserve and says so, and `mm9_balance.py --check` fails until the tool runs again. The engine:
+  k-th joining at factor 1 + k / N. The scene overlay carries `scene_actors` and `scene_check`, both of the scene
+  file's own actors (actors a world overlay adds, `authored_content.actors`, stand after them and are not counted,
+  2026-11-15); a map rebuilt since uses no reserve and says so, and `mm9_balance.py --check` fails until the tool
+  runs again. The engine:
   `MapDeltaData::packReserve` (from the assets, never saved), `MonsterRules::packDensityFactor` (Standard 1; MAW
   `balance.yml` `density`: Easy, Normal, MAW 1.0, Hard, Hell 1.2, Nightmare 1.4, Doom 1.6, Road to Insanity 1.8,
   Beyond Madness 2.0, times a map's own `density`), appended right after the scene's actors at a first fill and each

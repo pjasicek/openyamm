@@ -1,0 +1,98 @@
+format: 0
+id: xeen_x2
+name: Rivercity and Lake Darzog
+world: mm7
+kind: outdoor
+profile: odm
+map_code: X2
+units: {plan_grid: 512}
+extent: {terrain_cells: 128}
+map_stats:
+  id: 9136
+  reference: 7out03.odm
+  encounter_chance: 10
+  treasure_level: 1
+  trap_dice: 1
+  perception_difficulty: 2
+  refill_days: 672
+  music: 32
+  environment: plains
+  lock_difficulty: 2
+  slots:
+    - {monster: Will ' O Wisp, tier: 1, per_marker: [2, 4], weight: 45}
+    - {monster: Archer, tier: 1, per_marker: [2, 3], weight: 35}
+    - {monster: Ogre, tier: 2, per_marker: [2, 3], weight: 20}
+neighbours:
+  - id: boat:vertigo
+    to: xeen_x1.odm
+    kind: boat
+    days: 1
+    schedule: {weekdays: [monday, wednesday, friday]}
+    service: Captain Nystor's Dock
+    listed_only: true
+    notes: "Down the river to Vertigo: Captain Nystor's pier takes the party there for 100 gold (an event, teleport to Vertigo's creek bank); the dock house opens MM7's Lady Catherine (486) with its own MM7 routes as the stand-in (as X1's stables)."
+  - id: door:xd06
+    to: xeen_xd06.blv
+    kind: door
+    arrival_hint: Inside the Temple of Yak's door.
+    condition: {qbit: yak_stone}
+    notes: "XD-06 Temple of Yak (moved from X1). Door on X2: X -1024, Y -18240, Z 1088 (cells [62, 99.63]) in the temple front in the fairy woods' dark south end, facing north; needs the Yak Stone (qbit 110101). Outside arrival: X -1024, Y -17840, Z 1053, facing north (direction 90; MoveToMap 512). DOORS.md."
+  - id: door:xd12
+    to: xeen_xd12.blv
+    kind: door
+    arrival_hint: Inside Darzog's Tower's door.
+    condition: {item: skeleton_key}
+    notes: "XD-12 Darzog's Tower. Door on X2: X -16031, Y 3014, Z 768 (cells [32.69, 58.11]) on the east side of the tower on Lake Darzog's island, facing east; needs the Skeleton Key (stand-in item 1461). Outside arrival: X -15631, Y 3014, Z 768, facing east (direction 0; MoveToMap 0). DOORS.md."
+  - id: door:xd21
+    to: xeen_xd21.blv
+    kind: door
+    arrival_hint: Just inside the Robbers' Den's door under the great bridge.
+    notes: "XD-21 Robbers' Den. Door on X2: the dark face at X 1280, Y 3772, Z 640 (cells [66.5, 56.63]) in the south quay's wall beside the great bridge's south end, facing north. Outside arrival for the dungeon's exit: X 1280, Y 4172, Z 640, facing north (direction 90; MoveToMap 512). DOORS.md."
+  - id: door:xd27
+    to: xeen_xd27.blv
+    kind: door
+    arrival_hint: Inside the cave mouth in the ogres' bluff.
+    notes: "XD-27 Ogre Lair. Door on X2: the cave mouth's dark face at X -20992, Y 17555, Z 1216 (cells [23, 29.71]) in the bluff west of the north river, facing south. Outside arrival: X -20992, Y 17155, Z 1248, facing south (direction 270; MoveToMap 1536). DOORS.md."
+  - id: edge:east
+    to: xeen_x1.odm
+    kind: edge
+    side: east
+    days: 3
+    arrival_side: west
+    approach: "The river road along the Great River's north bank, east to Vertigo, at y 46."
+    notes: "X1 Vertigo Meadows: arrives at X1's west start (its west road); X1's own edge:west leads back here."
+  - id: edge:north
+    to: 7out13.odm
+    kind: edge
+    side: north
+    days: 5
+    arrival_side: south
+    approach: The north road through the farmland to the north edge at x 66.
+    screened: true
+    one_way: true
+    notes: "X4 Burlock Savannah in the design (not built). Stand-in until X4 exists: Tatalia (MM7), one way."
+  - id: edge:west
+    to: 7out03.odm
+    kind: edge
+    side: west
+    days: 5
+    arrival_side: east
+    approach: "The west road along Lake Darzog's north shore, over the ogres' bridge, to the west edge at y 40."
+    screened: true
+    one_way: true
+    notes: "X3 Lifeforce Lagoon in the design (not built). Stand-in until X3 exists: Erathia (MM7), one way so that Erathia keeps its own travel."
+qbits:
+  barok_pendant: 110204
+  crodo_bottle_lake: 110202
+  faery_wand: 110205
+  lake_beasts_slain: 110201
+  ligono_skull: 110203
+  sprite_eggs: 110206
+  yak_stone: 110101
+items:
+  skeleton_key: 1461
+rules:
+  weather: world default
+  respawn: entrance:party_start
+  town_portal_anchor: entrance:party_start
+notes: "X2 Rivercity and Lake Darzog, the Cloudside hub, a new map with no original (devdocs/xeen/MAPS.md). Built and played as an MM7 map (world: mm7) until worlds/xeen exists, as X1 is. Stand-ins: slot 1 Killer sprites is MM7's Will o' Wisp family (Dancing Light 15; the dark south end's Wisps 23), slot 2 Evil rangers the Archer family (Archer 9, the camps' Bowmen 19), slot 3 Ogres the Ogre family at tier 2 (Ogre Raider 20; the lair's Ogre Chieftain 28); the three lake dragons are Young Dragons (60). Houses open Steadwick's (Erathia, MM7) house rows and Erathia's residence rows under Rivercity's names; the Skeleton Key is MM7's William's Tower Key 1461 (Xeen item 12100 planned). Written by output/studio_cal/x2/tools/gen.py."

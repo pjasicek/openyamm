@@ -1025,8 +1025,8 @@ def main() -> int:
         for name in (f"{STEM}.map.yml", f"{STEM}.scene.yml", f"{STEM}.geometry.yml", f"{STEM}.terrain.yml"):
             shutil.copy2(SOURCE / name, temp / name)
         with (WORK / "build.log").open("w") as log:
-            subprocess.run([str(ROOT / "build/editor/openyamm-editor"), "--asset-root", str(review_root.ASSETS),
-                            "--headless-build-map", str(temp / f"{STEM}.map.yml")],
+            subprocess.run([str(ROOT / "openyamm-studio/build/oymap"), "build-map", str(temp / f"{STEM}.map.yml"),
+                            "--asset-root", str(review_root.ASSETS)],
                            check=True, stdout=log, stderr=subprocess.STDOUT)
         built = (temp / MAP).read_bytes()
 

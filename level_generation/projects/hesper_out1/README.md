@@ -17,7 +17,7 @@ level_generation/projects/hesper_out1/build.sh
    from the design's materials, no MM tiles), the plant rules, the Ancient buildings as BModels (`bmodels.py` kit, OBJ), the model buildings with their
    invisible collision boxes (`building`, the `colliders` BModel), the decorations,
    9 chests, the three log cores (ground items), the party start at the Crew Ramp door, the events, then the ODM
-   through the editor's writer (`--headless-build-map`, the stage as asset root), verified against the sources. Writes `source/` and
+   through the outdoor build (`oymap build-map`, the stage as asset root), verified against the sources. Writes `source/` and
    `runtime/worlds/hesper/`.
 2. `build_minimap_blender.py` and `finish_minimap.py`: the minimap with the approved recipe's light direction,
    strength and grade; the ground in the design's colours. Hesper's deviation: a neutral sun and grey fill (the

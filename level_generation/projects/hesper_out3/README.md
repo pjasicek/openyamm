@@ -22,7 +22,8 @@ flock output/hesper_stage/locks/bake.lock level_generation/projects/hesper_stage
    (`kit_out3.py`: the greenhouses, the farm wall, the sunk agri-domes, the toppled survey mast, the weather station's
    mast, the gantry with the breach face, D9's mouth, D5's grafted door; Hesk's farmhouse and Wren's post from
    `houses.py`); the decorations and the model buildings' invisible collision boxes; 12 chests; ground items; the 20
-   placed groups and the Garden's people; 51 spawn points; the events (Lua); the ODM through the editor's writer,
+   placed groups and the Garden's people; 51 spawn points; the events (Lua); the ODM through the outdoor build
+   (`oymap build-map`),
    verified against the sources. Writes `source/`, `runtime/worlds/hesper/` and `out3_build.json` (every arrival the
    dungeons read: `arrivals.d05_root_door`, `d09_mouth` (also top level, as D9's build reads it), `d11_breach`, the edges).
 2. `make_scenarios.py`: the six scenarios from the build record. `make_tour.py <name>`: the review tour.

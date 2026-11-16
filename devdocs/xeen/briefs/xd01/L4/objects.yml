@@ -1083,4 +1083,8 @@ exits:
     surface: {texture: orwtrtyl, size: [128, 128]}
     to: exit:vertigo_riverbank
     notes: The riverbank beyond the grate (drawn as the river's water).
+relations:
+  - {of: [226, 227, 228], toward: 385, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 386, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 387, relation: friendly, both_ways: true}
 notes: "Objects of the L4 brief. Lights: iron lanterns (torch02) upstairs, green-flame torches (torch06) in the cistern and the honeymoon pen, one iron torch (trchb00) on the stair landing; point lights for the pool's glow, the office candle, the pink heart candle, two hanging lanterns over the hall and daylight at the lane and the river. Population: the pens' and the boss pair's monsters are placed (they wait behind their gates); the rest are spawn points of the two encounter slots."

@@ -1,0 +1,303 @@
+format: 0
+themes:
+  - id: theme:chute
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: t68a10a, size: [32, 64], scale: 2}
+    ceiling: {texture: gcav1wal, size: [256, 256]}
+    notes: "The boulder chute: d08's rock round a trough floored with d08's planks."
+  - id: theme:den
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: gcav1flr, size: [256, 256]}
+    ceiling: {texture: gcav1wal, size: [256, 256]}
+    door: {texture: t68a10a, size: [32, 64], scale: 2}
+    notes: "The den and the works: MM8 Dire Wolf Den (d08) brown rock gcav1wal on walls and roofs, its floor rock gcav1flr underfoot, as d08 lays them."
+  - id: theme:gorge
+    wall: {texture: gcav1wal, size: [256, 256]}
+    floor: {texture: wtrtyl, liquid: water, flow: down}
+    ceiling: {texture: 7plansky1, size: [256, 256], scale: 4}
+    notes: "The river gorge outside the throwing ledge: d08's rock as the cliffs, MM8's flowing water far below, MM7's sky (7plansky1, laid indoors in Celeste) as the roof."
+defaults: {theme: theme:den, ambient: 18}
+rooms:
+  - id: room:bone_den
+    name: Bone den
+    outline: [[-2112, 1888], [-1600, 1888], [-1376, 2112], [-1376, 3008], [-1664, 3200], [-2240, 3264], [-2688, 3136], [-2944, 2752], [-2944, 2304], [-2688, 2016]]
+    floor: 192
+    rough: {step: 192, depth: 40}
+    ceiling: 640
+    ceiling_points: [[-2176, 2560, 800], [-2624, 2560, 704], [-1792, 2560, 704]]
+    theme: theme:den
+    platforms:
+      - {rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-2670, 2448], [-2578, 2448], [-2512, 2514], [-2512, 2606], [-2578, 2672], [-2670, 2672], [-2736, 2606], [-2736, 2514]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Sleeping hollow rim}
+    ambient: 19
+    notes: "A low rounded cave about 1,550 by 1,350, 192 above the feast cave; sleeping heaps along its walls; the midden crack comes up into its south corner, a terrace and steps lead down east into the feast cave."
+  - id: room:chief_den
+    name: Chieftain's den
+    outline: [[-2688, 3328], [-1728, 3328], [-1376, 3456], [-1376, 3968], [-1664, 4288], [-2432, 4416], [-2944, 4224], [-3136, 3968], [-3136, 3584]]
+    floor: 32
+    rough: {step: 192, depth: 40}
+    ceiling: 576
+    ceiling_points: [[-2272, 3840, 704]]
+    theme: theme:den
+    walls:
+      - wall: south
+        panels:
+          - {id: panel:sail, offset: 256, length: 448, bottom: 96, height: 288, surface: {texture: t68a13a, size: [64, 64], scale: 2}, notes: "The torn sail of a sunk boat, hung as a trophy."}
+    platforms:
+      - {id: platform:dais, at: [-2752, 3968], size: [448, 320], rise: 32, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: The rock dais of the Chieftain's seat.}
+      - {id: platform:seat, rise: 112, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-2896, 4032], [-2608, 4032], [-2640, 4112], [-2864, 4112]], top_surface: {texture: gcav1wal, size: [256, 256]}, base: 32, notes: "The Chieftain's seat of piled boulders (the lair's heart: click to break it)."}
+      - {id: platform:oar_1, at: [-2272, 4336], size: [32, 16], rise: 352, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: An oar of Nystor's boats stood against the north wall as a trophy.}
+      - {id: platform:oar_2, at: [-2080, 4304], size: [32, 16], rise: 352, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: A second oar.}
+    ambient: 17
+    notes: "A cave about 1,750 by 1,100 one step up from the feast cave: the Chieftain's seat of boulders on a dais by the west wall, oars and a torn sail of Captain Nystor's boats as trophies, the larder's plank door in the west wall."
+  - id: room:chute
+    name: Boulder chute
+    path: [[864, 5920], [1472, 5920], [1888, 6080], [2176, 6080]]
+    width: 448
+    smooth: 1
+    floor: 384
+    slope: {to: 128}
+    ceiling: 832
+    theme: theme:chute
+    parapets:
+      - path: [[880, 5744], [1472, 5744], [1888, 5904], [2160, 5904]]
+        height: 32
+        thickness: 24
+        surface: {texture: t68a11, size: [64, 32], scale: 2}
+        notes: "Timber kerb of the trough, north side"
+      - path: [[880, 6096], [1472, 6096], [1888, 6256], [2160, 6256]]
+        height: 32
+        thickness: 24
+        surface: {texture: t68a11, size: [64, 32], scale: 2}
+        notes: "Timber kerb of the trough, south side"
+    ambient: 14
+    notes: "A timber-floored trough falling 256 east from the quarry to the throwing ledge, worn smooth by boulders, daylight ahead."
+  - id: room:feast_cave
+    name: Feast cave
+    outline: [[-640, 2176], [640, 2176], [896, 2432], [896, 3584], [640, 3904], [64, 4032], [-448, 4032], [-1024, 3968], [-1344, 3776], [-1344, 2496], [-1024, 2240]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 768
+    ceiling_points: [[-192, 3136, 1024], [-832, 3136, 864], [448, 3136, 864], [-192, 2496, 864], [-192, 3776, 864]]
+    theme: theme:den
+    platforms:
+      - {id: platform:terrace, rise: 192, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-1344, 2560], [-1024, 2560], [-1024, 3008], [-1344, 3008]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: "The rock terrace under the bone den's mouth, 192 up."}
+      - {at: [-192, 2528], size: [512, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
+      - {at: [-192, 3744], size: [512, 96], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
+      - {at: [-848, 3264], size: [96, 384], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
+      - {at: [432, 3136], size: [96, 448], rise: 24, surface: {texture: gcav1wal, size: [256, 256]}, top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Rock bench}
+    levels:
+      - id: level:pit
+        outline: [[-338, 2784], [-46, 2784], [160, 2990], [160, 3282], [-46, 3488], [-338, 3488], [-544, 3282], [-544, 2990]]
+        floor: -128
+        bank: 192
+        surface: {texture: gcav1flr, size: [256, 256]}
+        notes: "The cooking pit: a hollow 128 deep with sloping sides; the fire and the cauldron in it."
+    flights:
+      - {from: [-672, 2752], to: [-1024, 2752], width: 320, steps: 6, riser: {texture: gcav1wal, size: [256, 256]}, tread: {texture: gcav1flr, size: [256, 256]}, notes: Six rock steps of 32 down from the terrace to the cave's floor.}
+    ambient: 17
+    notes: "A round cave about 2,240 by 1,860, the cooking pit sunk in its middle under a roof that rises to a smoke hole, four rock benches round the pit; the bone den's terrace and steps on the west, the Chieftain's den up one step on the north-west, the kennel through its hurdle on the east, the gate yard on the south, the quarry ramp on the north."
+  - id: room:gate_yard
+    name: Gate yard
+    outline: [[-512, 1120], [576, 1120], [736, 1376], [736, 1792], [576, 2048], [-512, 2048], [-672, 1792], [-672, 1376]]
+    floor: 0
+    ceiling: 640
+    ceiling_points: [[32, 1616, 736]]
+    theme: theme:den
+    platforms:
+      - {at: [-260, 1148], size: [24, 24], rise: 144, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Forked post under the bar's west end}
+      - {at: [260, 1148], size: [24, 24], rise: 144, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Forked post under the bar's east end}
+    ambient: 16
+    notes: "The cave behind the log gate, about 1,400 by 930: the gate in its south wall with the bar across it on two posts, the guards' fire, the feast cave open to the north."
+  - id: room:gorge
+    name: River gorge
+    outline: [[3168, 5376], [4128, 5376], [4128, 6976], [3168, 6976]]
+    floor: -320
+    ceiling: 1408
+    theme: theme:gorge
+    walls:
+      - wall: west
+        surface: {texture: gcav1wal, size: [256, 256]}
+        bands: false
+        notes: "The bluff under and over the ledge: rock over its whole height (no bands)."
+    bands:
+      - {height: 512, surface: {texture: gcav1wal, size: [256, 256]}}
+      - {height: 1216, surface: {texture: xodaylt, size: [256, 128], scale: 8.2, offset: [0, 42]}}
+      - {height: 1728, surface: {texture: 7plansky1, size: [256, 256], scale: 4}}
+    ambient: 2
+    notes: "The river gorge below the throwing ledge: flowing water 448 below the ledge, the far cliff rising to about the ledge, the hills beyond the river and the sky above (bands on the far walls), the bluff itself on the west."
+  - id: room:kennel
+    name: Kennel
+    outline: [[928, 2752], [1536, 2688], [1920, 2880], [1984, 3328], [1728, 3648], [928, 3584]]
+    floor: 0
+    rough: {step: 192, depth: 40}
+    ceiling: 448
+    ceiling_points: [[1472, 3168, 544]]
+    theme: theme:den
+    platforms:
+      - {at: [968, 2864], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+      - {at: [968, 2928], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+      - {at: [968, 2992], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+      - {at: [968, 3344], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+      - {at: [968, 3408], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+      - {at: [968, 3472], size: [24, 24], rise: 192, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: Stake of the hurdle}
+    ambient: 20
+    notes: "A side cave off the feast cave, fenced from it by a hurdle of stakes with a gap; straw, bones and a trough."
+  - id: room:larder
+    name: Chieftain's larder
+    outline: [[-4096, 3584], [-3168, 3584], [-3168, 4224], [-3392, 4352], [-3968, 4352], [-4160, 4096], [-4160, 3776]]
+    floor: 32
+    ceiling: 416
+    theme: theme:den
+    beams:
+      - path: [[-4160, 4096], [-3168, 4096]]
+        width: 32
+        depth: 32
+        bottom: 352
+        surface: {texture: t68a11, size: [64, 32], scale: 2}
+        notes: The meat beam with its hooks.
+    ambient: 21
+    notes: "A cold low cave behind the plank door, about 1,000 by 770: the meat beam, casks and sacks, and the cargo of Nystor's sunk boats."
+  - id: room:midden
+    name: Midden crack
+    path: [[-672, 544], [-1280, 544], [-1664, 800], [-1856, 1280], [-1856, 1856]]
+    width: 384
+    smooth: 1
+    floor: 0
+    slope: {to: 192}
+    ceiling: 384
+    theme: theme:den
+    ambient: 20
+    notes: "A narrow fissure climbing 192 north-west from the mouth to the bone den, floored with the ogres' refuse; a bend halfway."
+  - id: room:mouth
+    name: Cave mouth
+    outline: [[-576, 0], [576, 0], [640, 320], [576, 640], [448, 896], [192, 1088], [-192, 1088], [-448, 896], [-640, 704], [-640, 384]]
+    floor: 0
+    ceiling: 576
+    ceiling_points: [[0, 512, 704], [-384, 576, 640], [384, 576, 640]]
+    theme: theme:den
+    ambient: 8
+    notes: "A funnel 1,152 wide at the daylight (the south wall, the exit panel: the X2 hills) narrowing to the log gate in its north wall; the midden crack opens in its west wall."
+  - id: room:quarry
+    name: Boulder quarry
+    outline: [[-576, 5152], [320, 5152], [704, 5344], [832, 5696], [832, 6144], [576, 6400], [0, 6496], [-512, 6432], [-896, 6176], [-960, 5728], [-800, 5344]]
+    floor: 384
+    rough: {step: 192, depth: 40}
+    ceiling: 1088
+    ceiling_points: [[-64, 5856, 1216], [-640, 5856, 1120], [448, 5856, 1120]]
+    theme: theme:den
+    platforms:
+      - {rise: 96, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-848, 5936], [-480, 6176], [-288, 6336], [-544, 6352], [-816, 6128]], top_surface: {texture: gcav1flr, size: [256, 256]}, top_slope: {to: 224, toward: north}, notes: A rubble slope against the north-west wall where the ogres break the rock.}
+      - {rise: 64, surface: {texture: gcav1wal, size: [256, 256]}, outline: [[-693, 5376], [-587, 5376], [-512, 5451], [-512, 5557], [-587, 5632], [-693, 5632], [-768, 5557], [-768, 5451]], top_surface: {texture: gcav1flr, size: [256, 256]}, notes: Broken rock}
+    ambient: 18
+    notes: "A cave about 1,800 by 1,350 whose walls the ogres break up for boulders: a rubble slope, heaps of rounded boulders, timber levers; the ramp comes up in the south, the chute leaves east."
+  - id: room:quarry_ramp
+    name: Quarry ramp
+    path: [[-192, 4064], [-192, 4544], [-64, 4928], [-64, 5120]]
+    width: 448
+    smooth: 1
+    floor: 0
+    slope: {to: 384}
+    ceiling: 448
+    theme: theme:den
+    ambient: 19
+    notes: "A rough ramp climbing 384 north out of the feast cave, scored by dragged boulders."
+  - id: room:river_ledge
+    name: Throwing ledge
+    outline: [[2336, 5376], [2592, 5376], [2592, 4928], [2912, 4928], [2912, 5376], [3136, 5376], [3136, 6976], [2528, 7104], [2208, 6784], [2208, 5760]]
+    floor: 128
+    ceiling: 832
+    ceiling_points: [[2672, 6176, 896], [3136, 6176, 1024]]
+    theme: theme:den
+    platforms:
+      - {id: platform:rack_post_w, at: [2616, 5584], size: [32, 32], rise: 224, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: The rack's west post.}
+      - {id: platform:rack_post_e, at: [2888, 5584], size: [32, 32], rise: 224, surface: {texture: t68a10a, size: [32, 64], scale: 2}, top_surface: {texture: t68a10a, size: [32, 64], scale: 2}, notes: The rack's east post.}
+    ambient: 12
+    notes: "A shelf about 900 by 1,600 in the bluff, its east side open over the river gorge above a parapet of rock 80 high; the boulder heap on its timber rack at the south end, at the head of the slide (a slot 320 wide cut 448 into the rock to the south, unlit); the chute comes in from the west."
+openings:
+  - id: open:chief_larder
+    from: room:chief_den
+    to: room:larder
+    link: link:chief_den_larder
+    width: 224
+    height: 288
+    notes: The larder's plank door.
+  - id: open:chute_ledge
+    from: room:chute
+    to: room:river_ledge
+    link: link:chute_ledge
+    width: 384
+    height: 416
+  - id: open:den_feast
+    from: room:bone_den
+    to: room:feast_cave
+    link: link:bone_den_feast
+    width: 320
+    height: 352
+    notes: The bone den's mouth onto the feast cave's terrace.
+  - id: open:feast_chief
+    from: room:feast_cave
+    to: room:chief_den
+    link: link:feast_chief_den
+    width: 288
+    height: 416
+    notes: One step of 32 up into the Chieftain's den.
+  - id: open:feast_gate_yard
+    from: room:feast_cave
+    to: room:gate_yard
+    link: link:feast_gate_yard
+    width: 896
+    height: 512
+  - id: open:feast_kennel
+    from: room:feast_cave
+    to: room:kennel
+    link: link:feast_kennel
+    width: 640
+    height: 384
+    notes: "The kennel's mouth; the hurdle of stakes stands in it, a gap in its middle."
+  - id: open:feast_ramp
+    from: room:feast_cave
+    to: room:quarry_ramp
+    link: link:feast_quarry_ramp
+    width: 384
+    height: 416
+  - id: open:gate
+    from: room:mouth
+    to: room:gate_yard
+    link: link:mouth_gate
+    width: 320
+    height: 384
+    notes: "The log gate, barred from inside."
+  - id: open:ledge_gorge
+    from: room:river_ledge
+    to: room:gorge
+    link: link:ledge_gorge
+    width: 1408
+    height: 600
+    sill: 80
+    notes: "The ledge's open east side over the gorge, above a parapet of rock 80 high."
+  - id: open:midden_den
+    from: room:midden
+    to: room:bone_den
+    link: link:midden_bone_den
+    width: 320
+    height: 320
+  - id: open:mouth_midden
+    from: room:mouth
+    to: room:midden
+    link: link:mouth_midden
+    width: 288
+    height: 320
+    notes: "The midden crack's foot: a dark crack in the mouth's west wall."
+  - id: open:quarry_chute
+    from: room:quarry
+    to: room:chute
+    link: link:quarry_chute
+    width: 384
+    height: 416
+  - id: open:ramp_quarry
+    from: room:quarry_ramp
+    to: room:quarry
+    link: link:quarry_ramp_quarry
+    width: 384
+    height: 416
+notes: "XD-27 Ogre Lair at L3/L4: the plan's thirteen spaces as thirteen rooms in the plan's frame (x east, y north, the mouth's daylight edge at y 0, heights from the arrival floor). Written by output/studio_cal/xd27/tools/gen.py."

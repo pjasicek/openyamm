@@ -1,0 +1,292 @@
+format: 0
+variables: [bar_w, bar_e, master_door]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "The Temple of Yak. Mirabeth's stone opened its door. Somewhere in here the clerics of Yak keep the Elixir of Restoration that Mirabeth needs to become a mermaid again, and King Burlock's Megacredits, which Emerson needs to raise Newcastle's walls: the clerics hoard them in a treasury behind their idol, and the Yak Master below keeps the Elixir."
+    notes: "Say why the party is here (a one-shot timer: a load event's window is not shown)."
+  - id: evt:bar_e
+    preset: switch
+    source: switch:bar_e
+    title: Button
+    condition: {not: {map_var: bar_e}}
+    opens: [mover:bar_e]
+    sets: {map_var: bar_e}
+    effects:
+      - set_texture:
+          of: panel:plaque_e
+          to: t4s1fl
+    else_effects:
+      - text: The button is pressed in. The treasury gate's east bar is sunk.
+    text: "You push the stone button in, and the carving round it darkens. Out in the nave, iron grinds on stone: the east bar before the treasury gate sinks into the floor."
+    seconds: 7
+  - id: evt:bar_w
+    preset: switch
+    source: switch:bar_w
+    title: Button
+    condition: {not: {map_var: bar_w}}
+    opens: [mover:bar_w]
+    sets: {map_var: bar_w}
+    effects:
+      - set_texture:
+          of: panel:plaque_w
+          to: t4s1fl
+    else_effects:
+      - text: The button is pressed in. The treasury gate's west bar is sunk.
+    text: "You push the stone button in, and the carving round it darkens. Out in the nave, iron grinds on stone: the west bar before the treasury gate sinks into the floor."
+    seconds: 7
+  - id: evt:bed_00
+    preset: text
+    source: platform:bed_00
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bed_01
+    preset: text
+    source: platform:bed_01
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bed_10
+    preset: text
+    source: platform:bed_10
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bed_11
+    preset: text
+    source: platform:bed_11
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bed_20
+    preset: text
+    source: platform:bed_20
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bed_21
+    preset: text
+    source: platform:bed_21
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:bridge_1
+    preset: switch
+    source: switch:bridge_1
+    title: Button
+    toggles: [lift:span_1, lift:span_2]
+    text: "The button grinds in or out, and stone moves in the pool."
+    notes: Moves blocks 1 and 2.
+  - id: evt:bridge_2
+    preset: switch
+    source: switch:bridge_2
+    title: Button
+    toggles: [lift:span_2, lift:span_3]
+    text: "The button grinds in or out, and stone moves in the pool."
+    notes: Moves blocks 2 and 3.
+  - id: evt:bridge_3
+    preset: switch
+    source: switch:bridge_3
+    title: Button
+    toggles: [lift:span_3]
+    text: "The button grinds in or out, and stone moves in the pool."
+    notes: Moves block 3.
+  - id: evt:chest_coffin
+    preset: chest
+    source: chest:coffin
+    title: Coffin
+    condition: {stat: {name: BaseMight, at_least: 25}}
+    else_effects:
+      - text: You are not strong enough to open the coffin.
+    notes: "A might test (25) on the member who tries, as the source's coffins."
+  - id: evt:chest_hidden
+    preset: chest
+    source: chest:hidden
+    title: Chest
+  - id: evt:chest_hoard
+    preset: chest
+    source: chest:hoard
+    title: Cabinet
+  - id: evt:chest_library
+    preset: chest
+    source: chest:library
+    title: Chest
+  - id: evt:chest_reliquary
+    preset: chest
+    source: chest:reliquary
+    title: Chest
+    effects:
+      - qbit: elixir_found
+    text: "You have found the Elixir of Restoration!"
+  - id: evt:chest_treasury
+    preset: chest
+    source: chest:treasury
+    title: Chest
+    effects:
+      - qbit: treasury_opened
+    text: "King's Megacredits!"
+  - id: evt:crate
+    preset: text
+    source: platform:crate
+    title: Crate
+    text: There is nothing in the crate.
+  - id: evt:exit_woods
+    preset: exit
+    source: exit:woods
+    title: Leave the Temple of Yak
+  - id: evt:gate_seen
+    preset: text
+    source: platform:dais
+    trigger: step
+    once: true
+    text: "West of the idol stands a barred gate: the clerics' treasury."
+    seconds: 5
+  - id: evt:hidden_cell
+    preset: door
+    source: door:hidden_cell
+    title: Wall
+    action: open
+    text: "A block of the wall gives under your hand and sinks: a hidden cell!"
+  - id: evt:lich_tomb
+    preset: text
+    source: platform:lich_tomb_1
+    title: Coffin
+    text: There is nothing in the coffin.
+  - id: evt:master_bed
+    preset: text
+    source: platform:master_bed
+    title: Bed
+    text: "There is nothing on, in, or under the bed."
+  - id: evt:master_cell
+    preset: door
+    source: door:master_cell
+    title: Door
+    action: open
+  - id: evt:master_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:yak_master}}
+    opens: [door:reliquary]
+    once: true
+    effects:
+      - qbit: yak_master_slain
+      - add:
+          var: Experience
+          value: 5000
+    text: "The Yak Master falls, and the slab behind the altar grinds up: the reliquary is open."
+    seconds: 6
+    notes: "set piece:master: his death opens the reliquary."
+  - id: evt:master_door
+    preset: door
+    source: door:master_door
+    side: room:master_stair
+    title: Door
+    action: open
+    sets: {map_var: master_door}
+    text: "The slab grinds up: beyond lies the temple's vestry. The way out is short from here."
+    notes: "From the Master's stair (the door's back, the `to` room's side): it opens."
+  - id: evt:master_door_front
+    preset: script
+    source: door:master_door
+    side: room:vestry
+    title: Stone door
+    condition: {not: {map_var: master_door}}
+    locked_text: The slab stands open.
+    effects:
+      - text: A plain slab without ring or handle. It is meant to be opened from the other side.
+    notes: "From the vestry: no way to open it; once opened from the stair it stays open."
+  - id: evt:narthex_e
+    preset: door
+    source: door:narthex_e
+    title: Door
+    action: open
+  - id: evt:narthex_w
+    preset: door
+    source: door:narthex_w
+    title: Door
+    action: open
+  - id: evt:pool_fall
+    preset: script
+    source: room:yak_pool
+    trigger: step
+    effects:
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          SetValue(DiseasedGreen, 0)
+    text: The pool makes you ill.
+    notes: Anyone who wades into the green water is diseased (the source's 'The pool makes you ill.').
+  - id: evt:pool_seen
+    preset: text
+    source: room:near_bank
+    trigger: step
+    once: true
+    text: "Green water fills the cave below, bubbling and stinking of rot; bones lie at its rim. Three stone blocks lie in a line under the surface toward the far shore, and three stone buttons are set in a kerb at the edge."
+    seconds: 8
+  - id: evt:reliquary
+    preset: script
+    source: door:reliquary
+    title: Reliquary
+    condition: {not: {qbit: yak_master_slain}}
+    locked_text: The reliquary stands open.
+    effects:
+      - text: The slab will not move while the Yak Master lives.
+  - id: evt:sanctum_doors
+    preset: door
+    source: door:sanctum_doors
+    title: Door
+    action: open
+  - id: evt:sanctum_seen
+    preset: text
+    source: room:sanctum
+    trigger: step
+    once: true
+    text: "The Yak Master turns from his altar. Behind it a slab seals the reliquary; it will hold while he lives."
+    seconds: 6
+  - id: evt:tomb_1
+    preset: text
+    source: platform:tomb_1
+    title: Coffin
+    text: There is nothing in the coffin.
+  - id: evt:tomb_2
+    preset: text
+    source: platform:tomb_2
+    title: Coffin
+    text: There is nothing in the coffin.
+  - id: evt:treasury_gate
+    preset: door
+    source: door:treasury_gate
+    title: Treasury gate
+    condition: {all: [{map_var: bar_w}, {map_var: bar_e}]}
+    locked_text: The treasury gate is barred.
+    action: open
+    else_effects:
+      - lua: |-
+          local w = IsAtLeast(MapVar(bar_w), 1)
+          local e = IsAtLeast(MapVar(bar_e), 1)
+          local s = 'The treasury gate will not move: two iron bars stand before it, each worked by a stone button somewhere in the temple (the clerics keep one in a chapel, one among their books). '
+          if w then s = s .. 'The west bar is sunk; ' else s = s .. 'The west bar is up; ' end
+          if e then s = s .. 'the east bar is sunk.' else s = s .. 'the east bar is up.' end
+          evt.SimpleMessage(s)
+    text: "With both bars sunk, the treasury gate lifts."
+    notes: "set piece:twin_bars. Both levers (west chapel, library) must be pulled; the gate says which bar still stands and where the levers are."
+  - id: evt:yak_door
+    preset: door
+    source: door:yak_door
+    title: Door
+    action: open
+  - id: evt:yak_pool
+    preset: script
+    source: platform:yak_basin
+    title: Yak Pool
+    condition: {not: {player_bit: 10400}}
+    effects:
+      - player_bit: 10400
+      - add:
+          var: BaseEndurance
+          value: 2
+      - lua: "SetValue(DiseasedGreen, 0)"
+      - message: "You drink from the Yak Pool. Strength runs through your limbs (+2 Endurance, permanent), and then the sickness takes you: the pool makes you ill."
+    else_effects:
+      - lua: "SetValue(DiseasedGreen, 0)"
+      - text: The pool makes you ill.
+    notes: "The source's Yak Pools: +5 Endurance (permanent) with sickness; here +2 once per character (MM6-8's fountain size), and disease every time."

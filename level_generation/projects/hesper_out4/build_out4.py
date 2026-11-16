@@ -1645,8 +1645,8 @@ with tempfile.TemporaryDirectory(prefix='hes-out4-') as directory:
         shutil.copy2(SOURCE / name, temp / name)
     log = PROJECT / 'build.log'
     with log.open('w') as stream:
-        subprocess.run([str(ROOT / 'build/editor/openyamm-editor'), '--asset-root', str(STAGE), '--headless-build-map',
-                        str(temp / 'hes_out4.map.yml')], check=True, stdout=stream, stderr=subprocess.STDOUT)
+        subprocess.run([str(ROOT / 'openyamm-studio/build/oymap'), 'build-map', str(temp / 'hes_out4.map.yml'),
+                        '--asset-root', str(STAGE)], check=True, stdout=stream, stderr=subprocess.STDOUT)
     shutil.copy2(temp / MAP, TREE / 'maps' / MAP)
 shutil.copy2(SOURCE / 'hes_out4.scene.yml', TREE / 'maps/hes_out4.scene.yml')
 

@@ -821,3 +821,15 @@ party slid round it or caught on it depended on a few units of its start (`outpu
 ledge. The keg now stands in the stash's far corner (510, 4380). Rebuilt (`output/studio_cal/xd01/build`) and installed
 in `xeen_root`; playtest 8 of 8 and playtest_perception 4 of 4 (`output/studio_cal/xd01/final/`). Backup of the
 project before the change: `output/studio_cal/xd01/stash_backup/`.
+
+## Hostility pass (2026-11-16)
+
+The user found monsters peaceful to the party beside hostile ones of their kind and monsters fighting each other
+(devdocs/xeen/ACT2_BUILD.md, "Hostility pass"). MMerge's `hostile.txt` decides a slot monster's relation to the party
+and two kinds' to each other; the studio now warns of both (`oymap build`) and the map says its relations in objects.yml
+`relations` (the build's load event `evt:studio_relations`). Written into objects.yml by
+`output/studio_cal/hostility/add_relations.py` (the project files are the source): the Dragonflies (226-228) kept from
+the Rats (385-387), both ways. `playtest_hostility.yml` (written by
+`output/studio_cal/hostility/gen_hostility_tests.py`) checks the slot and placed foes hostile, the peaceful ones
+peaceful and the map's kinds, spawned side by side near the party, not taking each other on; it passes twice, as do the
+map's other playtests.

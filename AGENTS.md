@@ -52,6 +52,8 @@ These rules apply to all AI-generated contributions in this repository.
   [Releases](packaging/RELEASE.md) and [Incremental updates](packaging/UPDATER_PLAN.md).
 - Saves and changed maps: each saved map state records its map's layout identity, and a map rebuilt since the save
   resets its state when entered (party state kept); see [Saved map states](devdocs/SAVED_MAP_STATE_IDENTITY.md).
+- For named mods (`mods/<id>/mod.yml`, `mods/enabled.yml`, their mount order, table rows and id-range checks, the
+  `mods` console command, saves of maps a mod brought), start with [Named mods](devdocs/NAMED_MODS.md).
 - When the user explicitly asks for mockups, always also build an HTML viewer page for them without being asked:
   one page that shows every mockup live (scaled to fit, with a link to full size), switches between them and
   their states, lists what each shows, and includes the captures. Keep it beside the mockups (`viewer.html`), publish
@@ -457,7 +459,8 @@ Subsystem layers:
 
 - `engine/`
 - `game/`
-- `editor/`
+- `core/` (the code the game shares with Map Studio, `openyamm-studio/`: map formats, scene files,
+  collision and the map builds in `core/compile/`; see `core/CMakeLists.txt`)
 - `tools/`
 
 Treat gameplay systems as shared by default. Fixes for HUD, UI screens, input/keybind semantics, inventory, items,
@@ -556,4 +559,4 @@ missing world hooks. Prefer fixing the shared path or the world hook over adding
 - Renderer uses bgfx. Keep rendering simple: static meshes, sprites/billboards, UI, basic lighting, fog.
 - Audio uses SDL3 with an engine mixer layer for effects, music, volume groups, and fades.
 - Video uses FFmpeg OGV decoding with audio/video sync and looping/cutscene support.
-- Editor code must reuse runtime engine systems and must not duplicate gameplay logic.
+- Map Studio must reuse the shared core (`core/`) and must not duplicate gameplay logic.

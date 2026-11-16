@@ -78,7 +78,8 @@ and keep going until your map meets the definition of done or you have failed tw
 
 ## Shared resources (other map agents run at the same time, up to five)
 - **C++ builds belong to the orchestrator.** Do not run `cmake`. `build/game/openyamm`,
-  `build/tools/mm9_compile_indoor_source` and `openyamm_indoor_source_tests` are built. If your map needs a small
+  `build/tools/mm9_compile_indoor_source` and `openyamm_unit_tests` (the compiler's cases: `--test-suite=indoor_source_compiler`)
+  are built. If your map needs a small
   engine fix (shared path, with a unit test, no change to MM6–MM8 behaviour), make the source edit and the test, then
   finish your turn with a final message starting `BUILD REQUEST:` naming the targets and the tests to run. The
   orchestrator builds, runs `openyamm_unit_tests` and the `indoor` regression suite, and resumes you with the result.

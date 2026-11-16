@@ -59,8 +59,8 @@ with tempfile.TemporaryDirectory(prefix='brackenford-build-') as directory:
         shutil.copy2(SOURCE/name,temp/name)
     log = PROJECT/'review/brackenford_build.log'
     with log.open('w') as stream:
-        subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(args.asset_root),
-            '--headless-build-map',str(temp/'lg01.map.yml')],check=True,stdout=stream,stderr=subprocess.STDOUT)
+        subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(temp/'lg01.map.yml'),
+            '--asset-root',str(args.asset_root)],check=True,stdout=stream,stderr=subprocess.STDOUT)
     shutil.copy2(temp/'lg01.odm',OUTPUT/'maps/lg01.odm')
 shutil.copy2(SOURCE/'lg01.scene.yml',OUTPUT/'maps/lg01.scene.yml')
 

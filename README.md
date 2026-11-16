@@ -236,17 +236,11 @@ cmake --build build --target openyamm_unit_tests -j25
 ./build/tests/openyamm_unit_tests
 ```
 
-Build the editor:
+Map Studio, the map editor (`openyamm-studio/`), builds in its own tree; see its
+[README](openyamm-studio/README.md):
 
 ```sh
-cmake -S . -B build -DOPENYAMM_BUILD_EDITOR=ON
-cmake --build build --target openyamm-editor -j25
-```
-
-Run the editor:
-
-```sh
-./build/editor/openyamm-editor
+openyamm-studio/build.sh
 ```
 
 ## Visual Checks
@@ -278,7 +272,6 @@ no log file.
 ## Useful CMake Options
 
 ```text
-OPENYAMM_BUILD_EDITOR=ON      Build the editor target
 OPENYAMM_BUILD_TOOLS=ON       Build asset and data tooling
 OPENYAMM_BUILD_TESTS=ON       Build unit tests
 OPENYAMM_DEV_ASSETS_DIR=...   Override the development asset directory
@@ -290,7 +283,7 @@ OPENYAMM_USE_SYSTEM_SDL3=ON   Use an installed SDL3 package
 ```text
 engine/              shared runtime systems
 game/                game application and gameplay systems
-editor/              editor application
+core/                code the game shares with Map Studio (map formats, scenes, collision, map builds)
 tools/               asset cooking, reusable review apps and development tools
 tests/               unit and regression tests
 assets_dev/          development asset root
@@ -315,11 +308,6 @@ as required by the GPL. OpenYAMM is provided without warranty.
 Third-party dependencies retain their own licenses. Original Might and Magic assets, imported game data,
 and their converted or restored versions are not covered by the OpenYAMM code license; their distribution
 requires the appropriate rights from their respective rights holders.
-
-## Editor Screenshots
-
-![Editor screenshot 1](res/editor_1.webp)
-![Editor screenshot 2](res/editor_2.webp)
 
 ## Credits
 

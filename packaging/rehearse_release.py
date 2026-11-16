@@ -165,7 +165,7 @@ def copy_stage(source, target):
 def build_linux(work, version, out, jobs):
     build = linux_build_dir(work)
     run(["cmake", "-S", REPO, "-B", build, "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release",
-         "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON", "-DOPENYAMM_BUILD_TESTS=OFF", "-DOPENYAMM_BUILD_EDITOR=OFF",
+         "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON", "-DOPENYAMM_BUILD_TESTS=OFF",
          "-DOPENYAMM_BUILD_TOOLS=OFF", "-DOPENYAMM_COOK_ON_BUILD=OFF", "-DOPENYAMM_STATIC_LIBSTDCXX=ON",
          "-DOPENYAMM_RUNTIME_SHADER_PATH=runtime/shaders", "-DOPENYAMM_RELEASE_THIN=ON",
          f"-DOPENYAMM_RELEASE_VERSION={version}"])
@@ -178,7 +178,7 @@ def build_windows(work, version, out, jobs):
     build = work.root / "build-windows"
     run(["cmake", "-S", REPO, "-B", build, "-G", "Ninja", "-DCMAKE_BUILD_TYPE=Release",
          f"-DCMAKE_TOOLCHAIN_FILE={REPO / 'cmake/toolchains/mingw-w64-x86_64.cmake'}",
-         "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON", "-DOPENYAMM_BUILD_TESTS=OFF", "-DOPENYAMM_BUILD_EDITOR=OFF",
+         "-DOPENYAMM_BUILD_DESKTOP_EXECUTABLE=ON", "-DOPENYAMM_BUILD_TESTS=OFF",
          "-DOPENYAMM_BUILD_TOOLS=OFF", f"-DOPENYAMM_HOST_SHADERC={host_tool(work, 'openyamm_shaderc')}",
          "-DOPENYAMM_RELEASE_THIN=ON", f"-DOPENYAMM_RELEASE_VERSION={version}"])
     run(["cmake", "--build", build, "--target", "openyamm_release_package", "-j", jobs])

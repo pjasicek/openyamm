@@ -1,7 +1,7 @@
 # S7: consolidation (plan)
 
-Status: plan only, written 2026-11-15 from the working tree while S6 is being built. Nothing here is made yet; the
-work starts after S6 merges. The milestone row is PLAN.md section 12 (S7); the editor's dependents are in
+Status: done 2026-11-15, steps 0 to 8 (section 7 records the checks). Written as a plan the same day while S6 was
+being built; the inventory re-taken at step 0 matched section 1.1 unchanged (52 files, the same line counts). The milestone row is PLAN.md section 12 (S7); the editor's dependents are in
 [EDITOR_RETIREMENT.md](EDITOR_RETIREMENT.md); the layering is PLAN.md sections 1, 2 and 10a.
 
 Exit (PLAN.md 12): the game is unchanged (tests, release scenarios, load times on MM6–MM9); every BLV and ODM
@@ -601,3 +601,35 @@ sessions working in `game/`.
 | A game unit test reads a file under `editor/` | found: `ImageAssetLoaderTests.cpp:106`, fixed in step 5 before the deletion; 4.1 after step 6 |
 | Load time or memory changes on MM6–MM9 | 4.4 at steps 2, 6 and 7; with equal objects a change points to a busy machine |
 | Removing the editor root from the engine changes where map rows land | the rule is kept in `core/compile` unchanged; 4.5's table comparison after step 7 |
+
+## 7. Record (2026-11-15)
+
+Work files and logs are in `output/s7/` and `output/s7_reference/` (git-ignored). Deviations from the plan:
+
+- cgltf is bgfx's copy (`build/_deps/bgfx-src/3rdparty/cgltf`, "Version: 1.15" but newer than the v1.15 tag: 135
+  diff lines), vendored byte-equal so the game's object is unchanged; the studio's fetch of the v1.15 tag is gone.
+- The content job's sparse checkout (`packages.yml`, the one that builds the cooker) also configures the game tree, so
+  five lists got `/core/` and `/third_party/cgltf/`, not four. A copy of the Linux list configures.
+- `openyamm_core_compile` is `EXCLUDE_FROM_ALL`: the game and Android do not compile it.
+- CI runs only the installation unit tests (`--source-file=...`), so the 23 compiler cases are compiled there but run
+  locally (`--test-suite=indoor_source_compiler`).
+- `ImageAssetLoaderTests.cpp` reads `assets_dev/engine/icons_x2/micon2.png` instead of the editor's 2.4 MB mockup.
+- The moved files were moved with `mv`, not `git mv` (nothing staged): git shows them deleted and `core/compile/` new.
+- Outdoor parity: 42 packages; the fixtures' and studies' stored fingerprints are older than today's scene fields, so
+  the parity run drops them as the fixture scripts do. 33 build, 9 fail the same way in every route (Brackenford
+  `lg01`: missing `pickup_event`; five playtest copies and the terrain lab: no source-backed BModels; Castleview's
+  terrain study: an OBJ in a deleted `/tmp` folder; two Castleview studies: an invalid interactive face).
+  Castleview and Brackenford were built against `assets_dev` (their `/tmp` stages do not exist).
+
+Checks: the 44 core objects byte-equal to the reference (desktop 44/44; Android arm64 43/44 equal and
+`CgltfImplementation` equal with debug info stripped, its DWARF names the vendored header's path); indoor 66/66,
+outdoor 42/42 with the map tables, studio L4 22 + 2 examples identical to the reference at steps 1, 2, 3 and 7;
+reference runs repeated twice identical; native against wasm 22/22; no core source compiled twice in either tree;
+unit tests, release scenarios (12/12), MM9 scenarios and the game's suites with the reference's pass and fail lists;
+load medians within the reference spread and peak memory within 1 % at step 2 (the controlled run; later game
+binaries also carry other sessions' game edits, and Isle of Ashes then measured 1.6 % higher); end to end: Lich Lab
+and the Sturmford region through their converters equal the installed maps, the MM8 land fixtures and Hesper `hes_out1`
+through `oymap build-map` equal the editor's output. Android: the release native build
+(`:app:externalNativeBuildRelease`, arm64) after steps 2 and 6, objects compared; the APK itself was not packaged
+(it needs `android/repack_runtime_assets.sh` and the release keystore password) nor run on the emulator.
+

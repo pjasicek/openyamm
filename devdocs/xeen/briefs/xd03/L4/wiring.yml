@@ -59,12 +59,6 @@ events:
     preset: chest
     source: chest:vault
     title: Chest
-  - id: evt:clan_hostile
-    preset: script
-    trigger: load
-    effects:
-      - lua: "evt.SetMonsterRelation(229, 0, 4); evt.SetMonsterRelation(230, 0, 4); evt.SetMonsterRelation(231, 0, 4)"
-    notes: "The Mad Dwarf Clan is hostile: MM7's Dwarf family (the stand-in) is the party's ally in hostile.txt, and no word says a map's own relations (XD-02's gap 1), so a load event sets the three Dwarf rows hostile. Gone with a real Mad Dwarf row."
   - id: evt:cluster_1
     preset: script
     source: platform:cluster_1_0
@@ -552,4 +546,4 @@ events:
     source: deco:statue_w
     title: Statue of a Red Dwarf king
     text: "A Red Dwarf king carved in stone, older than the clan. Fresh axe marks scar his plinth: the Mad Dwarves have no love for the old kings."
-notes: "Every mechanism is a preset with conditions and effects. Lua only where no word fits: the clan's hostility (evt.SetMonsterRelation on load) and the camera shakes (evt.CameraShake)."
+notes: "Every mechanism is a preset with conditions and effects. Lua only where no word fits: the camera shakes (evt.CameraShake); the clan's hostility is objects.yml `relations`."

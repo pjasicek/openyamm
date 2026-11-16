@@ -541,3 +541,41 @@ Left: the rim's cliff either side of the crags is the terrain's earth-tinted slo
 tint, `cliff_from`; Alvar's falls stand in grey rock models); the top water face is a shade darker than the creek's
 terrain water and shows its upstream edge and its sides over the banks; the sheet shows its triangles' diagonals in
 the texture; no foam or spray at the foot.
+
+## The west road to X2, the Temple of Yak gone (2026-11-16, the X2 agent)
+
+ACT2_BUILD.md "Links between the maps" (CHANGES_FOR_BUILT_MAPS X1-1 and X1-2, those two only): `tools/gen.py` drops
+`door:xd06`, its plan entrance and sketch point, the sealed Temple of Yak cave mouth and its two torches and two skull
+piles (`thing:door_mark_11`-`14`; the rise and the forest path stay; XD-06 is on X2 now); `edge:west` leads to
+`xeen_x2.odm` (was 7out03 Erathia) with `arrival_side: west` and `one_way: true`. Both because of a studio defect:
+`oymap install` writes the table word of the target's side (`left` for west), but the game reads MMerge's `left` as
+entering by the target's **east** start (`game/tables/MapStats.cpp:205`), and the install's way back would invert it
+again; so each of X1 and X2 writes its own row (X2's NOTES.md). Rebuilt into `output/studio_cal/x2/x1_build` and X2's
+mount (`output/studio_cal/x2/x1_v.sh`); this map's own build and xeen_root are untouched (the lead installs). The walk
+(`playtest.yml`, regenerated, unchanged: 388 steps, its last prompt now names "Rivercity and Lake Darzog") passed four of
+four against X2's mount (`output/studio_cal/x2/run/walk_x1_1.log` to `walk_x1_4.log`). Backup before the change:
+`output/studio_cal/x2/x1_backup/`.
+
+## The west road two-way again (2026-11-16, S8g)
+
+The studio's travel words are fixed (S8g: `oymap install` writes the game's word for the arrival side, `left` for
+an east arrival, `right` for a west one), so the workaround above is undone in `tools/gen.py`: `edge:west` to
+`xeen_x2.odm` says `arrival_side: east` (the side of X2 it arrives on, its east start) and is two-way again (no
+`one_way`), 3 days as X2's `edge:east` says (was 5). The installed row is the same as before (`xeen_x2.odm left`),
+and X2's install now also points X2's east side back here (`xeen_x1.odm right`, the west start). Nothing else changed:
+the build is byte-identical. Played with the S8g studio build against xeen_root and a mount holding X1, X2 and the four
+dungeons (`output/s8g/xx/play_mount`, `output/s8g/xx/walk.sh`): this map's walk 2 of 2, X2's walk 2 of 2 (X2's east
+edge arrives here at (-22016, 9216), the west start; this map's west edge arrives on X2 at (21504, 9216), its east
+start). Backup before the change: `output/s8g/backup/`.
+
+## Hostility pass (2026-11-16)
+
+The user found monsters peaceful to the party beside hostile ones of their kind and monsters fighting each other
+(devdocs/xeen/ACT2_BUILD.md, "Hostility pass"). MMerge's `hostile.txt` decides a slot monster's relation to the party
+and two kinds' to each other; the studio now warns of both (`oymap build`) and the map says its relations in sketch.yml
+`relations` (the build's load event `evt:studio_relations`). Written by `output/studio_cal/x1/tools/gen.py`: the
+Dragonflies (226-228) kept from the Goblins (271-273) and the Skeletons (397-399), both ways (the table sets them on
+each other, 3 and 2); all three are the party's foes by the table already. Townsfolk and guards are untouched (peaceful
+by the table). `playtest_hostility.yml` (written by `output/studio_cal/hostility/gen_hostility_tests.py`) checks the
+slot and placed foes hostile, the peaceful ones peaceful and the map's kinds, spawned side by side near the party, not
+taking each other on; it passes twice, as do the map's other playtests.

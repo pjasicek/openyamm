@@ -46,8 +46,9 @@ First compile the required shared tools and game:
 
 ```sh
 cmake --build build --target openyamm -j25
-cmake --build build --target openyamm-editor mm9_compile_indoor_source openyamm_indoor_source_tests openyamm_levelgen_inspect_save -j25
-build/tools/openyamm_indoor_source_tests
+cmake --build build --target mm9_compile_indoor_source openyamm_unit_tests openyamm_levelgen_inspect_save -j25
+build/tests/openyamm_unit_tests --test-suite=indoor_source_compiler
+openyamm-studio/build.sh    # oymap build-map, the outdoor build
 ```
 
 The historical `mm9_compile_indoor_source` name refers to the shared native BLV compiler. These maps use MM8 assets.

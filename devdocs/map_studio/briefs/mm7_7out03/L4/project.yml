@@ -70,7 +70,7 @@ neighbours:
     kind: edge
     side: west
     days: 5
-    arrival_side: west
+    arrival_side: east
     approach: The west road out of Steadwick to the west edge.
-    notes: "Tatalia (left, left, 5 days)."
+    notes: "Tatalia (left, left, 5 days): the party arrives on Tatalia's east side (S8g: was `arrival_side: west`, written for the studio's inverted arrival words)."
 notes: "Calibration rebuild of Erathia (MM7 7out03.odm), a map no one had rebuilt: the test of the outdoor words of batches O-A to O-F. map_stats as the original's row 64 (map_stats.txt), with its row as `reference`."

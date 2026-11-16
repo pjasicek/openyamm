@@ -20,17 +20,17 @@ not imply a universal exporter for arbitrary Blender scenes or every feature in 
 | Indoor source | Z-up GLB, real texture dimensions, room/portal/trigger/mover/entity metadata | Reserve empty sector zero explicitly; assign overlapping triggers, furnishings and movers through `rooms[].source_nodes`. |
 | Native BLV | Shared compiler/writer produces faces, sectors, portals, linear mechanisms, BSP and automap outlines | Strict planar/range/ID validation; explicit door source pose and ambient level. New geometry still needs runtime review. |
 | Outdoor source | 128² quantized height/tile/attribute arrays plus separate OBJ BModels | Follow native terrain triangles and tile families; heights cannot form undercuts. Preserve source winding when authored. |
-| Native ODM | Headless editor source-package build, native scene assembly and writer; reopened arrays/bindings verified | Use a fresh source package to avoid stale binary geometry. Review bridge floors, thresholds, foundations and terrain contact. |
+| Native ODM | Source-package build (`oymap build-map`, core/compile), native scene assembly and writer; reopened arrays/bindings verified | Use a fresh source package to avoid stale binary geometry. Review bridge floors, thresholds, foundations and terrain contact. |
 | Gameplay | Stable map/house/NPC IDs, scene actors/loot, map-local handlers assembled with registrations | Reuse shared services; keep scoped stock/state. Do not overwrite generated legacy Lua or invent global IDs silently. |
 | Rewards | Existing chest system plus optional validated explicit map-local random item pools | Verify actual generated and saved contents, held-item ownership, disarm/trap and refill behavior. |
 | Packaging | Checked content ZIP + manifest, isolated matching-base installation, copied executable and separate test saves | Current registration archive contains full test-base table overrides; it is not a generic production mod merge installer. |
 | Validation | Compiler units, faithful scenarios, actual native GUI transactions, game screenshots and short reference FPS samples | Distinguish geometry fixtures, gameplay checks, visual evidence and balance claims. Repeat affected checks on changed sources. |
 
-The shared CLI is `build/tools/mm9_compile_indoor_source` despite its historical name. The editor exposes:
+The shared CLI is `build/tools/mm9_compile_indoor_source` despite its historical name. Outdoor map packages build
+with Map Studio's command line (`openyamm-studio/build.sh`):
 
 ```sh
-build/editor/openyamm-editor --asset-root /path/to/isolated/assets_dev --world mm8 \
-  --headless-build-map /path/to/example.map.yml
+openyamm-studio/build/oymap build-map /path/to/example.map.yml --asset-root /path/to/isolated/assets_dev --world mm8
 ```
 
 Indoor source packages may pass their `.scene.yml`. See the project's [exact rebuild sequence](projects/brackenford_greywatch/REBUILD.md).
@@ -40,15 +40,14 @@ this revision, not a permanent substitute for checking the relevant code and tes
 
 ## Authoritative implementation
 
-- [Indoor metadata](../editor/document/IndoorGeometryMetadata.h),
-  [compiler](../editor/import/IndoorSourceGeometryCompiler.cpp),
-  [derived geometry](../editor/import/IndoorDerivedGeometry.cpp),
+- [Indoor metadata](../core/compile/IndoorGeometryMetadata.h),
+  [compiler](../core/compile/IndoorSourceGeometryCompiler.cpp),
+  [derived geometry](../core/compile/IndoorDerivedGeometry.cpp),
   [native BLV](../game/indoor/IndoorMapData.cpp).
-- [Source import](../editor/import/IndoorSourceGeometryImport.cpp),
-  [mesh import](../editor/import/ObjModelImport.cpp),
-  [document/package build](../editor/document/EditorDocument.cpp).
-- [Outdoor terrain metadata](../editor/document/OutdoorTerrainMetadata.h),
-  [BModel metadata](../editor/document/OutdoorGeometryMetadata.h),
+- [Mesh import](../core/compile/ObjModelImport.cpp),
+  [document/package build](../core/compile/EditorDocument.cpp).
+- [Outdoor terrain metadata](../core/compile/OutdoorTerrainMetadata.h),
+  [BModel metadata](../core/compile/OutdoorGeometryMetadata.h),
   [native ODM](../game/outdoor/OutdoorMapData.cpp),
   [terrain geometry](../game/outdoor/OutdoorGeometryUtils.cpp),
   [tile resolution](../game/maps/TerrainTileData.cpp).

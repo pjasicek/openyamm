@@ -117,8 +117,16 @@ Model keys shake the view as well: the Dragon's landing and death, a Giant's and
 
 A map's cinematics live beside it: `worlds/<world>/maps/<stem>.cinematics.yml`, loaded with the map
 (`GameApplication::loadMapCinematics`, before its load events run); no file costs nothing. The parser
-(`game/gameplay/CinematicRuntime.cpp`, `parseCinematicLibrary`) rejects unknown keys, missing fields and out-of-range
-values with the cinematic, shot or cue named; an invalid file is logged and the map has no cinematics.
+(`game/gameplay/CinematicLibrary.cpp`, `parseCinematicLibrary`; in the shared core since 2026-11-15, without the event
+runtime, so Map Studio checks its files with it) rejects unknown keys, missing fields and out-of-range values with the
+cinematic, shot or cue named; an invalid file is logged and the map has no cinematics.
+
+Cinematics overlays (2026-11-15): `<stem>_<name>.cinematics.yml` files beside the map (a mod, a Map Studio overlay
+project) are read after the map's own file, in the scene overlays' order (the world's in name order, then the active
+ruleset's `engine/rulesets/<id>/maps/`; `buildCinematicsOverlayPathCandidates` in `game/maps/SceneOverlayPaths.cpp`).
+Each is a whole cinematics file; its cinematics merge by id (`mergeCinematicLibrary`): one with an id the map already
+has replaces it in its place, a new id is added. An overlay needs no base file. An overlay that does not parse is
+logged and left out; the map's own file and the other overlays still load.
 
 ```yaml
 format_version: 1
@@ -254,8 +262,9 @@ and the director script and installs `worlds/mm9/maps/<stem>.cinematics.yml` wit
 
 ## 7. Implementation (2026-11-06)
 
-- `game/gameplay/CinematicRuntime.{h,cpp}`: the format's parser and validation, `CinematicRuntime` (shots, keys,
-  aims, easing, cues, skip, end), `CameraShake`, the `ICinematicWorld` seam (tests fake it).
+- `game/gameplay/CinematicRuntime.{h,cpp}`: `CinematicRuntime` (shots, keys, aims, easing, cues, skip, end),
+  `CameraShake`, the `ICinematicWorld` seam (tests fake it). The format's types, parser and validation moved out to
+  `game/gameplay/CinematicLibrary.{h,cpp}` on 2026-11-15 (unchanged), with `mergeCinematicLibrary` for overlays.
 - `game/app/GameSession`: owns the map's library and the runtime; `updateCinematics` (requests, skip keys, the locked
   input frame), `renderCinematicOverlay`, `playCinematic`, `stopCinematics`; the world adapter runs map events,
   queues sounds, hides actors (the Invisible bit, as `evt.SetMonsterBit`) and places them

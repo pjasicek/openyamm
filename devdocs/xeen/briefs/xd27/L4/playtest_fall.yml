@@ -1,0 +1,75 @@
+# Playtest of the Ogre Lair (XD-27, L4): the gorge (set:fall) and the gate from outside.
+# The party is put on the throwing ledge by the parapet facing the gorge and jumps: it goes over the 96 parapet,
+# falls into the river, and the gorge's step event (evt:fall, 9) washes it out at the mouth; a timer (evt:fall_told,
+# 19, map variable 7, counted in 8) then says what happened. Then the
+# party walks in by the midden crack, lifts the gate bar (evt:gate_bar, 11) and, back in the mouth, opens the gate from
+# outside (evt:gate_out, 13): door 1 opens from the mouth's side once unbarred.
+id: xeen.xd27.l4.fall
+title: Ogre Lair (XD-27 L4), over the parapet into the gorge, and the gate from outside
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd27.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 10, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 10, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 10, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 10, skills: [], equipment: {}}
+  - setup_shortcut: {kind: immortal, value: true}
+  - play_lua: {source: "wait(3); close()"}
+  - movement_segment:
+      input: forward
+      seconds: 2.5
+      jump: true
+      actor_collision: true
+      actor_ai: true
+      start: {map: xeen_xd27.blv, x: 3040, y: 6176, z: 128, yaw_degrees: 0, pitch: 0}
+      expect_stop: {map: xeen_xd27.blv, x: 0, y: 900, z: 0, yaw_degrees: 90, pitch: 0}
+      loose_tolerance: true
+      tolerance_xy: 8000
+      tolerance_z: 2000
+  - advance_runtime: {seconds: 1.0}
+  - assert: {party_position: {x: 0, y: 700, radius: 500, z_min: -8, z_max: 8}}
+  # (The headless runner does not open windows from timers: the step asserts that evt:fall_told ran.)
+  - play_lua: {source: "wait(3); close()"}
+  - assert: {state_dump_map_var: {index: 7, value: 0}}
+  - assert: {state_dump_map_var: {index: 8, value: 1}}
+  # In by the midden crack to the gate yard, the bar, and the gate from outside.
+  - walk_to: {x: -560, y: 544, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1280, y: 560, z: 54, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1660, y: 820, z: 95, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1850, y: 1300, z: 140, z_tolerance: 60, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1856, y: 1800, z: 187, z_tolerance: 40, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: -1856, y: 2150, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1500, y: 2752, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1180, y: 2752, z: 192, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -600, y: 2752, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 0, y: 1300, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(11); wait(3)
+        if door_state(3) ~= "open" then error("the bar did not lift") end
+  - assert: {state_dump_map_var: {index: 4, value: 1}}
+  - play_lua:
+      source: |
+        click(11); wait(1)
+        if not string.find(tostring(status()), "bar is up", 1, true) then error("a second click on the bar said nothing: " .. tostring(status())) end
+  # Back through the midden to the mouth; the gate opens from outside now.
+  - walk_to: {x: -600, y: 2752, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1180, y: 2752, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1856, y: 2150, z: 192, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1856, y: 1800, z: 187, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1850, y: 1300, z: 140, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1280, y: 560, z: 54, z_tolerance: 60, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -400, y: 544, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 940, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(13); wait(3)
+        if door_state(1) ~= "open" then error("the unbarred gate did not open from the mouth: " .. door_state(1)) end
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}

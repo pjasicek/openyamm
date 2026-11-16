@@ -230,7 +230,6 @@ points:
   - {id: entrance:xd03_shaft, at: [62, 29]}
   - {id: entrance:xd04_tower, at: [88, 81]}
   - {id: entrance:xd05_mouth, at: [82, 30]}
-  - {id: entrance:xd06_yak, at: [30, 97]}
   - {id: entrance:pyramid, at: [84, 46]}
   - {id: poi:obelisk, at: [74, 34]}
   - {id: poi:fountain_ability, at: [46, 70]}
@@ -3025,22 +3024,6 @@ structures:
     kind: decoration
     at: [86.6, 81.2]
     decoration: 7rock08
-  - id: thing:door_mark_11
-    kind: decoration
-    at: [29.65, 96.35]
-    decoration: dec06
-  - id: thing:door_mark_12
-    kind: decoration
-    at: [31.35, 96.35]
-    decoration: dec06
-  - id: thing:door_mark_13
-    kind: decoration
-    at: [29.1, 96.7]
-    decoration: sklplrev
-  - id: thing:door_mark_14
-    kind: decoration
-    at: [31.9, 96.7]
-    decoration: sklplrev
   - id: thing:quay_wall_1
     kind: wall
     line: [[58.5, 53.54], [60, 53.54]]
@@ -3285,21 +3268,6 @@ structures:
     kind: chest
     at: [42.8, 78.4]
     title: Derek's chest
-  - id: thing:yak_door
-    kind: cave_mouth
-    at: [30.5, 96]
-    size: [1536, 1024]
-    textures: {shell: 7dirttyl}
-    floor: 1088
-    title: Temple of Yak
-    into: {map: xeen_xd06.blv}
-    condition: {qbit: yak_stone}
-    else_effects:
-      - lua: "evt.SimpleMessage(\"The Temple of Yak. Its stone door has no handle, only a socket the shape of a horned stone. Whatever opens it is not in this valley: it is an errand for another day.\")"
-    hint: Temple of Yak
-    crest: 512
-    mouth: {width: 256, height: 384, form: door}
-    seed: 9
   - id: thing:sign_hills
     kind: sign
     at: [59.2, 33.2]
@@ -3375,6 +3343,13 @@ actors:
   - {monster: Goblin, at: [47, 17], count: 1, spread: 0, group: 71, hostile: true}
   - {monster: Goblin, at: [20, 45], count: 1, spread: 0, group: 72, hostile: true}
   - {monster: Dragonfly, at: [86, 70], count: 1, spread: 0, group: 73, hostile: true}
+relations:
+  - {of: [226, 227, 228], toward: 271, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 272, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 273, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 397, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 398, relation: friendly, both_ways: true}
+  - {of: [226, 227, 228], toward: 399, relation: friendly, both_ways: true}
 events:
   - id: evt:gunther_errand
     trigger: timer

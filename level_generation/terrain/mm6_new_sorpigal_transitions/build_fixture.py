@@ -48,8 +48,8 @@ for name,data in [('map',package),('scene',scene),('terrain',terrain),('geometry
  (F/f'oute3.{name}.yml').write_text(json.dumps(data,indent=2)+'\n')
 (F/'pads.json').write_text(json.dumps(pads,indent=2)+'\n')
 with (F/'build.log').open('w') as stream:
- subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(ROOT/'assets_dev'),
-                 '--headless-build-map',str(F/'oute3.map.yml')],stdout=stream,stderr=subprocess.STDOUT,check=True)
+ subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(F/'oute3.map.yml'),
+                 '--asset-root',str(ROOT/'assets_dev')],stdout=stream,stderr=subprocess.STDOUT,check=True)
 sys.path.insert(0,str(ROOT/'util'))
 from map_export import parse_odm_file
 native=parse_odm_file(F/'oute3.odm')['payload']

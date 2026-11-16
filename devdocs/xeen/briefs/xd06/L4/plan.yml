@@ -1,0 +1,637 @@
+format: 0
+level: L3
+pitch: "An ancient temple of the evil clerics of Yak, backed into a rise at the dark south end of the fairy woods, opened by Mirabeth's Yak Stone. Above, a temple of brick and red torchlight: a narthex, a pillared nave where Yak's idol glowers from its dais, chapels, the clerics' dormitory and refectory, their library and vestry, and behind the idol a treasury gate held by two iron bars whose buttons lie apart. Below, crypts and a bone-house lead to a cave flooded by the Yak Pool, green, bubbling and sickening; three buttons on its shore raise a causeway of stone blocks out of the water, if set right. Beyond it the liches' crypt and the sanctum, where the Yak Master guards the reliquary of the Elixir of Restoration; his own stair climbs back up to the vestry."
+purpose: "Story step M10 (King's Megacredits for Newcastle's walls: the first five of the fifteen come from here) and Mirabeth's quest Q-C12 (the Elixir of Restoration). A return visit on X2 at party level 14 to 16, like MM6's Gharik's Forge: clerics, skeletons and liches of levels 14 to 28, the Yak Master 35. Two switch puzzles worked out in the game (the treasury's two bars, the pool's causeway), a pool that sickens, the Elixir. About 30 minutes."
+mood: "A cult's house that still works: red torchlight on old brick, the idol's glow, the clerics' beds and books in use. Below, cold rock and bones, then the pool's sick green light and its stench, then the green-black sanctum lit red over the altar. The deeper the party goes, the darker and quieter."
+datum: arrival
+spaces:
+  - id: room:chapel_e
+    name: East chapel
+    kind: room
+    size: S
+    extent: [832, 1280]
+    where: East of the nave.
+    floor: 0
+    clear_height: 768
+    relief: flat
+    purpose: "A side altar; the way to the vestry."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+  - id: room:chapel_w
+    name: West chapel
+    kind: room
+    size: S
+    extent: [832, 1280]
+    where: West of the nave.
+    floor: 0
+    clear_height: 768
+    relief: flat
+    purpose: "The west bar's button (set:twin_bars); a side altar."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+  - id: room:crypt
+    name: Crypt of the clergy
+    kind: room
+    size: M
+    extent: [1728, 1536]
+    where: "Undercroft, west."
+    floor: -768
+    clear_height: 704
+    relief: flat
+    islands: 2
+    purpose: "Coffins and tombs; the dead rise."
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], strength: pack, rank: c, notes: Skeletons among the tombs.}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [3, 3], notes: "A heavy coffin: a might test."}
+  - id: room:dormitory
+    name: Dormitory
+    kind: room
+    size: M
+    extent: [1600, 1152]
+    where: "West wing, south."
+    floor: 0
+    clear_height: 576
+    relief: flat
+    purpose: "The clerics' cots; a secret door to a hidden cell."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b, notes: Clerics resting.}
+  - id: room:far_bank
+    name: "Yak Pool, far bank"
+    kind: room
+    size: L
+    extent: [1600, 1856]
+    where: "Undercroft, centre-east."
+    floor: -768
+    clear_height: [768, 960]
+    relief: flat
+    purpose: "Skeletons waiting across the pool; ways north and east."
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], strength: pack, rank: c, notes: They wait across the water until the causeway rises.}
+  - id: room:hidden_cell
+    name: Hidden cell
+    kind: room
+    size: S
+    extent: [576, 448]
+    where: West of the dormitory.
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: A cleric's private hoard.
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [3, 3]}
+    secret: true
+  - id: room:library
+    name: Library
+    kind: room
+    size: M
+    extent: [1600, 1152]
+    where: "East wing, south."
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "The east bar's button (set:twin_bars); the clerics' scrolls."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [4, 4]}
+  - id: room:lich_crypt
+    name: Lich crypt
+    kind: room
+    size: M
+    extent: [1600, 1280]
+    where: "Undercroft, east."
+    floor: -768
+    clear_height: 640
+    relief: flat
+    purpose: "Liches; the foot of the Master's stair."
+    population:
+      - {slot: 3, groups: 2, per_marker: [1, 2], strength: heavy, rank: a, notes: The source's Yak Liches.}
+  - id: room:master_cell
+    name: Master's cell
+    kind: room
+    size: S
+    extent: [640, 512]
+    where: East of the sanctum.
+    floor: -768
+    clear_height: 448
+    relief: flat
+    purpose: The Yak Master's bed and his hoard (one step up).
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 3, items: [3, 3]}
+  - id: room:master_stair
+    name: Master's stair
+    kind: corridor
+    size: M
+    extent: [576, 3712]
+    where: "East, from the lich crypt up to the vestry."
+    floor: [-768, 0]
+    clear_height: 448
+    relief: steps
+    purpose: "The return: the Yak Master's own stair up to the vestry; its door opens from below only."
+    empty: true
+  - id: room:narthex
+    name: Narthex
+    kind: room
+    size: M
+    extent: [2560, 768]
+    shape: A long cross hall.
+    where: "South, across the temple's width."
+    floor: 0
+    clear_height: 768
+    relief: flat
+    purpose: "The cross hall: west to the clerics' wing, east to the library, the nave north."
+    empty: true
+  - id: room:nave
+    name: Nave of Yak
+    kind: room
+    size: XL
+    extent: [2560, 3584]
+    shape: A long pillared hall with a raised middle ceiling.
+    where: Centre of the temple.
+    floor: 0
+    clear_height: [1088, 1344]
+    relief: flat
+    islands: 8
+    features:
+      - {kind: colonnade, count: 8, where: Two rows of four brick pillars}
+      - {kind: dais, rise: 32, where: "North end, with Yak's idol on its plinth"}
+    purpose: "Signature room: the cult at worship (the first fight), Yak's idol, the treasury gate in the north wall."
+    population:
+      - {slot: 1, groups: 3, per_marker: [2, 3], strength: pack, rank: b, notes: Clerics at worship round the hall.}
+  - id: room:near_bank
+    name: "Yak Pool, near bank"
+    kind: room
+    size: M
+    extent: [832, 1984]
+    where: "Undercroft, west of centre."
+    floor: -768
+    clear_height: [704, 832]
+    relief: flat
+    purpose: "The pool's west shore: the three bridge buttons, the basin 'Yak Pool' (drink)."
+    population:
+      - {slot: 2, groups: 1, per_marker: [2, 3], strength: light, rank: c}
+  - id: room:ossuary
+    name: Ossuary
+    kind: room
+    size: M
+    extent: [1472, 1344]
+    where: "Undercroft, north-west."
+    floor: -768
+    clear_height: 640
+    relief: flat
+    purpose: "A bone-house; the passage east to the pool."
+    population:
+      - {slot: 2, groups: 2, per_marker: [2, 3], strength: pack, rank: c}
+  - id: room:passage_e
+    name: East passage
+    kind: corridor
+    size: S
+    extent: [1664, 1152]
+    shape: An L-shaped passage.
+    where: South-east.
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: Narthex to the library.
+    empty: true
+  - id: room:passage_w
+    name: West passage
+    kind: corridor
+    size: S
+    extent: [1664, 1152]
+    shape: An L-shaped passage.
+    where: South-west.
+    floor: 0
+    clear_height: 448
+    relief: flat
+    purpose: Narthex to the dormitory.
+    empty: true
+  - id: room:porch
+    name: Temple porch
+    kind: room
+    size: S
+    extent: [1280, 1152]
+    shape: "A plain brick porch inside the temple's front door; the Yak door north."
+    where: "South edge, centre."
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: Arrival from X2 and the way out. Safe.
+    empty: true
+  - id: room:refectory
+    name: Refectory
+    kind: room
+    size: M
+    extent: [1600, 1600]
+    where: "West wing, north."
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "The clerics' table; the stair down to the crypts leaves north."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+  - id: room:reliquary
+    name: Reliquary
+    kind: room
+    size: S
+    extent: [512, 512]
+    where: Behind the altar.
+    floor: -768
+    clear_height: 448
+    relief: flat
+    purpose: "Goal: the Elixir of Restoration."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [1, 1], notes: The Elixir.}
+  - id: room:sanctum
+    name: The Yak Master's sanctum
+    kind: room
+    size: L
+    extent: [2432, 2432]
+    shape: An octagon.
+    where: "Undercroft, far north."
+    floor: -768
+    clear_height: 960
+    relief: flat
+    islands: 8
+    features:
+      - {kind: colonnade, count: 8, where: A ring of eight pillars}
+      - {kind: dais, rise: 32, where: "North, the black altar on it"}
+    purpose: "Boss: the Yak Master and two elders; his death opens the reliquary."
+    population:
+      - {actor: Yak Master, role: boss, groups: 1, levels: [35, 35], placed: true, strength: boss, notes: "Boss hit points (three times the row); carries the sixth Megacredit."}
+      - {actor: Yak Elder, role: elder, groups: 2, levels: [28, 28], placed: true, strength: heavy}
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+  - id: room:sanctum_way
+    name: Sanctum way
+    kind: corridor
+    size: S
+    extent: [512, 576]
+    where: "Undercroft, north of the far bank."
+    floor: -768
+    clear_height: 512
+    relief: flat
+    purpose: To the sanctum's doors.
+    empty: true
+  - id: room:stair_w
+    name: West stair
+    kind: corridor
+    size: S
+    extent: [576, 1536]
+    where: North-west.
+    floor: [-768, 0]
+    clear_height: 448
+    relief: steps
+    purpose: Down from the refectory to the crypts.
+    empty: true
+  - id: room:treasury
+    name: Treasury
+    kind: room
+    size: S
+    extent: [896, 960]
+    where: "North of the nave, behind the barred gate."
+    floor: 0
+    clear_height: 512
+    relief: flat
+    purpose: "Goal: the strongbox with five King's Megacredits."
+    empty: true
+    treasure:
+      - {kind: chest, count: 1, tier: 2, items: [7, 7], notes: "Five Megacredits, gold and two rolls of level 2."}
+  - id: room:vestry
+    name: Vestry
+    kind: room
+    size: M
+    extent: [1600, 1600]
+    where: "East wing, north."
+    floor: 0
+    clear_height: 640
+    relief: flat
+    purpose: "Robe cabinets; an elder; the top of the Master's stair (opens from below)."
+    population:
+      - {slot: 1, groups: 1, per_marker: [2, 3], strength: light, rank: b}
+      - {actor: Yak Elder, role: elder, groups: 1, levels: [28, 28], placed: true, strength: heavy}
+  - id: room:yak_pool
+    name: Yak Pool
+    kind: room
+    size: M
+    extent: [1024, 1344]
+    where: "Undercroft, centre."
+    floor: -928
+    clear_height: 864
+    relief: pit
+    features:
+      - {kind: platform, rise: 160, count: 3, where: "A line of three stone blocks across the pool, east-west (lifts)"}
+      - {kind: stair, rise: 160, where: "Steps up out of the water onto the near bank, at the south end"}
+    purpose: "Set piece: the pool that sickens and the causeway puzzle."
+    empty: true
+regions:
+  - id: region:sanctum
+    name: The Master's sanctum
+    spaces: [room:sanctum_way, room:sanctum, room:reliquary, room:master_cell]
+    where: "Far north, 768 down"
+    theme: d04's green-black slabs under the skull frieze
+  - id: region:temple
+    name: The temple
+    spaces: [room:porch, room:narthex, room:nave, room:chapel_w, room:chapel_e, room:passage_w, room:passage_e, room:dormitory, room:hidden_cell, room:refectory, room:library, room:vestry, room:treasury]
+    where: "South half, floor 0"
+    theme: "MM7 Temple of Baa (d04): brick, flags, coffered ceilings, the skull frieze"
+  - id: region:undercroft
+    name: The undercroft
+    spaces: [room:stair_w, room:crypt, room:ossuary, room:near_bank, room:yak_pool, room:far_bank, room:lich_crypt, room:master_stair]
+    where: "North half, 768 down"
+    theme: "MM7 Barrow I (mdt03): sandy rock, grey rock floors, green-black roofs, plastered crypts"
+links:
+  - id: link:chapel_e_nave
+    from: room:chapel_e
+    to: room:nave
+    kind: open
+    width: 640
+    notes: An arch.
+  - id: link:chapel_w_nave
+    from: room:chapel_w
+    to: room:nave
+    kind: open
+    width: 640
+    notes: An arch.
+  - id: link:crypt_ossuary
+    from: room:crypt
+    to: room:ossuary
+    kind: open
+  - id: link:dormitory_hidden_cell
+    from: room:dormitory
+    to: room:hidden_cell
+    kind: secret_door
+    motion: sink
+  - id: link:dormitory_refectory
+    from: room:dormitory
+    to: room:refectory
+    kind: open
+  - id: link:far_bank_lich_crypt
+    from: room:far_bank
+    to: room:lich_crypt
+    kind: open
+  - id: link:far_bank_pool
+    from: room:far_bank
+    to: room:yak_pool
+    kind: bridge
+    opened_by: set:causeway
+    width: 512
+    notes: "The causeway's far landing: only on the three raised blocks."
+  - id: link:far_bank_sanctum_way
+    from: room:far_bank
+    to: room:sanctum_way
+    kind: open
+  - id: link:library_vestry
+    from: room:library
+    to: room:vestry
+    kind: open
+  - id: link:master_stair_lich_crypt
+    from: room:master_stair
+    to: room:lich_crypt
+    kind: stairs
+    rise: -768
+  - id: link:narthex_nave
+    from: room:narthex
+    to: room:nave
+    kind: open
+    width: 1280
+    notes: A wide arch.
+  - id: link:narthex_passage_e
+    from: room:narthex
+    to: room:passage_e
+    kind: door
+    motion: rise
+  - id: link:narthex_passage_w
+    from: room:narthex
+    to: room:passage_w
+    kind: door
+    motion: rise
+  - id: link:nave_treasury
+    from: room:nave
+    to: room:treasury
+    kind: door
+    motion: rise
+    condition: {all: [{map_var: bar_w}, {map_var: bar_e}]}
+    opened_by: set:twin_bars
+    notes: "The treasury gate: both bars sunk (the west chapel's button and the library's)."
+  - id: link:near_bank_pool
+    from: room:near_bank
+    to: room:yak_pool
+    kind: drop
+    width: 1024
+    rise: -160
+    notes: "The near bank's edge: a drop of 160 into the water (steps lead back up)."
+  - id: link:ossuary_near_bank
+    from: room:ossuary
+    to: room:near_bank
+    kind: open
+  - id: link:passage_e_library
+    from: room:passage_e
+    to: room:library
+    kind: open
+  - id: link:passage_w_dormitory
+    from: room:passage_w
+    to: room:dormitory
+    kind: open
+  - id: link:porch_narthex
+    from: room:porch
+    to: room:narthex
+    kind: door
+    motion: rise
+    notes: "The Yak door: plain."
+  - id: link:refectory_chapel_w
+    from: room:refectory
+    to: room:chapel_w
+    kind: open
+  - id: link:refectory_stair_w
+    from: room:refectory
+    to: room:stair_w
+    kind: open
+  - id: link:sanctum_master_cell
+    from: room:sanctum
+    to: room:master_cell
+    kind: door
+    motion: rise
+  - id: link:sanctum_reliquary
+    from: room:sanctum
+    to: room:reliquary
+    kind: door
+    motion: rise
+    condition: {kills: {monster: Yak Master}}
+    notes: "Held by the Yak Master's will: it rises when he dies."
+  - id: link:sanctum_way_sanctum
+    from: room:sanctum_way
+    to: room:sanctum
+    kind: double_door
+    motion: slide
+  - id: link:stair_w_crypt
+    from: room:stair_w
+    to: room:crypt
+    kind: stairs
+    rise: -768
+  - id: link:vestry_chapel_e
+    from: room:vestry
+    to: room:chapel_e
+    kind: open
+  - id: link:vestry_master_stair
+    from: room:vestry
+    to: room:master_stair
+    kind: door
+    motion: rise
+    one_way: false
+    opens_from: room:master_stair
+    notes: "The Master's door: opened from the stair only; a shortcut back once opened."
+loops:
+  - id: loop:east_wing
+    spaces: [room:narthex, room:passage_e, room:library, room:vestry, room:chapel_e, room:nave]
+    notes: Round the library and vestry and back through the east chapel.
+  - id: loop:undercroft
+    spaces: [room:refectory, room:stair_w, room:crypt, room:ossuary, room:near_bank, room:yak_pool, room:far_bank, room:lich_crypt, room:master_stair, room:vestry, room:chapel_e, room:nave, room:chapel_w]
+    closed_until: {map_var: master_door}
+    notes: "Down the west stair, across the causeway, up the Master's stair: closed until the Master's door is opened from below."
+  - id: loop:west_wing
+    spaces: [room:narthex, room:passage_w, room:dormitory, room:refectory, room:chapel_w, room:nave]
+    notes: Round the clerics' wing and back through the west chapel.
+entrances:
+  - id: entrance:woods
+    space: room:porch
+    kind: both
+    neighbour: door:x2_woods
+    facing: n
+    how: "The temple's front door in the porch's south wall, from the fairy woods' dark south end on X2 (its outside needs the Yak Stone)."
+critical_path: [room:porch, room:narthex, room:nave, room:chapel_w, room:nave, room:chapel_e, room:vestry, room:library, room:vestry, room:chapel_e, room:nave, room:treasury, room:nave, room:chapel_w, room:refectory, room:stair_w, room:crypt, room:ossuary, room:near_bank, room:yak_pool, room:far_bank, room:sanctum_way, room:sanctum, room:reliquary]
+return_path: [room:reliquary, room:sanctum, room:sanctum_way, room:far_bank, room:lich_crypt, room:master_stair, room:vestry, room:chapel_e, room:nave, room:narthex, room:porch]
+goals:
+  - id: goal:elixir
+    space: room:reliquary
+    kind: take
+    what: Take the Elixir of Restoration from the reliquary behind the sanctum's altar.
+    story: Q-C12
+    handed_in_at: Mirabeth (X3)
+    gives:
+      qbit: elixir_found
+  - id: goal:megacredits
+    space: room:treasury
+    kind: take
+    what: "Take the King's Megacredits from the cult's treasury (five; a sixth on the Yak Master)."
+    story: M10
+    handed_in_at: "Newcastle (X3): Emerson builds the walls for five"
+    gives:
+      qbit: treasury_opened
+  - id: goal:yak_master
+    space: room:sanctum
+    kind: kill
+    what: "Kill the Yak Master: it opens the reliquary."
+    gives:
+      qbit: yak_master_slain
+keys:
+  - id: key:bars
+    grants: {all: [{map_var: bar_w}, {map_var: bar_e}]}
+    found_in: room:chapel_w
+    how: "button: the west chapel's and the library's buttons each sink one bar of the treasury gate"
+  - id: key:causeway
+    grants: {map_var: causeway}
+    found_in: room:near_bank
+    how: "button: the three buttons in the kerb at the near bank's edge raise the causeway when set right"
+points_of_interest:
+  - id: poi:beds
+    space: room:dormitory
+    count: 6
+    kind: bed
+    behaviour: "'There is nothing on, in, or under the bed.' (the source's stock line)"
+  - id: poi:coffins
+    spaces: [room:crypt, room:lich_crypt]
+    count: 3
+    kind: coffin
+    behaviour: "'There is nothing in the coffin.'; the heavy coffin (a chest) wants Might 25: 'You are not strong enough to open the coffin.'"
+  - id: poi:crate
+    space: room:refectory
+    kind: crate
+    behaviour: "'There is nothing in the crate.'"
+  - id: poi:yak_pool
+    space: room:near_bank
+    kind: pool
+    behaviour: "'Yak Pool': drinking gives +2 Endurance (permanent) once per character and disease every time; wading into the pool diseases the party."
+    uses: {times: 1, per: character, reset: never}
+landmarks:
+  - id: landmark:idol
+    space: room:nave
+    what: "Yak's idol on its dais in a red glow, seen down the nave from the narthex's arch."
+    seen_from: [room:narthex, room:chapel_w, room:chapel_e]
+  - id: landmark:pool
+    space: room:yak_pool
+    what: "The green, bubbling pool in its cave, the blocks under the surface, the far shore."
+    seen_from: [room:near_bank, room:far_bank]
+sightlines:
+  - id: sight:causeway
+    from: room:near_bank
+    to: [room:yak_pool, room:far_bank]
+    what: "From the buttons the three blocks and the far landing: every button's effect is seen."
+  - id: sight:gate
+    from: room:nave
+    to: [room:treasury]
+    what: "The treasury gate and its two bars, west of the dais."
+set_pieces:
+  - id: set:causeway
+    kind: puzzle
+    spaces: [room:near_bank, room:yak_pool]
+    rule: "Three stone blocks lie in a line under the pool's surface. Button 1 (south) moves blocks 1 and 2, button 2 blocks 2 and 3, button 3 block 3: each press raises a sunk block and sinks a raised one, in plain view of the buttons. All three raised make a causeway to the far landing."
+    inputs: [button 1, button 2, button 3]
+    states: [each block down or up (8 states)]
+    solution: "Buttons 1 and 3 (pressing all three leaves only block 1 up). Found by watching the blocks; any state can be undone."
+    gives:
+      map_var: causeway
+  - id: set:master
+    kind: boss
+    spaces: [room:sanctum]
+    rule: "The Yak Master and two elders before the altar; the reliquary's slab rises when he dies."
+    gives:
+      qbit: yak_master_slain
+  - id: set:pool
+    kind: trap
+    spaces: [room:yak_pool]
+    rule: "The Yak Pool sickens: wading in diseases the whole party ('The pool makes you ill.'). The tell: green bubbling water, a green glow, a stench in the bank's first line, bones at the rim. Steps lead out on the near side."
+    notes: "MM6-8 style pool: a condition with a visible tell."
+  - id: set:twin_bars
+    kind: puzzle
+    spaces: [room:nave, room:chapel_w, room:library]
+    rule: "Two iron bars stand before the treasury gate. The west chapel's button sinks the west bar, the library's button the east bar; each press says so ('Out in the nave, iron grinds on stone: the west bar ... sinks'). Clicked, the gate says which bar still stands and that the buttons are in a chapel and among the books."
+    inputs: ["button, west chapel", "button, library"]
+    states: [bars up, one bar sunk, "both sunk: the gate lifts"]
+    solution: "Press both buttons (any order), then open the gate."
+    gives:
+      qbit: treasury_opened
+    notes: "The source's switches that work in pairs to open a wall, as MM7's push buttons (d04's 7t1butt blocks) whose effect is seen and told."
+mechanisms:
+  - {kind: door, count: 8, notes: "Yak door, two narthex doors, the treasury gate, the Master's door (one-sided), the sanctum's double door, the reliquary slab, the Master's cell; plus one secret door."}
+  - {kind: button, count: 5, notes: "Two for the treasury bars, three for the causeway."}
+  - {kind: mover, count: 2, notes: The treasury gate's bars (sink).}
+  - {kind: lift, count: 3, notes: The causeway blocks.}
+  - {kind: chest, count: 6, notes: "Treasury, heavy coffin, library, hidden cell, hoard, reliquary."}
+height_bands:
+  - id: band:pool
+    level: -928
+    spaces: [room:yak_pool]
+  - id: band:temple
+    level: 0
+    spaces: [room:porch, room:narthex, room:nave, room:chapel_w, room:chapel_e, room:passage_w, room:passage_e, room:dormitory, room:hidden_cell, room:refectory, room:library, room:vestry, room:treasury]
+    partly: [room:stair_w, room:master_stair]
+  - id: band:undercroft
+    level: -768
+    spaces: [room:crypt, room:ossuary, room:near_bank, room:far_bank, room:lich_crypt, room:sanctum_way, room:sanctum, room:reliquary, room:master_cell]
+    partly: [room:stair_w, room:master_stair]
+atmosphere: "Above: red torchlight (d04's red torches, torch07) along the walls, a red pulsing glow over Yak's idol, ambient dark (about 22 of 31; the porch lighter with the woods' grey daylight). Below: fewer torches and braziers in the crypts, the pool's sick green glow pulsing slowly over the water and the basin, the sanctum dark green-black with a red glow over the altar and a cold light in the reliquary. Sound: the map's stone-hall environment and MM7's track 28; the pool bubbles (the liquid shader's own); no placed sounds."
+diagram: {file: diagram.txt}
+sketch: {file: rooms.yml, grid: 64}
+totals:
+  chest_events: 6
+  doors: 9
+  fixed_actors: 4
+  floor_area_millions: 48
+  loops: 3
+  sectors: 26
+  spawn_points: 19
+notes: "Size M (MAPS.md: 20-45 sectors, 30-90 M units², 45-75 monsters; section 0: 50 monsters, levels 14-28, the Yak Master 35, groups 2-3, treasure level 2). About 26 spaces and 48 M units²: the temple above (13 spaces) and the undercroft 768 below (13). Monsters about 50: clerics in the temple, skeletons in the crypts and on the far bank, two lich groups, the Yak Master with two elders, an elder in the vestry. Original lines kept (aaze0079): 'Leave the Temple of Yak?', 'There is nothing on, in, or under the bed.', 'There is nothing in the crate.', 'There is nothing in the coffin.', 'You are not strong enough to open the coffin.', 'Yak Pool', 'The pool makes you ill.', 'King's Megacredit!', 'You have found the Elixir of Restoration!'. No riddles: both switch puzzles show and tell what each button did. L2 adds the mechanisms, height bands, atmosphere and totals; L3: the to-scale sketch is rooms.yml (the shell: rooms and openings, no objects)."

@@ -1,0 +1,1767 @@
+# Written by output/studio_cal/x2/tools/gen_walk.py from the built map. A new game on Bridge Square:
+# the mirror, the fountain and the ads; the shops round the square and along the main street, the tavern,
+# the stables; over the great bridge to the guilds, the temple and the skill row; the dock and the
+# Robbers' Den on the south quay;
+# Medin and his boat to the island and Darzog's door; Barok, the ogres' bridge and the Ogre Lair; the
+# west edge; the fairy woods, Danulf and the Temple of Yak; the east edge; Nystor's ride to Vertigo.
+id: xeen.x2.walk
+title: 'X2 Rivercity and Lake Darzog: the town, the bridge and every dungeon door'
+world: mm7
+mode: faithful
+steps:
+- new_game_flow:
+    start_map: xeen_x2.odm
+- assert:
+    map: xeen_x2.odm
+- setup_shortcut:
+    kind: immortal
+    value: true
+- assert:
+    party_position:
+      x: 0
+      y: 9728
+      radius: 128
+- note: 'The town mirror on Bridge Square: its two tips'
+- execute_event:
+    id: 120
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'The fountain: stopped until Barok has his pendant'
+- execute_event:
+    id: 119
+- advance_runtime:
+    seconds: 0.5
+- note: The ads on Bridge Square
+- execute_event:
+    id: 121
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -614
+    y: 10035
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Bubbling Flask (building:alchemist): walk to its door and open it'
+- walk_to:
+    x: -1604
+    y: 9472
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -1604
+    y: 9472
+    z: 1024
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 118
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -614
+    y: 10035
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -512
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'The Bank (building:bank): walk to its door and open it'
+- walk_to:
+    x: -1152
+    y: 10772
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -1152
+    y: 10772
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 287
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -1792
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Witch''s Cauldron (building:magic_shop): walk to its door and open it'
+- walk_to:
+    x: -2376
+    y: 10756
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -2376
+    y: 10756
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 86
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -2867
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3072
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -4096
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Street Fightin'' (building:training): walk to its door and open it'
+- walk_to:
+    x: -4864
+    y: 11268
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -4864
+    y: 11268
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 1572
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: East along the main street
+- walk_to:
+    x: -3072
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2867
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Bull''s Tavern (building:tavern): walk to its door and open it'
+- walk_to:
+    x: 768
+    y: 10868
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 768
+    y: 10868
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 241
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: The drunk on the cask outside Bull's Tavern
+- execute_event:
+    id: 129
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 1792
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Rivercity Armoury (building:armour_shop): walk to its door and open it'
+- walk_to:
+    x: 2944
+    y: 10820
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 2944
+    y: 10820
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 49
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 4403
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 4608
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Rivercity Smithing (building:weapon_shop): walk to its door and open it'
+- walk_to:
+    x: 5210
+    y: 11316
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 5210
+    y: 11316
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 10
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back west to the square and up the north road to the stables
+- walk_to:
+    x: 4608
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 4403
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 11520
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 12544
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Royal Steeds of Rivercity (building:stables): walk to its door and open it'
+- walk_to:
+    x: 4
+    y: 12928
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 4
+    y: 12928
+    z: 1024
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 462
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back down the north road to the square
+- walk_to:
+    x: 0
+    y: 11520
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -717
+    y: 10035
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -717
+    y: 8499
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Over the great bridge to the South Square
+- walk_to:
+    x: 0
+    y: 8192
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 7424
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 5632
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 3584
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 2304
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -256
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -1536
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Guild of Spirit (building:guild_spirit): walk to its door and open it'
+- walk_to:
+    x: -2304
+    y: 1652
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -2304
+    y: 1652
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 153
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -3072
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Guild of Mind (building:guild_mind): walk to its door and open it'
+- walk_to:
+    x: -3584
+    y: 1540
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -3584
+    y: 1540
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 159
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -4352
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Guild of Body (building:guild_body): walk to its door and open it'
+- walk_to:
+    x: -4936
+    y: 1540
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -4936
+    y: 1540
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 165
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Back to the South Square and east along the south street
+- walk_to:
+    x: -3072
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 1024
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Pray N Pay (building:temple): walk to its door and open it'
+- walk_to:
+    x: 276
+    y: 640
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 276
+    y: 640
+    z: 1024
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 312
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: 102
+    y: 1434
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 1792
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 2304
+    y: 1485
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Arnold''s Gym (building:skill_gym): walk to its door and open it'
+- walk_to:
+    x: 2560
+    y: 1540
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 2560
+    y: 1540
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Martial Training (building:skill_martial): walk to its door and open it'
+- walk_to:
+    x: 3840
+    y: 1604
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 3840
+    y: 1604
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Lindon''s Temps (building:skill_temps): walk to its door and open it'
+- walk_to:
+    x: 4992
+    y: 1652
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 4992
+    y: 1652
+    z: 1024
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: Past the skill row to the promenade and down the quay steps to the south quay
+- walk_to:
+    x: 5632
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 5632
+    y: 2970
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 4608
+    y: 2970
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 4608
+    y: 4301
+    z: 614
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 5888
+    y: 4301
+    z: 614
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Captain Nystor''s Dock (thing:boat_house): walk to its door and open it'
+- walk_to:
+    x: 6660
+    y: 4240
+    z: 622
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 6660
+    y: 4240
+    z: 622
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- assert:
+    dialog:
+      active: true
+      house_dialog: true
+      source_id: 486
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: West along the quay toward the bridge's south end
+- walk_to:
+    x: 5888
+    y: 4301
+    z: 614
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 3072
+    y: 4352
+    z: 608
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 1741
+    y: 4352
+    z: 608
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'XD-21: the Robbers'' Den''s door in the quay wall'
+- walk_to:
+    x: 1280
+    y: 4032
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: 1280
+    y: 4032
+    z: 640
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd21.blv
+- load_map:
+    map: xeen_x2.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X2 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x2.odm
+    x: 1280
+    y: 4032
+    z: 640
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Back east along the quay and up the steps
+- walk_to:
+    x: 1741
+    y: 4352
+    z: 608
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 3072
+    y: 4352
+    z: 608
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 4608
+    y: 4301
+    z: 614
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 4608
+    y: 2970
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 5632
+    y: 2970
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 5632
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: West along the south street to the lake path
+- walk_to:
+    x: -3072
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -4864
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6144
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Medin''s hut: the lake beasts (Q-C13)'
+- walk_to:
+    x: -7552
+    y: 748
+    z: 966
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -7552
+    y: 748
+    z: 992
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -7680
+    y: 1536
+    z: 928
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -8397
+    y: 1536
+    z: 896
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Out on Medin's jetty
+- walk_to:
+    x: -9114
+    y: 1792
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'Medin''s boat: not while the beasts live'
+- execute_event:
+    id: 141
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- setup_shortcut:
+    kind: set_qbit
+    id: 110201
+    value: true
+- note: With the beasts dead (qbit 110201) Medin rows the party to the island
+- execute_event:
+    id: 141
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 1.0
+- assert:
+    map: xeen_x2.odm
+- note: 'Darzog''s Tower: the door on the east side'
+- walk_to:
+    x: -15731
+    y: 3014
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -15731
+    y: 3014
+    z: 768
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- grant_item:
+    item_id: 1461
+- play_lua:
+    source: if not has_item(1461) then error("no Skeleton Key stand-in") end
+- note: With the Skeleton Key (stand-in 1461) the door opens
+- advance_runtime:
+    seconds: 0.3
+- set_pose:
+    map: xeen_x2.odm
+    x: -15731
+    y: 3014
+    z: 768
+    yaw: 3.1416
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd12.blv
+- load_map:
+    map: xeen_x2.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X2 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x2.odm
+    x: -15731
+    y: 3014
+    z: 768
+    yaw: 6.2832
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'The island jetty: Medin rows the party back'
+- walk_to:
+    x: -13107
+    y: 1741
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: Back to the jetty
+- execute_event:
+    id: 143
+- advance_runtime:
+    seconds: 0.5
+- advance_runtime:
+    seconds: 1.0
+- walk_to:
+    x: -7936
+    y: 1280
+    z: 912
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Back to town, over the bridge and out along the west road
+- walk_to:
+    x: -6144
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -4864
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 1536
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 2304
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 3584
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 7424
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 8192
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -717
+    y: 8499
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -717
+    y: 10035
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 0
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -2867
+    y: 10496
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -3072
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -6656
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Barok's hut by the west road (Q-C2)
+- walk_to:
+    x: -10224
+    y: 13098
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 120
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -10224
+    y: 13098
+    z: 1024
+    yaw: 1.4657
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -7680
+    y: 11008
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -9216
+    y: 11776
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -13824
+    y: 11776
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -14336
+    y: 12288
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Over the ogres' bridge
+- walk_to:
+    x: -15616
+    y: 12288
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -16896
+    y: 12288
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: Up the lair path
+- walk_to:
+    x: -18432
+    y: 13824
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -19968
+    y: 15360
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'XD-27: the Ogre Lair'
+- walk_to:
+    x: -20992
+    y: 17275
+    z: 1233
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -20992
+    y: 17275
+    z: 1233
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd27.blv
+- load_map:
+    map: xeen_x2.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X2 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x2.odm
+    x: -20992
+    y: 17275
+    z: 1233
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: -19968
+    y: 15360
+    z: 1056
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -18432
+    y: 13824
+    z: 672
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -16896
+    y: 12288
+    z: 576
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- note: 'West along the road to the west edge: the travel prompt (X3, Erathia as the stand-in), declined'
+- walk_to:
+    x: -20480
+    y: 12288
+    z: 768
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -23552
+    y: 12288
+    z: 1600
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- assert:
+    map: xeen_x2.odm
+- note: Back to the South Square by teleport (the walk has crossed the town twice already)
+- set_pose:
+    map: xeen_x2.odm
+    x: 0
+    y: 1331
+    z: 1024
+    yaw: 4.7124
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: Down the south road into the fairy woods
+- walk_to:
+    x: 0
+    y: 819
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -512
+    y: 256
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -512
+    y: -1792
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -1024
+    y: -1792
+    z: 1024
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -1024
+    y: -4096
+    z: 1184
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -512
+    y: -4608
+    z: 1376
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: -1536
+    y: -6656
+    z: 1408
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -3072
+    y: -8192
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'Danulf the Faery King''s ring of stones: his errand (Q-C17)'
+- execute_event:
+    id: 146
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- walk_to:
+    x: -3072
+    y: -11264
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -1536
+    y: -13312
+    z: 640
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- walk_to:
+    x: -1024
+    y: -15872
+    z: 800
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- note: 'XD-06: the Temple of Yak, sealed without the Yak Stone'
+- walk_to:
+    x: -1024
+    y: -17940
+    z: 1088
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 90
+    clear_hostiles: 3000
+- set_pose:
+    map: xeen_x2.odm
+    x: -1024
+    y: -17940
+    z: 1088
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 0.5
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- setup_shortcut:
+    kind: set_qbit
+    id: 110101
+    value: true
+- note: With the Yak Stone (qbit 110101) the door opens
+- set_pose:
+    map: xeen_x2.odm
+    x: -1024
+    y: -17940
+    z: 1088
+    yaw: -1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- press_interact:
+    expect:
+      kind: event_target
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_xd06.blv
+- load_map:
+    map: xeen_x2.odm
+- advance_runtime:
+    seconds: 0.5
+- note: Back on X2 where the party stood (by load_map)
+- set_pose:
+    map: xeen_x2.odm
+    x: -1024
+    y: -17940
+    z: 1088
+    yaw: 1.5708
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- note: 'Back to the east entry by teleport, then the river road to the east edge: the travel prompt (X1), declined'
+- set_pose:
+    map: xeen_x2.odm
+    x: 10240
+    y: 9472
+    z: 1024
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- walk_to:
+    x: 10752
+    y: 9472
+    z: 992
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 12288
+    y: 9216
+    z: 864
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 60
+    clear_hostiles: 3000
+- walk_to:
+    x: 20480
+    y: 9216
+    z: 1248
+    z_tolerance: 600
+    radius: 160
+    timeout_seconds: 180
+    clear_hostiles: 3000
+- walk_to:
+    x: 24064
+    y: 9216
+    z: 1216
+    z_tolerance: 600
+    radius: 128
+    timeout_seconds: 60
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- note: 'Accepted: on to X1 by the river road, arriving at its west start'
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x1.odm
+- assert:
+    party_position:
+      x: -22016
+      y: 9216
+      radius: 700
+- note: 'Mayor Gunther''s errand window opens on a first visit to X1 (its one-shot timer): closed'
+- advance_runtime:
+    seconds: 3.0
+- assert:
+    dialog:
+      active: true
+- press_action:
+    action: cancel_dialog
+- advance_runtime:
+    seconds: 0.3
+- note: 'Back west along X1''s west road to its edge: the prompt names Rivercity; accepted, the party arrives on X2''s east
+    edge'
+- walk_to:
+    x: -24576
+    y: 9216
+    z: 640
+    z_tolerance: 900
+    radius: 128
+    timeout_seconds: 60
+    clear_hostiles: 3000
+    expect: dialog
+- assert:
+    dialog:
+      active: true
+- select_topic:
+    match_label: OK
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x2.odm
+- assert:
+    party_position:
+      x: 21504
+      y: 9216
+      radius: 700
+- note: 'Captain Nystor''s pier: 100 gold for a ride down the river to Vertigo (X1)'
+- play_lua:
+    source: if gold() < 100 then error("the party has under 100 gold for the ride") end
+- set_pose:
+    map: xeen_x2.odm
+    x: 8294
+    y: 5325
+    z: 672
+    yaw: 0.0
+    pitch: 0.0
+- advance_runtime:
+    seconds: 0.5
+- execute_event:
+    id: 116
+- advance_runtime:
+    seconds: 1.5
+    follow_map_move: true
+- assert:
+    map: xeen_x1.odm

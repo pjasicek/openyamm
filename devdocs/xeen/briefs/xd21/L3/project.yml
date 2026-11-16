@@ -1,0 +1,37 @@
+format: 0
+id: xeen_xd21
+name: Robbers' Den
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-21
+units: {plan_grid: 512}
+extent: {footprint_cells: [16, 14], climbs: s}
+map_stats:
+  id: 9137
+  encounter_chance: 10
+  treasure_level: 2
+  trap_dice: 3
+  perception_difficulty: 5
+  refill_days: 672
+  music: dungeon_dark
+  environment: stone hall
+  lock_difficulty: 5
+  slots:
+    - {monster: Outlaws, tier: 2, per_marker: [2, 3], weight: 60}
+    - {monster: Robbers, tier: 2, per_marker: [2, 3], weight: 40}
+neighbours:
+  - id: door:xd21
+    to: X2
+    kind: door
+    arrival_hint: "On Rivercity's south quay under the great bridge's south end, in front of the den's door in the quay wall, facing the river."
+    notes: "X2 owns the door (devdocs/xeen/briefs/x2/DOORS.md): a dark door in the south quay's retaining wall beside the bridge's south abutment."
+qbits:
+  robber_boss_slain: 110301
+  robbers_den_found: 110302
+  robbers_vault_opened: 110303
+  tiara_recovered: 110300
+items:
+  ring_of_keys: 12151
+  roxannes_tiara: 12150
+notes: "Xeen design brief, level L3, for a new map. Side quest Q-C3 (Princess Roxanne's tiara, given at Castle Burlock) and the first-tier promotion T1-E (Thief to Rogue, given by Roxanne when the tiara comes back). MAPS.md: class S, monsters 10-18 in groups of 2-3, treasure level 2, 28 monsters; party 9 to 11. Encounter slots are Xeen families (MONSTERS_AND_ITEMS.md): 1 Outlaws (Rogue 12, Thief 18), 2 Robbers (Xeen's Robber, a brawler at 14, a split of the Outlaws for the den). Ids: map_stats 9137, qbits 110300-110339, items 12150-12169 (devdocs/xeen/ACT2_BUILD.md)."

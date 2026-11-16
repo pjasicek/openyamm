@@ -20,7 +20,7 @@ level_generation/projects/hesper_out2/build.sh          # the map, its minimap, 
    into rock raised behind them, then the edge contracts (below); one tile per cell (ash tufts on the ash, the
    molten slag on the MM8 lava tiles with their `lvdr*` shores, its cells burning), the material weights (seven
    layers and the slope layer); the BModels (`scour_kit.py`); the decorations, chests, items, people and monsters;
-   the events; the ODM through the editor's writer, verified against the sources. Writes `source/`,
+   the events; the ODM through the outdoor build (`oymap build-map`), verified against the sources. Writes `source/`,
    `runtime/worlds/hesper/` and `out2_build.json` (every arrival, door pose, camp, actor group and the Harvester's and
    the garrison's actor indices: D3, D4, D8 and the Undervault read their arrivals here).
 2. `build_minimap_blender.py`, `finish_minimap.py`: Starport Reach's minimap recipe (neutral sun, grey fill).

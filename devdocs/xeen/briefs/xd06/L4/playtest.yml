@@ -1,0 +1,230 @@
+# Playtest of the Temple of Yak (XD-06, L4): every mechanism on the party's own route.
+# A level-15 party enters at the porch (why it is here: the arrival message), opens the Yak door, crosses the nave,
+# presses the west chapel's button (the west bar sinks), is refused by the treasury gate (it says which bar stands and
+# where the buttons are), presses the library's button (east bar), loots the library, opens the treasury and takes the
+# five Megacredits; goes round the clerics' wing (refectory, dormitory, the secret door to the hidden cell), down the
+# west stair to the crypt (the heavy coffin's might test), the ossuary and the near bank; drinks from the Yak Pool
+# (disease, +2 Endurance), falls into the pool (disease) and climbs out by its steps; sets the causeway (all three
+# buttons first: only block 1 rises; then button 2: all three), crosses, kills the Yak Master (the reliquary opens),
+# takes the Elixir, loots the hoard, climbs the Master's stair, opens the Master's door from below and leaves by the
+# porch. Numbers are ids.lock.yml's (events, doors, map variables); actor 3 is the Yak Master (actors by id).
+id: xeen.xd06.l4.walk
+title: Temple of Yak (XD-06 L4), porch to the reliquary and back by the Master's stair
+world: mm7
+mode: faithful
+steps:
+  - new_game_flow:
+      start_map: xeen_xd06.blv
+      party:
+        gold: 0
+        food: 20
+        members:
+          - {name: Brokk, class: Knight, level: 15, experience: 105000, might: 30, skills: [], equipment: {}}
+          - {name: Hild, class: Cleric, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Ivar, class: Archer, level: 15, experience: 105000, skills: [], equipment: {}}
+          - {name: Sefa, class: Sorcerer, level: 15, experience: 105000, skills: [], equipment: {}}
+  - assert: {map: xeen_xd06.blv}
+  - setup_shortcut: {kind: immortal, value: true}
+  - assert: {party_position: {x: 0, y: 384, radius: 64, z_min: -8, z_max: 8}}
+  # Why the party is here: a one-shot timer's message (the headless runner shows no timer windows; the step checks
+  # that the event ran).
+  - play_lua: {source: "wait(3)"}
+  - assert: {state_dump_map_var: {index: 0, value: 1}}
+  # The Yak door and the narthex.
+  - walk_to: {x: 0, y: 900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(13) ~= "closed" then error("the Yak door does not start shut") end
+        open_door(39, 13)
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 1500, close_dialogs: true}
+  - walk_to: {x: 0, y: 2300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 4000}
+  # The west chapel's button: the west bar sinks.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -1594, y: 4690, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - clear_hostiles: {radius: 2500}
+  - play_lua:
+      source: |
+        if door_state(15) ~= "closed" then error("the west bar does not start up") end
+        click(3); wait(5)
+        if door_state(15) ~= "open" then error("the west button did not sink the west bar") end
+  - assert: {state_dump_map_var: {index: 2, value: 1}}
+  # The treasury gate refuses and says why.
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: -704, y: 5420, z: 0, radius: 48, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua: {source: "click(38); wait(1)"}
+  - assert:
+      dialog: {text_contains: "the east bar is up"}
+  - play_lua:
+      source: |
+        close()
+        if door_state(12) ~= "closed" then error("the treasury gate opened with one bar up") end
+  # East: the chapel, the vestry, the library's button and its chest.
+  - walk_to: {x: 1000, y: 4224, z: 0, radius: 64, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3040, y: 3800, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 3040, y: 3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 3680, y: 3008, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(2); wait(5)
+        if door_state(14) ~= "open" then error("the library button did not sink the east bar") end
+  - assert: {state_dump_map_var: {index: 1, value: 1}}
+  - walk_to: {x: 3600, y: 3250, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(17); if held() ~= 0 then stow() end"}
+  # Back to the nave: the treasury gate opens; the strongbox's Megacredits.
+  - walk_to: {x: 3040, y: 3800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2000, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 4800, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -704, y: 5420, z: 0, radius: 48, timeout_seconds: 40, clear_hostiles: 2000, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(38); wait(4)
+        if door_state(12) ~= "open" then error("the treasury gate did not open with both bars sunk") end
+  - walk_to: {x: -704, y: 6150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        for _, id in ipairs(pack_items()) do discard(id) end
+        loot_chest(19)
+        if held() ~= 0 then stow() end
+        if item_count(1438) < 5 then error("the strongbox did not hold five Megacredits: " .. tostring(item_count(1438))) end
+        if not qbit(110402) then error("treasury_opened was not set") end
+  # The clerics' wing: the refectory, the dormitory and the hidden cell.
+  - walk_to: {x: -704, y: 5300, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1000, y: 4224, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -2600, y: 4256, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The source's stock lines: the empty crate and a cot.
+  - walk_to: {x: -2560, y: 4672, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(41); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "nothing in the crate") then error("the crate said: " .. s) end
+  - walk_to: {x: -3040, y: 3900, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -3040, y: 3300, z: 0, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua:
+      source: |
+        status(); click(4); wait(0.5)
+        local s = tostring(status())
+        if not string.find(s, "nothing on, in, or under the bed") then error("the bed said: " .. s) end
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3700, y: 3104, z: 0, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        click(22); wait(4)
+        if door_state(4) ~= "open" then error("the secret door did not open") end
+  - walk_to: {x: -4192, y: 3050, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(15); if held() ~= 0 then stow() end"}
+  # Down the west stair to the crypt: the heavy coffin (Might 30 opens it).
+  - walk_to: {x: -3700, y: 3104, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 3900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 5100, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -3040, y: 7150, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -3500, y: 7680, z: -768, radius: 48, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - play_lua: {source: "loot_chest(14); if held() ~= 0 then stow() end"}
+  # The ossuary and the near bank.
+  - walk_to: {x: -2500, y: 8200, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -2976, y: 8700, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: -2500, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: -1950, y: 9280, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - assert: {state_dump_map_var: {index: 6, value: 1}}
+  # The Yak Pool's basin: +2 Endurance and disease.
+  - walk_to: {x: -1600, y: 9150, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "click(40); wait(1)"}
+  - assert:
+      dialog: {text_contains: "Endurance"}
+  - play_lua:
+      source: |
+        close()
+        log("after drinking: " .. conditions(0))
+  # Into the pool (sickens), out by its steps.
+  - walk_to: {x: -600, y: 10100, z: -928, z_tolerance: 24, radius: 96, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        wait(1)
+        local c = conditions(1) .. " " .. conditions(2) .. " " .. conditions(3)
+        log("in the pool: " .. c)
+        if not string.find(string.lower(c), "disease") then error("the pool did not sicken the party: " .. c) end
+  - walk_to: {x: -540, y: 9312, z: -928, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1180, y: 9312, z: -768, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -1500, y: 9312, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The causeway: all three buttons raise only block 1; button 2 then raises blocks 2 and 3.
+  - walk_to: {x: -1480, y: 10080, z: -768, radius: 48, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        for i = 1, 3 do if door_state(i) ~= "closed" then error("block " .. i .. " does not start sunk") end end
+        click(10); wait(3); click(11); wait(3); click(12); wait(3)
+        if door_state(1) ~= "open" or door_state(2) ~= "closed" or door_state(3) ~= "closed" then
+          error("buttons 1, 2, 3 should leave only block 1 up: " .. door_state(1) .. " " .. door_state(2) .. " " .. door_state(3)) end
+        click(11); wait(3)
+        for i = 1, 3 do if door_state(i) ~= "open" then error("block " .. i .. " is not up after button 2") end end
+  - walk_to: {x: -1450, y: 9696, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: -768, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 100, y: 9696, z: -768, z_tolerance: 24, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  # The sanctum: the Yak Master; his death opens the reliquary.
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 512, y: 11050, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(34, 10)"}
+  - walk_to: {x: 512, y: 11700, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "wait(1)"}
+  - assert: {state_dump_map_var: {index: 7, value: 1}}
+  - clear_hostiles: {radius: 4000}
+  - play_lua:
+      source: |
+        log("cleared again: " .. tostring(clear_hostiles(6000)))
+        wait(5)
+        if not qbit(110401) then error("yak_master_slain was not set") end
+        if door_state(9) ~= "open" then error("the reliquary did not open on the Master's death") end
+  - walk_to: {x: 150, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13620, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 13950, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua:
+      source: |
+        for _, id in ipairs(pack_items()) do discard(id) end
+        loot_chest(18)
+        if held() ~= 0 then stow() end
+        if not has_item(1431) then error("no Elixir of Restoration in the packs") end
+        if not qbit(110400) then error("elixir_found was not set") end
+  # The Master's cell and his hoard.
+  - walk_to: {x: 512, y: 13600, z: -736, z_tolerance: 40, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1500, y: 12480, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "open_door(25, 5)"}
+  - walk_to: {x: 1952, y: 12450, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - play_lua: {source: "loot_chest(16); if held() ~= 0 then stow() end"}
+  # Back by the lich crypt and the Master's stair; the Master's door opens from below.
+  - walk_to: {x: 1500, y: 12480, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 11500, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 512, y: 10400, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1200, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 2500, close_dialogs: true}
+  - walk_to: {x: 2272, y: 9728, z: -768, radius: 64, timeout_seconds: 30, clear_hostiles: 3000, close_dialogs: true}
+  - clear_hostiles: {radius: 3000}
+  - walk_to: {x: 2784, y: 9250, z: -768, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 2784, y: 5450, z: 0, z_tolerance: 40, radius: 64, timeout_seconds: 60, close_dialogs: true}
+  - play_lua:
+      source: |
+        if door_state(6) ~= "closed" then error("the Master's door does not start shut") end
+        click(27); wait(4)
+        if door_state(6) ~= "open" then error("the Master's door did not open from the stair") end
+  - walk_to: {x: 2784, y: 4900, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1760, y: 4256, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 1000, y: 3000, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 1600, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 400, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  - walk_to: {x: 0, y: 150, z: 0, radius: 64, timeout_seconds: 30, close_dialogs: true}
+  # The way out to X2. X2 is not built yet (the game cannot resolve xeen_x2.odm), so the run stops at the game's
+  # question; the exit's handler is evt.MoveToMap(-1024, -17485, 896, 512, ..., "xeen_x2.odm") (DOORS.md's arrival).
+  - execute_event: {id: 20}
+  - assert:
+      dialog: {text_contains: "leave Temple of Yak"}
+  - select_topic: {match_label: "Close"}
+  - play_lua: {source: "if not qbit(110400) or not qbit(110401) or not qbit(110402) then error('a quest bit was lost') end; if item_count(1438) < 5 or not has_item(1431) then error('the Megacredits or the Elixir were lost') end"}

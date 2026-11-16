@@ -80,8 +80,8 @@ def main():
                 data.pop('built_source_fingerprint', None)
             (folder / ('out01.' + kind + '.yml')).write_text(json.dumps(data, indent=2) + '\n')
         with (folder / 'build.log').open('w') as stream:
-            subprocess.run([str(ROOT / 'build/editor/openyamm-editor'), '--asset-root', str(ROOT / 'assets_dev'),
-                            '--headless-build-map', str(folder / 'out01.map.yml')],
+            subprocess.run([str(ROOT / 'openyamm-studio/build/oymap'), 'build-map', str(folder / 'out01.map.yml'),
+                            '--asset-root', str(ROOT / 'assets_dev')],
                            stdout=stream, stderr=subprocess.STDOUT, check=True)
         report['fixtures'][family] = dict(folder=str(folder.relative_to(P)), map_id=map_id, master_tile=master,
                                          lookup=lookup, poses=poses, placements=placements, road_names=sorted(wanted),

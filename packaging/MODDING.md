@@ -40,7 +40,9 @@ OpenYAMM/
 A pack mounted at `/engine/models` puts its files under `mods/engine/models/`, and a world's files go under
 `mods/worlds/<world>/`, for example `mods/worlds/mm6/`.
 
-- Only `mods/engine/` and `mods/worlds/<world>/` are used; anything else in `mods` is ignored.
+- Only `mods/engine/` and `mods/worlds/<world>/` are used; anything else in `mods` is ignored, except named mods:
+  folders with a `mod.yml` that `mods/enabled.yml` switches on, as the Map Studio installs them
+  ([Named mods](../devdocs/NAMED_MODS.md)). Your loose files are read in front of named mods.
 - Use the exact file names from the packs, including lower and upper case.
 - Only files the game reads as they are can be replaced: text tables, Lua scripts, YAML files, sounds and music.
   Textures and models are cooked files in the packs, so a mod has to replace the cooked file, not the PNG or GLB

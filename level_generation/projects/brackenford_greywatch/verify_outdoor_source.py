@@ -36,8 +36,8 @@ with tempfile.TemporaryDirectory(prefix='levelgen-outdoor-source-test-') as dire
     for name,data in [('lg01.map.yml',package),('lg01.scene.yml',scene),('lg01.terrain.yml',terrain),
                       ('lg01.geometry.yml',metadata)]:
         (temp/name).write_text(json.dumps(data)+'\n')
-    command=[str(ROOT/'build/editor/openyamm-editor'),'--asset-root',
-        '/tmp/openyamm-brackenford-greywatch/assets_editor_dev','--headless-build-map',str(temp/'lg01.map.yml')]
+    command=[str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(temp/'lg01.map.yml'),'--asset-root',
+        '/tmp/openyamm-brackenford-greywatch/assets_editor_dev']
     result=subprocess.run(command,capture_output=True,text=True)
     if result.returncode:
         raise RuntimeError(result.stdout+result.stderr)

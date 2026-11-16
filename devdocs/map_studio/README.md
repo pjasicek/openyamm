@@ -23,8 +23,8 @@ WebAssembly, with three front ends: a browser editor, an agent interface (comman
 - [Implementation plan](PLAN.md): architecture, repository layout, what moves out of `engine/`, `game/` and
   `editor/`, the project format, compilers, validation, host, MCP server, web app, tests, milestones and risks.
 - [Retiring `editor/`](EDITOR_RETIREMENT.md): what still depends on the old editor, what to move first, and the
-  order of deletion. This is the last milestone (S7); until then the studio is built in `openyamm-studio/`,
-  does not touch `editor/`, and changes the game only by the four small cuts of PLAN.md section 10a.
+  order of deletion. Done in the last milestone (S7, [S7_PLAN.md](S7_PLAN.md), 2026-11-15): the shared code is in
+  `core/` and `editor/` is deleted.
 - [Calibration](CALIBRATION.md): rebuilding known maps (Ravenshore, Harmondale, Temple of the Moon, Warlord's
   Fortress) from design briefs, comparing with the originals and turning the differences into fixes.
 - Design proposal with research, workflow, five test maps and mockups (private artifact, revision 4):

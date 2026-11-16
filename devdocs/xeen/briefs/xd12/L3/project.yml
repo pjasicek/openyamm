@@ -1,0 +1,48 @@
+format: 0
+id: xeen_xd12
+name: Darzog's Tower
+world: xeen
+kind: indoor
+profile: dungeon
+map_code: XD-12
+units: {plan_grid: 512}
+extent: {footprint_cells: [17, 17], climbs: n}
+map_stats:
+  id: 9140
+  bolster: LowerToEqual
+  encounter_chance: 10
+  treasure_level: 4
+  trap_dice: 6
+  perception_difficulty: 12
+  refill_days: 336
+  music: tower_high
+  environment: stone hall
+  lock_difficulty: 12
+  slots:
+    - {monster: Magic constructs, tier: 3, per_marker: [2, 3], weight: 40}
+    - {monster: Wizards, tier: 3, per_marker: [2, 3], weight: 30}
+    - {monster: Eyes, tier: 2, per_marker: [2, 3], weight: 30}
+neighbours:
+  - id: exit:clouds_of_xeen
+    to: X9
+    kind: roof
+    arrival_hint: "On the Clouds of Xeen (X9), at the foot of the cloud stair that rises from Darzog's roof."
+    condition: {qbit: m21_crodo_freed}
+    one_way: true
+    notes: "X9 is not built: a placeholder exit."
+  - id: exit:lake_island
+    to: X2
+    kind: door
+    arrival_hint: "On Lake Darzog's wooded island in X2, in front of the tower door on the keep's east side, facing the jetty (east)."
+    condition: {item: skeleton_key}
+    notes: "X2's door:xd12 (devdocs/xeen/briefs/x2/DOORS.md): the tower door opens from outside only to the Skeleton Key (M13); from inside it always opens. A fall from the keep also lands here."
+qbits:
+  library_door_opened: 110502
+  m21_crodo_freed: 110501
+  m21_darzog_slain: 110500
+items:
+  library_key: 12230
+  skeleton_key: 12100
+rules:
+  no_spells: true
+notes: "Xeen design brief, level L3, for a new map (no original). Story step M21 (devdocs/xeen/QUESTS.md). Size L (MAPS.md section 0 and Dungeons): 50-75 sectors, 120-200 M units squared, about 70-80 monsters plus the boss; monster levels 30 to 48, Darzog 55; Tres 4 (chests at 4, Darzog's hoard at 5). Ids: map_stats 9140, qbits 110500-110599, items 12230-12299 (ACT2_BUILD.md)."

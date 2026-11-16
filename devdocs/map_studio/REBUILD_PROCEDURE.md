@@ -282,3 +282,11 @@ A project whose `project.yml` carries `edited_by_hand` (a person changed it in t
 files. Read `hand_objects` in every edit result (objects a person changed last that your change touches) and leave
 them alone unless the person asked. Never set or clear the mark: only a person does. Rename an object with the
 `rename` operation, never by changing its id in the files (the lock and pins follow a rename).
+
+
+## Playtests never assume room in the packs (Temple of the Moon, 2026-11-15)
+
+The scenario's default party is one member with one pack, and chest loot is random every run (the game seeds chests
+per session, not from the scenario's seed). "Take all" leaves in the chest whatever does not fit, so a playtest that
+loots several chests and then checks for an item fails now and then. Before looting a chest whose item a step checks,
+empty the packs (as the library step does) and check that item before looting further chests.

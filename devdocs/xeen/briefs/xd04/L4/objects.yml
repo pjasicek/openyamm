@@ -1363,4 +1363,10 @@ exits:
     surface: {texture: hwm2d, size: [128, 256]}
     to: exit:toad_meadow
     notes: "The tower door (Clanker's Laboratory's carved double door), out to Toad Meadow."
+relations:
+  - {of: [214, 215, 216], toward: party, relation: hostile}
+  - {of: [205, 206, 207], toward: 430, relation: friendly}
+  - {of: [205, 206, 207], toward: 433, relation: friendly}
+  - {of: [205, 206, 207], toward: 439, relation: friendly}
+  - {of: [205, 206, 207], toward: 442, relation: friendly}
 notes: "Objects of the L4 brief (first written by output/studio_cal/xd04/tools/gen_objects.py). Stand-ins: goblins MM7's Goblin family, the witches Moon clerics, the familiars bats; the Head Witch a Cleric of the Moon with 300 hit points and a name, the warden a Goblin Lord, the children Goblin peasants."

@@ -81,7 +81,7 @@ def main():
    if kind=='map':
     data.update(package_id='mm7:terrain_fixture_'+mode,display_name='MM7 terrain '+mode);data.pop('source_fingerprint',None);data.pop('built_source_fingerprint',None)
    (folder/('7out01.'+kind+'.yml')).write_text(json.dumps(data,indent=2)+'\n')
-  with (folder/'build.log').open('w') as f:subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(ROOT/'assets_dev'),'--headless-build-map',str(folder/'7out01.map.yml')],stdout=f,stderr=subprocess.STDOUT,check=True)
+  with (folder/'build.log').open('w') as f:subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(folder/'7out01.map.yml'),'--asset-root',str(ROOT/'assets_dev')],stdout=f,stderr=subprocess.STDOUT,check=True)
   for quality in ('x1','x2'):mount(mode+'_'+quality,quality,folder)
   map_hashes[mode]=sha(folder/'7out01.odm')
  poses['road_ew_close']=dict(mode='dry',x=-6656,y=-17152,z=200,yaw=0,pitch=-.30)

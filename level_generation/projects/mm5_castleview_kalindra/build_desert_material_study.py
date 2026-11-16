@@ -91,8 +91,8 @@ def build():
     # terrain metadata. No binary offsets or ad-hoc ODM patcher are used.
     shutil.copy2(baseline,source/'mm5_sw.odm')
     with (OUTPUT/'native_build.log').open('w') as log:
-        subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(assets),'--world','mm5',
-                        '--headless-build-map',str((source/'mm5_sw.map.yml').resolve())],
+        subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str((source/'mm5_sw.map.yml').resolve()),
+                        '--asset-root',str(assets),'--world','mm5'],
                        stdout=log,stderr=subprocess.STDOUT,check=True)
     sys.path.insert(0,str(ROOT/'util'))
     from map_export import parse_odm_file

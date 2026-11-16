@@ -364,11 +364,6 @@ entrances:
     space: zone:orc_mouth
     kind: both
     neighbour: door:xd05
-  - id: entrance:xd06_yak
-    space: zone:yak_glade
-    kind: exit
-    neighbour: door:xd06
-    condition: {qbit: yak_stone}
 points_of_interest:
   - id: poi:derek_camp
     space: zone:dead_forest

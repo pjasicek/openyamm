@@ -85,7 +85,6 @@ cmake -S . -B build-prof -G Ninja \
   -DCMAKE_EXPORT_COMPILE_COMMANDS=ON \
   -DOPENYAMM_ENABLE_GPROF_SAMPLING=OFF \
   -DOPENYAMM_BUILD_TESTS=OFF \
-  -DOPENYAMM_BUILD_EDITOR=OFF \
   -DOPENYAMM_BUILD_TOOLS=OFF
 cmake --build build-prof --target openyamm -j25
 ```

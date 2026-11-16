@@ -24,6 +24,13 @@ in place of changing a map file: loading then takes the same path as after a rea
 - both: from the map's initial state (scene or companion), the doors (slot, id, direction, travel, vertex, face and
   sector lists), the chests (count and types), and the counts of placed actors and floor items.
 
+The identity is computed after the map's scene overlays apply (`<stem>_<name>.scene.yml`, the world's and the active
+ruleset's). An overlay that adds actors or floor items (`authored_content.actors`, `authored_content.sprite_objects`,
+indoors and outdoors; they stand after the base map's, whose indices stay) changes it, so a map state saved without
+that overlay is reset when the map is entered with it, and the other way round, as for a rebuilt map
+(`tests/SceneOverlayTests.cpp`, `tests/scenarios/scene_overlays/`). An overlay that changes only lists the identity
+leaves out (ladders, lights, sounds, fog) keeps saves.
+
 Left out on purpose, so that changing them keeps saves: texture names, lights and baked lighting, outdoor terrain
 heights and tiles (no saved state indexes them), event scripts (regenerated often; a script that reuses map variables
 differently must ship with a map change or an explicit migration), and actor or item stats. The hash takes values

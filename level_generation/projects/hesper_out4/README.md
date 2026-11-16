@@ -23,7 +23,7 @@ flock output/hesper_stage/locks/bake.lock level_generation/projects/hesper_stage
    **1 216**, the nearest height step; the arrivals other maps read are asserted unchanged, `PINNED_ARRIVAL_Z`), one tile per cell, the eight material layers
    (`terrain_materials.yml`'s targets as tints; roads and tracks painted crisp), no plants, the BModels
    (`bmodels_out4.py`), decorations, chests, ground items, actors, spawn points, the events, then the ODM through the
-   editor's writer, verified against the sources. Writes `source/`, `runtime/worlds/hesper/` and `out4_build.json`
+   outdoor build (`oymap build-map`), verified against the sources. Writes `source/`, `runtime/worlds/hesper/` and `out4_build.json`
    (arrivals, door poses, actor groups: D6 and D12 read their exits from it).
 3. `build_minimap_blender.py`, `finish_minimap.py`: the approved minimap recipe (as Starport Reach's).
 4. `prepare_resin_paving.py` (once): the `resin_paving` terrain material from Poly Haven `slate_floor` (CC0, 2.29 m,

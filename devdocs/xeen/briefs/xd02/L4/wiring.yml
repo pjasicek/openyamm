@@ -51,12 +51,6 @@ events:
     source: chest:strongbox
     title: Chest
     text: "Under the tally slates: the Deep Line's brake key, stamped with a cart wheel."
-  - id: evt:clan_hostile
-    preset: script
-    trigger: load
-    effects:
-      - lua: "evt.SetMonsterRelation(229, 0, 4); evt.SetMonsterRelation(230, 0, 4); evt.SetMonsterRelation(231, 0, 4)"
-    notes: "The Mad Dwarf Clan is hostile: MM7's Dwarf family (the stand-in) is the party's ally in hostile.txt, and no word says a map's own relations or a spawn's hostility, so a load event sets the three Dwarf rows hostile to the party (evt.SetMonsterRelation). Gone with a real Mad Dwarf row."
   - id: evt:clan_sign
     preset: text
     source: panel:clan_sign
@@ -442,4 +436,4 @@ events:
       - text: "The winch's rope hangs slack: the fall is gone."
     text: "The props come out and the whole fall slides away: daylight!"
     notes: "set:west_adit_winch: once; the fall goes, the X4 exit opens for good (qbit x4_adit_open)."
-notes: "Every mechanism is a preset with conditions and effects. Lua only for what no word says: the pools' per-character bits (IsPlayerBitSet / SetPlayerBit), the camera shakes (evt.CameraShake) and the clan's hostility (evt.SetMonsterRelation on load)."
+notes: "Every mechanism is a preset with conditions and effects. Lua only for what no word says: the pools' per-character bits (IsPlayerBitSet / SetPlayerBit) and the camera shakes (evt.CameraShake); the clan's hostility is objects.yml `relations`."

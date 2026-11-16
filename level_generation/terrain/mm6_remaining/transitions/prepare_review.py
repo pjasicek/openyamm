@@ -40,7 +40,7 @@ def main():
                 data.update(package_id='mm6:remaining_terrain_fixture_'+mode,display_name='Remaining MM6 terrain '+mode)
                 data.pop('source_fingerprint',None);data.pop('built_source_fingerprint',None)
             (folder/('oute3.'+kind+'.yml')).write_text(json.dumps(data,indent=2)+'\n')
-        with (folder/'build.log').open('w') as f:subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(ROOT/'assets_dev'),'--headless-build-map',str(folder/'oute3.map.yml')],stdout=f,stderr=subprocess.STDOUT,check=True)
+        with (folder/'build.log').open('w') as f:subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(folder/'oute3.map.yml'),'--asset-root',str(ROOT/'assets_dev')],stdout=f,stderr=subprocess.STDOUT,check=True)
         target=stage/mode
         if not target.exists():shutil.copytree(enhanced,target,symlinks=True)
         terrain=target/'assets_dev/worlds/mm6/terrain_x2';assert not terrain.is_symlink()

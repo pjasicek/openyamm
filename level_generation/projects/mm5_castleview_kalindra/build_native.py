@@ -228,8 +228,8 @@ def build(stage):
             model['source']['asset_path'] = str(snapshot)
         write(temp/'mm5_sw.geometry.yml', geometry)
         with (REVIEW / 'build.log').open('w') as log:
-            subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(assets),'--world','mm5',
-                            '--headless-build-map',str(temp/'mm5_sw.map.yml')],
+            subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(temp/'mm5_sw.map.yml'),
+                            '--asset-root',str(assets),'--world','mm5'],
                            check=True, stdout=log, stderr=subprocess.STDOUT)
         shutil.copy2(temp/'mm5_sw.odm',RUNTIME/'maps/mm5_sw.odm')
     shutil.copy2(SOURCE/'mm5_sw.scene.yml', RUNTIME/'maps/mm5_sw.scene.yml')

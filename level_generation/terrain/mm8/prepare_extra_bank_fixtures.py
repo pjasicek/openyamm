@@ -50,8 +50,8 @@ def main():
                 data.pop('source_fingerprint',None);data.pop('built_source_fingerprint',None)
             (folder/('out01.'+kind+'.yml')).write_text(json.dumps(data,indent=2)+'\n')
         with (folder/'build.log').open('w') as stream:
-            subprocess.run([str(ROOT/'build/editor/openyamm-editor'),'--asset-root',str(ROOT/'assets_dev'),
-                            '--headless-build-map',str(folder/'out01.map.yml')],stdout=stream,stderr=subprocess.STDOUT,check=True)
+            subprocess.run([str(ROOT/'openyamm-studio/build/oymap'),'build-map',str(folder/'out01.map.yml'),
+                            '--asset-root',str(ROOT/'assets_dev')],stdout=stream,stderr=subprocess.STDOUT,check=True)
         report['fixtures'][family] = dict(folder=str(folder.relative_to(P)),placements=placements,
                                          odm_sha256=sha(folder/'out01.odm'),covered_names=sorted(wanted))
         print(family,len(wanted),'names covered in',len(patches),'native patches',flush=True)

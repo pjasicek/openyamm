@@ -501,3 +501,15 @@ X1's Witch Tower door now stands on the tower's north side (face y -9387). `exit
 [12288, -8987, 850], 400 north of it, `direction: 90`; `playtest.yml` asserts that and walks off north. Rebuilt
 (`--out output/studio_cal/xd04/build`), installed in `output/studio_play/xeen_root`; both playtests four of four
 there (`output/studio_cal/xd04/run/p5_four.out`). Backup: `output/studio_cal/xd04/pass5_backup/`.
+
+## Hostility pass (2026-11-16)
+
+The user found monsters peaceful to the party beside hostile ones of their kind and monsters fighting each other
+(devdocs/xeen/ACT2_BUILD.md, "Hostility pass"). MMerge's `hostile.txt` decides a slot monster's relation to the party
+and two kinds' to each other; the studio now warns of both (`oymap build`) and the map says its relations in objects.yml
+`relations` (the build's load event `evt:studio_relations`). Written into objects.yml by
+`output/studio_cal/hostility/add_relations.py`: the Moon clerics (214-216) the party's foes (the slot's witches were
+friendly to it), and the bats (205-207) friendly toward the caged children's kinds (430, 433, 439, 442), which the table
+sets them on (2). `playtest_hostility.yml` (written by `output/studio_cal/hostility/gen_hostility_tests.py`) checks the
+slot and placed foes hostile, the peaceful ones peaceful and the map's kinds, spawned side by side near the party, not
+taking each other on; it passes twice, as do the map's other playtests.

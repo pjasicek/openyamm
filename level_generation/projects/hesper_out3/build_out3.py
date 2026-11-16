@@ -1300,8 +1300,8 @@ with tempfile.TemporaryDirectory(prefix='hes-out3-') as directory:
     for name in ['hes_out3.map.yml', 'hes_out3.scene.yml', 'hes_out3.geometry.yml', 'hes_out3.terrain.yml']:
         shutil.copy2(SOURCE / name, temp / name)
     with (PROJECT / 'build.log').open('w') as stream:
-        subprocess.run([str(ROOT / 'build/editor/openyamm-editor'), '--asset-root', str(STAGE), '--headless-build-map',
-                        str(temp / 'hes_out3.map.yml')], check=True, stdout=stream, stderr=subprocess.STDOUT)
+        subprocess.run([str(ROOT / 'openyamm-studio/build/oymap'), 'build-map', str(temp / 'hes_out3.map.yml'),
+                        '--asset-root', str(STAGE)], check=True, stdout=stream, stderr=subprocess.STDOUT)
     shutil.copy2(temp / MAP, TREE / 'maps' / MAP)
 shutil.copy2(SOURCE / 'hes_out3.scene.yml', TREE / 'maps/hes_out3.scene.yml')
 

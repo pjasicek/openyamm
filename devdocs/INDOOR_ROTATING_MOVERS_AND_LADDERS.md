@@ -288,6 +288,10 @@ ladders:
     grab_at_top: false                 # optional: a body walking from top_exit toward the top takes it there
 ```
 
+A scene overlay (`<stem>_<name>.scene.yml`, `kind: indoor_scene_overlay`) may carry `ladders` too (2026-11-15): its
+list replaces the base scene's whole list, as an overlay's other lists do (an empty list removes every ladder; an
+overlay without the key keeps the list). Ladders are map data, never saved, and not part of the layout identity.
+
 ### Entering, climbing, leaving
 
 - **Grab**: a grounded body in front of the strip (from the strip back to `reach` plus its radius, within the strip's

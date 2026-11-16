@@ -167,7 +167,7 @@ textures:        # MM9 source texture -> {alias, width, height}: textures the ol
    every exit raises its transition), every chest opens, every scripted object does what MM9 does.
 8. **Starts**: each start on a floor, facing into the map (check the first view of the tour), arrivals from the
    neighbouring maps on the floor.
-9. **Compiler unit tests** pass (`openyamm_indoor_source_tests`).
+9. **Compiler unit tests** pass (`build/tests/openyamm_unit_tests --test-suite=indoor_source_compiler`).
 10. **Lights**: no floor point under more than 4 lights (`content.json` `light_coverage`); bake current (not stale).
 
 ## Reference runs: always lift the view limit
@@ -442,7 +442,7 @@ per portal list (over half of a dungeon's build); `liquids.has_bed` and `floors.
 for the population report; the solid voxels are marked in 4 forked processes (`geometry.mark_polygons`); the camera
 gate keeps its per-direction and per-origin ray terms; `lightmap_transfer` tests a chart's texels only inside each
 face's box (the Isle of Ashes 157 s -> 20 s; its outputs differ only by the recipe's `producer_sha256`); the
-compiler's BSP partition search (editor/import/IndoorDerivedGeometry.cpp `buildSectorBsp`) stops counting a candidate
+compiler's BSP partition search (core/compile/IndoorDerivedGeometry.cpp `buildSectorBsp`) stops counting a candidate
 once its score cannot beat the best (Frosgard City's compile 350 s -> 36 s, the same BLV on 11 maps). Convert:
 Lindisfarne 21.6 min -> 1.5 min, Frosgard City 12.6 -> about 1.8, Frosgard 6.5 -> 1.2, Thronheim City 7.6 -> 1.9, Lich
 Lab 2.3 -> 0.8, Bootcamp 2.3 -> 0.7. Profile a map with `python3 -m cProfile -o out.prof <project>/convert.py --scratch
@@ -560,7 +560,7 @@ changes made for it (backward compatible: each is off unless the map's overrides
 - **Authored-open doorway rectangles** (`rooms.leaf_points`). MM9 hangs some doors over an open gap and lowers them to
   shut: the doorway rectangle from the authored pose missed the gap (`portals without two rooms`); it now comes from the
   shut pose.
-- **Compiler planes in double precision** (engine, `editor/import/IndoorDerivedGeometry.cpp`). The derived-geometry
+- **Compiler planes in double precision** (engine, `core/compile/IndoorDerivedGeometry.cpp`). The derived-geometry
   check used the face cache's float Newell normal: long thin triangles far from the origin (y about 7 900) sat 0.3 off
   their own plane and the compile failed ("non-planar after coordinate quantization" on a triangle). Rebuild
   `mm9_compile_indoor_source` (and the unit tests) if a map stops there.
@@ -1192,8 +1192,8 @@ does, with an option to choose the map style, and tested that the coordinates fi
   Lich Lab and the Chasm of the Dead went over the 7 000-outline limit and could not be rebuilt at all. The compiler now
   merges consecutive collinear outlines between the same two faces into one line, treats faces whose normals differ by
   under about 1.8 degrees (a face cut into triangles off its plane) as one surface, and its error states the count:
-  the prison compiles with 6 230 (its build before the repair had 6 710). Tests: `openyamm_indoor_source_tests`
-  ("indoor outlines merge").
+  the prison compiles with 6 230 (its build before the repair had 6 710). Tests: `openyamm_unit_tests
+  --test-suite=indoor_source_compiler` ("indoor outlines merge").
 
 ## Package change: corner samples for the face votes (2026-11-06)
 

@@ -8,7 +8,7 @@ The isolated launcher accepts `--binary` to select the separate build for prepar
 
 ```sh
 cmake -S . -B build-vulkan -G Ninja -DCMAKE_BUILD_TYPE=Release \
-  -DOPENYAMM_USE_VULKAN=ON -DOPENYAMM_BUILD_EDITOR=OFF \
+  -DOPENYAMM_USE_VULKAN=ON \
   -DOPENYAMM_BUILD_TESTS=OFF -DOPENYAMM_BUILD_TOOLS=OFF
 cmake --build build-vulkan --target openyamm -j25
 ./tools/run_game.sh --isolated vulkan_mm6 --binary build-vulkan/game/openyamm \

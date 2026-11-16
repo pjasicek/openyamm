@@ -1,0 +1,428 @@
+format: 0
+variables: [works_gate_up, darzog_dead_seen]
+events:
+  - id: evt:arrive
+    preset: script
+    trigger: timer
+    every: 1
+    once: true
+    effects:
+      - message: "DARZOG'S TOWER. The Skeleton Key turns, and the door that has been sealed since Crodo vanished swings in on cold air. Artemus was right to suspect the Baron: somewhere above, Crodo still lives. And the air itself is wrong. Every spell you reach for dies before it is shaped: Darzog's ward stills all magic in this tower but his own. Here you fight with steel. The stairs climb the west and east halls in turn; the Baron keeps the top floor."
+    notes: "The arrival message (the build asks every new dungeon for one); set:no_magic."
+  - id: evt:book_accuracy
+    preset: script
+    source: platform:lectern_accuracy
+    title: Book of Accuracy
+    condition: {not: {player_bit: 11235}}
+    effects:
+      - add:
+          var: BaseAccuracy
+          value: 5
+      - player_bit: 11235
+      - message: "BOOK OF ACCURACY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Accuracy (permanent)."
+    else_effects:
+      - text: You have already learned what the book of accuracy can teach.
+    notes: "poi:book_accuracy: +5 Accuracy, once per character (player bit 11235)."
+  - id: evt:book_endurance
+    preset: script
+    source: platform:lectern_endurance
+    title: Book of Endurance
+    condition: {not: {player_bit: 11231}}
+    effects:
+      - add:
+          var: BaseEndurance
+          value: 5
+      - player_bit: 11231
+      - message: "BOOK OF ENDURANCE. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Endurance (permanent)."
+    else_effects:
+      - text: You have already learned what the book of endurance can teach.
+    notes: "poi:book_endurance: +5 Endurance, once per character (player bit 11231)."
+  - id: evt:book_intellect
+    preset: script
+    source: platform:lectern_intellect
+    title: Book of Intellect
+    condition: {not: {player_bit: 11232}}
+    effects:
+      - add:
+          var: BaseIntellect
+          value: 5
+      - player_bit: 11232
+      - message: "BOOK OF INTELLECT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Intellect (permanent)."
+    else_effects:
+      - text: You have already learned what the book of intellect can teach.
+    notes: "poi:book_intellect: +5 Intellect, once per character (player bit 11232)."
+  - id: evt:book_might
+    preset: script
+    source: platform:lectern_might
+    title: Book of Might
+    condition: {not: {player_bit: 11230}}
+    effects:
+      - add:
+          var: BaseMight
+          value: 5
+      - player_bit: 11230
+      - message: "BOOK OF MIGHT. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Might (permanent)."
+    else_effects:
+      - text: You have already learned what the book of might can teach.
+    notes: "poi:book_might: +5 Might, once per character (player bit 11230)."
+  - id: evt:book_personality
+    preset: script
+    source: platform:lectern_personality
+    title: Book of Personality
+    condition: {not: {player_bit: 11233}}
+    effects:
+      - add:
+          var: BasePersonality
+          value: 5
+      - player_bit: 11233
+      - message: "BOOK OF PERSONALITY. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Personality (permanent)."
+    else_effects:
+      - text: You have already learned what the book of personality can teach.
+    notes: "poi:book_personality: +5 Personality, once per character (player bit 11233)."
+  - id: evt:book_speed
+    preset: script
+    source: platform:lectern_speed
+    title: Book of Speed
+    condition: {not: {player_bit: 11234}}
+    effects:
+      - add:
+          var: BaseSpeed
+          value: 5
+      - player_bit: 11234
+      - message: "BOOK OF SPEED. One of Darzog's own studies, written for his apprentices; whoever reads it to the end is changed by it. +5 Speed (permanent)."
+    else_effects:
+      - text: You have already learned what the book of speed can teach.
+    notes: "poi:book_speed: +5 Speed, once per character (player bit 11234)."
+  - id: evt:cloud_stair
+    preset: script
+    source: platform:cloud_top
+    trigger: step
+    condition: {qbit: m21_crodo_freed}
+    effects:
+      - leave: exit:clouds_of_xeen
+    else_effects:
+      - text: "The cloud gives under your foot like fog. Something holds it shut: Crodo would know what."
+    text: You climb the stair of cloud into the sky.
+    notes: "set:cloud_stair: the exit to X9 (a placeholder: X9 is not built; MM7's Celeste stands in)."
+  - id: evt:crodo
+    preset: script
+    source: room:crodo_cell
+    trigger: step
+    once: true
+    effects:
+      - message: "CRODO THE OVERSEER, thin and grey, gets up from his stool. 'Thank you for rescuing me from Darzog's clutches. I didn't know that someone else had received my message. Listen: the man at the King's side is not Prince Roland. I struck him with Dancing Blades and saw what he is: Lord Xeen, an undead general who serves a greater master. Xeen's hideout is just above us in the clouds. You will need the sword the adventurers were working on in the dungeon of Newcastle to defeat Lord Xeen; ask Artemus for leave to dig it out. You must make haste. Xeen plans to summon an army from the Darkside to conquer our world.' Darzog's ward is fading from him, slowly: he has strength for one small spell, and he spends it on going home. He touches your hand, says a word, and is gone. The clouds above the roof will bear you now."
+      - qbit: m21_crodo_freed
+      - hide_actors: 40
+      - lua: |-
+          evt.ForPlayer(Players.All)
+          AddValue(Experience, 35000)
+          evt.ForPlayer(Players.Current)
+    notes: "goal:crodo and M21's reveal; 35,000 experience each (Act IV's quest rule)."
+  - id: evt:crypt
+    preset: chest
+    source: chest:crypt
+    title: Sarcophagus
+  - id: evt:darzog_dead
+    preset: script
+    trigger: timer
+    every: 2
+    condition: {kills: {monster: monster:darzog}}
+    opens: [door:disc_grille]
+    once: true
+    effects:
+      - qbit: m21_darzog_slain
+      - shake:
+          strength: 0.5
+          seconds: 2
+      - message: "Baron Darzog falls, and the tower shudders. Somewhere close a binding cracks like ice; in the Well a black grille rises from the landing where his disc waits. His ward on your spells does not lift: it has soaked into the stones."
+    notes: "goal:darzog: his death sets m21_darzog_slain; the disc's grille opens (the disc is up)."
+  - id: evt:darzog_hall_cue
+    preset: text
+    source: room:darzog_hall
+    trigger: step
+    once: true
+    text: "Seven figures in the Baron's robes turn as one. 'Which of us,' they ask together, 'will you kill first?'"
+    notes: set:darzog.
+  - id: evt:darzog_hoard
+    preset: chest
+    source: chest:darzog_hoard
+    title: Chest
+  - id: evt:disc
+    preset: switch
+    source: mover:disc
+    title: Darzog's disc
+    condition: {qbit: m21_darzog_slain}
+    toggles: [mover:disc, door:disc_grille]
+    else_effects:
+      - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
+    text: The disc hums and glides along the Well.
+  - id: evt:disc_call_bottom
+    preset: switch
+    source: switch:disc_call_bottom
+    title: Darzog's disc
+    condition: {qbit: m21_darzog_slain}
+    toggles: [mover:disc, door:disc_grille]
+    else_effects:
+      - message: "You press the stone. Far above, at the top of the Well, a rune flares and dies: whatever it calls is bound by its master, up on his own floor."
+    text: The disc hums and glides along the Well.
+  - id: evt:disc_call_top
+    preset: switch
+    source: switch:disc_call_top
+    title: Call the disc
+    condition: {qbit: m21_darzog_slain}
+    toggles: [mover:disc, door:disc_grille]
+    else_effects:
+      - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
+    text: The disc rises up the Well to the landing.
+  - id: evt:disc_grille
+    preset: script
+    source: door:disc_grille
+    title: Black grille
+    condition: {qbit: m21_darzog_slain}
+    effects:
+      - text: The grille opens when the disc is here. Step onto the disc and touch it to ride down.
+    else_effects:
+      - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
+  - id: evt:disc_ride_top
+    preset: switch
+    source: switch:disc_ride_top
+    title: Darzog's disc
+    condition: {qbit: m21_darzog_slain}
+    toggles: [mover:disc, door:disc_grille]
+    else_effects:
+      - message: "A disc of black stone hangs in the Well behind this grille, the Baron's rune glowing on its rim. It answers to Darzog alone while he lives."
+    text: The disc hums and glides down the Well.
+  - id: evt:door_bedchamber
+    preset: door
+    source: door:bedchamber
+    title: Bedchamber door
+  - id: evt:door_cells
+    preset: door
+    source: door:cells
+    title: Cell block door
+  - id: evt:door_crypt
+    preset: door
+    source: door:crypt
+    title: Crypt door
+  - id: evt:door_darzog_hall
+    preset: door
+    source: door:darzog_hall
+    title: Darzog's doors
+  - id: evt:door_darzog_study
+    preset: door
+    source: door:darzog_study
+    title: Study door
+  - id: evt:door_guardroom
+    preset: door
+    source: door:guardroom
+    title: Guardroom door
+  - id: evt:door_quarters
+    preset: door
+    source: door:quarters
+    title: Apprentices' door
+  - id: evt:door_smelter
+    preset: door
+    source: door:smelter
+    title: Smelter door
+  - id: evt:door_storeroom
+    preset: door
+    source: door:storeroom
+    title: Storeroom door
+  - id: evt:door_study_nw
+    preset: door
+    source: door:study_nw
+    title: Study door
+  - id: evt:door_study_sw
+    preset: door
+    source: door:study_sw
+    title: Study door
+  - id: evt:fall_e
+    preset: script
+    source: room:out_e
+    trigger: step
+    effects:
+      - leave: exit:lake_island
+    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
+    notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
+  - id: evt:fall_n
+    preset: script
+    source: room:out_n
+    trigger: step
+    effects:
+      - leave: exit:lake_island
+    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
+    notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
+  - id: evt:fall_s
+    preset: script
+    source: room:out_s
+    trigger: step
+    effects:
+      - leave: exit:lake_island
+    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
+    notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
+  - id: evt:fall_w
+    preset: script
+    source: room:out_w
+    trigger: step
+    effects:
+      - leave: exit:lake_island
+    text: "You fall from the tower and crash down on the island. Battered, you pick yourselves up by the tower door."
+    notes: "A fall from the keep (a window or the battlements) lands outside: X2, in front of the tower door."
+  - id: evt:great_library
+    preset: chest
+    source: chest:great_library
+    title: Cabinet
+  - id: evt:guard_hall
+    preset: chest
+    source: chest:guard_hall
+    title: Chest
+  - id: evt:guardroom
+    preset: chest
+    source: chest:guardroom
+    title: Chest
+  - id: evt:journal
+    preset: script
+    source: platform:journal
+    title: Darzog's journal
+    effects:
+      - message: "DARZOG'S JOURNAL, the last page: '... The old fool Crodo sits behind my own portrait in my bedchamber, where he may admire me while he rots. Let him send his dreams to Newcastle's tinkers; no spell leaves this tower, and no spell enters it but mine. My new master in the clouds is pleased. When the King's precious \"brother\" sits the throne, I shall have Crodo's place at last.'"
+    window: true
+    notes: "poi:darzog_journal: names the portrait (no spoiler before M21: this is M21)."
+  - id: evt:librarian
+    preset: chest
+    source: chest:librarian
+    title: Cabinet
+  - id: evt:library_stair
+    preset: door
+    source: door:library_stair
+    title: The library stair door
+    condition: {item: library_key}
+    action: open
+    sets: {qbit: library_door_opened}
+    else_effects:
+      - message: "Locked. The keyhole is cut as a sorcerer's sigil. The Chief Librarian keeps the key to the upper stair in his cabinet in the great library, south of the Well."
+    text: The High Sorcerer's key turns in the carved lock.
+  - id: evt:portrait
+    preset: door
+    source: door:portrait
+    side: room:bedchamber
+    title: Darzog's portrait
+    condition: {qbit: m21_darzog_slain}
+    action: open
+    else_effects:
+      - message: "The Baron in oils, haughty and gaunt. Behind the painted eyes something moves: an old man's face, pressed to the other side, then gone. The frame will not shift while Darzog's spell holds it."
+    text: "With Darzog dead, the portrait is only paint and wood. It slides up into the wall on a cell."
+    notes: set:crodo.
+  - id: evt:quarters
+    preset: chest
+    source: chest:quarters
+    title: Chest
+  - id: evt:roof
+    preset: text
+    source: room:roof_n
+    trigger: step
+    once: true
+    text: "Wind, and the whole of Lake Darzog below. Above the roof a stair of cloud climbs into the sky."
+  - id: evt:smelter
+    preset: chest
+    source: chest:smelter
+    title: Chest
+  - id: evt:storeroom
+    preset: chest
+    source: chest:storeroom
+    title: Chest
+  - id: evt:tower_door
+    preset: exit
+    source: exit:tower_door
+    title: Leave Darzog's Tower
+    text: You pull the tower door open on the wind off the lake.
+  - id: evt:trap1
+    preset: text
+    source: lift:trap1
+    trigger: step
+    closes: [lift:trap1]
+    text: "The cracked flags give way under you! You drop through to the works below."
+    notes: "set:trapdoors: stepping on the hatch drops it, and the party with it."
+  - id: evt:trap2
+    preset: text
+    source: lift:trap2
+    trigger: step
+    closes: [lift:trap2]
+    text: "The cracked flags give way under you! You drop through to the works below."
+    notes: "set:trapdoors: stepping on the hatch drops it, and the party with it."
+  - id: evt:trap3
+    preset: text
+    source: lift:trap3
+    trigger: step
+    closes: [lift:trap3]
+    text: "The cracked flags give way under you! You drop through to the works below."
+    notes: "set:trapdoors: stepping on the hatch drops it, and the party with it."
+  - id: evt:trap4
+    preset: text
+    source: lift:trap4
+    trigger: step
+    closes: [lift:trap4]
+    text: "The cracked flags give way under you! You drop through to the works below."
+    notes: "set:trapdoors: stepping on the hatch drops it, and the party with it."
+  - id: evt:trap5
+    preset: text
+    source: lift:trap5
+    trigger: step
+    closes: [lift:trap5]
+    text: "The cracked flags give way under you! You drop through to the works below."
+    notes: "set:trapdoors: stepping on the hatch drops it, and the party with it."
+  - id: evt:warning_note
+    preset: script
+    source: panel:warning_note
+    title: A note
+    effects:
+      - message: "A note, pinned at the head of the stair in a hurried hand: 'MIND THE CRACKED FLAGS. The Master's hatches drop you straight down to the works, and the hands down there are not friendly. Walk round them. -- Wil'"
+    window: true
+    notes: "poi:warning_note: names the trapdoors' tell before the first one."
+  - id: evt:winch_trap1
+    preset: switch
+    source: switch:winch_trap1
+    title: Hatch winch
+    toggles: [lift:trap1]
+    text: "The winch clatters, and the hatch moves on its chains."
+  - id: evt:winch_trap2
+    preset: switch
+    source: switch:winch_trap2
+    title: Hatch winch
+    toggles: [lift:trap2]
+    text: "The winch clatters, and the hatch moves on its chains."
+  - id: evt:winch_trap3
+    preset: switch
+    source: switch:winch_trap3
+    title: Hatch winch
+    toggles: [lift:trap3]
+    text: "The winch clatters, and the hatch moves on its chains."
+  - id: evt:winch_trap4
+    preset: switch
+    source: switch:winch_trap4
+    title: Hatch winch
+    toggles: [lift:trap4]
+    text: "The winch clatters, and the hatch moves on its chains."
+  - id: evt:winch_trap5
+    preset: switch
+    source: switch:winch_trap5
+    title: Hatch winch
+    toggles: [lift:trap5]
+    text: "The winch clatters, and the hatch moves on its chains."
+  - id: evt:works_gate
+    preset: script
+    source: door:works_gate
+    title: Works gate
+    condition: {map_var: works_gate_up}
+    effects:
+      - text: The works gate stands open.
+    else_effects:
+      - message: "An iron gate bars the way to the east stair. Its chains run off along the walls toward the south: the winch that raises it must be in the assembly hall."
+  - id: evt:works_winch
+    preset: switch
+    source: switch:works_winch
+    title: Works gate winch
+    opens: [door:works_gate]
+    sets: {map_var: works_gate_up}
+    text: "Chains rattle: across the works, the gate to the east stair grinds up."
+notes: Wiring of XD-12 (written by output/studio_cal/xd12/tools/dress.py).
