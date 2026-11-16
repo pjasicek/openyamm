@@ -215,8 +215,8 @@ talents:
     duration_per_rank: 0.5
     distance: 500
     text: "Every hostile within 5 m is held almost still, its attacks slowed, for {value} s"
-  # Five ranks of 2 % (user, 2026-11-16; was three of 2 %, then five and ten of 1 %); the floor still reaches ÷2.5 at
-  # the last rank, half a step a rank.
+  # Five ranks of 2 % (user, 2026-11-17; 2.5 had three, the solo sim of it and Manathirst tried both); the floor
+  # reaches ÷2.5 at the last rank, half a step a rank.
   - id: bloodthirst
     name: Bloodthirst
     tree: any
@@ -249,6 +249,16 @@ talents:
     first_rank: 8
     per_rank: 0.8
     text: "{value} % less damage from every hit that is not physical, after armour, resistances and their cap"
+  # Manathirst: Bloodthirst for the spell point bar (user, 2026-11-16), what keeps a Mana Shield up; five ranks of 2 %
+  # like it (user, 2026-11-17). An area spell's mana counts for at most three monsters at once.
+  - id: manathirst
+    name: Manathirst
+    tree: any
+    kind: passive
+    max_rank: 5
+    icon_item: talent_manathirst
+    per_rank: 2
+    text: "{value} % of the SP bar back the way leech heals, on melee, bow and spells (an area spell's from at most three monsters); its floor grows like Bloodthirst's (÷2.5 at rank 5)"
 keystones:
   - id: cheat_death
     name: Cheat Death

@@ -46,9 +46,10 @@ see no change.
 | Arcana | Resolve | passive 5 | 2 % a rank of every resistance, the armour and Shield skills', staves' and Luck's included (MAW's sheet rows; before, only the base and magical ones, about a tenth of a late character's) |
 | Arcana | Overload | passive 3 | Area spells +10/20/30 % per monster near the target beyond the first (at most 3 more) |
 | Arcana | Binding Circle | active 3 | Every hostile within 500 is held (slowed to a standstill) for 2/2.5/3 s; cooldown 20/18/16 s |
-| Any | Bloodthirst | passive 5 | +2 % leech on melee, bow and spells per rank (user 2026-11-16; was 3 ranks of 2 %, then 5 and 10 of 1 %); the leech floor's ÷5 shrinks by 0.5 a rank, ÷2.5 at rank 5 |
+| Any | Bloodthirst | passive 5 | +2 % leech on melee, bow and spells per rank; the leech floor's ÷5 shrinks by 0.5 a rank, ÷2.5 at rank 5 (user 2026-11-17: 2.5 had three ranks; three and five were tried in the solo sim with Manathirst, and five kept) |
 | Any | Conditioning (user 2026-11-16) | passive, no last rank | +10 % to all seven base stats at rank 1, +1 % each rank after; takes every point the character has (ranks are two bytes in the save) |
 | Any | Spell Suppression (user 2026-11-16) | passive 41 | less damage from every hit that is not physical: 8 % at rank 1, 0.8 % more each rank after, 40 % at rank 41 (`first_rank` in the table): the last stage of MAW's damage pipeline (`solo-spell-suppression`), after armour, resistances and their 90 % floor, so it still counts at the cap; Unbroken and Cheat Death then take theirs. Last in the table so the bar's indexes keep. Why: at solo level 703 on Beyond Madness (the solo sim's real groups) a spell lands 2.3 times as hard as a blow with both defences at or near the cap; a Bowman's median spell takes 66 % of its HP and 18 % of spells kill outright (blows: 30 %, never), and the full 40 % cuts the one-shots to 0.2 % |
+| Any | Manathirst (user 2026-11-16) | passive 5 | Bloodthirst for the SP bar: 2 % a rank of the full SP back the way leech heals (the bar share of the monster the hit took, at least the floor, ÷5 less 0.5 a rank like Bloodthirst's), on melee, bow and spells, never a breath; an extra blow gives a third, and an area spell's hits give SP for at most three monsters within half a second (`takeAreaManaLeech`). Why: a Grandmaster Mana Shield turns an SP into 5 HP, so a caster's pool is 3-6 times its HP and Bloodthirst refills only the HP part. In the solo sim's real groups (Nightmare) 6 % takes deaths from 21.2 to 17.9 % (Archmage, level 300) and 20.5 to 16.1 % (Elementalist, 500), as Bloodthirst's 6 % does for a Knight (8.1 to 6.0 %, level 100); 10 % goes further (15.4 %, 11.8 %, 4.9 %); the user kept five ranks for both (2026-11-17); Beyond Madness past level 500 is burst and leech changes nothing. Last in the table so the bar's indexes keep |
 | Keystone | Cheat Death | — | A hit that would kill leaves 5 % HP, then 2 s of 95 % less damage; 3 minutes (real time) cooldown |
 | Keystone | Unbroken | — | The part of one hit above 30 % of max HP is halved |
 
@@ -63,7 +64,7 @@ Save 190 drops their ranks and moves the action bar's talent keys up past their 
 1. [x] `talents.yml` and `SoloTalents`: tree Any, keystones (kind, levels), `needs`, points without keystones and
    unknown ids, keystone learning by slot, tree labels.
 2. [x] `MawSoloTalents` and MAW hooks: Onslaught (kill hook, recovery), Cheat Death and Unbroken (damage absorb),
-   Bloodthirst (`applyLeech`), Overload (`spellDamageScale` with `monstersNearTarget`), Quickfoot (party movement
+   Bloodthirst and Manathirst (`applyLeech`), Overload (`spellDamageScale` with `monstersNearTarget`), Quickfoot (party movement
    multiplier, yellow alert), Lone Discipline (Bodybuilding cap at trainers and `applyProgressionMasteries`).
 3. [x] Actives (`useSoloTalent`): Cleave burst, Multishot, Binding Circle; remove the dropped ones.
    Ordinary attacks: Sweeping Blows and Piercing Arrows as extra blows before the paying blow.

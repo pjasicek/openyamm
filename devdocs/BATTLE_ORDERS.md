@@ -4,6 +4,8 @@ Each member's battle orders say what Attack does: F, the left mouse button, smar
 turn-based combat. The same in every ruleset (Standard and MAW). The design is the chosen layout A of the study
 [combat_orders_20261108](../level_generation/ui/combat_orders_20261108/README.md) (2026-11-08), from a Discord request
 (puzzleR1). The place condition and the [upkeep list](#upkeep) followed on 2026-11-12, from two more (heron, Tyrkys).
+[Potions in the upkeep list](#potions), with a stock the Upkeep key can brew, followed on 2026-11-16 (the user, for MAW
+and its solo runs: self-buff potions such as Champion's and Paladin's kept up and kept in stock).
 
 ## Rules
 
@@ -78,8 +80,9 @@ Shot, Multishot, Cleave, Charge, Blink, Binding Circle, Shield Wall, Spell Surge
 
 ## Upkeep
 
-Each member also has an upkeep list: the buffs, heals and cures they keep up outside the fight. It is the same
-orders in a second list (`Character::upkeepOrders`, at most sixteen as well), spells only, with its own key.
+Each member also has an upkeep list: the buffs, heals, cures and buff potions they keep up outside the fight. It is the
+same orders in a second list (`Character::upkeepOrders`, at most sixteen as well), spells and [potions](#potions), with
+its own key.
 
 - **The Upkeep key** (`upkeep`, F11 by default; `GameplayActionController::executePartyUpkeep`):
   - A ready member casts the first spell of their list that is on, known, due, allowed here and paid for. The cast
@@ -90,8 +93,8 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
     members come ready.
   - In turn-based mode only the member whose turn it is casts, and the cast is that turn. In the movement phase the
     press ends the phase, as Quick Cast does.
-  - A fresh press that casts nothing says why: no upkeep spells set, nobody ready, not enough spell points for a due
-    spell, or nothing to cast.
+  - A fresh press that casts nothing says why: nothing set, nobody ready, not enough spell points for a due
+    spell, a due potion nobody carries, or nothing to cast.
 - **Upkeep spells** (`PartySpellSystem::isUpkeepSpell`):
   - the party buffs, but not Invisibility (any other cast ends it);
   - the buffs on members: Bless, Preservation, Regeneration, Hammerhands, Pain Reflection, Glamour, Mistform;
@@ -120,7 +123,57 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
     is refused, since one press would then do both; mouse buttons and the wheel are bound in Settings. The binding is
     the settings' `upkeep`, one for the whole party.
 - The spellbook's spell menu adds a spell to the upkeep list, and the Quick Reference's pointed cell lists it.
-- Android has no touch control for the key yet.
+- Android has no touch control for the key yet. A solo run's action bar takes an **Upkeep** slot (in the selector's
+  Actions), which acts as the key held (`ActionBarSlotKind::Upkeep`).
+
+## Potions
+
+A potion with a timed effect can be an upkeep entry (`BattleOrderKind::Potion`; `game/items/PotionUpkeep.h`): MAW's
+aura potions (Haste, Bless, Champion's, Paladin's, the resistances, Divine Blessing...), the immunities, Meditation,
+Regeneration and Standard's buff potions. Restoring and curing potions are not entries: they are not kept up.
+
+- **When it is drunk** (`PotionUpkeep::potionDue`): the press works as for a spell. The member's entry is tried in its
+  place in the list, one drink per press; a held key goes on through the lists. One of the potion's timed effects must
+  be gone, or have less left than the entry's renew time (and half of what the drink gives, `upkeepBuffDue`). Two
+  effects never count as due:
+  - an effect still running stronger than the bottle gives (a drink would replace it by a weaker one: a Haste potion
+    while Champion's Haste of a higher power runs), and
+  - under MAW, an aura the party's own aura outdoes (`PotionRules::potionAuraCounts`: only the stronger counts), or
+    under Standard a buff its condition stops (Haste while weak).
+- **Which bottle** (`PotionUpkeep::orderBottle`): the strongest, or the weakest, as the entry says; from the member's
+  bags first, then the others', as a quick item slot. A drink is an ordinary one: its recovery where the rules charge
+  it (MAW: near monsters only, so out of a fight a held key drinks one due potion after another).
+- **Stock** (`BattleOrder::stockDrinks`, 0–50 drinks, two bottles' worth for a new entry): the party keeps that many
+  drinks. Several members' entries of one potion add up; the highest brew power counts (`PotionUpkeep::stockTargets`).
+  Only bottles at least at the brew power count.
+- **Brew power** (`brewPower`, off: the strongest the ingredients make): every brewed bottle has at least this power,
+  mixed from the weakest ingredients that reach it, so the best reagents stay for later (the planner's aim,
+  `AlchemyChainPlanner::plan`). A power the ingredients cannot reach brews nothing and says so.
+- **Restock** (`PotionUpkeep::restock`, `GameplayItemService::restockUpkeepPotions`): the short potions, in the
+  lists' order, each from what the party carries through `AlchemyChainPlanner`, which mixes only known recipes the
+  alchemist cannot fail. Every stocked potion's counted bottles are held back from the mixes (the planner's
+  `reserved` copies), so Champion's is never brewed out of the stocked Haste. The status line names what was brewed
+  and the first potion still short, with why (no bottle, a missing reagent, an unknown step, too little Alchemy, a
+  power out of reach). It keeps the Workbench's *keep mixed potions* setting. An empty bottle without room goes to the
+  cursor, as at the Workbench.
+- **Auto-brew** (`GameSettings::upkeepAutoBrew`, `upkeep_auto_brew`, off by default): a fresh press of the Upkeep key
+  restocks first, so a potion that ran out is brewed and drunk on the same press. It is the tick beside the Upkeep key
+  in the window, the popup's Auto-brew button and Settings' *Upkeep brews its potions* (Alchemy group). A brew message
+  stays in the status line over the drink's.
+- **Messages.** A due potion nobody carries says *Upkeep: no {potion} left* when nothing else was used.
+
+Where it is set:
+
+- **Battle Orders window**, upkeep list: the palette lists the upkeep potions the party carries or knows a recipe for
+  (after the spells, with their carried drinks when pointed at); the **Potions** chip adds every one the party carries.
+  A potion row shows its carried drinks (red under the stock). Its editor: renew time, *Keep in stock* (drinks, with
+  the carried count), *Brew at power at least*, *Drink* strongest or weakest, and the place. Copy from another member
+  copies the potions as they are.
+- **Potion popup** (the basebar's potion button): its **Upkeep** button shows the chosen member's upkeep potions
+  instead of what the party carries: carried / kept drinks, the time left or *due now*, - and + chips (one bottle less
+  or more in stock), a click drinks one now. The footer has **Brew now**, the **Auto-brew** tick and **Battle Orders**
+  (the window on that member's upkeep list). In the Potions list, a right click's strip has an **Upkeep** chip that
+  puts the potion in the member's list or takes it out; a potion in the list carries a **U** pin.
 
 ## Data
 
@@ -130,6 +183,8 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
   (`SaveVersionBattleOrders`).
 - An order's place and renew time, and `Character::upkeepOrders`, are saved from version 176
   (`SaveVersionUpkeepOrders`); an older save has every order anywhere and no upkeep list.
+- A potion entry's item, bottle, stock and brew power are saved from version 191 (`SaveVersionPotionUpkeep`); the
+  action bar's Upkeep slot is a new slot kind there too.
 - An older save's attack spell becomes one unconditional order. A spell for a member (Heal, the cures, the revivals)
   gets the hold fallback, because the attack spell did nothing when nobody needed it (OY-190).
 - `party_attack`'s `attack_spell` in scenarios makes that spell the member's only order for the step, with the weapon
@@ -179,7 +234,11 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
 ## Tests
 
 - **Unit** (`tests/BattleOrdersTests.cpp`): distances, conditions, the place, when an upkeep buff is due, the
-  migration and the save round trip.
+  migration and the save round trip (a potion entry and the Upkeep bar slot too).
+- **Unit, potions** (`tests/PotionUpkeepTests.cpp`, "potion upkeep ..."): which potions are entries; due when gone or
+  under the renew time, never over a stronger effect or while weak for Haste; drinks counted at the brew power; the
+  members' stock added up; a restock that brews the missing drinks without mixing the stocked potions, and one that
+  says why it could not; the planner keeping the strongest reserved copies.
 - **Runtime** (`tests/GameplaySpellServiceTests.cpp`, "battle orders: ..."):
   - a spell with no target passes to the next order;
   - an order that is off is skipped;
@@ -191,4 +250,7 @@ orders in a second list (`Character::upkeepOrders`, at most sixteen as well), sp
   - a buff on one member goes to each living member in turn;
   - a heal waits for a wound;
   - a member in recovery leaves the press to the next;
-  - a due spell the caster cannot pay for is not cast.
+  - a due spell the caster cannot pay for is not cast;
+  - a due potion is drunk from another member's bags, and not again while its buff lasts;
+  - a due potion nobody carries is passed over for the next entry;
+  - with auto-brew, a press brews the missing stock and drinks it.

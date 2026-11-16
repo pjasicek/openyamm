@@ -98,6 +98,12 @@ settings:
   name: Workbench keeps mixed potions
   type: toggle
   desc: The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix.
+- id: upkeep_auto_brew
+  section: gameplay
+  group: Alchemy
+  name: Upkeep brews its potions
+  type: toggle
+  desc: Before it drinks, the Upkeep key brews the potions the upkeep lists keep in stock, when fewer drinks are left than they keep. It brews from what the party carries, never from the stocked potions themselves. Set the stock of each potion in Battle Orders.
 - id: skip_event_cutscenes
   section: gameplay
   group: Story

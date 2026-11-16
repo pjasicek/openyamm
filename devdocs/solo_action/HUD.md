@@ -516,7 +516,10 @@ only while `GameplayScreenRuntime::soloHud()` holds; party games are unchanged (
   - *Drawing.* The lines show below and right of the crosshair in Alegreya SemiBold with a dark outline: newest at the
     bottom, held 1.4 s, then faded over 0.8 s, eight at most. Heals are green, damage red ("-180 (64 blocked)"),
     conditions amber, "… fades" grey.
-  - *Filter.* Amounts below 1 % of maximum HP (MAW's regeneration and aura ticks, leech) are left out.
+  - *Regeneration.* Regeneration ticks (`healMember`'s `regeneration` flag: MAW's regeneration, ten ticks a second,
+    and the Regeneration spell) are their own event kind. The HUD sums them and shows one line per half second
+    (user, 2026-11-16: a line per tick came far too often).
+  - *Filter.* Amounts below 1 % of maximum HP (aura ticks, leech, half a second of slow regeneration) are left out.
   - *Not yet.* SP gains and "resisted" are not shown: SP changes have no single entry point, and resistance is folded
     into the damage before the party sees it.
 - **Android.** The left column is the layout there too, but touch slots are still stage 7 (not built); the old 2 × 5

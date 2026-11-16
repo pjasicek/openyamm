@@ -119,8 +119,8 @@ These rules apply to all AI-generated contributions in this repository.
   [Turn-based combat audit](devdocs/TURN_BASED_COMBAT_AUDIT.md).
 - For battle orders (what each member's Attack does: ordered spells and weapons with conditions, the weapon or hold
   fallback, the Battle Orders window over the spellbook, the spellbook's spell menu and the quick keys) and the upkeep
-  list (the buffs, heals and cures the Upkeep key casts when they are due), start with
-  [Battle orders](devdocs/BATTLE_ORDERS.md).
+  list (the buffs, heals and cures the Upkeep key casts when they are due, and the buff potions it drinks, with their
+  stock and auto-brew), start with [Battle orders](devdocs/BATTLE_ORDERS.md).
 - For per-world monster data add-ons: modifiers (`modifiers.yml`: true aim, never staggers, blink and the rest) are in
   [Monster modifiers](devdocs/MONSTER_MODIFIERS.md); energy shields and faction relations (`shields.yml`,
   `relations.yml`) are in [Energy shields and relations](devdocs/ENERGY_SHIELDS_AND_RELATIONS.md).

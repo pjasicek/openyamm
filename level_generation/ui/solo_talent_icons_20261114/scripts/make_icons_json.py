@@ -72,6 +72,10 @@ SUBJECTS = {
     'spell_suppression': 'ONE old gold armoured gauntlet closing its fist around a crackling orange-and-violet spell '
                          'orb, smothering it: the orb is crushed and its light breaks into dim fading sparks and '
                          'wisps of smoke between the fingers. The fist is the main shape (not a shield, not a dome).',
+    # Manathirst (user, 2026-11-16): Bloodthirst for the SP bar; its sibling, a mana drop in place of the blood.
+    'manathirst': 'ONE large curved bone-ivory fang with a big glossy glowing sapphire-blue mana drop dripping from '
+                  'its tip, a faint blue shimmer of light around the drop; the drop and the fang share the main '
+                  'silhouette. A sibling of a fang dripping blood, but the drop is clearly blue magic, not water.',
     'cheat_death': 'ONE bone-ivory human skull seen from the front with a jagged crack across its brow, and a '
                    'bright golden spark of life bursting out through the crack.',
     'unbroken': 'ONE heart carved of solid grey stone, bound with crossed bands of old gold, whole and unbroken, '

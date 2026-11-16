@@ -51,6 +51,7 @@ keyed out; the export nudges any such texel, there were none).
 | Any | Bloodthirst | ivory fang dripping a crimson blood drop |
 | Any | Conditioning (2026-11-16) | seven-pointed old gold star, a gem of a different colour on each point |
 | Any | Spell Suppression (2026-11-16) | gold gauntlet crushing an orange-violet spell orb into fading sparks |
+| Any | Manathirst (2026-11-16) | Bloodthirst's ivory fang dripping a glowing sapphire-blue mana drop |
 | Keystone | Cheat Death | cracked bone skull, a gold spark of life bursting out |
 | Keystone | Unbroken | whole stone heart bound in crossed gold bands |
 
@@ -82,6 +83,9 @@ differs from the other Arms icons.
 2026-11-16: Conditioning and Spell Suppression added (`run_batch.sh f "17"` and `g "18"`, one generation each, no
 retry; 29,940 and 32,631 Codex tokens) and installed the same way. Weapon Training, Marksman and Attunement left the
 table that day; their masters and runtime copies stay here, unused.
+
+Manathirst added the same day (`run_batch.sh h "19"`, one generation, no retry; 29,147 Codex tokens) and installed
+the same way.
 
 Spend: no paid API calls. Codex subscription only: 25 image generations and about 220,000 Codex tokens (batches
 a 45,952, b 41,533, c 49,277, d 50,073, e 32,802).
