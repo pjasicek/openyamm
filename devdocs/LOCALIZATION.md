@@ -584,6 +584,16 @@ Done (2026-11-07 and 08):
   Not taken: their translated copies of `roster.txt`, `npc_names.txt` and `npc_professions.txt` (packs do not
   replace tables), the Arcomage sheet (packs mounted no images then; since OY-579 it can go in
   `languages/zh-cn/engine/icons_x2/sprites.pcx`) and `glyph_scale`.
+- The zh-cn translators' 2.6 report (2026-11-17, `upstream-patch/12-v2.6-supplement` and `11-v2.5-supplement`, copies
+  in the session only): imported with `import po --replace`. 2.6's new texts (solo talents, upkeep potions and
+  auto-brew, loot filter rules, game speed, the missing-map save warning), the three lines that disagreed with the
+  English (the leech floor, the kill-streak's 60 s, the burst's half recovery), the 2.5 texts, and their terms:
+  Talents 专长 (not 天赋, which reads as an innate ability), Power 威力 (not 力量术, which reads as a spell). Also the two
+  earlier fixes not taken before: Townsaver Hall 陶恩赛佛大厅 and the Harmondale event line. The MAW Rules panel's
+  column names, Nightmare warning, progression and challenge-mode texts were in no template (they are drawn with
+  `localize` but are keyed by mode, not by a text key): `extract` now takes them, so every other language lacks 11
+  more texts. Claude drafted the six zh-cn texts the supplement did not cover (two challenge modes, four plurals) as
+  machine translations for the translators to review.
 - Committed: the engine code in `176043355`, the packs (text, fonts, templates of all seven languages) in
   `e1d261a1b`. Not in git: `languages/*/text/mm9.po` and `templates/mm9.pot` (the MM9 world is gitignored and
   they stay with it). The dubbed `audio/` and `videos/` overlays of de, es, fr, pl and ru (about 700 MB from the

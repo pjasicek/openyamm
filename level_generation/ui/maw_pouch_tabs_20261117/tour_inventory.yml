@@ -1,0 +1,54 @@
+output_dir: captures
+exit: true
+steps:
+- wait: 3
+- console: item give 222 150 20
+- console: item give 223 120 35
+- console: item give 251 40 60
+- console: item give 264 25 80
+- console: item give 200 40
+- console: item give 201 30
+- console: item give 205 20
+- console: item give 1041 12
+- console: item give 1045 9
+- console: item give 1050 7
+- console: item give 1060 5
+- console: item give 1 2
+- action: quest
+- wait: 0.8
+- capture: 01-bags
+- click: [852, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 02-alchemy
+- click: [1254, 727]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 03-alchemy-sorted
+- wheel: -4
+- wait: 0.5
+- capture: 04-alchemy-scrolled
+- wheel: -30
+- wait: 0.5
+- capture: 05-alchemy-bottom
+- click: [300, 150]
+- wait: 0.3
+- pointer_move: [700, 420]
+- wait: 0.3
+- capture: 06-holding
+- click: [700, 420]
+- wait: 0.3
+- capture: 07-dropped
+- click: [804, 22]
+- wait: 0.5
+- pointer_move: [640, 330]
+- wait: 0.3
+- capture: 08-crafting
+- click: [1254, 727]
+- wait: 0.5
+- capture: 09-crafting-sorted
+- click: [596, 22]
+- wait: 0.5
+- capture: 10-bag1

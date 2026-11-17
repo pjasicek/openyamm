@@ -1545,10 +1545,10 @@ elements:
         highlighted: obsidian_button_tab_hover
         pressed: obsidian_button_tab_pressed
         selected: obsidian_button_tab_selected
-      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): tags or untags the open bag (the zoomed one, or in
-        the overview the one opened last) as a crafting bag: crafting items picked up from the ground go to a crafting
-        bag of the picker, else of another member (zzzMaw_CraftingBag.lua). Shift+B does the same. Selected while the
-        open bag is one; the hammer icon is drawn by the renderer.'
+      notes: 'Rulesets with pouches (ItemRules::hasPouches, MAW): shows the party''s crafting pouch in the bags'' place,
+        one grid without dividers that scrolls (every Workbench material the party has lies there and nowhere else);
+        again, or a bag button, returns to the bags. Shift+B does the same. Selected while its tab shows; the hammer
+        icon is drawn by the renderer.'
     - id: CharacterInventoryAlchemyTag
       anchor: top_left
       offset_x: 336
@@ -1562,12 +1562,27 @@ elements:
         highlighted: obsidian_button_tab_hover
         pressed: obsidian_button_tab_pressed
         selected: obsidian_button_tab_selected
-      notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only): the same for an alchemy bag (ours): potions, bottles
-        and reagents picked up from the ground. Selected while the open bag is one; the potion icon is drawn by the
-        renderer.'
+      notes: 'The same for the party''s alchemy pouch: its potions, bottles and reagents. Selected while its tab shows;
+        the potion icon is drawn by the renderer.'
+    - id: CharacterInventoryQuestTag
+      anchor: top_left
+      offset_x: 362
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s quest pouch (user, 2026-11-17): what is worth nothing and is no gear (keys,
+        letters, message scrolls, trophies). Selected while its tab shows; the key icon is drawn by the renderer. The
+        tab buttons and the item search start after it.'
     - id: CharacterInventoryTab1
       anchor: top_left
-      offset_x: 368
+      offset_x: 394
       offset_y: -22
       width: 24
       height: 20
@@ -1590,7 +1605,7 @@ elements:
         member keeps the other tabs until alone again; the item search then starts after the tab buttons.'
     - id: CharacterInventoryTab2
       anchor: top_left
-      offset_x: 394
+      offset_x: 420
       offset_y: -22
       width: 24
       height: 20
@@ -1611,7 +1626,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab II (Shift+2).'
     - id: CharacterInventoryTab3
       anchor: top_left
-      offset_x: 420
+      offset_x: 446
       offset_y: -22
       width: 24
       height: 20
@@ -1632,7 +1647,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab III (Shift+3).'
     - id: CharacterInventoryTab4
       anchor: top_left
-      offset_x: 446
+      offset_x: 472
       offset_y: -22
       width: 24
       height: 20
@@ -1653,7 +1668,7 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab IV (Shift+4).'
     - id: CharacterInventoryTab5
       anchor: top_left
-      offset_x: 472
+      offset_x: 498
       offset_y: -22
       width: 24
       height: 20
@@ -1674,9 +1689,9 @@ elements:
       notes: 'As CharacterInventoryTab1, for tab V (Shift+5).'
     - id: CharacterInventorySearch
       anchor: top_left
-      offset_x: 368
+      offset_x: 394
       offset_y: -22
-      width: 264
+      width: 238
       height: 20
       z_index: 300
       interactive: true

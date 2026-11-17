@@ -7,14 +7,6 @@ msgstr ""
 "Language: zh-cn\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
-#: assets_dev/engine/behaviors/bosses/necro_mage.lua:18
-msgid "openyamm:fx/arcane_pulse"
-msgstr ""
-
-#: assets_dev/engine/behaviors/bosses/necro_mage.lua:24
-msgid "openyamm:fx/shadow_ward"
-msgstr ""
-
 # imported from zh-cn-todo.po
 #: assets_dev/engine/behaviors/bosses/necro_mage.lua:44
 msgid "The Necromancer wraps himself in a ward of shadow!"
@@ -6263,10 +6255,10 @@ msgstr "哈洛·佛斯太克在绞刑峡谷中的猎龙人营地教导专家级�
 msgid "Won Arcomage at Two Palms Tavern on Emerald Island."
 msgstr "在翡翠岛的双棕榈酒馆赢得了亚克曼纸牌对局。"
 
-# imported from packs (base v1.21)
+# imported from engine_zz-placenames.po
 #: assets_dev/engine/data_tables/english/award_display_aliases.txt:34
 msgid "Won Arcomage at On the House in Harmondale."
-msgstr "在哈蒙代尔的本店请客酒馆赢得了亚克曼纸牌对局。"
+msgstr "在哈蒙代尔的本店请客酒馆赢得了魔幻牌对局。"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/award_display_aliases.txt:35
@@ -18314,10 +18306,10 @@ msgstr "皇家魔法商店"
 msgid "House of Reshie"
 msgstr "瑞西的房子"
 
-# imported from terms.engine.po
+# imported from engine_zz-fixes.po
 #: assets_dev/engine/data_tables/house_animations.txt:872 assets_dev/engine/data_tables/house_data.txt:873
 msgid "Townsaver Hall"
-msgstr "陶恩赛佛的大厅"
+msgstr "陶恩赛佛大厅"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/house_animations.txt:1217 assets_dev/engine/data_tables/house_animations.txt:1218 assets_dev/engine/data_tables/house_animations.txt:1219
@@ -72501,28 +72493,35 @@ msgstr "持盾时：6 秒内受到的伤害减少 50 %"
 msgid "Multishot"
 msgstr "多重射击"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:118
 msgid ""
 "One shot of 2, 3 or 4 arrows (by rank) fanned over ±12°, 75 % each; each hits the first monster in its line; each ordinary attack that hits a monster takes 1 s off the cooldown"
 msgstr ""
+"一次射出 2、3 或 4 支箭（按等级），在 ±12° 内扇形散开，每支 75 % 威力；每支命中其前方第一个怪物；每次普通攻击命中怪物，冷却缩短 1 秒"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:120
 msgid "Chaining Arrows"
-msgstr ""
+msgstr "连锁箭"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:131
 msgid ""
 "Every arrow of a bow shot leaps on to the nearest other monster within 10 m of the one it strikes, up to {value} times, each at 30 % + 0.25 % per Bow point (at most 50 %)"
 msgstr ""
+"弓箭每支箭命中怪物后，会弹向其 10 米内最近的另一个怪物，最多弹跳 {value} 次，每次伤害为 30 % + 每点弓箭技能 0.25 %（最高 50 %）"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:134
 msgid "Power Shot"
-msgstr ""
+msgstr "强力射击"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:147
 msgid ""
 "One shot at {value} % of a normal shot's power, in half a shot's recovery; each critical hit of an ordinary attack takes 0.5 s off the cooldown"
-msgstr ""
+msgstr "以普通射击 {value} % 的威力射出一箭，恢复时间为一次射击的一半；普通攻击每次暴击，冷却缩短 0.5 秒"
 
 #: assets_dev/engine/data_tables/talents.yml:149
 msgid "Steady Aim"
@@ -72586,39 +72585,46 @@ msgstr "5 米内的所有敌人几乎被定住，攻击变慢，持续 {value} �
 msgid "Bloodthirst"
 msgstr "嗜血"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:227
-#, fuzzy
 #| msgid ""
 #| "+{value} % leech on melee, bow and spells; the leech floor grows (÷4, ÷3, ÷2.5 instead of ÷5)"
 msgid ""
 "+{value} % leech on melee, bow and spells; the leech floor grows (÷5 less 0.5 a rank: ÷2.5 at rank 5)"
-msgstr "近战、弓箭和法术的吸血 +{value} %；吸血下限提高（÷4、÷3、÷2.5，原为 ÷5）"
+msgstr "近战、弓箭和法术的吸血 +{value} %；吸血下限提高（÷5，每级减 0.5：5 级时为 ÷2.5）"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:231
 msgid "Conditioning"
-msgstr ""
+msgstr "体能训练"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:238
 msgid "+{value} % to all seven stats"
-msgstr ""
+msgstr "全部七项属性 +{value} %"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:244
 msgid "Spell Suppression"
-msgstr ""
+msgstr "法术压制"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:251
 msgid ""
 "{value} % less damage from every hit that is not physical, after armour, resistances and their cap"
-msgstr ""
+msgstr "每次非物理伤害在计算护甲、抗性及其上限之后，减少 {value} %"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:255
 msgid "Manathirst"
-msgstr ""
+msgstr "嗜魔"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:261
 msgid ""
 "{value} % of the SP bar back the way leech heals, on melee, bow and spells (an area spell's from at most three monsters); its floor grows like Bloodthirst's (÷2.5 at rank 5)"
 msgstr ""
+"近战、弓箭和法术可按吸血回血的方式回复 {value} % 的魔法条（范围法术最多按三个怪物计算）；其下限与嗜血同样提高（5 级时为 ÷2.5）"
 
 #: assets_dev/engine/data_tables/talents.yml:264
 msgid "Cheat Death"
@@ -72641,13 +72647,13 @@ msgstr "单次攻击中超过你最大生命值 30 % 的部分减半"
 msgid "Cleave"
 msgstr "劈砍"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:55
-#, fuzzy
 #| msgid ""
 #| "A burst: every monster in the 120° arc in front takes a blow at 150 %; cooldown 12, 9 or 6 s"
 msgid ""
 "A burst: every monster in the 120° arc in front takes a blow at 150 %, in half a swing's recovery; cooldown 12, 9 or 6 s"
-msgstr "爆发：前方 120° 扇形内的每个怪物都受到一次 150 % 的攻击；冷却 12、9 或 6 秒"
+msgstr "爆发：前方 120° 扇形内的每个怪物都受到一次 150 % 的攻击，恢复时间为一次挥击的一半；冷却 12、9 或 6 秒"
 
 #: assets_dev/engine/data_tables/talents.yml:57
 msgid "Sweeping Blows"
@@ -72662,13 +72668,13 @@ msgstr "每次挥击还会在同一扇形内额外打击 {value} 个目标，威
 msgid "Onslaught"
 msgstr "猛攻"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/data_tables/talents.yml:78
-#, fuzzy
 #| msgid ""
 #| "Each kill: +1 % attack speed, at most {value} stacks; they last 30 s and every kill refreshes them"
 msgid ""
 "Each kill: +1 % attack speed, at most {value} stacks; they last 60 s and every kill refreshes them"
-msgstr "每次击杀：攻击速度 +1 %，最多叠加 {value} 层；持续 30 秒，每次击杀刷新持续时间"
+msgstr "每次击杀：攻击速度 +1 %，最多叠加 {value} 层；持续 60 秒，每次击杀刷新持续时间"
 
 #: assets_dev/engine/data_tables/talents.yml:80
 msgid "Charge"
@@ -93906,6 +93912,21 @@ msgstr "魔法门重平衡"
 msgid "MAW rebalances monsters, items, skills and spells."
 msgstr "MAW（Monster Arts and Wonders，怪物·技艺·奇迹）重铸版重新平衡了怪物、物品、技能与法术。"
 
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:50
+msgid "Groups"
+msgstr "怪物数量"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:50
+msgid "Monster HP"
+msgstr "怪物生命"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:50
+msgid "Monster dmg"
+msgstr "怪物伤害"
+
 # name chosen by the translator (MMMerge 整合版, MAW 重铸版, subtitle 魔法门重生), 2026-11-08
 # imported from terms.engine.po
 #: assets_dev/engine/rulesets/maw/ruleset.yml:54
@@ -93946,6 +93967,55 @@ msgstr "同困难难度；野外近战怪物还可能获得远程攻击。"
 msgid ""
 "Saving costs food, and Lloyd's Beacon and Town Portal fail near enemies; dungeons left below 65 % cleared revive their dead."
 msgstr "存档消耗食物，罗德的信标与城镇传送门在敌人附近会失效；清理度低于 65% 的地下城将复活其中的怪物。"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:72
+msgid "Cannot be lowered later."
+msgstr "之后无法下调。"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:74
+msgid ""
+"Monsters on a new continent gain the levels you earned elsewhere. Suits playing one continent at a time. Masteries need skill 4, 7 and 10."
+msgstr "新大陆的怪物会获得你在其他大陆练就的等级。适合一次只玩一块大陆。宗师级需要技能等级 4、7、10。"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:77
+msgid ""
+"Every map has a fixed level, about 2.5× its original band; travel between continents to progress. Suits clearing the whole game. Masteries need skill 6, 12 and 20."
+msgstr "每张地图等级固定，约为原版的 2.5 倍；需往返各大陆推进。适合打通整个游戏。宗师级需要技能等级 6、12、20。"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:81
+msgid "MAW's rules with no extra challenge."
+msgstr "MAW 规则，无额外挑战。"
+
+# imported from engine_zz-v2.5.po
+#: assets_dev/engine/rulesets/maw/ruleset.yml:82
+msgid ""
+"Nightmare's rules with stronger monsters, larger groups, more bosses and hits that cause conditions. Items must be identified before wearing, locked chests need Disarm Trap skill and hirelings refuse to join. Masteries need skill 6, 12 and 20, and teachers charge more. Starts with 5,000 gold and bonus experience."
+msgstr ""
+"在恶梦难度的规则上，怪物更强、成群更大、首领更多，并且命中会带来异常状态。物品必须先鉴定才能穿戴，上锁的宝箱需要拆除陷阱技能，雇佣角色拒绝加入。晋升大师等级需要技能 6、12 和 20，导师收费更高。开局 5000 金币，并带有额外经验。"
+
+# machine translation (Claude 2.6), review
+#: assets_dev/engine/rulesets/maw/ruleset.yml:86
+msgid ""
+"A harder Doom: tougher monsters in larger groups, maps never refill or reset, dungeons cap the food you carry and a heavy overkill can disintegrate a character. Teachers, training and spell books cost far more; loot is stronger and gems drop more often. Masteries need skill 8, 16 and 25."
+msgstr ""
+"更难的末日审判：怪物更强、成群更大，地图从不补充或重置，地下城限制你携带的食物，过量伤害可能使角色被分解。导师、训练和法术书的价格高得多；战利品更强，宝石掉落更频繁。晋升大师等级需要技能 8、16 和 25。"
+
+# machine translation (Claude 2.6), review
+#: assets_dev/engine/rulesets/maw/ruleset.yml:90
+msgid ""
+"Road to Insanity, and every character, recruits too, starts at level 1. Maps have fixed levels up to 500, dimension maps replay old dungeons, and the Arena and bounties give no rewards. Every death counts, as does loading or quitting soon after a hit. No mercenaries. Horizontal progression; masteries need skill 10, 24 and 40."
+msgstr ""
+"在疯狂之路的基础上，每个角色（包括招募的角色）都从 1 级开始。地图有固定等级，最高 500 级，维度地图会重玩旧地下城，竞技场和悬赏不给奖励。每次死亡都会计入，受到攻击后不久读档或退出也一样。没有雇佣兵。横向成长；晋升大师等级需要技能 10、24 和 40。"
+
+# imported from packs (base v1.21)
+#: assets_dev/engine/rulesets/maw/ruleset.yml:94
+msgid ""
+"No Legendary or Celestial items and no crafting rewards, weaker enchantments and reagents, flatter bosses and a minimum armour value from the armour skills. Combines with any difficulty."
+msgstr "无传说或神圣物品、无合成奖励，附魔与试剂更弱，首领更平滑，护甲技能提供最低护甲值。可与任意难度叠加。"
 
 # imported from zh-cn-todo.po
 #: assets_dev/engine/rulesets/maw/tables/english/potion.txt:84
@@ -93989,27 +94059,27 @@ msgid "Sort"
 msgstr "排序"
 
 # imported from zh-cn-todo.po
-#: assets_dev/engine/ui/gameplay/character.yml:1582
+#: assets_dev/engine/ui/gameplay/character.yml:1597
 msgid "I"
 msgstr "I"
 
 # imported from zh-cn-todo.po
-#: assets_dev/engine/ui/gameplay/character.yml:1605
+#: assets_dev/engine/ui/gameplay/character.yml:1620
 msgid "II"
 msgstr "II"
 
 # imported from zh-cn-todo.po
-#: assets_dev/engine/ui/gameplay/character.yml:1626
+#: assets_dev/engine/ui/gameplay/character.yml:1641
 msgid "III"
 msgstr "III"
 
 # imported from zh-cn-todo.po
-#: assets_dev/engine/ui/gameplay/character.yml:1647
+#: assets_dev/engine/ui/gameplay/character.yml:1662
 msgid "IV"
 msgstr "IV"
 
 # imported from zh-cn-todo.po
-#: assets_dev/engine/ui/gameplay/character.yml:1668
+#: assets_dev/engine/ui/gameplay/character.yml:1683
 msgid "V"
 msgstr "V"
 
@@ -94084,12 +94154,12 @@ msgid "{coverage} · {party_count} / 5 adventurers · {ready_count} ready"
 msgstr "{coverage} · {party_count} / 5 名冒险者 · {ready_count} 名就绪"
 
 # imported from terms.engine.po
-#: assets_dev/engine/ui/gameplay/chest.yml:251
+#: assets_dev/engine/ui/gameplay/chest.yml:296
 msgid "Take All"
 msgstr "全部拿取"
 
 # imported from terms.engine.po
-#: assets_dev/engine/ui/gameplay/chest.yml:271
+#: assets_dev/engine/ui/gameplay/chest.yml:316
 msgid "Take Gold"
 msgstr "拿取金币"
 
@@ -94563,10 +94633,11 @@ msgstr "「自由」让怪物随你在别处获得的等级成长；「水平」
 msgid "Chosen once at the start; fixed for the whole adventure."
 msgstr "开始时选择一次，整个冒险期间固定。"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/gameplay/settings_game.yml:743 assets_dev/engine/ui/menu/settings_catalog.yml:738
 msgid ""
 "One adventurer in first person, with an action bar and talents. A party of one can become a solo run at any time; it stays one for the rest of the adventure."
-msgstr "单人冒险：一名冒险者以第一人称行动，拥有快捷栏和天赋。单人队伍可以随时转为单人冒险，转换后在整个冒险中保持单人。"
+msgstr "单人冒险：一名冒险者以第一人称行动，拥有快捷栏和专长。单人队伍可以随时转为单人冒险，转换后在整个冒险中保持单人。"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/settings_game.yml:974 assets_dev/engine/ui/menu/settings_catalog.yml:776
@@ -94574,10 +94645,12 @@ msgid ""
 "Drops you would rather not carry turn into gold. Opens the filter with its presets."
 msgstr "不想携带的掉落物自动换成金币。可通过筛选器配置预案。"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/ui/gameplay/settings_gameplay.yml:1014 assets_dev/engine/ui/menu/settings_catalog.yml:106
 msgid ""
 "Before it drinks, the Upkeep key brews the potions the upkeep lists keep in stock, when fewer drinks are left than they keep. It brews from what the party carries, never from the stocked potions themselves. Set the stock of each potion in Battle Orders."
 msgstr ""
+"饮用前，当剩余的药水份数少于维持列表设定的库存时，维持键会先炼制这些药水。炼制所用材料来自队伍携带的物品，绝不会动用已存的药水。请在战斗指令中设置每种药水的库存。"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/settings_gameplay.yml:1045 assets_dev/engine/ui/menu/settings_catalog.yml:110
@@ -94689,9 +94762,10 @@ msgid ""
 "The Workbench brews only from reagents and the basic potions. A recipe that needs a mixed potion brews a fresh one, so the ones you carry are kept. Two potions you put in the slots yourself still mix."
 msgstr "工作台只用药材和基础药水炼制。需要混合药水的配方会重新炼制一瓶新的，因此你携带的那些会保留下来。你亲手放进格子里的两瓶药水仍会混合。"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/ui/gameplay/settings_gameplay.yml:997 assets_dev/engine/ui/menu/settings_catalog.yml:104
 msgid "Upkeep brews its potions"
-msgstr ""
+msgstr "维持时自动炼制药水"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1033 assets_dev/engine/ui/menu/settings_catalog.yml:207
@@ -94757,14 +94831,16 @@ msgid ""
 "Outline items in their rarity colour (rulesets with rarities, such as MAW)."
 msgstr "按稀有度颜色勾勒物品轮廓（限带稀有度的规则集，如 MAW）。"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1316 assets_dev/engine/ui/menu/settings_catalog.yml:248
 msgid "Craftable stats"
-msgstr ""
+msgstr "可制作属性"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1333 assets_dev/engine/ui/menu/settings_catalog.yml:254
 msgid ""
 "An item's description shows in grey what crafting would add to it next, and its bonus power (rulesets with crafting, such as MAW)."
-msgstr ""
+msgstr "物品描述会用灰色显示下一次制作会为它增加什么，以及它的加成强度（适用于带制作系统的规则集，例如重铸版）。"
 
 #: assets_dev/engine/ui/gameplay/settings_interface.yml:1370 assets_dev/engine/ui/menu/settings_catalog.yml:259
 msgid "Sparkle on all loot"
@@ -94971,9 +95047,10 @@ msgstr "镜头"
 msgid "Centre view"
 msgstr "视角回中"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1880
 msgid "Cycle game speed"
-msgstr ""
+msgstr "切换游戏速度"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:1933
@@ -95546,9 +95623,10 @@ msgstr "骑士冲锋（独行骑士）"
 msgid "Show item rarity (hold)"
 msgstr "显示物品稀有度（按住）"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:1013
 msgid "Show craftable stats (hold)"
-msgstr ""
+msgstr "显示可制作属性（按住）"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/ui/menu/settings_catalog.yml:1018
@@ -95919,9 +95997,10 @@ msgstr "与队友 4 交谈"
 msgid "Party formation (MM9)"
 msgstr "队伍阵型（MM9）"
 
+# imported from engine_zz-v2.6.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:925
 msgid "Cycle game speed (1x to 4x)"
-msgstr ""
+msgstr "切换游戏速度（1 倍至 4 倍）"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/ui/menu/settings_catalog.yml:928
@@ -95933,45 +96012,55 @@ msgstr "快速保存"
 msgid "Quick load"
 msgstr "快速读取"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:935
 msgid "Action bar slot 1"
-msgstr ""
+msgstr "快捷栏第 1 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:939
 msgid "Action bar slot 2"
-msgstr ""
+msgstr "快捷栏第 2 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:943
 msgid "Action bar slot 3"
-msgstr ""
+msgstr "快捷栏第 3 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:947
 msgid "Action bar slot 4"
-msgstr ""
+msgstr "快捷栏第 4 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:951
 msgid "Action bar slot 5"
-msgstr ""
+msgstr "快捷栏第 5 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:955
 msgid "Action bar slot 6"
-msgstr ""
+msgstr "快捷栏第 6 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:959
 msgid "Action bar slot 7"
-msgstr ""
+msgstr "快捷栏第 7 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:963
 msgid "Action bar slot 8"
-msgstr ""
+msgstr "快捷栏第 8 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:967
 msgid "Action bar slot 9"
-msgstr ""
+msgstr "快捷栏第 9 格"
 
+# imported from engine_zz-v2.5.po
 #: assets_dev/engine/ui/menu/settings_catalog.yml:971
 msgid "Action bar slot 10"
-msgstr ""
+msgstr "快捷栏第 10 格"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/ui/menu/settings_catalog.yml:977
@@ -96100,13 +96189,15 @@ msgstr "时间倍率"
 msgid "Fast mode (2x)"
 msgstr "快速模式（2 倍）"
 
+# imported from engine_zz-v2.6.po
 #: game/app/GameApplication.cpp:12449
 msgid "Fast mode (3x)"
-msgstr ""
+msgstr "快速模式（3 倍）"
 
+# imported from engine_zz-v2.6.po
 #: game/app/GameApplication.cpp:12453
 msgid "Fast mode (4x)"
-msgstr ""
+msgstr "快速模式（4 倍）"
 
 # imported from packs (base v1.21)
 #: game/app/GameApplication.cpp:12457
@@ -96144,10 +96235,11 @@ msgstr "游戏已保存！消耗 {food} 份食物（剩余 {left} 份）"
 msgid "Game Saved!"
 msgstr "游戏已保存！"
 
+# imported from engine_zz-v2.6.po
 #: game/app/GameApplication.cpp:13033
 msgid ""
 "this save was made on {map}, a map that is not installed (a mod that brought it may be off)"
-msgstr ""
+msgstr "此存档保存于 {map}，该地图未安装（提供它的模组可能已关闭）"
 
 # imported from zh-cn-todo.po
 #: game/app/GameApplication.cpp:13272
@@ -96272,9 +96364,10 @@ msgstr "骑士冲锋"
 msgid "Show Item Rarity"
 msgstr "显示物品稀有度"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:117
 msgid "Show Craftable Stats"
-msgstr ""
+msgstr "显示可制作属性"
 
 # imported from packs (base v1.21)
 #: game/app/KeyboardBindings.cpp:120 game/ui/GameplayBattleOrders.cpp:102
@@ -96362,14 +96455,14 @@ msgstr "打开光环"
 #: assets_dev/engine/ui/menu/settings_catalog.yml:1061 assets_dev/engine/ui/menu/settings_catalog.yml:1064 assets_dev/engine/ui/menu/settings_catalog.yml:1067
 #: assets_dev/engine/ui/menu/settings_catalog.yml:1070 assets_dev/engine/ui/menu/settings_catalog.yml:1073 game/app/KeyboardBindings.cpp:152
 #: game/rules/LootFilter.cpp:50 game/rules/LootFilter.cpp:62 game/ui/GameplayAlchemyBenchRenderer.cpp:667
-#: game/ui/GameplayBattleOrders.cpp:111 game/ui/GameplayCraftingBenchRenderer.cpp:540 game/ui/GameplayQuickItems.cpp:1290
+#: game/ui/GameplayBattleOrders.cpp:111 game/ui/GameplayCraftingBenchRenderer.cpp:540 game/ui/GameplayQuickItems.cpp:1292
 #: game/ui/GameplaySoloBarSelector.cpp:97
 msgid "Potions"
 msgstr "药水"
 
 # imported from terms.engine.po
 #: game/app/KeyboardBindings.cpp:154 game/rules/LootFilter.cpp:50 game/rules/LootFilter.cpp:62
-#: game/ui/GameplayQuickItems.cpp:1290 game/ui/GameplaySoloBarSelector.cpp:98
+#: game/ui/GameplayQuickItems.cpp:1292 game/ui/GameplaySoloBarSelector.cpp:98
 msgid "Scrolls"
 msgstr "卷轴"
 
@@ -96424,12 +96517,12 @@ msgid "Statistics"
 msgstr "统计"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/app/KeyboardBindings.cpp:177 game/ui/GameplayBattleOrders.cpp:2331 game/ui/GameplayQuickItems.cpp:1240
+#: game/app/KeyboardBindings.cpp:177 game/ui/GameplayBattleOrders.cpp:2331 game/ui/GameplayQuickItems.cpp:1242
 msgid "Battle Orders"
 msgstr "战斗指令"
 
 #: game/app/KeyboardBindings.cpp:179 game/ui/GameplayBattleOrders.cpp:113 game/ui/GameplayBattleOrders.cpp:1839
-#: game/ui/GameplayBattleOrders.cpp:3387 game/ui/GameplayQuickItems.cpp:1342 game/ui/GameplayQuickItems.cpp:1477
+#: game/ui/GameplayBattleOrders.cpp:3387 game/ui/GameplayQuickItems.cpp:1344 game/ui/GameplayQuickItems.cpp:1480
 #: game/ui/GameplaySoloBarSelector.cpp:172
 msgid "Upkeep"
 msgstr "维持"
@@ -96454,45 +96547,55 @@ msgstr "自由光标"
 msgid "Previous Weapon"
 msgstr "上一把武器"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:192
 msgid "Action Bar 1"
-msgstr ""
+msgstr "快捷栏 1"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:194
 msgid "Action Bar 2"
-msgstr ""
+msgstr "快捷栏 2"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:196
 msgid "Action Bar 3"
-msgstr ""
+msgstr "快捷栏 3"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:198
 msgid "Action Bar 4"
-msgstr ""
+msgstr "快捷栏 4"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:200
 msgid "Action Bar 5"
-msgstr ""
+msgstr "快捷栏 5"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:202
 msgid "Action Bar 6"
-msgstr ""
+msgstr "快捷栏 6"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:204
 msgid "Action Bar 7"
-msgstr ""
+msgstr "快捷栏 7"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:206
 msgid "Action Bar 8"
-msgstr ""
+msgstr "快捷栏 8"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:208
 msgid "Action Bar 9"
-msgstr ""
+msgstr "快捷栏 9"
 
+# imported from engine_zz-v2.5.po
 #: game/app/KeyboardBindings.cpp:210
 msgid "Action Bar 10"
-msgstr ""
+msgstr "快捷栏 10"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/settings_keyboard.yml:555 assets_dev/engine/ui/menu/settings_catalog.yml:787 game/app/KeyboardBindings.cpp:22
@@ -96548,7 +96651,7 @@ msgstr "准备施法"
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:21 assets_dev/engine/ui/gameplay/actor_inspect.yml:113 assets_dev/engine/ui/gameplay/character.yml:857
 #: assets_dev/engine/ui/gameplay/quick_reference.yml:130 assets_dev/engine/ui/gameplay/settings_keyboard.yml:1085 assets_dev/engine/ui/menu/settings_catalog.yml:835
-#: game/app/KeyboardBindings.cpp:43 game/ui/GameplaySoloBarSelector.cpp:183 game/ui/GameplayUiRenderer.cpp:1464
+#: game/app/KeyboardBindings.cpp:43 game/ui/GameplaySoloBarSelector.cpp:183 game/ui/GameplayUiRenderer.cpp:1472
 msgid "Attack"
 msgstr "攻击"
 
@@ -96573,7 +96676,7 @@ msgid "Char Cycle"
 msgstr "切换角色"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:123 assets_dev/engine/ui/gameplay/character.yml:187 assets_dev/engine/ui/gameplay/chest.yml:292
+#: assets_dev/engine/data_tables/english/Global.txt:123 assets_dev/engine/ui/gameplay/character.yml:187 assets_dev/engine/ui/gameplay/chest.yml:337
 #: assets_dev/engine/ui/gameplay/settings_controls.yml:494 assets_dev/engine/ui/menu/settings_catalog.yml:679 assets_dev/engine/ui/menu/settings_catalog.yml:886
 #: game/app/KeyboardBindings.cpp:56
 msgid "Inventory"
@@ -96716,7 +96819,7 @@ msgid_plural "{count} Days"
 msgstr[0] "{count} 天"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/monster_data.txt:409 game/content/CompletionCertificates.cpp:305 game/gameplay/GameplayPartyOverlayInputController.cpp:3722
+#: assets_dev/engine/data_tables/monster_data.txt:409 game/content/CompletionCertificates.cpp:305 game/gameplay/GameplayPartyOverlayInputController.cpp:3823
 #: game/gameplay/StoryTextFormatter.cpp:24
 msgid "Adventurer"
 msgstr "冒险者"
@@ -96774,7 +96877,7 @@ msgstr "简单"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:434 assets_dev/engine/ui/menu/settings_catalog.yml:700 game/content/RulesetOptions.cpp:21
-#: game/party/SkillData.cpp:417 game/ui/GameplayAlchemyBenchView.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:1688
+#: game/party/SkillData.cpp:417 game/ui/GameplayAlchemyBenchView.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:1701
 #: game/ui/GameplayJournalAuras.cpp:101 game/ui/screens/NewGameScreenPartySheet.cpp:83 game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Normal"
 msgstr "普通"
@@ -96797,7 +96900,7 @@ msgid "Hard"
 msgstr "困难"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/menu/settings_catalog.yml:703 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2692
+#: assets_dev/engine/ui/menu/settings_catalog.yml:703 game/content/RulesetOptions.cpp:24 game/rules/maw/MawItemRules.cpp:2694
 msgid "Hell"
 msgstr "地狱"
 
@@ -96839,8 +96942,8 @@ msgstr "{progression} 成长"
 #: assets_dev/engine/data_tables/english/Global.txt:156 assets_dev/engine/data_tables/english/potion.txt:22 assets_dev/engine/data_tables/english/potnotes.txt:22
 #: assets_dev/engine/rulesets/maw/tables/english/potion.txt:22 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:22 assets_dev/engine/ui/menu/settings_catalog.yml:721
 #: game/content/RulesetOptions.cpp:34 game/gameplay/GameMechanics.cpp:2662 game/party/SkillData.cpp:425
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11040 game/ui/GameplayPartyOverlayRenderer.cpp:11692 game/ui/GameplayPartyOverlayRenderer.cpp:1663
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8814
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11117 game/ui/GameplayPartyOverlayRenderer.cpp:11769 game/ui/GameplayPartyOverlayRenderer.cpp:1663
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8840
 msgid "None"
 msgstr "无"
 
@@ -96937,12 +97040,12 @@ msgid "Reset"
 msgstr "重置"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/alchemy_bench.yml:346 assets_dev/engine/ui/gameplay/alchemy_bench.yml:714 assets_dev/engine/ui/gameplay/chest.yml:312
+#: assets_dev/engine/ui/gameplay/alchemy_bench.yml:346 assets_dev/engine/ui/gameplay/alchemy_bench.yml:714 assets_dev/engine/ui/gameplay/chest.yml:357
 #: assets_dev/engine/ui/gameplay/dialogue.yml:343 assets_dev/engine/ui/gameplay/journal.yml:1020 assets_dev/engine/ui/gameplay/lloyds_beacon.yml:165
 #: assets_dev/engine/ui/gameplay/loot_summary.yml:116 assets_dev/engine/ui/gameplay/town_portal.yml:137 game/events/EventDialogContent.cpp:1289
 #: game/ui/GameplayAlchemyBenchRenderer.cpp:660 game/ui/GameplayBattleOrders.cpp:2335 game/ui/GameplayCraftingBenchRenderer.cpp:522
-#: game/ui/GameplayJournalTrainers.cpp:781 game/ui/GameplayLootSummaryRenderer.cpp:296 game/ui/GameplayQuickItems.cpp:1333
-#: game/ui/GameplayQuickItems.cpp:508 game/ui/GameplaySoloBarSelector.cpp:868 game/ui/GameplayTransportSchedule.cpp:791
+#: game/ui/GameplayJournalTrainers.cpp:781 game/ui/GameplayLootSummaryRenderer.cpp:312 game/ui/GameplayQuickItems.cpp:1335
+#: game/ui/GameplayQuickItems.cpp:510 game/ui/GameplaySoloBarSelector.cpp:868 game/ui/GameplayTransportSchedule.cpp:791
 #: game/ui/screens/NewGameScreenPartySheet.cpp:1554
 msgid "Close"
 msgstr "关闭"
@@ -97051,14 +97154,20 @@ msgstr "晚上"
 msgid "morning"
 msgstr "早上"
 
+# imported from packs (base v1.21)
+#: assets_dev/engine/data_tables/english/Global.txt:214 assets_dev/engine/ui/gameplay/character.yml:447 game/events/EventRuntime.cpp:1000
+#: game/mm9/Mm9PrimaryStats.cpp:30 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
+msgid "Speed"
+msgstr "速度"
+
 # imported from zh-cn-conflicts.po
-#: assets_dev/engine/data_tables/english/Global.txt:4 assets_dev/engine/ui/gameplay/character.yml:419 game/events/EventRuntime.cpp:1000
+#: assets_dev/engine/data_tables/english/Global.txt:4 assets_dev/engine/ui/gameplay/character.yml:419 game/events/EventRuntime.cpp:1001
 #: game/mm9/Mm9PrimaryStats.cpp:29 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
 msgid "Accuracy"
 msgstr "准确"
 
 # imported from zh-cn-conflicts.po
-#: assets_dev/engine/data_tables/english/Global.txt:139 assets_dev/engine/ui/gameplay/character.yml:475 game/events/EventRuntime.cpp:1001
+#: assets_dev/engine/data_tables/english/Global.txt:139 assets_dev/engine/ui/gameplay/character.yml:475 game/events/EventRuntime.cpp:1002
 #: game/mm9/Mm9PrimaryStats.cpp:31 game/rules/maw/MawAuraReport.cpp:63 game/ui/screens/PartyCreationSheet.cpp:98
 msgid "Luck"
 msgstr "运气"
@@ -97070,7 +97179,7 @@ msgstr "运气"
 #: assets_dev/engine/data_tables/items.txt:1907 assets_dev/engine/data_tables/items.txt:1908 assets_dev/engine/data_tables/items.txt:259
 #: assets_dev/engine/data_tables/items.txt:305 assets_dev/engine/data_tables/items.txt:405 assets_dev/engine/data_tables/potion_effects.yml:170
 #: assets_dev/engine/data_tables/spells.txt:4 assets_dev/engine/rulesets/maw/tables/english/potion.txt:168 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:167
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:58 game/events/EventRuntime.cpp:1002 game/ui/GameplayBuffHud.cpp:26
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:58 game/events/EventRuntime.cpp:1003 game/ui/GameplayBuffHud.cpp:26
 #: game/ui/GameplayBuffHud.h:142
 msgid "Fire Resistance"
 msgstr "火系抗性"
@@ -97082,7 +97191,7 @@ msgstr "火系抗性"
 #: assets_dev/engine/data_tables/items.txt:1920 assets_dev/engine/data_tables/items.txt:1921 assets_dev/engine/data_tables/items.txt:260
 #: assets_dev/engine/data_tables/items.txt:316 assets_dev/engine/data_tables/items.txt:416 assets_dev/engine/data_tables/potion_effects.yml:174
 #: assets_dev/engine/data_tables/spells.txt:16 assets_dev/engine/rulesets/maw/tables/english/potion.txt:169 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:168
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:59 game/events/EventRuntime.cpp:1003 game/ui/GameplayBuffHud.cpp:26
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:59 game/events/EventRuntime.cpp:1004 game/ui/GameplayBuffHud.cpp:26
 #: game/ui/GameplayBuffHud.h:146
 msgid "Air Resistance"
 msgstr "空气抗性"
@@ -97094,7 +97203,7 @@ msgstr "空气抗性"
 #: assets_dev/engine/data_tables/items.txt:1933 assets_dev/engine/data_tables/items.txt:1934 assets_dev/engine/data_tables/items.txt:261
 #: assets_dev/engine/data_tables/items.txt:327 assets_dev/engine/data_tables/items.txt:427 assets_dev/engine/data_tables/potion_effects.yml:178
 #: assets_dev/engine/data_tables/spells.txt:28 assets_dev/engine/rulesets/maw/tables/english/potion.txt:170 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:169
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:60 game/events/EventRuntime.cpp:1004 game/ui/GameplayBuffHud.cpp:27
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:60 game/events/EventRuntime.cpp:1005 game/ui/GameplayBuffHud.cpp:27
 #: game/ui/GameplayBuffHud.h:144
 msgid "Water Resistance"
 msgstr "水系抗性"
@@ -97106,13 +97215,13 @@ msgstr "水系抗性"
 #: assets_dev/engine/data_tables/items.txt:1946 assets_dev/engine/data_tables/items.txt:1947 assets_dev/engine/data_tables/items.txt:262
 #: assets_dev/engine/data_tables/items.txt:338 assets_dev/engine/data_tables/items.txt:438 assets_dev/engine/data_tables/potion_effects.yml:182
 #: assets_dev/engine/data_tables/spells.txt:40 assets_dev/engine/rulesets/maw/tables/english/potion.txt:171 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:170
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:61 game/events/EventRuntime.cpp:1005 game/ui/GameplayBuffHud.cpp:27
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:61 game/events/EventRuntime.cpp:1006 game/ui/GameplayBuffHud.cpp:27
 #: game/ui/GameplayBuffHud.h:148
 msgid "Earth Resistance"
 msgstr "土系抗性"
 
 # imported from packs (base v1.21)
-#: game/events/EventRuntime.cpp:1006
+#: game/events/EventRuntime.cpp:1007
 msgid "Spirit Resistance"
 msgstr "灵魂抗性"
 
@@ -97123,7 +97232,7 @@ msgstr "灵魂抗性"
 #: assets_dev/engine/data_tables/items.txt:1972 assets_dev/engine/data_tables/items.txt:1973 assets_dev/engine/data_tables/items.txt:263
 #: assets_dev/engine/data_tables/items.txt:360 assets_dev/engine/data_tables/items.txt:460 assets_dev/engine/data_tables/potion_effects.yml:186
 #: assets_dev/engine/data_tables/spells.txt:64 assets_dev/engine/rulesets/maw/tables/english/potion.txt:172 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:171
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:62 game/events/EventRuntime.cpp:1007 game/ui/GameplayBuffHud.cpp:28
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:62 game/events/EventRuntime.cpp:1008 game/ui/GameplayBuffHud.cpp:28
 #: game/ui/GameplayBuffHud.h:150
 msgid "Mind Resistance"
 msgstr "心系抗性"
@@ -97135,74 +97244,68 @@ msgstr "心系抗性"
 #: assets_dev/engine/data_tables/items.txt:1985 assets_dev/engine/data_tables/items.txt:1986 assets_dev/engine/data_tables/items.txt:264
 #: assets_dev/engine/data_tables/items.txt:371 assets_dev/engine/data_tables/items.txt:471 assets_dev/engine/data_tables/potion_effects.yml:190
 #: assets_dev/engine/data_tables/spells.txt:76 assets_dev/engine/rulesets/maw/tables/english/potion.txt:173 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:172
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:63 game/events/EventRuntime.cpp:1008 game/ui/GameplayBuffHud.cpp:28
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:63 game/events/EventRuntime.cpp:1009 game/ui/GameplayBuffHud.cpp:28
 #: game/ui/GameplayBuffHud.h:152
 msgid "Body Resistance"
 msgstr "体系抗性"
 
 # imported from packs (base v1.21)
-#: game/events/EventRuntime.cpp:1009
+#: game/events/EventRuntime.cpp:1010
 msgid "Light Resistance"
 msgstr "光明抗性"
 
 # imported from packs (base v1.21)
-#: game/events/EventRuntime.cpp:1010
+#: game/events/EventRuntime.cpp:1011
 msgid "Dark Resistance"
 msgstr "暗黑抗性"
 
 # imported from packs (base v1.21)
-#: game/events/EventRuntime.cpp:1011
+#: game/events/EventRuntime.cpp:1012
 msgid "Magic Resistance"
 msgstr "魔法抗性"
 
 # imported from packs (base v1.21)
-#: game/events/EventRuntime.cpp:1012
+#: game/events/EventRuntime.cpp:1013
 msgid "Physical Resistance"
 msgstr "物理抗性"
 
 # imported from zh-cn-todo.po
-#: game/events/EventRuntime.cpp:1031
+#: game/events/EventRuntime.cpp:1032
 msgid "{stat} +{amount} (Permanent)"
 msgstr "{stat} +{amount}（永久）"
 
-#: game/events/EventRuntime.cpp:10770
+#: game/events/EventRuntime.cpp:10797
 msgid "+{experience} experience"
 msgstr "+{experience} 经验"
 
 # imported from zh-cn-todo.po
-#: game/events/EventRuntime.cpp:3708
+#: game/events/EventRuntime.cpp:3709
 msgid "You find {food} food"
 msgstr "你找到了 {food} 份食物"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:147 assets_dev/engine/ui/gameplay/character.yml:307 game/events/EventRuntime.cpp:995
+#: assets_dev/engine/data_tables/english/Global.txt:147 assets_dev/engine/ui/gameplay/character.yml:307 game/events/EventRuntime.cpp:996
 #: game/mm9/Mm9PrimaryStats.cpp:26 game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
 msgid "Might"
 msgstr "力量"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:119 assets_dev/engine/ui/gameplay/character.yml:335 game/events/EventRuntime.cpp:996
+#: assets_dev/engine/data_tables/english/Global.txt:119 assets_dev/engine/ui/gameplay/character.yml:335 game/events/EventRuntime.cpp:997
 #: game/rules/maw/MawAuraReport.cpp:61 game/ui/screens/PartyCreationSheet.cpp:96
 msgid "Intellect"
 msgstr "智力"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:166 assets_dev/engine/ui/gameplay/character.yml:363 game/events/EventRuntime.cpp:997
+#: assets_dev/engine/data_tables/english/Global.txt:166 assets_dev/engine/ui/gameplay/character.yml:363 game/events/EventRuntime.cpp:998
 #: game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:96
 msgid "Personality"
 msgstr "个性"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:78 assets_dev/engine/ui/gameplay/character.yml:391 game/events/EventRuntime.cpp:998
+#: assets_dev/engine/data_tables/english/Global.txt:78 assets_dev/engine/ui/gameplay/character.yml:391 game/events/EventRuntime.cpp:999
 #: game/mm9/Mm9PrimaryStats.cpp:28 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
 msgid "Endurance"
 msgstr "耐力"
-
-# imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:214 assets_dev/engine/ui/gameplay/character.yml:447 game/events/EventRuntime.cpp:999
-#: game/mm9/Mm9PrimaryStats.cpp:30 game/rules/maw/MawAuraReport.cpp:62 game/ui/screens/PartyCreationSheet.cpp:97
-msgid "Speed"
-msgstr "速度"
 
 # imported from zh-cn-todo.po
 #: game/gameplay/ActorNameText.cpp:23
@@ -97311,15 +97414,15 @@ msgstr "你已领取本月悬赏。"
 
 # imported from packs (base v1.21)
 #: game/gameplay/CorpseLootRuntime.cpp:159 game/gameplay/CorpseLootRuntime.cpp:175 game/gameplay/GameplayInteractionController.cpp:552
-#: game/gameplay/GameplayInteractionController.cpp:631 game/indoor/IndoorWorldRuntime.cpp:16375 game/indoor/IndoorWorldRuntime.cpp:19213
+#: game/gameplay/GameplayInteractionController.cpp:631 game/indoor/IndoorWorldRuntime.cpp:16529 game/indoor/IndoorWorldRuntime.cpp:19367
 #: game/indoor/IndoorWorldRuntime.cpp:829 game/items/ItemRuntime.cpp:352 game/outdoor/OutdoorInteractionController.cpp:182
-#: game/outdoor/OutdoorInteractionController.cpp:5031 game/outdoor/OutdoorWorldRuntime.cpp:17478 game/ui/GameplayCraftingBenchRenderer.cpp:294
+#: game/outdoor/OutdoorInteractionController.cpp:5031 game/outdoor/OutdoorWorldRuntime.cpp:17601 game/ui/GameplayCraftingBenchRenderer.cpp:294
 msgid "item"
 msgstr "物品"
 
 # imported from terms.engine.po
-#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:553 game/indoor/IndoorWorldRuntime.cpp:16376
-#: game/indoor/IndoorWorldRuntime.cpp:830 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:17479
+#: game/gameplay/CorpseLootRuntime.cpp:163 game/gameplay/GameplayInteractionController.cpp:553 game/indoor/IndoorWorldRuntime.cpp:16530
+#: game/indoor/IndoorWorldRuntime.cpp:830 game/outdoor/OutdoorInteractionController.cpp:190 game/outdoor/OutdoorWorldRuntime.cpp:17602
 msgid "You found an item ({item})!"
 msgstr "你找到了一件物品（{item}）！"
 
@@ -97336,7 +97439,7 @@ msgstr "这里什么都没有"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/ui/gameplay/loot_summary.yml:59 game/gameplay/CorpseLootRuntime.cpp:495 game/ui/GameplayCombatLogPanel.cpp:268
-#: game/ui/GameplayLootSummaryRenderer.cpp:152 game/ui/GameplayTransportSchedule.cpp:718
+#: game/ui/GameplayLootSummaryRenderer.cpp:160 game/ui/GameplayTransportSchedule.cpp:718
 msgid "{gold} gold"
 msgstr "{gold} 金币"
 
@@ -97347,10 +97450,10 @@ msgstr "（{item}），以及 {gold} 金币"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:566 game/gameplay/CorpseLootRuntime.cpp:639 game/gameplay/GameplayHeldItemController.cpp:262
-#: game/gameplay/GameplayInteractionController.cpp:711 game/gameplay/GameplayPartyOverlayInputController.cpp:2022 game/gameplay/GameplayPartyOverlayInputController.cpp:4100
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4199 game/gameplay/GameplayPartyOverlayInputController.cpp:4233 game/gameplay/GameplayPartyOverlayInputController.cpp:4308
+#: game/gameplay/GameplayInteractionController.cpp:711 game/gameplay/GameplayPartyOverlayInputController.cpp:2031 game/gameplay/GameplayPartyOverlayInputController.cpp:4207
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4306 game/gameplay/GameplayPartyOverlayInputController.cpp:4340 game/gameplay/GameplayPartyOverlayInputController.cpp:4421
 #: game/gameplay/GameplayScreenRuntime.cpp:1764 game/gameplay/GameplayScreenRuntime.cpp:2664 game/gameplay/GameplayScreenRuntime.cpp:2698
-#: game/indoor/IndoorWorldRuntime.cpp:16362 game/outdoor/OutdoorWorldRuntime.cpp:17465
+#: game/indoor/IndoorWorldRuntime.cpp:16516 game/outdoor/OutdoorWorldRuntime.cpp:17588
 msgid "Pack is Full!"
 msgstr "背包已满！"
 
@@ -97365,7 +97468,7 @@ msgid "Petrified"
 msgstr "石化"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:61 game/gameplay/GameMechanics.cpp:1726 game/ui/GameplayPartyOverlayRenderer.cpp:11618
+#: assets_dev/engine/data_tables/english/Global.txt:61 game/gameplay/GameMechanics.cpp:1726 game/ui/GameplayPartyOverlayRenderer.cpp:11695
 msgid "Dead"
 msgstr "死亡"
 
@@ -97375,7 +97478,7 @@ msgid "Unconscious"
 msgstr "昏迷"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:165 game/gameplay/GameMechanics.cpp:1736 game/ui/GameplayPartyOverlayRenderer.cpp:11624
+#: assets_dev/engine/data_tables/english/Global.txt:165 game/gameplay/GameMechanics.cpp:1736 game/ui/GameplayPartyOverlayRenderer.cpp:11701
 msgid "Paralyzed"
 msgstr "麻痹"
 
@@ -97390,7 +97493,7 @@ msgid "Insane"
 msgstr "发疯"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:7 game/gameplay/GameMechanics.cpp:1751 game/ui/GameplayPartyOverlayRenderer.cpp:11628
+#: assets_dev/engine/data_tables/english/Global.txt:7 game/gameplay/GameMechanics.cpp:1751 game/ui/GameplayPartyOverlayRenderer.cpp:11705
 msgid "Afraid"
 msgstr "恐惧"
 
@@ -97436,8 +97539,8 @@ msgid ""
 msgstr "{name}可以训练至 {level} 级。{name}还需要 {experience} 点经验才能升到 {next} 级。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameMechanics.cpp:2656 game/gameplay/GameMechanics.cpp:2791 game/ui/GameplayPartyOverlayRenderer.cpp:3402
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9201
+#: game/gameplay/GameMechanics.cpp:2656 game/gameplay/GameMechanics.cpp:2791 game/ui/GameplayPartyOverlayRenderer.cpp:3428
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9227
 msgid "N/A"
 msgstr "无"
 
@@ -97492,64 +97595,66 @@ msgid "This character"
 msgstr "这名角色"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayActionController.cpp:2092
+#: game/gameplay/GameplayActionController.cpp:2189
 msgid "The weapon backfires"
 msgstr "武器走火了"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/gameplay/GameplayActionController.cpp:2226
+#: game/gameplay/GameplayActionController.cpp:2323
 msgid "{member} holds"
 msgstr "{member} 待命"
 
-#: game/gameplay/GameplayActionController.cpp:2421
+# imported from engine_zz-v2.6.po
+#: game/gameplay/GameplayActionController.cpp:2518
 msgid "Nothing set to keep up (Battle Orders)"
-msgstr ""
+msgstr "没有设置需要维持的内容（战斗指令）"
 
-#: game/gameplay/GameplayActionController.cpp:2423
+#: game/gameplay/GameplayActionController.cpp:2520
 msgid "Upkeep: not enough spell points for {spell}"
 msgstr "维持：魔法值不足，无法施放 {spell}"
 
-#: game/gameplay/GameplayActionController.cpp:2424
+# imported from engine_zz-v2.6.po
+#: game/gameplay/GameplayActionController.cpp:2521
 msgid "Upkeep: no {potion} left"
-msgstr ""
+msgstr "维持：{potion} 已用完"
 
-#: game/gameplay/GameplayActionController.cpp:2425
+#: game/gameplay/GameplayActionController.cpp:2522
 msgid "Upkeep: nobody is ready"
 msgstr "维持：没有人准备好"
 
-#: game/gameplay/GameplayActionController.cpp:2426
+#: game/gameplay/GameplayActionController.cpp:2523
 msgid "Upkeep: nothing to cast"
 msgstr "维持：没有需要施放的"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayActionController.cpp:2441
+#: game/gameplay/GameplayActionController.cpp:2538
 msgid "You can't do that yet"
 msgstr "你现在还不能那样做"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayActionController.cpp:2486
+#: game/gameplay/GameplayActionController.cpp:2584
 msgid "{count} monsters"
 msgid_plural "{count} monsters"
 msgstr[0] "{count} 只怪物"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayActionController.cpp:2487
+#: game/gameplay/GameplayActionController.cpp:2585
 msgid "{count} crafting items"
 msgid_plural "{count} crafting items"
 msgstr[0] "{count} 件制作材料"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayActionController.cpp:2489
+#: game/gameplay/GameplayActionController.cpp:2587
 msgid "Teleported {monsters}"
 msgstr "已传送{monsters}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayActionController.cpp:2490
+#: game/gameplay/GameplayActionController.cpp:2588
 msgid "Teleported {items}"
 msgstr "已传送{items}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayActionController.cpp:2491
+#: game/gameplay/GameplayActionController.cpp:2589
 msgid "Teleported {monsters} and {items}"
 msgstr "已传送{monsters}和{items}"
 
@@ -97984,7 +98089,7 @@ msgid "Recruitment is not available for this companion yet."
 msgstr "该同伴暂不可招募。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayDialogController.cpp:4015 game/gameplay/GameplayDialogController.cpp:4086 game/gameplay/GameplayPartyOverlayInputController.cpp:3749
+#: game/gameplay/GameplayDialogController.cpp:4015 game/gameplay/GameplayDialogController.cpp:4086 game/gameplay/GameplayPartyOverlayInputController.cpp:3850
 msgid "{name} joined the party."
 msgstr "{name}加入了队伍。"
 
@@ -98070,54 +98175,54 @@ msgstr "你找到了东西（{item}）！"
 msgid "You can't rest in turn-based mode!"
 msgstr "回合制模式下无法休息！"
 
-#: game/gameplay/GameplayInteractionController.cpp:1350
+#: game/gameplay/GameplayInteractionController.cpp:1405
 msgid "{talent} is ready in {seconds} s"
 msgstr "{talent} 将在 {seconds} 秒后就绪"
 
-#: game/gameplay/GameplayInteractionController.cpp:1437 game/gameplay/GameplayInteractionController.cpp:1502
+#: game/gameplay/GameplayInteractionController.cpp:1492 game/gameplay/GameplayInteractionController.cpp:1557
 msgid "Nothing in reach"
 msgstr "够不到任何目标"
 
-#: game/gameplay/GameplayInteractionController.cpp:1477 game/gameplay/GameplayInteractionController.cpp:1517
+#: game/gameplay/GameplayInteractionController.cpp:1532 game/gameplay/GameplayInteractionController.cpp:1572
 msgid "{talent} needs the bow drawn"
 msgstr "{talent} 需要拉开弓"
 
-#: game/gameplay/GameplayInteractionController.cpp:1510
+#: game/gameplay/GameplayInteractionController.cpp:1565
 msgid "{name}: Binding Circle"
 msgstr "{name}：束缚法阵"
 
-#: game/gameplay/GameplayInteractionController.cpp:1552
+#: game/gameplay/GameplayInteractionController.cpp:1607
 msgid "Charge needs a target"
 msgstr "冲锋需要目标"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayInteractionController.cpp:1560 game/rules/maw/MawClassRules.cpp:1130
+#: game/gameplay/GameplayInteractionController.cpp:1615 game/rules/maw/MawClassRules.cpp:1130
 msgid "Out of range"
 msgstr "超出范围"
 
-#: game/gameplay/GameplayInteractionController.cpp:1579
+#: game/gameplay/GameplayInteractionController.cpp:1634
 msgid "Cannot move there"
 msgstr "无法移动到那里"
 
-#: game/gameplay/GameplayInteractionController.cpp:1591
+#: game/gameplay/GameplayInteractionController.cpp:1646
 msgid "Shield Wall needs a shield"
 msgstr "盾墙需要盾牌"
 
-#: game/gameplay/GameplayInteractionController.cpp:1596
+#: game/gameplay/GameplayInteractionController.cpp:1651
 msgid "{name}: Shield Wall"
 msgstr "{name}：盾墙"
 
-#: game/gameplay/GameplayInteractionController.cpp:1603
+#: game/gameplay/GameplayInteractionController.cpp:1658
 msgid "{name}: Spell Surge"
 msgstr "{name}：法术激涌"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayInteractionController.cpp:1951
+#: game/gameplay/GameplayInteractionController.cpp:2006
 msgid "Get {item}"
 msgstr "拾取{item}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayInteractionController.cpp:1957
+#: game/gameplay/GameplayInteractionController.cpp:2012
 msgid "{text} [missing 3D model for item {id} - please report]"
 msgstr "{text} [物品 {id} 缺少 3D 模型，请报告此问题]"
 
@@ -98127,7 +98232,8 @@ msgid "Pick Up"
 msgstr "拾取"
 
 # imported from terms.engine.po
-#: assets_dev/engine/ui/gameplay/settings_gameplay.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:91 game/gameplay/GameplayInteractionController.cpp:253
+#: assets_dev/engine/rulesets/maw/ruleset.yml:50 assets_dev/engine/ui/gameplay/settings_gameplay.yml:485 assets_dev/engine/ui/menu/settings_catalog.yml:91
+#: game/gameplay/GameplayInteractionController.cpp:253
 msgid "Loot"
 msgstr "掉落加成"
 
@@ -98284,8 +98390,8 @@ msgid "Crafted {count} times"
 msgstr "已制作 {count} 次"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:113 game/party/Party.cpp:1900 game/party/Party.cpp:1936
-#: game/party/Party.cpp:6893 game/party/Party.cpp:7217
+#: game/gameplay/GameplayItemService.cpp:113 game/party/Party.cpp:1934 game/party/Party.cpp:1970
+#: game/party/Party.cpp:7199 game/party/Party.cpp:7523
 msgid "Nothing to repair."
 msgstr "没有需要修理的东西。"
 
@@ -98310,7 +98416,7 @@ msgid "Combined"
 msgstr "已合并"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayItemService.cpp:125 game/party/Party.cpp:1906 game/party/Party.cpp:1951
+#: game/gameplay/GameplayItemService.cpp:125 game/party/Party.cpp:1940 game/party/Party.cpp:1985
 msgid "Repaired {item}."
 msgstr "修好了{item}。"
 
@@ -98355,59 +98461,70 @@ msgstr "炼制了 {count} 份{potion}（{steps}）"
 msgid "Brewed {potion} (power {power}, {steps})"
 msgstr "炼制了{potion}（强度 {power}，{steps}）"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1507
 msgid "{count} x {potion}"
-msgstr ""
+msgstr "{count} 份{potion}"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1521
 msgid "{potion}: no empty bottle"
-msgstr ""
+msgstr "{potion}：没有空瓶"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1524
 msgid "{potion}: a reagent for {step} is missing"
-msgstr ""
+msgstr "{potion}：缺少{step}所需的材料"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1528
 msgid "{potion}: the {step} recipe is unknown"
-msgstr ""
+msgstr "{potion}：不会{step}的配方"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1532
 msgid "{potion}: {step} needs more Alchemy"
-msgstr ""
+msgstr "{potion}：{step}需要更高的炼金术"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1536
 msgid "{potion}: the ingredients do not reach its power"
-msgstr ""
+msgstr "{potion}：材料不足以达到所需强度"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1537
 msgid "{potion}: not enough ingredients"
-msgstr ""
+msgstr "{potion}：材料不足"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1553
 msgid "Upkeep brewed {potions}"
-msgstr ""
+msgstr "维持已炼制 {potions}"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1558
 msgid "Upkeep could not brew"
-msgstr ""
+msgstr "维持无法炼制"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1572
 msgid "No upkeep potion keeps a stock"
-msgstr ""
+msgstr "没有设置库存的维持药水"
 
+# imported from engine_zz-v2.6.po
 #: game/gameplay/GameplayItemService.cpp:1573
 msgid "The upkeep potions are in stock"
-msgstr ""
+msgstr "维持药水库存充足"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:449 game/gameplay/GameplayItemService.cpp:39 game/gameplay/GameplayScreenController.cpp:753
-#: game/gameplay/HouseServiceRuntime.cpp:2411 game/party/Party.cpp:6811 game/party/Party.cpp:7135
+#: assets_dev/engine/data_tables/english/Global.txt:449 game/gameplay/GameplayItemService.cpp:39 game/gameplay/GameplayScreenController.cpp:798
+#: game/gameplay/HouseServiceRuntime.cpp:2411 game/party/Party.cpp:7117 game/party/Party.cpp:7441
 msgid "Identify Failed"
 msgstr "鉴定失败"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:451 game/gameplay/GameplayItemService.cpp:40 game/gameplay/GameplayScreenController.cpp:769
-#: game/gameplay/HouseServiceRuntime.cpp:2536 game/party/Party.cpp:6907 game/party/Party.cpp:7231
+#: assets_dev/engine/data_tables/english/Global.txt:451 game/gameplay/GameplayItemService.cpp:40 game/gameplay/GameplayScreenController.cpp:814
+#: game/gameplay/HouseServiceRuntime.cpp:2536 game/party/Party.cpp:7213 game/party/Party.cpp:7537
 msgid "Repair Failed"
 msgstr "修理失败"
 
@@ -98437,21 +98554,21 @@ msgid "Put down the held item first"
 msgstr "请先放下手上的物品"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:73 game/party/Party.cpp:6783 game/party/Party.cpp:6879
-#: game/party/Party.cpp:6973 game/party/Party.cpp:7038 game/party/Party.cpp:7107
-#: game/party/Party.cpp:7203 game/party/Party.cpp:7294 game/party/Party.cpp:7356
+#: game/gameplay/GameplayItemService.cpp:73 game/party/Party.cpp:7089 game/party/Party.cpp:7185
+#: game/party/Party.cpp:7279 game/party/Party.cpp:7344 game/party/Party.cpp:7413
+#: game/party/Party.cpp:7509 game/party/Party.cpp:7600 game/party/Party.cpp:7662
 msgid "Unavailable."
 msgstr "不可用。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayItemService.cpp:82 game/gameplay/GameplayItemService.cpp:94 game/party/Party.cpp:1887
-#: game/party/Party.cpp:1914 game/party/Party.cpp:6797 game/party/Party.cpp:7121
+#: game/gameplay/GameplayItemService.cpp:82 game/gameplay/GameplayItemService.cpp:94 game/party/Party.cpp:1921
+#: game/party/Party.cpp:1948 game/party/Party.cpp:7103 game/party/Party.cpp:7427
 msgid "Already identified."
 msgstr "已经鉴定过了。"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayItemService.cpp:105 game/gameplay/GameplayItemService.cpp:87 game/party/Party.cpp:1892
-#: game/party/Party.cpp:1928
+#: game/gameplay/GameplayItemService.cpp:105 game/gameplay/GameplayItemService.cpp:87 game/party/Party.cpp:1926
+#: game/party/Party.cpp:1962
 msgid "Identified {item}."
 msgstr "鉴定了{item}。"
 
@@ -98498,278 +98615,283 @@ msgid "Nothing here counts as trash; click items to add them."
 msgstr "这里没有算作垃圾的物品；点击物品即可加入。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1076
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1072
 msgid "Dimension Door to {destination}"
 msgstr "次元门前往{destination}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1077
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1073
 msgid "Town Portal to {destination}"
 msgstr "城镇传送前往{destination}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1226
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1222
 msgid "Recall to {location}"
 msgstr "召回至{location}"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1234
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1230
 msgid "current location"
 msgstr "当前位置"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1242
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1238
 msgid "Set {location} over {previous}"
 msgstr "将道标设在{location}，覆盖{previous}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1247
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1243
 msgid "Set beacon to {location}"
 msgstr "把道标设在{location}"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1328
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1324
 msgid "Setting beacon"
 msgstr "正在设置信标"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1800 game/gameplay/GameplayPartyOverlayInputController.cpp:1856 game/gameplay/GameplaySpellService.cpp:127
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1796 game/gameplay/GameplayPartyOverlayInputController.cpp:1852 game/gameplay/GameplaySpellService.cpp:127
 #: game/gameplay/GameplaySpellService.cpp:177
 msgid "Spell not learned"
 msgstr "尚未学会该法术"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1811 game/ui/GameplayJournalAuras.cpp:200
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1807 game/ui/GameplayJournalAuras.cpp:200
 msgid "Spell {id}"
 msgstr "法术 {id}"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1846
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1842
 msgid "Can't set attack spell"
 msgstr "无法设置攻击法术"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1846
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1842
 msgid "Can't set quick spell"
 msgstr "无法设置快捷法术"
 
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2235
-msgid "{name}'s {bag} is now a crafting bag"
-msgstr "{name}的{bag}现在是合成袋"
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2261
+msgid "Crafting materials"
+msgstr "合成材料"
 
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2236
-msgid "{name}'s {bag} is now an alchemy bag"
-msgstr "{name}的{bag}现在是炼金袋"
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2262
+msgid "Potions and reagents"
+msgstr "药剂与试剂"
 
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2237
-msgid "{name}'s {bag} is no longer a crafting bag"
-msgstr "{name}的{bag}不再是合成袋"
-
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2238
-msgid "{name}'s {bag} is no longer an alchemy bag"
-msgstr "{name}的{bag}不再是炼金袋"
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2263
+msgid "Quest items"
+msgstr "任务物品"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2246
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2271
 msgid "Put the item down first."
 msgstr "请先放下物品。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2309
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2334
 msgid "{skill} disabled"
 msgstr "{skill}已关闭"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2309
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2334
 msgid "{skill} enabled"
 msgstr "{skill}已开启"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2330
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2355
 msgid "Elementalist rotation disabled"
 msgstr "元素使轮换已关闭"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:2330
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:2355
 msgid "Elementalist rotation enabled"
 msgstr "元素使轮转已启用"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3448
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3551
 msgid "Elementalist rotation"
 msgstr "元素使轮转"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3452
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3555
 msgid "Tab {tab} (Shift+{key})"
 msgstr "标签页 {tab}（Shift+{key}）"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3635
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3736
 msgid "Select an item"
 msgstr "选择一件物品"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3754
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3855
 msgid "Can't hire adventurer."
 msgstr "无法雇佣冒险者。"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3782
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3883
 msgid "To confirm {name} dismissal press the button again..."
 msgstr "再按一次按钮，确认解散{name}……"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3793
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3894
 msgid "{name} dismissed."
 msgstr "{name}已解散。"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3797
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3898
 msgid "Dismissal failed."
 msgstr "遣散失败。"
 
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3935
+msgid "Crafting materials sorted"
+msgstr "合成材料已整理"
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3936
+msgid "Potions and reagents sorted"
+msgstr "药剂与试剂已整理"
+
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3937
+msgid "Quest items sorted"
+msgstr "任务物品已整理"
+
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3850 game/gameplay/GameplayPartyOverlayInputController.cpp:3861
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3956 game/gameplay/GameplayPartyOverlayInputController.cpp:3967
 msgid "Not enough room to sort."
 msgstr "空间不足，无法整理。"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3851
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3957
 msgid "All bags of the party sorted"
 msgstr "全队的背包都已整理"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3852
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3958
 msgid "All inventories have been sorted"
 msgstr "所有物品栏都已整理"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3853
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3959
 msgid "All of {name}'s bags sorted"
 msgstr "{name}的所有背包都已整理"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3855
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:3961
 msgid "Inventory sorted"
 msgstr "物品栏已整理"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:3983 game/gameplay/GameplayPartyOverlayInputController.cpp:4027 game/gameplay/GameplayPartyOverlayInputController.cpp:4125
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4426
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4090 game/gameplay/GameplayPartyOverlayInputController.cpp:4134 game/gameplay/GameplayPartyOverlayInputController.cpp:4232
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4545
 msgid "Can't do that"
 msgstr "无法这么做"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4006
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4113
 msgid "Only an implant fits there"
 msgstr "那里只能放植入体"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4007
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4114
 msgid "Cybernetics has not opened that socket"
 msgstr "控制论还没有开启那个插槽"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4083
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4190
 msgid "Can't equip that item there"
 msgstr "无法装备到该位置"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:4182
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:4289
 msgid "Can't equip that item"
 msgstr "无法装备该物品"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:114 assets_dev/engine/data_tables/english/Global.txt:99 game/gameplay/GameplayPartyOverlayInputController.cpp:576
+#: assets_dev/engine/data_tables/english/Global.txt:114 assets_dev/engine/data_tables/english/Global.txt:99 game/gameplay/GameplayPartyOverlayInputController.cpp:583
 #: game/ui/GameplayHudOverlaySupport.cpp:433 game/ui/GameplayPartyOverlayRenderer.cpp:2178
 msgid "Grand"
 msgstr "宗师"
 
 # imported from zh-cn-todo-2.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:589 game/ui/GameplayHudOverlaySupport.cpp:460 game/ui/GameplayHudOverlaySupport.cpp:521
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:596 game/ui/GameplayHudOverlaySupport.cpp:460 game/ui/GameplayHudOverlaySupport.cpp:521
 #: game/ui/GameplayPartyOverlayRenderer.cpp:2191
 msgid "{skill} {mastery}"
 msgstr "{skill}{mastery}"
 
-# imported from zh-cn-todo.po
+# machine translation (Claude), review
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:635
+msgid "The party's crafting materials (Shift+B)"
+msgstr "队伍的合成材料（Shift+B）"
+
+# machine translation (Claude), review
 #: game/gameplay/GameplayPartyOverlayInputController.cpp:636
-msgid "{bag} is a crafting bag (Shift+B): click to untag"
-msgstr "{bag}是合成袋（Shift+B）：点击取消标记"
+msgid "The party's potions, bottles and reagents"
+msgstr "队伍的药剂、药剂瓶与试剂"
 
-# imported from zh-cn-todo.po
+# machine translation (Claude), review
 #: game/gameplay/GameplayPartyOverlayInputController.cpp:637
-msgid "{bag} is an alchemy bag: click to untag"
-msgstr "{bag}是炼金袋：点击取消标记"
+msgid "The party's quest items"
+msgstr "队伍的任务物品"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:640
-msgid "Make {bag} a crafting bag (Shift+B)"
-msgstr "将{bag}设为合成袋（Shift+B）"
-
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:641
-msgid "Make {bag} an alchemy bag"
-msgstr "将{bag}设为炼金袋"
-
-# imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:657
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:653
 msgid "{skill} {level} to {next}: {cost} skill point"
 msgid_plural "{skill} {level} to {next}: {cost} skill points"
 msgstr[0] "{skill}从 {level} 升到 {next}：需要 {cost} 技能点"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:672
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:668
 msgid "{skills} and {skill}"
 msgstr "{skills}和{skill}"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:676
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:672
 msgid "{text} ({cost}, shared with {skills})"
 msgstr "{text}（{cost}，与{skills}共用）"
 
 # imported from zh-cn-todo.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:684
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:680
 msgid "{text}, you have {points}"
 msgstr "{text}，你有 {points}"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:694
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:690
 msgid "{name} is on: click to switch it off"
 msgstr "{name}已开启：点击关闭"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:695
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:691
 msgid "{name} is off: click to switch it on"
 msgstr "{name}已关闭：点击开启"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:698
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:694
 msgid "{text} ({key})"
 msgstr "{text}（{key}）"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:1096 game/gameplay/GameplayPartyOverlayInputController.cpp:1266 game/gameplay/GameplayPartyOverlayInputController.cpp:1392
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:893
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:1092 game/gameplay/GameplayPartyOverlayInputController.cpp:1262 game/gameplay/GameplayPartyOverlayInputController.cpp:1388
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:889
 msgid "Spell cancelled"
 msgstr "法术已取消"
 
 # imported from terms.engine.po
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:914
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:910
 msgid "Dimension Door"
 msgstr "次元门"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:631 assets_dev/engine/ui/gameplay/actor_inspect.yml:161 game/gameplay/GameplayPartyOverlayInputController.cpp:919
+#: assets_dev/engine/data_tables/english/Global.txt:631 assets_dev/engine/ui/gameplay/actor_inspect.yml:161 game/gameplay/GameplayPartyOverlayInputController.cpp:915
 msgid "Spell"
 msgstr "法术"
 
 # imported from packs (base v1.21)
-#: game/gameplay/GameplayPartyOverlayInputController.cpp:933
+#: game/gameplay/GameplayPartyOverlayInputController.cpp:929
 msgid "Town Portal destinations unavailable"
 msgstr "传送门目的地不可用"
 
@@ -99190,9 +99312,10 @@ msgstr "还需要 {experience} 点经验才能训练至 {level} 级"
 msgid "Train to level {level} for {price} gold"
 msgstr "训练至 {level} 级，{price} 金币"
 
+# imported from engine_zz-v2.5.po
 #: game/gameplay/HouseInteraction.cpp:1616
 msgid "Forget talents (free)"
-msgstr "遗忘天赋（免费）"
+msgstr "遗忘专长（免费）"
 
 # imported from zh-cn-todo.po
 #: game/gameplay/HouseInteraction.cpp:1652
@@ -99433,9 +99556,10 @@ msgstr "你的罚款已缴清。"
 msgid "You have served one year in prison."
 msgstr "你在监狱服刑一年。"
 
+# imported from engine_zz-v2.5.po
 #: game/gameplay/HouseInteraction.cpp:2532
 msgid "{name} forgets every talent; the points are free again."
-msgstr "{name} 遗忘了所有天赋；点数重新可用。"
+msgstr "{name} 遗忘了所有专长；点数重新可用。"
 
 # imported from packs (base v1.21)
 #: game/gameplay/HouseInteraction.cpp:2544
@@ -99545,7 +99669,7 @@ msgid "Selected: no character"
 msgstr "已选择：无角色"
 
 # imported from packs (base v1.21)
-#: game/gameplay/HouseServiceRuntime.cpp:1232 game/items/ItemEnchantRuntime.cpp:1692 game/items/ItemRuntime.cpp:398
+#: game/gameplay/HouseServiceRuntime.cpp:1232 game/items/ItemEnchantRuntime.cpp:1693 game/items/ItemRuntime.cpp:398
 msgid "Unknown item"
 msgstr "未知物品"
 
@@ -99673,7 +99797,7 @@ msgstr "该物品不可用。"
 
 # imported from packs (base v1.21)
 #: engine/Localization.h:58 game/gameplay/HouseServiceRuntime.cpp:1821 game/gameplay/HouseServiceRuntime.cpp:1878
-#: game/gameplay/HouseServiceRuntime.cpp:2397 game/gameplay/HouseServiceRuntime.cpp:2522 game/party/Party.cpp:4597
+#: game/gameplay/HouseServiceRuntime.cpp:2397 game/gameplay/HouseServiceRuntime.cpp:2522 game/party/Party.cpp:4846
 msgid "Not enough gold."
 msgstr "金币不足。"
 
@@ -99715,9 +99839,9 @@ msgstr[0] "以 {gold} 金币卖出了 {count} 件物品。"
 
 # imported from packs (base v1.21)
 #: game/gameplay/HouseServiceRuntime.cpp:2222 game/gameplay/HouseServiceRuntime.cpp:2338 game/gameplay/HouseServiceRuntime.cpp:2463
-#: game/party/Party.cpp:6767 game/party/Party.cpp:6863 game/party/Party.cpp:6957
-#: game/party/Party.cpp:7022 game/party/Party.cpp:7090 game/party/Party.cpp:7186
-#: game/party/Party.cpp:7277 game/party/Party.cpp:7339
+#: game/party/Party.cpp:7073 game/party/Party.cpp:7169 game/party/Party.cpp:7263
+#: game/party/Party.cpp:7328 game/party/Party.cpp:7396 game/party/Party.cpp:7492
+#: game/party/Party.cpp:7583 game/party/Party.cpp:7645
 msgid "No item there."
 msgstr "那里没有物品。"
 
@@ -99828,7 +99952,7 @@ msgid "You found {gold} gold (followers take {share})!"
 msgstr "你找到了 {gold} 金币（随从拿走 {share} 枚）！"
 
 # imported from packs (base v1.21)
-#: game/gameplay/NpcFollowerRuntime.cpp:405 game/indoor/IndoorWorldRuntime.cpp:16330 game/outdoor/OutdoorWorldRuntime.cpp:17433
+#: game/gameplay/NpcFollowerRuntime.cpp:405 game/indoor/IndoorWorldRuntime.cpp:16484 game/outdoor/OutdoorWorldRuntime.cpp:17556
 msgid "You found {gold} gold!"
 msgstr "你找到了 {gold} 金币！"
 
@@ -99838,42 +99962,43 @@ msgid "{month}/{day}/{year}"
 msgstr "{year}年{month}月{day}日"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:664 game/indoor/IndoorPartyRuntime.cpp:766 game/outdoor/OutdoorPartyRuntime.cpp:86
+#: assets_dev/engine/data_tables/english/Global.txt:664 game/indoor/IndoorPartyRuntime.cpp:753 game/indoor/IndoorPartyRuntime.cpp:804
+#: game/outdoor/OutdoorPartyRuntime.cpp:96
 msgid "You are burning!"
 msgstr "你正在燃烧！"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:663 game/indoor/IndoorPartyRuntime.cpp:954 game/outdoor/OutdoorPartyRuntime.cpp:90
+#: assets_dev/engine/data_tables/english/Global.txt:663 game/indoor/IndoorPartyRuntime.cpp:984 game/outdoor/OutdoorPartyRuntime.cpp:100
 msgid "You are drowning!"
 msgstr "你快淹死了！"
 
 # imported from packs (base v1.21)
-#: game/indoor/IndoorWorldRuntime.cpp:16290 game/outdoor/OutdoorWorldRuntime.cpp:17393
+#: game/indoor/IndoorWorldRuntime.cpp:16444 game/outdoor/OutdoorWorldRuntime.cpp:17516
 msgid "You need Stealing skill."
 msgstr "你需要偷窃术技能。"
 
 # imported from packs (base v1.21)
-#: game/indoor/IndoorWorldRuntime.cpp:16301 game/outdoor/OutdoorWorldRuntime.cpp:17404
+#: game/indoor/IndoorWorldRuntime.cpp:16455 game/outdoor/OutdoorWorldRuntime.cpp:17527
 msgid "Too far away."
 msgstr "太远了。"
 
 # imported from packs (base v1.21)
-#: game/indoor/IndoorWorldRuntime.cpp:16303 game/outdoor/OutdoorWorldRuntime.cpp:17406
+#: game/indoor/IndoorWorldRuntime.cpp:16457 game/outdoor/OutdoorWorldRuntime.cpp:17529
 msgid "Nothing to steal."
 msgstr "没有可偷的东西。"
 
 # imported from packs (base v1.21)
-#: game/indoor/IndoorWorldRuntime.cpp:16305 game/outdoor/OutdoorWorldRuntime.cpp:17408
+#: game/indoor/IndoorWorldRuntime.cpp:16459 game/outdoor/OutdoorWorldRuntime.cpp:17531
 msgid "Caught stealing!"
 msgstr "偷窃被抓！"
 
 # imported from packs (base v1.21)
-#: game/indoor/IndoorWorldRuntime.cpp:16306 game/outdoor/OutdoorWorldRuntime.cpp:17409
+#: game/indoor/IndoorWorldRuntime.cpp:16460 game/outdoor/OutdoorWorldRuntime.cpp:17532
 msgid "Failed to steal."
 msgstr "偷窃失败。"
 
 # imported from packs (base v1.21)
-#: game/items/CraftingRuntime.cpp:267
+#: game/items/CraftingRuntime.cpp:285
 msgid "The item is gone"
 msgstr "物品已不存在"
 
@@ -100163,16 +100288,18 @@ msgstr "土系抗性 +{value}！"
 msgid "+{value} Body Resistance!"
 msgstr "体系抗性 +{value}！"
 
-#: game/items/ItemEnchantRuntime.cpp:1695
+# imported from engine_zz-v2.5.po
+#: game/items/ItemEnchantRuntime.cpp:1696
 msgid "{item} {enchantment}"
-msgstr ""
+msgstr "{item}·{enchantment}"
 
-#: game/items/ItemEnchantRuntime.cpp:1717
+# imported from engine_zz-v2.5.po
+#: game/items/ItemEnchantRuntime.cpp:1718
 msgid "{enchantment} {item}"
-msgstr ""
+msgstr "{enchantment}{item}"
 
 # imported from zh-cn-todo-2.po
-#: game/items/ItemEnchantRuntime.cpp:1812
+#: game/items/ItemEnchantRuntime.cpp:1813
 msgid "{stat} +{power}"
 msgstr "{stat} +{power}"
 
@@ -100263,7 +100390,7 @@ msgstr "{name}染上了疾病，但获得了一件物品！"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:627 assets_dev/engine/ui/gameplay/actor_inspect.yml:413 game/mm9/Mm9HirelingHud.cpp:38
-#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:814 game/ui/GameplayStatisticsScreen.cpp:60
+#: game/mm9/Mm9HirelingHud.cpp:52 game/rules/maw/MawItemRules.cpp:815 game/ui/GameplayStatisticsScreen.cpp:60
 msgid "Physical"
 msgstr "物理"
 
@@ -100290,8 +100417,8 @@ msgstr "物理"
 #: assets_dev/engine/data_tables/monster_data.txt:587 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/monster_data.txt:77
 #: assets_dev/engine/data_tables/monster_data.txt:78 assets_dev/engine/data_tables/monster_data.txt:79 assets_dev/engine/rulesets/maw/patches/monster_data.txt:18
 #: assets_dev/engine/rulesets/maw/patches/monster_data.txt:236 assets_dev/engine/ui/gameplay/actor_inspect.yml:197 assets_dev/engine/ui/gameplay/character.yml:969
-#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:86 game/rules/maw/MawItemRules.cpp:2293
-#: game/rules/maw/MawItemRules.cpp:2692 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:324
+#: game/mm9/Mm9HirelingHud.cpp:39 game/rules/maw/MawClassRules.cpp:86 game/rules/maw/MawItemRules.cpp:2295
+#: game/rules/maw/MawItemRules.cpp:2694 game/rules/maw/MawItemRules.cpp:397 game/ui/GameplayHudOverlaySupport.cpp:324
 #: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:61
 msgid "Fire"
 msgstr "火"
@@ -100313,7 +100440,7 @@ msgstr "火"
 #: assets_dev/engine/data_tables/monster_data.txt:646 assets_dev/engine/data_tables/monster_data.txt:76 assets_dev/engine/data_tables/monster_data.txt:86
 #: assets_dev/engine/data_tables/monster_data.txt:87 assets_dev/engine/data_tables/monster_data.txt:88 assets_dev/engine/rulesets/maw/patches/monster_data.txt:13
 #: assets_dev/engine/ui/gameplay/actor_inspect.yml:221 assets_dev/engine/ui/gameplay/character.yml:997 game/mm9/Mm9HirelingHud.cpp:40
-#: game/rules/maw/MawClassRules.cpp:87 game/rules/maw/MawItemRules.cpp:395 game/ui/GameplayHudOverlaySupport.cpp:325
+#: game/rules/maw/MawClassRules.cpp:87 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:325
 #: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:63
 msgid "Air"
 msgstr "空气"
@@ -100338,7 +100465,7 @@ msgstr "空气"
 #: assets_dev/engine/rulesets/maw/patches/monster_data.txt:15 assets_dev/engine/ui/gameplay/actor_inspect.yml:245 assets_dev/engine/ui/gameplay/character.yml:1025
 #: assets_dev/engine/ui/gameplay/settings_video.yml:519 assets_dev/engine/ui/menu/settings_catalog.yml:464 assets_dev/engine/ui/menu/settings_catalog.yml:470
 #: assets_dev/engine/ui/menu/settings_catalog.yml:483 assets_dev/engine/ui/menu/settings_catalog.yml:490 assets_dev/engine/ui/menu/settings_catalog.yml:496
-#: game/mm9/Mm9HirelingHud.cpp:41 game/rules/maw/MawClassRules.cpp:88 game/rules/maw/MawItemRules.cpp:397
+#: game/mm9/Mm9HirelingHud.cpp:41 game/rules/maw/MawClassRules.cpp:88 game/rules/maw/MawItemRules.cpp:398
 #: game/ui/GameplayHudOverlaySupport.cpp:326 game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:65
 msgid "Water"
 msgstr "水"
@@ -100349,28 +100476,28 @@ msgstr "水"
 #: assets_dev/engine/data_tables/monster_data.txt:579 assets_dev/engine/data_tables/monster_data.txt:580 assets_dev/engine/rulesets/maw/patches/monster_data.txt:233
 #: assets_dev/engine/rulesets/maw/patches/monster_data.txt:426 assets_dev/engine/rulesets/maw/patches/monster_data.txt:432 assets_dev/engine/rulesets/maw/patches/monster_data.txt:438
 #: assets_dev/engine/ui/gameplay/actor_inspect.yml:269 assets_dev/engine/ui/gameplay/character.yml:1053 game/mm9/Mm9HirelingHud.cpp:42
-#: game/rules/maw/MawClassRules.cpp:89 game/rules/maw/MawItemRules.cpp:395 game/ui/GameplayHudOverlaySupport.cpp:327
+#: game/rules/maw/MawClassRules.cpp:89 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:327
 #: game/ui/GameplayStatisticsScreen.cpp:61 game/ui/HouseShopLedger.cpp:67
 msgid "Earth"
 msgstr "土"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:217 assets_dev/engine/ui/gameplay/actor_inspect.yml:317 game/mm9/Mm9HirelingHud.cpp:43
-#: game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:69
+#: game/rules/maw/MawItemRules.cpp:397 game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:69
 msgid "Spirit"
 msgstr "灵魂"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/Global.txt:145 assets_dev/engine/ui/gameplay/actor_inspect.yml:293 assets_dev/engine/ui/gameplay/character.yml:1081
-#: game/mm9/Mm9HirelingHud.cpp:44 game/rules/maw/MawClassRules.cpp:90 game/rules/maw/MawItemRules.cpp:396
+#: game/mm9/Mm9HirelingHud.cpp:44 game/rules/maw/MawClassRules.cpp:90 game/rules/maw/MawItemRules.cpp:397
 #: game/ui/GameplayHudOverlaySupport.cpp:330 game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:71
 msgid "Mind"
 msgstr "心智"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/Global.txt:32 assets_dev/engine/ui/gameplay/actor_inspect.yml:341 assets_dev/engine/ui/gameplay/character.yml:1109
-#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:91 game/rules/maw/MawItemRules.cpp:2292
-#: game/rules/maw/MawItemRules.cpp:395 game/ui/GameplayHudOverlaySupport.cpp:331 game/ui/GameplayStatisticsScreen.cpp:62
+#: game/mm9/Mm9HirelingHud.cpp:45 game/rules/maw/MawClassRules.cpp:91 game/rules/maw/MawItemRules.cpp:2294
+#: game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayHudOverlaySupport.cpp:331 game/ui/GameplayStatisticsScreen.cpp:62
 #: game/ui/HouseShopLedger.cpp:73
 msgid "Body"
 msgstr "肢体"
@@ -100379,7 +100506,7 @@ msgstr "肢体"
 #: assets_dev/engine/data_tables/english/Global.txt:136 assets_dev/engine/data_tables/monster_data.txt:101 assets_dev/engine/data_tables/monster_data.txt:102
 #: assets_dev/engine/data_tables/monster_data.txt:103 assets_dev/engine/data_tables/monster_data.txt:245 assets_dev/engine/data_tables/monster_data.txt:246
 #: assets_dev/engine/data_tables/monster_data.txt:247 assets_dev/engine/data_tables/monster_data.txt:296 assets_dev/engine/data_tables/monster_data.txt:297
-#: assets_dev/engine/ui/gameplay/actor_inspect.yml:365 game/mm9/Mm9HirelingHud.cpp:46 game/rules/maw/MawItemRules.cpp:396
+#: assets_dev/engine/ui/gameplay/actor_inspect.yml:365 game/mm9/Mm9HirelingHud.cpp:46 game/rules/maw/MawItemRules.cpp:397
 #: game/ui/GameplayStatisticsScreen.cpp:62 game/ui/HouseShopLedger.cpp:75
 msgid "Light"
 msgstr "光"
@@ -100391,7 +100518,7 @@ msgstr "光"
 #: assets_dev/engine/data_tables/monster_data.txt:552 assets_dev/engine/data_tables/monster_data.txt:553 assets_dev/engine/data_tables/monster_data.txt:569
 #: assets_dev/engine/data_tables/monster_data.txt:570 assets_dev/engine/data_tables/monster_data.txt:571 assets_dev/engine/data_tables/monster_data.txt:59
 #: assets_dev/engine/data_tables/monster_data.txt:60 assets_dev/engine/data_tables/monster_data.txt:61 assets_dev/engine/ui/gameplay/actor_inspect.yml:389
-#: game/mm9/Mm9HirelingHud.cpp:47 game/rules/maw/MawItemRules.cpp:395 game/ui/GameplayStatisticsScreen.cpp:63
+#: game/mm9/Mm9HirelingHud.cpp:47 game/rules/maw/MawItemRules.cpp:396 game/ui/GameplayStatisticsScreen.cpp:63
 #: game/ui/HouseShopLedger.cpp:77
 msgid "Dark"
 msgstr "暗"
@@ -100433,15 +100560,15 @@ msgid "Magic"
 msgstr "魔法"
 
 # imported from packs (base v1.21)
-#: game/outdoor/OutdoorGameView.cpp:721 game/ui/GameplayCraftingBenchRenderer.cpp:58 game/ui/GameplayHudOverlaySupport.cpp:2120
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2645 game/ui/GameplayPartyOverlayRenderer.cpp:6490
+#: game/outdoor/OutdoorGameView.cpp:721 game/ui/GameplayCraftingBenchRenderer.cpp:58 game/ui/GameplayHudOverlaySupport.cpp:2322
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2668 game/ui/GameplayPartyOverlayRenderer.cpp:6516
 msgid "Not identified"
 msgstr "未鉴定"
 
 # imported from packs (base v1.21)
 #: game/outdoor/OutdoorGameView.cpp:825 game/outdoor/OutdoorGameView.cpp:840 game/outdoor/OutdoorGameView.cpp:856
-#: game/outdoor/OutdoorGameView.cpp:877 game/outdoor/OutdoorGameView.cpp:880 game/ui/GameplayHudOverlaySupport.cpp:2115
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2712
+#: game/outdoor/OutdoorGameView.cpp:877 game/outdoor/OutdoorGameView.cpp:880 game/ui/GameplayHudOverlaySupport.cpp:2317
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2735
 msgid "Broken"
 msgstr "损坏"
 
@@ -100452,7 +100579,7 @@ msgstr "攻击：+{attack}   伤害：{damage}"
 
 # imported from zh-cn-todo.po
 #: game/outdoor/OutdoorGameView.cpp:830 game/outdoor/OutdoorGameView.cpp:845 game/outdoor/OutdoorGameView.cpp:853
-#: game/outdoor/OutdoorGameView.cpp:874 game/ui/GameplayPartyOverlayRenderer.cpp:2712
+#: game/outdoor/OutdoorGameView.cpp:874 game/ui/GameplayPartyOverlayRenderer.cpp:2735
 msgid "Broken   {detail}"
 msgstr "损坏   {detail}"
 
@@ -100467,7 +100594,7 @@ msgid "Charges: {charges}"
 msgstr "充能：{charges}"
 
 # imported from packs (base v1.21)
-#: game/outdoor/OutdoorGameView.cpp:873 game/ui/GameplayPartyOverlayRenderer.cpp:2732 game/ui/GameplayPartyOverlayRenderer.cpp:2835
+#: game/outdoor/OutdoorGameView.cpp:873 game/ui/GameplayPartyOverlayRenderer.cpp:2755 game/ui/GameplayPartyOverlayRenderer.cpp:2861
 msgid "Armor: +{armor}"
 msgstr "护甲：+{armor}"
 
@@ -100487,27 +100614,57 @@ msgid "{minutes}m"
 msgstr "{minutes}分"
 
 # imported from packs (base v1.21)
-#: game/party/Party.cpp:4591 game/party/Party.cpp:4603
+#: game/party/Party.cpp:4840 game/party/Party.cpp:4852
 msgid "No skills can be reset."
 msgstr "没有可以重置的技能。"
 
 # imported from zh-cn-todo.po
-#: game/party/Party.cpp:4609
+#: game/party/Party.cpp:4858
 msgid "{name}'s skills were reset: {points} skill points."
 msgstr "{name}的技能已重置：{points} 点技能点。"
 
+# machine translation (Claude), review
+#: game/party/Party.cpp:6601
+msgid "Stored with the potions and reagents"
+msgstr "已与药剂和试剂放在一起"
+
+# machine translation (Claude), review
+#: game/party/Party.cpp:6602
+msgid "Stored with the crafting materials"
+msgstr "已与合成材料放在一起"
+
+# machine translation (Claude), review
+#: game/party/Party.cpp:6603
+msgid "Stored with the quest items"
+msgstr "已与任务物品放在一起"
+
+# machine translation (Claude), review
+#: game/party/Party.cpp:6612
+msgid "Only potions, bottles and reagents go here"
+msgstr "此处只能放药剂、药剂瓶与试剂"
+
+# machine translation (Claude), review
+#: game/party/Party.cpp:6613
+msgid "Only crafting materials go here"
+msgstr "此处只能放合成材料"
+
+# machine translation (Claude), review
+#: game/party/Party.cpp:6614
+msgid "Only quest items go here"
+msgstr "此处只能放任务物品"
+
 # imported from zh-cn-todo.po
-#: game/party/Party.cpp:6407 game/party/Party.cpp:6408 game/party/Party.cpp:6445
+#: game/party/Party.cpp:6713 game/party/Party.cpp:6714 game/party/Party.cpp:6751
 msgid "cannot equip"
 msgstr "无法装备"
 
 # imported from zh-cn-todo.po
-#: game/party/Party.cpp:6422
+#: game/party/Party.cpp:6728
 msgid "Level {level} required"
 msgstr "需要 {level} 级"
 
 # imported from terms.engine.po
-#: game/party/Party.cpp:7785
+#: game/party/Party.cpp:8091
 msgid "An equipped relic exacts its weekly price"
 msgstr "所装备的遗物每周都要索取代价"
 
@@ -100877,7 +101034,7 @@ msgstr "反击"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/Global.txt:436 game/party/SkillData.cpp:419 game/rules/SoloTalents.cpp:380
-#: game/rules/maw/MawItemRules.cpp:3302 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1689
+#: game/rules/maw/MawItemRules.cpp:3328 game/ui/GameplayAlchemyBenchView.cpp:398 game/ui/GameplayHudOverlaySupport.cpp:1702
 #: game/ui/GameplayJournalAuras.cpp:101 game/ui/GameplayJournalTrainers.cpp:63 game/ui/screens/NewGameScreenPartySheet.cpp:83
 #: game/ui/screens/PartyCreationSheet.cpp:18
 msgid "Expert"
@@ -100886,14 +101043,14 @@ msgstr "专家"
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/Global.txt:435 assets_dev/engine/data_tables/english/class.txt:26 assets_dev/engine/data_tables/monster_data.txt:310
 #: assets_dev/engine/data_tables/npc_topic.txt:815 assets_dev/engine/data_tables/npc_topic.txt:816 game/party/SkillData.cpp:421
-#: game/rules/SoloTalents.cpp:380 game/rules/maw/MawItemRules.cpp:3302 game/ui/GameplayAlchemyBenchView.cpp:400
-#: game/ui/GameplayHudOverlaySupport.cpp:1690 game/ui/GameplayJournalAuras.cpp:102 game/ui/GameplayJournalTrainers.cpp:63
+#: game/rules/SoloTalents.cpp:380 game/rules/maw/MawItemRules.cpp:3328 game/ui/GameplayAlchemyBenchView.cpp:400
+#: game/ui/GameplayHudOverlaySupport.cpp:1703 game/ui/GameplayJournalAuras.cpp:102 game/ui/GameplayJournalTrainers.cpp:63
 #: game/ui/screens/NewGameScreenPartySheet.cpp:84 game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Master"
 msgstr "大师"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3302
+#: assets_dev/engine/data_tables/english/Global.txt:228 game/party/SkillData.cpp:423 game/rules/maw/MawItemRules.cpp:3328
 #: game/ui/GameplayAlchemyBenchView.cpp:402 game/ui/GameplayJournalAuras.cpp:102 game/ui/screens/NewGameScreenPartySheet.cpp:84
 #: game/ui/screens/PartyCreationSheet.cpp:19
 msgid "Grandmaster"
@@ -101123,7 +101280,7 @@ msgstr "板甲"
 #: assets_dev/engine/data_tables/items.txt:319 assets_dev/engine/data_tables/items.txt:419 assets_dev/engine/data_tables/potion_effects.yml:80
 #: assets_dev/engine/data_tables/spells.txt:19 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:34 game/rules/LootFilter.cpp:59
 #: game/rules/maw/MawClassSpells.cpp:43 game/ui/GameplayBuffHud.cpp:21 game/ui/GameplayBuffHud.h:154
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11644 game/ui/GameplayPartyOverlayRenderer.cpp:2613
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11721 game/ui/GameplayPartyOverlayRenderer.cpp:2636
 msgid "Shield"
 msgstr "盾牌"
 
@@ -101373,9 +101530,10 @@ msgstr "需要{skill}达到{mastery}"
 msgid "Needs {talent} first"
 msgstr "需要先学会{talent}"
 
+# imported from engine_zz-v2.5.po
 #: game/rules/SoloTalents.cpp:394
 msgid "No talent points: the next comes at level {level}"
-msgstr "没有天赋点：下一点在 {level} 级获得"
+msgstr "没有专长点：下一点在 {level} 级获得"
 
 #: game/rules/SoloTalents.cpp:468
 msgid "Bound"
@@ -101855,7 +102013,7 @@ msgstr "火焰光环"
 #: assets_dev/engine/data_tables/items.txt:231 assets_dev/engine/data_tables/items.txt:307 assets_dev/engine/data_tables/items.txt:407
 #: assets_dev/engine/data_tables/potion_effects.yml:64 assets_dev/engine/data_tables/spells.txt:6 assets_dev/engine/rulesets/maw/tables/english/potion.txt:30
 #: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:30 game/rules/maw/MawClassSpells.cpp:38 game/ui/GameplayBuffHud.cpp:21
-#: game/ui/GameplayBuffHud.h:156 game/ui/GameplayPartyOverlayRenderer.cpp:11642 game/ui/GameplayPartyOverlayRenderer.cpp:2608
+#: game/ui/GameplayBuffHud.h:156 game/ui/GameplayPartyOverlayRenderer.cpp:11719 game/ui/GameplayPartyOverlayRenderer.cpp:2631
 msgid "Haste"
 msgstr "加速"
 
@@ -101928,7 +102086,7 @@ msgstr "城镇传送"
 #: assets_dev/engine/data_tables/english/spells.txt:37 assets_dev/engine/data_tables/items.txt:1137 assets_dev/engine/data_tables/items.txt:1237
 #: assets_dev/engine/data_tables/items.txt:1837 assets_dev/engine/data_tables/items.txt:1943 assets_dev/engine/data_tables/items.txt:335
 #: assets_dev/engine/data_tables/items.txt:435 assets_dev/engine/data_tables/spells.txt:36 game/rules/maw/MawClassSpells.cpp:53
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5690 game/ui/GameplayStatisticsScreen.cpp:1110
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5716 game/ui/GameplayStatisticsScreen.cpp:1110
 msgid "Lloyd's Beacon"
 msgstr "劳埃德信标"
 
@@ -102189,7 +102347,7 @@ msgid "Add a first enchantment"
 msgstr "添加第一条附魔"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2713
+#: game/rules/maw/MawCraftingRules.cpp:338 game/rules/maw/MawItemRules.cpp:2715
 msgid "Item Bonus Power: {power}/{cap}"
 msgstr "物品加成强度：{power}/{cap}"
 
@@ -102224,7 +102382,7 @@ msgid "Works on weapons, armour and jewellery only"
 msgstr "只对武器、防具和首饰有效"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3181
+#: game/rules/maw/MawCraftingRules.cpp:519 game/rules/maw/MawItemRules.cpp:3207
 msgid "Identify the item first"
 msgstr "请先鉴定该物品"
 
@@ -102432,502 +102590,506 @@ msgid "Legendary"
 msgstr "传奇"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:1275
+#: game/rules/maw/MawItemRules.cpp:1277
 msgid "I have already bought an item like that."
 msgstr "这种东西我已经买过了。"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:1291
+#: game/rules/maw/MawItemRules.cpp:1293
 msgid ""
 "No, no -- you will still need that item. Come back once the task it is for is done."
 msgstr "不不——这件东西你还用得着。等相关的任务完成后再来吧。"
 
 # imported from terms.engine.po
-#: game/rules/maw/MawItemRules.cpp:2221
+#: game/rules/maw/MawItemRules.cpp:2223
 msgid "Potion Deleted in Austerity"
 msgstr "紧缩模式下被删除的药剂"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2227
+#: game/rules/maw/MawItemRules.cpp:2229
 msgid "{map} Map"
 msgstr "{map}地图"
 
 # imported from zh-cn-todo-2.po
-#: game/rules/maw/MawItemRules.cpp:2248
+#: game/rules/maw/MawItemRules.cpp:2250
 msgid "{rarity} {item}"
 msgstr "{rarity}{item}"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2290
+#: assets_dev/engine/data_tables/english/Global.txt:46 game/rules/maw/MawItemRules.cpp:2292
 msgid "Cold"
 msgstr "冰冷"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2291
+#: game/rules/maw/MawItemRules.cpp:2293
 msgid "Electrical"
 msgstr "电击"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2297
+#: game/rules/maw/MawItemRules.cpp:2299
 msgid ""
 "Adds {amount} to spell damage and +{intellect} Intellect and personality."
 msgstr "法术伤害 +{amount}，智力与个性 +{intellect}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2303
+#: game/rules/maw/MawItemRules.cpp:2305
 msgid ""
 "Adds {amount} points of Fire damage to Bow attacks and +{might} Might."
 msgstr "弓箭攻击附加 {amount} 点火焰伤害，力量 +{might}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2303
+#: game/rules/maw/MawItemRules.cpp:2305
 msgid ""
 "Adds {amount} points of Fire damage to Melee attacks and +{might} Might."
 msgstr "近战攻击附加 {amount} 点火焰伤害，力量 +{might}。"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2303
+#: game/rules/maw/MawItemRules.cpp:2305
 msgid "Missile"
 msgstr "远程武器"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2309
+#: game/rules/maw/MawItemRules.cpp:2311
 msgid "Adds {amount} points of {kind} damage."
 msgstr "附加 {amount} 点{kind}伤害。"
 
 # imported from zh-cn-todo-2.po
-#: game/rules/maw/MawItemRules.cpp:2368 game/rules/maw/MawItemRules.cpp:2388
+#: game/rules/maw/MawItemRules.cpp:2370 game/rules/maw/MawItemRules.cpp:2390
 msgid "{stat} +{amount}"
 msgstr "{stat} +{amount}"
 
 # imported from zh-cn-todo-2.po
-#: game/rules/maw/MawItemRules.cpp:2384
+#: game/rules/maw/MawItemRules.cpp:2386
 msgid "{stat} +{percent}%"
 msgstr "{stat} +{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2415
+#: game/rules/maw/MawItemRules.cpp:2417
 msgid "Map Level: {level}"
 msgstr "地图等级：{level}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2418
+#: game/rules/maw/MawItemRules.cpp:2420
 msgid "+{percent}% craft items drop chances"
 msgstr "合成物品掉落几率 +{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2421
+#: game/rules/maw/MawItemRules.cpp:2423
 msgid "+{percent}% item quality"
 msgstr "物品品质 +{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2423
+#: game/rules/maw/MawItemRules.cpp:2425
 msgid "+{percent}% monster density"
 msgstr "怪物密度 +{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2443 game/ui/GameplayHudOverlaySupport.cpp:1228 game/ui/GameplayHudOverlaySupport.cpp:1334
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2761 game/ui/GameplayPartyOverlayRenderer.cpp:2770
+#: game/rules/maw/MawItemRules.cpp:2445 game/ui/GameplayHudOverlaySupport.cpp:1241 game/ui/GameplayHudOverlaySupport.cpp:1347
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2784 game/ui/GameplayPartyOverlayRenderer.cpp:2796
 msgid "Power: {power}"
 msgstr "强度：{power}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2468
+#: game/rules/maw/MawItemRules.cpp:2470
 msgid "{stat}: Immune"
 msgstr "{stat}：免疫"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/rules/maw/MawItemRules.cpp:2498
+#: game/rules/maw/MawItemRules.cpp:2500
 msgid "Slows its target on hit"
 msgstr "命中时使目标减速"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2498
+#: assets_dev/engine/data_tables/special_item_enchants.txt:20 game/rules/maw/MawItemRules.cpp:2500
 msgid "Vampiric"
 msgstr "吸血"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/rules/maw/MawItemRules.cpp:2505
+#: game/rules/maw/MawItemRules.cpp:2507
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit"
 msgstr "每次命中附加 {minimum}-{maximum} 点{kind}伤害"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/rules/maw/MawItemRules.cpp:2505
+#: game/rules/maw/MawItemRules.cpp:2507
 msgid "Adds {minimum}-{maximum} {kind} damage to every hit, slows"
 msgstr "每次命中附加 {minimum}-{maximum} 点{kind}伤害，并使目标减速"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2512
+#: game/rules/maw/MawItemRules.cpp:2514
 msgid "{kind} damage on hit"
 msgstr "命中时造成{kind}伤害"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2512
+#: game/rules/maw/MawItemRules.cpp:2514
 msgid "{kind} damage on hit, slows"
 msgstr "命中时造成{kind}伤害并减速"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2522
+#: game/rules/maw/MawItemRules.cpp:2524
 msgid "x{factor} damage vs {kind}"
 msgstr "对{kind}伤害 x{factor}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2529
+#: game/rules/maw/MawItemRules.cpp:2531
 msgid "+50% skill in {skill}"
 msgstr "{skill}技能 +50%"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2541
+#: game/rules/maw/MawItemRules.cpp:2543
 msgid "Regenerates Hit Points"
 msgstr "恢复生命值"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2546
+#: game/rules/maw/MawItemRules.cpp:2548
 msgid "Regenerates Spell Points"
 msgstr "恢复法术值"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2551
+#: assets_dev/engine/data_tables/special_item_enchants.txt:63 game/rules/maw/MawItemRules.cpp:2553
 msgid "Swift"
 msgstr "疾行"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2564
+#: game/rules/maw/MawItemRules.cpp:2566
 msgid "Artifact level: {level}"
 msgstr "神器等级：{level}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2582
+#: game/rules/maw/MawItemRules.cpp:2584
 msgid "Quality bonus: +{percent}%"
 msgstr "品质加成：+{percent}%"
 
-#: game/rules/maw/MawItemRules.cpp:2629
+# imported from engine_zz-v2.5.po
+#: game/rules/maw/MawItemRules.cpp:2631
 msgid "{stat} +X"
-msgstr ""
+msgstr "{stat} +X"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2657
+#: game/rules/maw/MawItemRules.cpp:2659
 msgid "Current bonus Damage: {percent}%"
 msgstr "当前伤害加成：{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2663
+#: game/rules/maw/MawItemRules.cpp:2665
 msgid "Current Reduction: {percent}%"
 msgstr "当前减免：{percent}%"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2670
+#: game/rules/maw/MawItemRules.cpp:2672
 msgid "Grows with its wearer up to level {level}"
 msgstr "随佩戴者成长，最高至等级 {level}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2683
+#: game/rules/maw/MawItemRules.cpp:2685
 msgid "Attack speed: {speed}"
 msgstr "攻击速度：{speed}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2692
+#: game/rules/maw/MawItemRules.cpp:2694
 msgid "Flame"
 msgstr "火焰"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/english/spells.txt:12 assets_dev/engine/data_tables/items.txt:1114 assets_dev/engine/data_tables/items.txt:1214
 #: assets_dev/engine/data_tables/items.txt:1814 assets_dev/engine/data_tables/items.txt:1916 assets_dev/engine/data_tables/items.txt:312
-#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2692
+#: assets_dev/engine/data_tables/items.txt:412 assets_dev/engine/data_tables/spells.txt:11 game/rules/maw/MawItemRules.cpp:2694
 msgid "Inferno"
 msgstr "地狱烈焰"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:2695
+#: game/rules/maw/MawItemRules.cpp:2697
 msgid "{aura} Aura: adds {damage} Fire Damage to any attack"
 msgstr "{aura}光环：任何攻击附加 {damage} 点火焰伤害"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2702
+#: game/rules/maw/MawItemRules.cpp:2704
 msgid "Vampiric Aura: damage done will restore player HP."
 msgstr "吸血光环：造成的伤害会回复玩家生命。"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2706
+#: game/rules/maw/MawItemRules.cpp:2708
 msgid "Item level: {level}"
 msgstr "物品等级：{level}"
 
-#: game/rules/maw/MawItemRules.cpp:2715
+# imported from engine_zz-v2.5.po
+#: game/rules/maw/MawItemRules.cpp:2717
 msgid "Item Bonus Power: {power}"
-msgstr ""
+msgstr "物品加成强度：{power}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:2724
+#: game/rules/maw/MawItemRules.cpp:2726
 msgid "Level required: {level}"
 msgstr "需求等级：{level}"
 
 # imported from terms.engine.po
-#: game/rules/maw/MawItemRules.cpp:3175
+#: game/rules/maw/MawItemRules.cpp:3201
 msgid "Not enough disarm skill"
 msgstr "拆除陷阱技能不足"
 
 # imported from zh-cn-todo-2.po
-#: game/rules/maw/MawItemRules.cpp:3282
+#: game/rules/maw/MawItemRules.cpp:3308
 msgid "{name}: {change}%"
 msgstr "{name}：{change}%"
 
-# imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3285
+# imported from engine_zz-v2.5.po
+#: assets_dev/engine/data_tables/english/Global.txt:452 game/rules/maw/MawItemRules.cpp:3311
 msgid "Power"
-msgstr "力量术"
+msgstr "威力"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:3286 game/rules/maw/MawSkillRules.cpp:1872 game/rules/maw/MawSkillRules.cpp:927
+#: game/rules/maw/MawItemRules.cpp:3312 game/rules/maw/MawSkillRules.cpp:1872 game/rules/maw/MawSkillRules.cpp:927
 msgid "Vitality"
 msgstr "生存力"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:3301
+#: game/rules/maw/MawItemRules.cpp:3327
 msgid "Novice"
 msgstr "新手"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:3305
+#: game/rules/maw/MawItemRules.cpp:3331
 msgid "You need at least {mastery} skill in {school} Magic to open the book"
 msgstr "你至少需要{mastery}级的{school}魔法才能打开这本书"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:412
+#: game/rules/maw/MawItemRules.cpp:413
 msgid "{school} Magic Skill +{amount}"
 msgstr "{school}魔法技能 +{amount}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:419
+#: game/rules/maw/MawItemRules.cpp:420
 msgid "+{amount} to all Resistances."
 msgstr "所有抗性 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:421
+#: game/rules/maw/MawItemRules.cpp:422
 msgid "+{amount} to all Seven Statistics."
 msgstr "七项属性全部 +{amount}。"
 
-#: game/rules/maw/MawItemRules.cpp:425
+# imported from engine_zz-v2.6.po
+#: game/rules/maw/MawItemRules.cpp:426
 msgid "Reduces physical damage taken by 15% (does not stack)."
-msgstr ""
+msgstr "受到的物理伤害减少 15%（不可叠加）。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:427
+#: game/rules/maw/MawItemRules.cpp:428
 msgid "Meditation Skill +{amount}"
 msgstr "冥想 +{amount}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:429
+#: game/rules/maw/MawItemRules.cpp:430
 msgid "Leech 10% of magical damage, increases cast speed (does not stack)."
 msgstr "吸取 10% 的魔法伤害，提高施法速度（不可叠加）。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:432
+#: game/rules/maw/MawItemRules.cpp:433
 msgid "+{amount} to Seven Stats, HP, SP, Armor, Resistances."
 msgstr "七项属性、生命值、魔法值、防御等级、抗性各 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:434
+#: game/rules/maw/MawItemRules.cpp:435
 msgid "+{amount} to Endurance, Armor, Hit points."
 msgstr "耐力、防御等级、生命值各 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:436
+#: game/rules/maw/MawItemRules.cpp:437
 msgid "+{amount} Hit points and Regenerate Hit points over time."
 msgstr "生命值 +{amount}，并持续回复生命值。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:438
+#: game/rules/maw/MawItemRules.cpp:439
 msgid "+{amount} Speed and Accuracy."
 msgstr "速度与准确 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:440
+#: game/rules/maw/MawItemRules.cpp:441
 msgid "+{amount} Spell points and Meditation Skill +{meditation}"
 msgstr "魔法值 +{amount}，冥想 +{meditation}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:442
+#: game/rules/maw/MawItemRules.cpp:443
 msgid "+{amount} Endurance and +{second} Armor."
 msgstr "耐力 +{amount}，防御等级 +{second}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:444
+#: game/rules/maw/MawItemRules.cpp:445
 msgid "+{amount} Intellect and Luck."
 msgstr "智力与运气 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:446
+#: game/rules/maw/MawItemRules.cpp:447
 msgid "+{amount} Fire Resistance and Regenerate Hit points over time."
 msgstr "火系抗性 +{amount}，并持续回复生命值。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:448
+#: game/rules/maw/MawItemRules.cpp:449
 msgid "+{amount} Spell points, Speed, Intellect."
 msgstr "魔法值、速度、智力各 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:450
+#: game/rules/maw/MawItemRules.cpp:451
 msgid "+{amount} Endurance and Accuracy."
 msgstr "耐力与准确 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:452
+#: game/rules/maw/MawItemRules.cpp:453
 msgid "+{amount} Might and Personality."
 msgstr "力量与个性 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:454
+#: game/rules/maw/MawItemRules.cpp:455
 msgid "+{amount} Endurance and Regenerate Hit points over time."
 msgstr "耐力 +{amount}，并持续回复生命值。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:456
+#: game/rules/maw/MawItemRules.cpp:457
 msgid "+{amount} Luck and Meditation Skill +{meditation}"
 msgstr "运气 +{amount}，冥想 +{meditation}"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:458
+#: game/rules/maw/MawItemRules.cpp:459
 msgid "+{amount} Might and Endurance."
 msgstr "力量与耐力 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:460
+#: game/rules/maw/MawItemRules.cpp:461
 msgid "+{amount} Intellect and Personality."
 msgstr "智力与个性 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:462
+#: game/rules/maw/MawItemRules.cpp:463
 msgid "Regenerates Hit Points and Meditation Skill +{amount}"
 msgstr "持续回复生命值，冥想 +{amount}"
 
-#: game/rules/maw/MawItemRules.cpp:464
+# imported from engine_zz-v2.6.po
+#: game/rules/maw/MawItemRules.cpp:465
 msgid "+20 Air Resistance."
-msgstr ""
+msgstr "空气抗性 +20。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:466
+#: game/rules/maw/MawItemRules.cpp:467
 msgid "+{amount} Personality and Accuracy."
 msgstr "个性与准确 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:468
+#: game/rules/maw/MawItemRules.cpp:469
 msgid "+{amount} Intellect and Might."
 msgstr "智力与力量 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:470
+#: game/rules/maw/MawItemRules.cpp:471
 msgid "+{amount} Intellect and Accuracy."
 msgstr "智力与准确 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:472
+#: game/rules/maw/MawItemRules.cpp:473
 msgid "+{amount} Might, Intellect and Personality."
 msgstr "力量、智力、个性各 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:474
+#: game/rules/maw/MawItemRules.cpp:475
 msgid "+{amount} Elemental Resistances."
 msgstr "元素抗性 +{amount}。"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:476
+#: game/rules/maw/MawItemRules.cpp:477
 msgid "+{amount} Body and mind Resistances."
 msgstr "体系与心系抗性 +{amount}。"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:635
+#: game/rules/maw/MawItemRules.cpp:636
 msgid "Permanent Water Walk"
 msgstr "永久水上行走"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:640
+#: game/rules/maw/MawItemRules.cpp:641
 msgid "Permanent Feather Fall for the party"
 msgstr "全队永久羽落"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:650 game/rules/maw/MawMonsterInspect.cpp:26 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:651 game/rules/maw/MawMonsterInspect.cpp:26 game/ui/GameplayBuffHud.cpp:53
 msgid "Curse"
 msgstr "诅咒"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:651 game/rules/maw/MawMonsterInspect.cpp:27 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:652 game/rules/maw/MawMonsterInspect.cpp:27 game/ui/GameplayBuffHud.cpp:53
 msgid "Weakness"
 msgstr "虚弱"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:652 game/rules/maw/MawMonsterInspect.cpp:28 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:653 game/rules/maw/MawMonsterInspect.cpp:28 game/ui/GameplayBuffHud.cpp:53
 msgid "Sleep"
 msgstr "睡眠"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/spells.txt:135 assets_dev/engine/data_tables/monster_data.txt:155 assets_dev/engine/data_tables/spells.txt:134
-#: game/rules/maw/MawItemRules.cpp:653 game/rules/maw/MawMonsterInspect.cpp:29 game/ui/GameplayBuffHud.cpp:53
+#: game/rules/maw/MawItemRules.cpp:654 game/rules/maw/MawMonsterInspect.cpp:29 game/ui/GameplayBuffHud.cpp:53
 msgid "Fear"
 msgstr "恐惧"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:654 game/rules/maw/MawMonsterInspect.cpp:30 game/ui/GameplayBuffHud.cpp:54
+#: game/rules/maw/MawItemRules.cpp:655 game/rules/maw/MawMonsterInspect.cpp:30 game/ui/GameplayBuffHud.cpp:54
 msgid "Insanity"
 msgstr "疯狂"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:169 game/rules/maw/MawItemRules.cpp:656 game/ui/GameplayBuffHud.cpp:54
+#: assets_dev/engine/data_tables/english/Global.txt:169 game/rules/maw/MawItemRules.cpp:657 game/ui/GameplayBuffHud.cpp:54
 #: game/ui/GameplayBuffHud.cpp:55
 msgid "Poison"
 msgstr "中毒"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:658 game/ui/GameplayBuffHud.cpp:55 game/ui/GameplayBuffHud.cpp:56
+#: game/rules/maw/MawItemRules.cpp:659 game/ui/GameplayBuffHud.cpp:55 game/ui/GameplayBuffHud.cpp:56
 #: game/ui/GameplayCombatLogPanel.cpp:172
 msgid "Disease"
 msgstr "疾病"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:659 game/rules/maw/MawMonsterInspect.cpp:37 game/ui/GameplayBuffHud.cpp:56
+#: game/rules/maw/MawItemRules.cpp:660 game/rules/maw/MawMonsterInspect.cpp:37 game/ui/GameplayBuffHud.cpp:56
 msgid "Paralysis"
 msgstr "麻痹"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/items.txt:620 assets_dev/engine/data_tables/items.txt:621 assets_dev/engine/rulesets/maw/patches/items.txt:161
-#: assets_dev/engine/rulesets/maw/patches/items.txt:168 game/rules/maw/MawItemRules.cpp:660 game/rules/maw/MawMonsterInspect.cpp:40
+#: assets_dev/engine/rulesets/maw/patches/items.txt:168 game/rules/maw/MawItemRules.cpp:661 game/rules/maw/MawMonsterInspect.cpp:40
 #: game/ui/GameplayBuffHud.cpp:57
 msgid "Stone"
 msgstr "石头"
 
 # imported from zh-cn-todo.po
-#: game/rules/maw/MawItemRules.cpp:685 game/ui/GameplayBuffHud.cpp:116
+#: game/rules/maw/MawItemRules.cpp:686 game/ui/GameplayBuffHud.cpp:116
 msgid "Immune to {conditions}"
 msgstr "免疫{conditions}"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:815
+#: game/rules/maw/MawItemRules.cpp:816
 msgid "Demon"
 msgstr "恶魔"
 
 # imported from packs (base v1.21)
 #: assets_dev/engine/data_tables/arcomage_cards.txt:98 assets_dev/engine/data_tables/english/Global.txt:694 assets_dev/engine/data_tables/english/class.txt:12
 #: assets_dev/engine/data_tables/house_data.txt:776 assets_dev/engine/data_tables/monster_data.txt:74 assets_dev/engine/data_tables/npc_topic.txt:793
-#: game/rules/maw/MawItemRules.cpp:815 game/ui/screens/NewGameScreenPartySheet.cpp:51
+#: game/rules/maw/MawItemRules.cpp:816 game/ui/screens/NewGameScreenPartySheet.cpp:51
 msgid "Dragon"
 msgstr "龙"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:815
+#: game/rules/maw/MawItemRules.cpp:816
 msgid "Elemental"
 msgstr "元素"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:815
+#: assets_dev/engine/data_tables/arcomage_cards.txt:85 assets_dev/engine/data_tables/monster_data.txt:596 game/rules/maw/MawItemRules.cpp:816
 msgid "Ogre"
 msgstr "食人妖"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:816
+#: assets_dev/engine/data_tables/english/Global.txt:106 game/rules/maw/MawItemRules.cpp:817
 msgid "Elf"
 msgstr "精灵"
 
 # imported from packs (base v1.21)
-#: game/rules/maw/MawItemRules.cpp:816
+#: game/rules/maw/MawItemRules.cpp:817
 msgid "Undead"
 msgstr "亡灵"
 
@@ -103877,7 +104039,7 @@ msgid "Alchemy Bench"
 msgstr "炼金台"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayAlchemyBenchRenderer.cpp:220 game/ui/GameplayPartyOverlayRenderer.cpp:10014
+#: game/ui/GameplayAlchemyBenchRenderer.cpp:220 game/ui/GameplayPartyOverlayRenderer.cpp:10040
 msgid "Workbench"
 msgstr "工作台"
 
@@ -104165,9 +104327,10 @@ msgstr "需要{mastery}炼金术，{alchemist}可安全调制。"
 msgid "Automatic"
 msgstr "自动存档"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayAlchemyBenchRenderer.cpp:779
 msgid "x{count}"
-msgstr ""
+msgstr "×{count}"
 
 # imported from terms.engine.po
 #: game/ui/GameplayAlchemyBenchRenderer.cpp:79
@@ -104285,11 +104448,11 @@ msgstr "室内"
 msgid "Outdoors"
 msgstr "室外"
 
-#: game/ui/GameplayBattleOrders.cpp:1304 game/ui/GameplayQuickItems.cpp:1703
-#, fuzzy
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayBattleOrders.cpp:1304 game/ui/GameplayQuickItems.cpp:1706
 #| msgid "At most {count} upkeep spells"
 msgid "At most {count} upkeep entries"
-msgstr "最多 {count} 个维持法术"
+msgstr "最多 {count} 个维持项"
 
 #: game/ui/GameplayBattleOrders.cpp:1305
 msgid "At most {count} orders"
@@ -104300,7 +104463,7 @@ msgid "Already in the upkeep list"
 msgstr "已在维持列表中"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayBattleOrders.cpp:1600 game/ui/GameplayQuickItems.cpp:1071
+#: game/ui/GameplayBattleOrders.cpp:1600 game/ui/GameplayQuickItems.cpp:1073
 msgid "no SP"
 msgstr "无魔法值"
 
@@ -104309,34 +104472,34 @@ msgstr "无魔法值"
 msgid "top to bottom; the first order whose conditions all hold is used"
 msgstr "从上到下；使用第一条条件全部满足的指令"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1625
-#, fuzzy
 #| msgid "the Upkeep key (not set) casts the first that is due"
 msgid "the Upkeep key (not set) casts or drinks the first that is due"
-msgstr "维持键（未设置）会施放第一个到期的法术"
+msgstr "维持键（未设置）会施放或饮用第一个到期的项目"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1626
-#, fuzzy
 #| msgid "{key} casts the first that is due; hold it to go on"
 msgid "{key} casts or drinks the first that is due; hold it to go on"
-msgstr "按 {key} 施放第一个到期的法术；按住可连续施放"
+msgstr "按 {key} 施放或饮用第一个到期的项目；按住可连续进行"
 
 # imported from zh-cn-todo.po
 #: game/ui/GameplayBattleOrders.cpp:1667 game/ui/GameplayJournalAuras.cpp:264
 msgid "{points} SP"
 msgstr "{points} SP"
 
+# machine translation (Claude 2.6), review
 #: game/ui/GameplayBattleOrders.cpp:1676
 msgid "{count} drink"
 msgid_plural "{count} drinks"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} 份"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1736
-#, fuzzy
 #| msgid "+ Add a spell to keep up: click it on the right"
 msgid "+ Add a spell or a potion to keep up: click it on the right"
-msgstr "+ 添加要维持的法术：在右侧点击它"
+msgstr "+ 添加要维持的法术或药水：在右侧点击它"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:1764 game/ui/GameplayBattleOrders.cpp:3376
@@ -104373,9 +104536,10 @@ msgstr "武器"
 msgid "Choose the spell for the quick key on the right"
 msgstr "在右侧为快捷键选择法术"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1784
 msgid "+ Add an order: click a spell, weapon or talent on the right"
-msgstr ""
+msgstr "+ 添加指令：在右侧点击法术、武器或专长"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:1785
@@ -104396,24 +104560,25 @@ msgstr "无指令"
 msgid "Orders"
 msgstr "指令"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1844
-#, fuzzy
 #| msgid "Select a spell to set when it is cast."
 msgid "Select a spell or potion to set when it is used."
-msgstr "选择一个法术，设置它何时施放。"
+msgstr "选择一个法术或药水，设置它何时使用。"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:1845
 msgid "Select an order to set when it is used."
 msgstr "选择一条指令，设置它何时使用。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1847
-#, fuzzy
 #| msgid ""
 #| "The buffs, heals and cures {member} keeps up. The Upkeep key casts the first that is due, at its usual cost. Add spells on the right, or the member's buffs or healing below."
 msgid ""
 "The buffs, heals, cures and potions {member} keeps up. The Upkeep key casts or drinks the first that is due, at its usual cost. Add spells and potions on the right, or the member's buffs, healing or carried potions below."
-msgstr "{member} 维持的增益、治疗和解除状态。维持键会按平时的消耗施放第一个到期的法术。在右侧添加法术，或在下方添加该成员的增益或治疗。"
+msgstr ""
+"{member} 维持的增益、治疗、解除状态和药水。维持键会按平时的消耗施放或饮用第一个到期的项目。在右侧添加法术和药水，或在下方添加该成员的增益、治疗或携带的药水。"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:1850
@@ -104421,9 +104586,10 @@ msgid ""
 "{member} attacks with the weapon: a blow in reach, the ranged weapon beyond. Add a spell to cast it first, or start from a plan below."
 msgstr "{member}使用武器攻击：范围内近战攻击，范围外使用远程武器。添加法术即可优先施放，或从下方的方案开始。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1871
 msgid "Drunk when it is due; auto-brew keeps the stock."
-msgstr ""
+msgstr "到期时饮用；自动炼制会补充库存。"
 
 #: game/ui/GameplayBattleOrders.cpp:1872
 msgid "Cast when it is due and every ticked condition holds."
@@ -104443,42 +104609,49 @@ msgstr "此地"
 msgid "Renew when less is left than"
 msgstr "剩余时间少于以下时重新施放"
 
-#: game/ui/GameplayBattleOrders.cpp:1907 game/ui/GameplayBattleOrders.cpp:1955 game/ui/GameplayQuickItems.cpp:790
+#: game/ui/GameplayBattleOrders.cpp:1907 game/ui/GameplayBattleOrders.cpp:1955 game/ui/GameplayQuickItems.cpp:792
 msgid "{minutes} min"
 msgstr "{minutes} 分钟"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1915
 msgid "Keep in stock"
-msgstr ""
+msgstr "保持库存"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1916
 msgid "{drinks} drinks ({carried} carried)"
-msgstr ""
+msgstr "{drinks} 份（携带 {carried}）"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1918
 msgid "{carried} carried"
-msgstr ""
+msgstr "携带 {carried}"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1925
 msgid "Brew at power at least"
-msgstr ""
+msgstr "炼制强度至少为"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1926
 msgid "the strongest"
-msgstr ""
+msgstr "最强的"
 
 # imported from terms.mm7.po
 #: game/ui/GameplayBattleOrders.cpp:1932
 msgid "Drink"
 msgstr "饮用"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1934
 msgid "Strongest"
-msgstr ""
+msgstr "最强"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:1934
 msgid "Weakest"
-msgstr ""
+msgstr "最弱"
 
 #: game/ui/GameplayBattleOrders.cpp:1954
 msgid "buffs only"
@@ -104561,13 +104734,15 @@ msgstr "仅限法术"
 msgid "Choose the spell for {key}"
 msgstr "为{key}选择法术"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2062
 msgid "Add: {member}'s spells and potions"
-msgstr ""
+msgstr "添加：{member} 的法术和药水"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2063
 msgid "Add: spells, weapons and talents"
-msgstr ""
+msgstr "添加：法术、武器和专长"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:2064
@@ -104594,19 +104769,21 @@ msgstr "近战：范围内攻击"
 msgid "Shoot: the ranged weapon"
 msgstr "射击：远程武器"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2145
 msgid "{talent}: {effect}"
-msgstr ""
+msgstr "{talent}：{effect}"
 
+# machine translation (Claude 2.6), review
 #: game/ui/GameplayBattleOrders.cpp:2157
 msgid "{count} drink carried"
 msgid_plural "{count} drinks carried"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "携带 {count} 份"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2159
 msgid "none carried, auto-brew can brew it"
-msgstr ""
+msgstr "未携带，可自动炼制"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:2177
@@ -104642,21 +104819,23 @@ msgstr "请按下要使用的键。按 Esc 保留原来的键。"
 msgid "Click the box, then press a key. A right click clears it."
 msgstr "点击方框，再按一个键。右键点击可清除。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2289
-#, fuzzy
 #| msgid ""
 #| "One key for the whole party: each ready member casts what is due on their list."
 msgid ""
 "One key for the whole party: each ready member uses what is due on their list."
-msgstr "全队共用一个键：每位准备好的成员会施放自己列表中到期的法术。"
+msgstr "全队共用一个键：每位准备好的成员会使用自己列表中到期的项目。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2306
 msgid "Auto-brew potions"
-msgstr ""
+msgstr "自动炼制药水"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2308
 msgid "brews the stock first"
-msgstr ""
+msgstr "先炼制库存"
 
 #: game/ui/GameplayBattleOrders.cpp:2332
 #| msgid "Attack and the quick keys, per member"
@@ -104706,13 +104885,15 @@ msgstr "已复制 {member} 的维持列表"
 msgid "Copied {member}'s orders"
 msgstr "已复制{member}的指令"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2947
 msgid "The Upkeep key brews the stocked potions first"
-msgstr ""
+msgstr "维持键会先炼制库存药水"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:2948
 msgid "The Upkeep key brews no potions"
-msgstr ""
+msgstr "维持键不炼制药水"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:3107
@@ -104756,7 +104937,7 @@ msgstr "放上快捷栏"
 msgid "Open Battle Orders"
 msgstr "打开战斗指令"
 
-#: game/ui/GameplayBattleOrders.cpp:3238 game/ui/GameplayQuickItems.cpp:1848
+#: game/ui/GameplayBattleOrders.cpp:3238 game/ui/GameplayQuickItems.cpp:1851
 msgid "The action bar is full"
 msgstr "快捷栏已满"
 
@@ -104819,13 +105000,15 @@ msgstr "剩余不足 {minutes} 分钟"
 msgid "when it has run out"
 msgstr "失效后"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:529
 msgid "keeps {drinks} drinks of power {power}+"
-msgstr ""
+msgstr "保持 {drinks} 份强度 {power}+ 的药水"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:531
 msgid "keeps {drinks} drinks"
-msgstr ""
+msgstr "保持 {drinks} 份"
 
 # reviewed by the zh-cn translators (2.0 review)
 #: game/ui/GameplayBattleOrders.cpp:536 game/ui/GameplayBattleOrders.cpp:594
@@ -104842,13 +105025,15 @@ msgstr "在武器攻击范围内"
 msgid "with a ranged weapon"
 msgstr "使用远程武器"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:560
 msgid "not learned"
-msgstr ""
+msgstr "未学会"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayBattleOrders.cpp:561
 msgid "when ready"
-msgstr ""
+msgstr "就绪时"
 
 #: game/ui/GameplayBattleOrders.cpp:572
 msgid "own HP below {percent} %"
@@ -104903,8 +105088,8 @@ msgstr "再生（药水）"
 #: assets_dev/engine/data_tables/items.txt:1782 assets_dev/engine/data_tables/items.txt:1850 assets_dev/engine/data_tables/items.txt:1958
 #: assets_dev/engine/data_tables/items.txt:233 assets_dev/engine/data_tables/items.txt:348 assets_dev/engine/data_tables/items.txt:448
 #: assets_dev/engine/data_tables/potion_effects.yml:72 assets_dev/engine/data_tables/spells.txt:51 assets_dev/engine/rulesets/maw/tables/english/potion.txt:32
-#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:32 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11648
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2623
+#: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:32 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11725
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2646
 msgid "Bless"
 msgstr "祝福"
 
@@ -104912,8 +105097,8 @@ msgstr "祝福"
 #: assets_dev/engine/data_tables/english/Global.txt:224 assets_dev/engine/data_tables/english/spells.txt:53 assets_dev/engine/data_tables/items.txt:1151
 #: assets_dev/engine/data_tables/items.txt:1251 assets_dev/engine/data_tables/items.txt:1851 assets_dev/engine/data_tables/items.txt:1959
 #: assets_dev/engine/data_tables/items.txt:1960 assets_dev/engine/data_tables/items.txt:349 assets_dev/engine/data_tables/items.txt:449
-#: assets_dev/engine/data_tables/spells.txt:52 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11650
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2628
+#: assets_dev/engine/data_tables/spells.txt:52 game/ui/GameplayBuffHud.cpp:17 game/ui/GameplayPartyOverlayRenderer.cpp:11727
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2651
 msgid "Fate"
 msgstr "命运"
 
@@ -104930,7 +105115,7 @@ msgstr "保护"
 #: assets_dev/engine/data_tables/english/Global.txt:231 assets_dev/engine/data_tables/english/spells.txt:81 assets_dev/engine/data_tables/items.txt:1177
 #: assets_dev/engine/data_tables/items.txt:1277 assets_dev/engine/data_tables/items.txt:1877 assets_dev/engine/data_tables/items.txt:1991
 #: assets_dev/engine/data_tables/items.txt:375 assets_dev/engine/data_tables/items.txt:475 assets_dev/engine/data_tables/spells.txt:80
-#: game/ui/GameplayBuffHud.cpp:18 game/ui/GameplayPartyOverlayRenderer.cpp:11640 game/ui/GameplayPartyOverlayRenderer.cpp:2603
+#: game/ui/GameplayBuffHud.cpp:18 game/ui/GameplayPartyOverlayRenderer.cpp:11717 game/ui/GameplayPartyOverlayRenderer.cpp:2626
 msgid "Hammerhands"
 msgstr "重锤之手"
 
@@ -104938,7 +105123,7 @@ msgstr "重锤之手"
 #: assets_dev/engine/data_tables/english/Global.txt:232 assets_dev/engine/data_tables/english/spells.txt:105 assets_dev/engine/data_tables/items.txt:1199
 #: assets_dev/engine/data_tables/items.txt:1299 assets_dev/engine/data_tables/items.txt:1899 assets_dev/engine/data_tables/items.txt:2017
 #: assets_dev/engine/data_tables/items.txt:397 assets_dev/engine/data_tables/items.txt:497 assets_dev/engine/data_tables/spells.txt:104
-#: game/ui/GameplayBuffHud.cpp:19 game/ui/GameplayPartyOverlayRenderer.cpp:11638 game/ui/GameplayPartyOverlayRenderer.cpp:2598
+#: game/ui/GameplayBuffHud.cpp:19 game/ui/GameplayPartyOverlayRenderer.cpp:11715 game/ui/GameplayPartyOverlayRenderer.cpp:2621
 msgid "Pain Reflection"
 msgstr "痛苦反射"
 
@@ -104968,15 +105153,15 @@ msgstr "吸血武器"
 #: assets_dev/engine/data_tables/items.txt:232 assets_dev/engine/data_tables/items.txt:353 assets_dev/engine/data_tables/items.txt:453
 #: assets_dev/engine/data_tables/potion_effects.yml:68 assets_dev/engine/data_tables/spells.txt:56 assets_dev/engine/rulesets/maw/tables/english/potion.txt:31
 #: assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:31 game/ui/GameplayBuffHud.cpp:21 game/ui/GameplayBuffHud.h:155
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11652 game/ui/GameplayPartyOverlayRenderer.cpp:2633
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11729 game/ui/GameplayPartyOverlayRenderer.cpp:2656
 msgid "Heroism"
 msgstr "英勇"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/Global.txt:445 assets_dev/engine/data_tables/english/potion.txt:36 assets_dev/engine/data_tables/english/potnotes.txt:36
 #: assets_dev/engine/data_tables/items.txt:237 assets_dev/engine/data_tables/potion_effects.yml:87 assets_dev/engine/rulesets/maw/tables/english/potnotes.txt:36
-#: game/ui/GameplayBuffHud.cpp:22 game/ui/GameplayBuffHud.h:136 game/ui/GameplayPartyOverlayRenderer.cpp:11646
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2618
+#: game/ui/GameplayBuffHud.cpp:22 game/ui/GameplayBuffHud.h:136 game/ui/GameplayPartyOverlayRenderer.cpp:11723
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2641
 msgid "Stoneskin"
 msgstr "石肤"
 
@@ -105275,7 +105460,7 @@ msgid "Packs"
 msgstr "背包"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayCraftingBenchRenderer.cpp:180 game/ui/GameplayPartyOverlayRenderer.cpp:10065
+#: game/ui/GameplayCraftingBenchRenderer.cpp:180 game/ui/GameplayPartyOverlayRenderer.cpp:10091
 msgid "Search items"
 msgstr "搜索物品"
 
@@ -105665,110 +105850,110 @@ msgid "Sort by type, in reverse"
 msgstr "按类别倒序排序"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlayRenderer.cpp:370
+#: game/ui/GameplayHudOverlayRenderer.cpp:383
 msgid "Chest"
 msgstr "箱子"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1015
+#: game/ui/GameplayHudOverlaySupport.cpp:1028
 msgid ""
 "Blaster weapons provide an accurate ranged attack. With scaling damage enabled, only Grandmaster rank adds damage per skill point."
 msgstr "榴弹枪提供精准的远程攻击。开启伤害成长后，只有宗师级才会按技能点增加伤害。"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/skill_des.txt:9 game/ui/GameplayHudOverlaySupport.cpp:1017
+#: assets_dev/engine/data_tables/english/skill_des.txt:9 game/ui/GameplayHudOverlaySupport.cpp:1030
 msgid "Skill added to Attack Bonus (double effect)"
 msgstr "技能加入攻击加成（双倍效果）"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/skill_des.txt:9 game/ui/GameplayHudOverlaySupport.cpp:1018
+#: assets_dev/engine/data_tables/english/skill_des.txt:9 game/ui/GameplayHudOverlaySupport.cpp:1031
 msgid "Skill added to Attack Bonus (triple effect)"
 msgstr "技能加入攻击加成（三倍效果）"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1020
+#: game/ui/GameplayHudOverlaySupport.cpp:1033
 msgid ""
 "Skill added to Attack Bonus (quintuple effect); +1 damage per skill point"
 msgstr "技能加入攻击加成（五倍效果）；每点技能 +1 伤害"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1040
+#: game/ui/GameplayHudOverlaySupport.cpp:1053
 msgid "Normal: {effect}"
 msgstr "普通：{effect}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1048
+#: game/ui/GameplayHudOverlaySupport.cpp:1061
 msgid "Expert: {effect}"
 msgstr "专家：{effect}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1056
+#: game/ui/GameplayHudOverlaySupport.cpp:1069
 msgid "Master: {effect}"
 msgstr "大师：{effect}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1064
+#: game/ui/GameplayHudOverlaySupport.cpp:1077
 msgid "Grandmaster: {effect}"
 msgstr "宗师：{effect}"
 
 # imported from zh-cn-todo-2.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1145 game/ui/GameplayHudOverlaySupport.cpp:1299
+#: game/ui/GameplayHudOverlaySupport.cpp:1158 game/ui/GameplayHudOverlaySupport.cpp:1312
 msgid "{buff} - {duration}"
 msgstr "{buff} - {duration}"
 
-#: game/ui/GameplayHudOverlaySupport.cpp:1267 game/ui/GameplaySoloTalentsPage.cpp:399
+#: game/ui/GameplayHudOverlaySupport.cpp:1280 game/ui/GameplaySoloTalentsPage.cpp:399
 msgid "Active · cooldown {seconds} s"
 msgstr "主动 · 冷却 {seconds} 秒"
 
-#: game/ui/GameplayHudOverlaySupport.cpp:1269 game/ui/GameplaySoloTalentsPage.cpp:401
+#: game/ui/GameplayHudOverlaySupport.cpp:1282 game/ui/GameplaySoloTalentsPage.cpp:401
 msgid "Passive"
 msgstr "被动"
 
-#: game/ui/GameplayHudOverlaySupport.cpp:1271 game/ui/GameplaySoloTalentsPage.cpp:406
+#: game/ui/GameplayHudOverlaySupport.cpp:1284 game/ui/GameplaySoloTalentsPage.cpp:406
 msgid "Now (rank {rank}): {effect}"
 msgstr "当前（{rank} 阶）：{effect}"
 
-#: game/ui/GameplayHudOverlaySupport.cpp:1273 game/ui/GameplaySoloTalentsPage.cpp:412
+#: game/ui/GameplayHudOverlaySupport.cpp:1286 game/ui/GameplaySoloTalentsPage.cpp:412
 msgid "Next (rank {rank}): {effect}"
 msgstr "下一阶（{rank} 阶）：{effect}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1291
+#: game/ui/GameplayHudOverlaySupport.cpp:1304
 msgid "Active Party Buffs"
 msgstr "队伍增益"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1307
+#: game/ui/GameplayHudOverlaySupport.cpp:1320
 msgid "No active buffs"
 msgstr "当前没有增益"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1311
+#: game/ui/GameplayHudOverlaySupport.cpp:1324
 msgid "Click: open the aura panel"
 msgstr "点击：打开光环面板"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1428
+#: game/ui/GameplayHudOverlaySupport.cpp:1441
 msgid "Member"
 msgstr "队员"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1433
+#: game/ui/GameplayHudOverlaySupport.cpp:1446
 msgid "{name} the {class}"
 msgstr "{class}{name}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1448 game/ui/GameplayHudOverlaySupport.cpp:1453
+#: game/ui/GameplayHudOverlaySupport.cpp:1461 game/ui/GameplayHudOverlaySupport.cpp:1466
 msgid "({points} held)"
 msgstr "（保留 {points}）"
 
 # imported from zh-cn-todo-2.po
-#: game/ui/GameplayHudOverlaySupport.cpp:1683
+#: game/ui/GameplayHudOverlaySupport.cpp:1696
 msgid "{mastery}: {text}"
 msgstr "{mastery}：{text}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayHudOverlaySupport.cpp:1691 game/ui/GameplayJournalTrainers.cpp:64
+#: game/ui/GameplayHudOverlaySupport.cpp:1704 game/ui/GameplayJournalTrainers.cpp:64
 msgid "Grand Master"
 msgstr "宗师"
 
@@ -105781,11 +105966,6 @@ msgstr "恢复时间：不适用"
 #: game/ui/GameplayHudOverlaySupport.cpp:216 game/ui/GameplayHudOverlaySupport.cpp:577
 msgid "Constant"
 msgstr "恒定"
-
-# reviewed by the zh-cn translators (2.0 review)
-#: game/ui/GameplayHudOverlaySupport.cpp:2198 game/ui/GameplayPartyOverlayRenderer.cpp:11151
-msgid "Rotation"
-msgstr "轮转"
 
 # imported from zh-cn-todo.po
 #: game/ui/GameplayHudOverlaySupport.cpp:226
@@ -105805,13 +105985,18 @@ msgid "{value} Second"
 msgid_plural "{value} Seconds"
 msgstr[0] "{value} 秒"
 
+# reviewed by the zh-cn translators (2.0 review)
+#: game/ui/GameplayHudOverlaySupport.cpp:2402 game/ui/GameplayPartyOverlayRenderer.cpp:11228
+msgid "Rotation"
+msgstr "轮转"
+
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:283 game/ui/GameplayPartyOverlayRenderer.cpp:11344
+#: game/ui/GameplayHudOverlaySupport.cpp:283 game/ui/GameplayPartyOverlayRenderer.cpp:11421
 msgid "Level: {value}"
 msgstr "等级：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:284 game/ui/GameplayPartyOverlayRenderer.cpp:8786
+#: game/ui/GameplayHudOverlaySupport.cpp:284 game/ui/GameplayPartyOverlayRenderer.cpp:8812
 msgid "Hit Points : {value}"
 msgstr "生命值：{value}"
 
@@ -105821,7 +106006,7 @@ msgid "Armor Class : {value}"
 msgstr "护甲等级：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayHudOverlaySupport.cpp:289 game/ui/GameplayPartyOverlayRenderer.cpp:8788
+#: game/ui/GameplayHudOverlaySupport.cpp:289 game/ui/GameplayPartyOverlayRenderer.cpp:8814
 msgid "Condition: {condition}"
 msgstr "状态：{condition}"
 
@@ -105908,9 +106093,10 @@ msgstr "队员自己的药剂效果更强"
 msgid "while {spell} is held"
 msgstr "在维持{spell}期间"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayJournalAuras.cpp:1010
 msgid "ends in {duration}"
-msgstr ""
+msgstr "{duration} 后结束"
 
 # imported from packs (base v1.21)
 #: game/ui/GameplayJournalAuras.cpp:1012
@@ -106104,13 +106290,15 @@ msgstr ""
 msgid "Spellbook"
 msgstr "法术书"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayJournalAuras.cpp:212
 msgid "Scroll blessing"
-msgstr ""
+msgstr "卷轴祝福"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayJournalAuras.cpp:220
 msgid "Ends in {duration}"
-msgstr ""
+msgstr "{duration} 后结束"
 
 # imported from packs (base v1.21)
 #: game/ui/GameplayJournalAuras.cpp:222
@@ -106509,7 +106697,7 @@ msgstr "大陆"
 #: assets_dev/engine/data_tables/english/Global.txt:134 assets_dev/engine/ui/gameplay/character.yml:1221 assets_dev/engine/ui/gameplay/character.yml:1300
 #: assets_dev/engine/ui/gameplay/character.yml:1314 assets_dev/engine/ui/gameplay/character.yml:1340 assets_dev/engine/ui/gameplay/character.yml:1384
 #: assets_dev/engine/ui/gameplay/character.yml:801 assets_dev/engine/ui/gameplay/quick_reference.yml:65 game/ui/GameplayJournalProgress.cpp:805
-#: game/ui/GameplayPartyOverlayRenderer.cpp:12106 game/ui/screens/NewGameScreen.cpp:2212
+#: game/ui/GameplayPartyOverlayRenderer.cpp:12183 game/ui/screens/NewGameScreen.cpp:2212
 msgid "Level"
 msgstr "等级"
 
@@ -106684,7 +106872,7 @@ msgstr ""
 "你已找到{continent}全部 {count} 位导师中的 {known} 位。《导师名册》记载了所有导师：可在{continent}的任意一家酒馆求购。"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/ui/GameplayJournalTrainers.cpp:69 game/ui/GameplayPartyOverlayRenderer.cpp:2516 game/ui/screens/NewGameScreenPartySheet.cpp:94
+#: game/ui/GameplayJournalTrainers.cpp:69 game/ui/GameplayPartyOverlayRenderer.cpp:2539 game/ui/screens/NewGameScreenPartySheet.cpp:94
 msgctxt "mastery letter"
 msgid "E"
 msgstr "专"
@@ -106696,7 +106884,7 @@ msgid "G"
 msgstr "宗"
 
 # imported from machine-drafts.reviewed.engine.po
-#: game/ui/GameplayJournalTrainers.cpp:70 game/ui/GameplayPartyOverlayRenderer.cpp:2514 game/ui/screens/NewGameScreenPartySheet.cpp:96
+#: game/ui/GameplayJournalTrainers.cpp:70 game/ui/GameplayPartyOverlayRenderer.cpp:2537 game/ui/screens/NewGameScreenPartySheet.cpp:96
 msgctxt "mastery letter"
 msgid "M"
 msgstr "大"
@@ -106722,34 +106910,50 @@ msgid "Shared"
 msgstr "共用"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayLootSummaryRenderer.cpp:150
+#: game/ui/GameplayLootSummaryRenderer.cpp:158
 msgid "{gold} gold (followers took {share})"
 msgstr "{gold} 金币（随从取走 {share}）"
 
 # imported from terms.engine.po
-#: assets_dev/engine/ui/gameplay/loot_summary.yml:30 game/ui/GameplayLootSummaryRenderer.cpp:187
+#: assets_dev/engine/ui/gameplay/loot_summary.yml:30 game/ui/GameplayLootSummaryRenderer.cpp:195
 msgid "Map Looted"
 msgstr "地图已清空"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayLootSummaryRenderer.cpp:188
-msgid "{satchels} emptied, {items} taken"
-msgstr "已清空 {satchels}，取得 {items}"
-
-# imported from zh-cn-todo.po
-#: game/ui/GameplayLootSummaryRenderer.cpp:189
+#: game/ui/GameplayLootSummaryRenderer.cpp:196
 msgid "{count} satchel"
 msgid_plural "{count} satchels"
 msgstr[0] "{count} 个袋子"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayLootSummaryRenderer.cpp:191
+#: game/ui/GameplayLootSummaryRenderer.cpp:198
 msgid "{count} item"
 msgid_plural "{count} items"
 msgstr[0] "{count} 件物品"
 
+# machine translation (Claude), review
+#: game/ui/GameplayLootSummaryRenderer.cpp:200
+msgid "{count} ground item"
+msgid_plural "{count} ground items"
+msgstr[0] "{count} 件地上物品"
+
+# imported from zh-cn-todo.po
+#: game/ui/GameplayLootSummaryRenderer.cpp:203
+msgid "{satchels} emptied, {items} taken"
+msgstr "已清空 {satchels}，取得 {items}"
+
+# machine translation (Claude), review
+#: game/ui/GameplayLootSummaryRenderer.cpp:205
+msgid "{ground} picked up, {items} taken"
+msgstr "拾取 {ground}，取得 {items}"
+
+# machine translation (Claude), review
+#: game/ui/GameplayLootSummaryRenderer.cpp:207
+msgid "{satchels} emptied, {ground} picked up, {items} taken"
+msgstr "已清空 {satchels}，拾取 {ground}，取得 {items}"
+
 # imported from packs (base v1.21)
-#: game/ui/GameplayLootSummaryRenderer.cpp:287
+#: game/ui/GameplayLootSummaryRenderer.cpp:303
 msgid "The satchels held only gold."
 msgstr "袋子里只有金币。"
 
@@ -106757,6 +106961,11 @@ msgstr "袋子里只有金币。"
 #: game/ui/GameplayLootSummaryRenderer.cpp:80
 msgid "Left in satchels: no room in the bags"
 msgstr "留在袋子里的（背包放不下）"
+
+# machine translation (Claude), review
+#: game/ui/GameplayLootSummaryRenderer.cpp:88
+msgid "Left on the ground: no room in the bags"
+msgstr "留在地上的（背包放不下）"
 
 # imported from zh-cn-todo.po
 #: game/ui/GameplayMapProgressBar.cpp:173
@@ -106872,32 +107081,32 @@ msgid "Esc leave"
 msgstr "Esc 离开"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10027
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10053
 msgid "Drop"
 msgstr "放下"
 
 # imported from terms.engine.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10066
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10092
 msgid "Search items (ring might luck|speed)"
 msgstr "搜索物品（如 戒指 力量 运气|速度）"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10616
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10641
 msgid "Death Count: {count}"
 msgstr "死亡次数：{count}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10620
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10645
 msgid "the {class}"
 msgstr "{class}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10625
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10650
 msgid "Skill Points: {points}"
 msgstr "技能点：{points}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10643
+#: game/ui/GameplayPartyOverlayRenderer.cpp:10668
 msgid ""
 "HP {health}/{maximumHealth}\n"
 "SP {spellPoints}/{maximumSpellPoints}"
@@ -106906,106 +107115,106 @@ msgstr ""
 "魔法值 {spellPoints}/{maximumSpellPoints}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:10999
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11076
 msgid "Select item target  LMB cast  Esc cancel"
 msgstr "选择目标  左键施放  Esc 取消"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11288
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11365
 msgid "Name: {name}"
 msgstr "姓名：{name}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11294
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11371
 msgid "Class: {class}"
 msgstr "职业：{class}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11301
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11378
 msgid "HP: {value}"
 msgstr "生命值：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11307
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11384
 msgid "AC: {value}"
 msgstr "防御：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11313
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11390
 msgid "Attack: {value}"
 msgstr "攻击：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11319
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11396
 msgid "Shoot: {value}"
 msgstr "射击：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11325
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11402
 msgid "Skills: {value}"
 msgstr "技能：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11331
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11408
 msgid "Cond: {value}"
 msgstr "状态：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11337
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11414
 msgid "QSpell: {value}"
 msgstr "快捷法术：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11350
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11427
 msgid "SP: {value}"
 msgstr "魔法值：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11356 game/ui/GameplayPartyOverlayRenderer.cpp:11362
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11433 game/ui/GameplayPartyOverlayRenderer.cpp:11439
 msgid "Dmg: {value}"
 msgstr "伤害：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11368
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11445
 msgid "Points: {value}"
 msgstr "点数：{value}"
 
 # imported from zh-cn-todo-2.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11612
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11689
 msgid "{effect} {duration}"
 msgstr "{effect} {duration}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11622
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11699
 msgid "Stunned"
 msgstr "眩晕"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/spells.txt:40 assets_dev/engine/data_tables/items.txt:1139 assets_dev/engine/data_tables/items.txt:1239
 #: assets_dev/engine/data_tables/items.txt:1839 assets_dev/engine/data_tables/items.txt:1945 assets_dev/engine/data_tables/items.txt:337
-#: assets_dev/engine/data_tables/items.txt:437 assets_dev/engine/data_tables/spells.txt:39 game/ui/GameplayPartyOverlayRenderer.cpp:11626
+#: assets_dev/engine/data_tables/items.txt:437 assets_dev/engine/data_tables/spells.txt:39 game/ui/GameplayPartyOverlayRenderer.cpp:11703
 msgid "Slow"
 msgstr "减速"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:595 game/ui/GameplayPartyOverlayRenderer.cpp:11630
+#: assets_dev/engine/data_tables/english/Global.txt:595 game/ui/GameplayPartyOverlayRenderer.cpp:11707
 msgid "Shrunk"
 msgstr "缩小"
 
 # imported from terms.engine.po
 #: assets_dev/engine/data_tables/english/spells.txt:106 assets_dev/engine/data_tables/items.txt:1200 assets_dev/engine/data_tables/items.txt:1300
 #: assets_dev/engine/data_tables/items.txt:1900 assets_dev/engine/data_tables/items.txt:2018 assets_dev/engine/data_tables/items.txt:398
-#: assets_dev/engine/data_tables/items.txt:498 assets_dev/engine/data_tables/spells.txt:105 game/ui/GameplayPartyOverlayRenderer.cpp:11632
+#: assets_dev/engine/data_tables/items.txt:498 assets_dev/engine/data_tables/spells.txt:105 game/ui/GameplayPartyOverlayRenderer.cpp:11709
 msgid "Dark Grasp"
 msgstr "暗影之握"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11657
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11734
 msgid "Casting {spell}"
 msgstr "正在施放{spell}"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:594 game/ui/GameplayPartyOverlayRenderer.cpp:11664
+#: assets_dev/engine/data_tables/english/Global.txt:594 game/ui/GameplayPartyOverlayRenderer.cpp:11741
 msgid "Charmed"
 msgstr "被魅惑"
 
@@ -107013,44 +107222,44 @@ msgstr "被魅惑"
 #: assets_dev/engine/data_tables/english/Global.txt:611 assets_dev/engine/data_tables/english/spells.txt:69 assets_dev/engine/data_tables/items.txt:1166
 #: assets_dev/engine/data_tables/items.txt:1266 assets_dev/engine/data_tables/items.txt:1866 assets_dev/engine/data_tables/items.txt:1978
 #: assets_dev/engine/data_tables/items.txt:364 assets_dev/engine/data_tables/items.txt:464 assets_dev/engine/data_tables/spells.txt:68
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11667
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11744
 msgid "Berserk"
 msgstr "狂暴"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:610 game/ui/GameplayPartyOverlayRenderer.cpp:11670
+#: assets_dev/engine/data_tables/english/Global.txt:610 game/ui/GameplayPartyOverlayRenderer.cpp:11747
 msgid "Enslaved"
 msgstr "被奴役"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11673
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11750
 msgid "Controlled"
 msgstr "被控制"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11676
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11753
 msgid "Reanimated"
 msgstr "复生"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2297
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2320
 msgid "{cost} pts"
 msgstr "{cost} 点"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2512
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2535
 msgctxt "mastery letter"
 msgid "GM"
 msgstr "宗"
 
 # reviewed by the zh-cn translators (2.0 review)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2518 game/ui/screens/NewGameScreenPartySheet.cpp:92
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2541 game/ui/screens/NewGameScreenPartySheet.cpp:92
 msgctxt "mastery letter"
 msgid "N"
 msgstr "普"
 
 # imported from zh-cn-todo-2.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2556
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2579
 msgid "{spell} {mastery}{level}"
 msgstr "{spell} {mastery}{level}"
 
@@ -107058,7 +107267,7 @@ msgstr "{spell} {mastery}{level}"
 #: assets_dev/engine/data_tables/english/Global.txt:613 assets_dev/engine/data_tables/english/spells.txt:94 assets_dev/engine/data_tables/items.txt:1189
 #: assets_dev/engine/data_tables/items.txt:1289 assets_dev/engine/data_tables/items.txt:1889 assets_dev/engine/data_tables/items.txt:2005
 #: assets_dev/engine/data_tables/items.txt:387 assets_dev/engine/data_tables/items.txt:487 assets_dev/engine/data_tables/spells.txt:93
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11634 game/ui/GameplayPartyOverlayRenderer.cpp:2588
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11711 game/ui/GameplayPartyOverlayRenderer.cpp:2611
 msgid "Day of Protection"
 msgstr "守护之日"
 
@@ -107066,205 +107275,205 @@ msgstr "守护之日"
 #: assets_dev/engine/data_tables/english/Global.txt:612 assets_dev/engine/data_tables/english/spells.txt:95 assets_dev/engine/data_tables/items.txt:1190
 #: assets_dev/engine/data_tables/items.txt:1290 assets_dev/engine/data_tables/items.txt:1890 assets_dev/engine/data_tables/items.txt:2006
 #: assets_dev/engine/data_tables/items.txt:388 assets_dev/engine/data_tables/items.txt:488 assets_dev/engine/data_tables/spells.txt:94
-#: game/ui/GameplayPartyOverlayRenderer.cpp:11636 game/ui/GameplayPartyOverlayRenderer.cpp:2593
+#: game/ui/GameplayPartyOverlayRenderer.cpp:11713 game/ui/GameplayPartyOverlayRenderer.cpp:2616
 msgid "Hour of Power"
 msgstr "力量时刻"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:146 assets_dev/engine/ui/gameplay/character.yml:1362 game/ui/GameplayPartyOverlayRenderer.cpp:2669
+#: assets_dev/engine/data_tables/english/Global.txt:146 assets_dev/engine/ui/gameplay/character.yml:1362 game/ui/GameplayPartyOverlayRenderer.cpp:2692
 #: game/ui/screens/PartyCreationSheet.cpp:114
 msgid "Misc"
 msgstr "其他"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2725
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2748
 msgid "Shoot: +{bonus}   Damage: {minimum}-{maximum}"
 msgstr "射击：+{bonus}　伤害：{minimum}-{maximum}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2727
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2750
 msgid "Attack: +{bonus}   Damage: {minimum}-{maximum}"
 msgstr "攻击：+{bonus}　伤害：{minimum}-{maximum}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2757
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2780
 msgid "Power: {power}   Uses: {uses}"
 msgstr "强度：{power}　次数：{uses}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2784
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2810
 msgid "Attack: +{bonus}   Damage: {damage}"
 msgstr "攻击：+{bonus}　伤害：{damage}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2798
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2824
 msgid "Shoot: +{bonus}   Damage: {damage}"
 msgstr "射击：+{bonus}　伤害：{damage}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2815
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2841
 msgid "Charges: {current}/{maximum}"
 msgstr "充能：{current}/{maximum}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2858
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2884
 msgid "Duration:"
 msgstr "持续时间："
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2864
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2890
 msgid "{count}:yr"
 msgstr "{count}年"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2870
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2896
 msgid "{count}:mo"
 msgstr "{count}月"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2876
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2902
 msgid "{count}:dy"
 msgstr "{count}天"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2882
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2908
 msgid "{count}:hr"
 msgstr "{count}时"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:2888
+#: game/ui/GameplayPartyOverlayRenderer.cpp:2914
 msgid "{count}:mn"
 msgstr "{count}分"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:299 game/ui/GameplayPartyOverlayRenderer.cpp:3473
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:299 game/ui/GameplayPartyOverlayRenderer.cpp:3499
 msgid "Fame: {fame}"
 msgstr "名望：{fame}"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/quick_reference.yml:286 game/ui/GameplayPartyOverlayRenderer.cpp:3474
+#: assets_dev/engine/ui/gameplay/quick_reference.yml:286 game/ui/GameplayPartyOverlayRenderer.cpp:3500
 msgid "Reputation: {reputation}"
 msgstr "声望：{reputation}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:3866
+#: game/ui/GameplayPartyOverlayRenderer.cpp:3892
 msgid "Press Input"
 msgstr "请按键"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/video_options.yml:32 game/ui/GameplayPartyOverlayRenderer.cpp:4062
+#: assets_dev/engine/ui/gameplay/video_options.yml:32 game/ui/GameplayPartyOverlayRenderer.cpp:4088
 msgid "COLOR GRADING"
 msgstr "色彩分级"
 
 # imported from terms.engine.po
-#: assets_dev/engine/ui/gameplay/video_options.yml:47 game/ui/GameplayPartyOverlayRenderer.cpp:4068
+#: assets_dev/engine/ui/gameplay/video_options.yml:47 game/ui/GameplayPartyOverlayRenderer.cpp:4094
 msgid "Cinematic grading: Off"
 msgstr "电影化调色：关闭"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:4068
+#: game/ui/GameplayPartyOverlayRenderer.cpp:4094
 msgid "Cinematic grading: On"
 msgstr "电影化调色：开启"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:4071
+#: game/ui/GameplayPartyOverlayRenderer.cpp:4097
 msgid "Strength: {strength}%"
 msgstr "强度：{strength}%"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:75 assets_dev/engine/data_tables/npc_topic.txt:1346 game/ui/GameplayPartyOverlayRenderer.cpp:4309
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5777
+#: assets_dev/engine/data_tables/english/Global.txt:75 assets_dev/engine/data_tables/npc_topic.txt:1346 game/ui/GameplayPartyOverlayRenderer.cpp:4335
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5803
 msgid "Empty"
 msgstr "空的"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:177 game/ui/GameplayPartyOverlayRenderer.cpp:4902
+#: assets_dev/engine/data_tables/english/Global.txt:177 game/ui/GameplayPartyOverlayRenderer.cpp:4928
 msgid "Current Quests"
 msgstr "当前任务"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/journal.yml:165 assets_dev/engine/ui/gameplay/journal.yml:327 assets_dev/engine/ui/gameplay/settings_gameplay.yml:519
-#: assets_dev/engine/ui/menu/settings_catalog.yml:109 game/ui/GameplayPartyOverlayRenderer.cpp:4986
+#: assets_dev/engine/ui/menu/settings_catalog.yml:109 game/ui/GameplayPartyOverlayRenderer.cpp:5012
 msgid "Story"
 msgstr "故事"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/journal.yml:947 game/ui/GameplayPartyOverlayRenderer.cpp:4993
+#: assets_dev/engine/ui/gameplay/journal.yml:947 game/ui/GameplayPartyOverlayRenderer.cpp:5019
 msgid "Trainers"
 msgstr "训练师"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5019
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5045
 msgid "Search notes"
 msgstr "搜索笔记"
 
 # imported from terms.engine.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5080
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5106
 msgid "No notes match \"{search}\"."
 msgstr "没有与「{search}」匹配的笔记。"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/data_tables/english/Global.txt:22 game/ui/GameplayPartyOverlayRenderer.cpp:5549 game/ui/GameplayPartyOverlayRenderer.cpp:5776
+#: assets_dev/engine/data_tables/english/Global.txt:22 game/ui/GameplayPartyOverlayRenderer.cpp:5575 game/ui/GameplayPartyOverlayRenderer.cpp:5802
 msgid "Available"
 msgstr "可用"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:145 game/ui/GameplayPartyOverlayRenderer.cpp:5723
+#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:145 game/ui/GameplayPartyOverlayRenderer.cpp:5749
 msgid "Set"
 msgstr "设置"
 
 # imported from packs (base v1.21)
-#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:125 game/ui/GameplayPartyOverlayRenderer.cpp:5734
+#: assets_dev/engine/ui/gameplay/lloyds_beacon.yml:125 game/ui/GameplayPartyOverlayRenderer.cpp:5760
 msgid "Recall"
 msgstr "召回"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5765
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5791
 msgid "Beacon {number}"
 msgstr "信标 {number}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5777
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5803
 msgid "Set beacon here"
 msgstr "在此设置信标"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:5785
+#: game/ui/GameplayPartyOverlayRenderer.cpp:5811
 msgid "{duration} remaining"
 msgstr "剩余 {duration}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6266
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6292
 msgid "Select {spell}"
 msgstr "选择{spell}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6440
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6466
 msgid "Set: {set} ({equipped}/{required}, active)"
 msgstr "套装：{set}（{equipped}/{required}，已激活）"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6441
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6467
 msgid "Set: {set} ({equipped}/{required}, inactive)"
 msgstr "套装：{set}（{equipped}/{required}，未激活）"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6454
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6480
 msgid "Special: {enchantment}"
 msgstr "特殊：{enchantment}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6466
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6492
 msgid "Mod: {mod}"
 msgstr "改造：{mod}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6489
+#: game/ui/GameplayPartyOverlayRenderer.cpp:6515
 msgid "Broken item"
 msgstr "已损坏"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:6983
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7009
 msgid "Type: {type}"
 msgstr "类型：{type}"
 
@@ -107274,27 +107483,27 @@ msgid "x: {x}  y: {y}"
 msgstr "x：{x}  y：{y}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7151
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7177
 msgid "Value: {value}"
 msgstr "价值：{value}"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:654 game/ui/GameplayPartyOverlayRenderer.cpp:7167
+#: assets_dev/engine/data_tables/english/Global.txt:654 game/ui/GameplayPartyOverlayRenderer.cpp:7193
 msgid "Hardened"
 msgstr "强化"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:190 game/ui/GameplayPartyOverlayRenderer.cpp:7167
+#: assets_dev/engine/data_tables/english/Global.txt:190 game/ui/GameplayPartyOverlayRenderer.cpp:7193
 msgid "Stolen"
 msgstr "赃物"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7294
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7320
 msgid "Skill bonus: +{bonus}"
 msgstr "技能加成：+{bonus}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:7591
+#: game/ui/GameplayPartyOverlayRenderer.cpp:7617
 msgid "Skill bonus:"
 msgstr "技能加成："
 
@@ -107304,32 +107513,32 @@ msgid "Right-click the map to add your own note"
 msgstr "右键点击地图可添加自己的备注"
 
 # imported from terms.engine.po
-#: assets_dev/engine/data_tables/english/Global.txt:525 game/ui/GameplayPartyOverlayRenderer.cpp:7979
+#: assets_dev/engine/data_tables/english/Global.txt:525 game/ui/GameplayPartyOverlayRenderer.cpp:8005
 msgid "SP Cost"
 msgstr "法术消耗"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8787
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8813
 msgid "Spell Points : {value}"
 msgstr "魔法值：{value}"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8789
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8815
 msgid "Quick Spell: {spell}"
 msgstr "快捷法术：{spell}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:8800
+#: game/ui/GameplayPartyOverlayRenderer.cpp:8826
 msgid "Active Spells:"
 msgstr "生效中的法术："
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9131
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9157
 msgid "INF"
 msgstr "无限"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayPartyOverlayRenderer.cpp:9210
+#: game/ui/GameplayPartyOverlayRenderer.cpp:9236
 msgid "Awards earned: {count}"
 msgstr "获得荣誉：{count}"
 
@@ -107374,163 +107583,181 @@ msgstr "魔幻牌"
 msgid "Notes"
 msgstr "笔记"
 
-#: game/ui/GameplayQuickItems.cpp:1134
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1136
 msgid "off"
-msgstr ""
+msgstr "关"
 
-#: game/ui/GameplayQuickItems.cpp:1138
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1140
 msgid "a stronger one is in force"
-msgstr ""
+msgstr "已有更强的效果"
 
-#: game/ui/GameplayQuickItems.cpp:1143
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1145
 msgid "due: {time} left"
-msgstr ""
+msgstr "到期：剩余 {time}"
 
-#: game/ui/GameplayQuickItems.cpp:1144
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1146
 msgid "due now"
-msgstr ""
+msgstr "现已到期"
 
-#: game/ui/GameplayQuickItems.cpp:1149
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1151
 msgid "{time} left"
-msgstr ""
+msgstr "剩余 {time}"
 
-#: game/ui/GameplayQuickItems.cpp:1155
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1157
 msgid "none carried"
-msgstr ""
+msgstr "未携带"
 
-#: game/ui/GameplayQuickItems.cpp:1178
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1180
 msgid "No potions in {name}'s upkeep."
-msgstr ""
+msgstr "{name} 的维持列表中没有药水。"
 
-#: game/ui/GameplayQuickItems.cpp:1179
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1181
 msgid ""
 "Right-click a potion in the Potions list and choose Upkeep, or add them in Battle Orders."
-msgstr ""
+msgstr "在药水列表中右键点击药水并选择“维持”，或在战斗指令中添加。"
 
-#: game/ui/GameplayQuickItems.cpp:1204
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1206
 msgid "The Upkeep key (not set) drinks what is due, one press at a time."
-msgstr ""
+msgstr "维持键（未设置）每按一次饮用一个到期的药水。"
 
-#: game/ui/GameplayQuickItems.cpp:1205
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1207
 msgid "{key} drinks what is due, one press at a time."
-msgstr ""
+msgstr "按 {key} 每次饮用一个到期的药水。"
 
-#: game/ui/GameplayQuickItems.cpp:1209
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1211
 msgid "A press brews the missing stock first."
-msgstr ""
+msgstr "按一次会先炼制缺少的库存。"
 
-#: game/ui/GameplayQuickItems.cpp:1210
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1212
 msgid "Brew now fills the stock."
-msgstr ""
+msgstr "立即炼制会补满库存。"
 
-#: game/ui/GameplayQuickItems.cpp:1238
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1240
 msgid "Brew now"
-msgstr ""
+msgstr "立即炼制"
 
-#: game/ui/GameplayQuickItems.cpp:1239
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1241
 msgid "Auto-brew"
-msgstr ""
+msgstr "自动炼制"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1306
+#: game/ui/GameplayQuickItems.cpp:1308
 msgid "drinks"
 msgstr "饮用"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1306
+#: game/ui/GameplayQuickItems.cpp:1308
 msgid "reads"
 msgstr "阅读"
 
-#: game/ui/GameplayQuickItems.cpp:1350
-msgid "Click a potion to drink it now; click a portrait to choose whose"
-msgstr ""
-
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplayQuickItems.cpp:1352
+msgid "Click a potion to drink it now; click a portrait to choose whose"
+msgstr "点击药水立即饮用；点击头像选择由谁饮用"
+
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1354
 msgid "- / +: one bottle less or more in stock"
-msgstr ""
+msgstr "- / +：库存减少或增加一瓶"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1360
+#: game/ui/GameplayQuickItems.cpp:1362
 msgid "Click a portrait below to choose who drinks"
 msgstr "点击下方头像选择由谁饮用"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1361
+#: game/ui/GameplayQuickItems.cpp:1363
 msgid "Click a portrait below to choose who reads"
 msgstr "点击下方头像选择由谁阅读"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1363
+#: game/ui/GameplayQuickItems.cpp:1365
 msgid "Right-click: put on a quick slot"
 msgstr "右键：放入快捷栏"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1409 game/ui/GameplayQuickItems.cpp:1415
+#: game/ui/GameplayQuickItems.cpp:1412 game/ui/GameplayQuickItems.cpp:1418
 msgid "no effect now"
 msgstr "暂无效果"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1468
+#: game/ui/GameplayQuickItems.cpp:1471
 msgid "Quick slot"
 msgstr "快捷栏"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1496
+#: game/ui/GameplayQuickItems.cpp:1499
 msgid "The party carries no potion"
 msgstr "队伍没有携带药水"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1496
+#: game/ui/GameplayQuickItems.cpp:1499
 msgid "The party carries no scroll"
 msgstr "队伍没有携带卷轴"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1523
+#: game/ui/GameplayQuickItems.cpp:1526
 msgid "Point at a potion to see what it does for {name}"
 msgstr "指向一瓶药水，查看它对{name}的效果"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1535
+#: game/ui/GameplayQuickItems.cpp:1538
 msgid "from {name}'s pack"
 msgstr "来自{name}的背包"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1548
+#: game/ui/GameplayQuickItems.cpp:1551
 msgid "No effect on {name} now"
 msgstr "{name}现在服用无效果"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1555
+#: game/ui/GameplayQuickItems.cpp:1558
 msgid "+{gain} HP"
 msgstr "+{gain} HP"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1556 game/ui/GameplayQuickItems.cpp:1567
+#: game/ui/GameplayQuickItems.cpp:1559 game/ui/GameplayQuickItems.cpp:1570
 msgid " ({from} to {to} of {maximum})"
 msgstr "（{from} → {to}，上限 {maximum}）"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1566
+#: game/ui/GameplayQuickItems.cpp:1569
 msgid "+{gain} SP"
 msgstr "+{gain} SP"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayQuickItems.cpp:1576
+#: game/ui/GameplayQuickItems.cpp:1579
 msgid "Cures {condition}"
 msgstr "治愈{condition}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1590
+#: game/ui/GameplayQuickItems.cpp:1593
 msgid "{name} drinks it"
 msgstr "{name}饮用它"
 
-#: game/ui/GameplayQuickItems.cpp:1698
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1701
 msgid "Taken out of {name}'s upkeep"
-msgstr ""
+msgstr "已从 {name} 的维持列表中移除"
 
-#: game/ui/GameplayQuickItems.cpp:1708
+# imported from engine_zz-v2.6.po
+#: game/ui/GameplayQuickItems.cpp:1711
 msgid "Added to {name}'s upkeep"
-msgstr ""
+msgstr "已加入 {name} 的维持列表"
 
 # imported from packs (base v1.21)
 #: game/ui/GameplayQuickItems.cpp:400 game/ui/screens/NewGameScreenPartySheet.cpp:481
@@ -107548,7 +107775,7 @@ msgid "next fed by {name}"
 msgstr "下次由{name}喂食"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:2039 game/ui/GameplayQuickItems.cpp:411
+#: game/ui/GameplayQuickItems.cpp:2042 game/ui/GameplayQuickItems.cpp:411
 msgid "nobody ready"
 msgstr "无人就绪"
 
@@ -107568,21 +107795,21 @@ msgid "Weakest first"
 msgstr "先用最弱的"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:1407 game/ui/GameplayQuickItems.cpp:1534 game/ui/GameplayQuickItems.cpp:480
+#: game/ui/GameplayQuickItems.cpp:1409 game/ui/GameplayQuickItems.cpp:1537 game/ui/GameplayQuickItems.cpp:481
 msgid "strength {power}"
 msgstr "强度 {power}"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:489
+#: game/ui/GameplayQuickItems.cpp:491
 msgid "Nobody carries a potion or a scroll"
 msgstr "没人携带药水或卷轴"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayQuickItems.cpp:507
+#: game/ui/GameplayQuickItems.cpp:509
 msgid "Clear slot"
 msgstr "清空槽位"
 
-#: game/ui/GameplayQuickItems.cpp:788 game/ui/screens/LoadGameScreen.cpp:482
+#: game/ui/GameplayQuickItems.cpp:790 game/ui/screens/LoadGameScreen.cpp:482
 msgid "{hours} h {minutes} min"
 msgstr "{hours} 小时 {minutes} 分钟"
 
@@ -107590,11 +107817,11 @@ msgstr "{hours} 小时 {minutes} 分钟"
 msgid "Ctrl+click: choose what goes on this key"
 msgstr "Ctrl+点击：选择放在此键上的内容"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplaySoloBarSelector.cpp:1006
-#, fuzzy
 #| msgid "{name} (Ctrl+click: change this key)"
 msgid "{name} (click: use, Ctrl+click: change this key)"
-msgstr "{name}（Ctrl+点击：更换此键）"
+msgstr "{name}（点击：使用，Ctrl+点击：更换此键）"
 
 #: game/ui/GameplaySoloBarSelector.cpp:127
 msgid "{school} · {cost} SP"
@@ -107608,9 +107835,10 @@ msgstr "{rank} 阶 · 冷却 {seconds} 秒"
 msgid "{count} carried"
 msgstr "携带 {count} 件"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/GameplaySoloBarSelector.cpp:173
 msgid "Casts or drinks what is due; hold to go on"
-msgstr ""
+msgstr "施放或饮用到期的项目；按住可连续进行"
 
 #: game/ui/GameplaySoloBarSelector.cpp:183
 msgid "Swap weapon"
@@ -107658,10 +107886,11 @@ msgstr "没有可放的东西"
 msgid "Spells"
 msgstr "法术"
 
+# imported from engine_zz-v2.5.po
 #: game/ui/GameplaySoloBarSelector.cpp:96 game/ui/GameplaySoloTalentsPage.cpp:276 game/ui/GameplaySoloTalentsPage.cpp:290
 #: game/ui/GameplaySoloTalentsPage.cpp:446
 msgid "Talents"
-msgstr "天赋"
+msgstr "专长"
 
 #: game/ui/GameplaySoloBarSelector.cpp:972
 msgid "Empty this key"
@@ -107724,9 +107953,10 @@ msgstr "点击：学习一阶。"
 msgid "Keystone · costs no points · one per open slot"
 msgstr "基石 · 不消耗点数 · 每个空槽一个"
 
+# imported from engine_zz-v2.5.po
 #: game/ui/GameplaySoloTalentsPage.cpp:440
 msgid "Click: bind it (until you forget your talents at a training hall)."
-msgstr "点击：绑定（直到你在训练场遗忘天赋）。"
+msgstr "点击：绑定（直到你在训练场遗忘专长）。"
 
 #: game/ui/GameplaySoloTalentsPage.cpp:448
 msgid ""
@@ -107741,9 +107971,10 @@ msgstr "基石槽：{slots} 个已开放；下一个在 {level} 级开放。"
 msgid "Keystone slots: {slots} open."
 msgstr "基石槽：{slots} 个已开放。"
 
+# imported from engine_zz-v2.5.po
 #: game/ui/GameplaySoloTalentsPage.cpp:456
 msgid "Point at a talent to read it."
-msgstr "指向一个天赋以阅读说明。"
+msgstr "指向一个专长以阅读说明。"
 
 #: game/ui/GameplaySoloTalentsPage.cpp:539
 msgid "{name} binds {keystone}"
@@ -108523,22 +108754,22 @@ msgstr "等待每天消耗 {food} 份食物"
 #: assets_dev/engine/ui/menu/settings_catalog.yml:791 assets_dev/engine/ui/menu/settings_catalog.yml:794 assets_dev/engine/ui/menu/settings_catalog.yml:797
 #: assets_dev/engine/ui/menu/settings_catalog.yml:800 assets_dev/engine/ui/menu/settings_catalog.yml:803 assets_dev/engine/ui/menu/settings_catalog.yml:806
 #: assets_dev/engine/ui/menu/settings_catalog.yml:809 assets_dev/engine/ui/menu/settings_catalog.yml:812 assets_dev/engine/ui/menu/settings_catalog.yml:815
-#: game/ui/GameplayUiRenderer.cpp:1464
+#: game/ui/GameplayUiRenderer.cpp:1472
 msgid "Movement"
 msgstr "移动"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayUiRenderer.cpp:1464
+#: game/ui/GameplayUiRenderer.cpp:1472
 msgid "Waiting"
 msgstr "等待中"
 
 # imported from zh-cn-todo.po
-#: game/ui/GameplayUiRenderer.cpp:1467
+#: game/ui/GameplayUiRenderer.cpp:1475
 msgid "{points} AP"
 msgstr "{points} 行动点"
 
 # imported from packs (base v1.21)
-#: game/ui/GameplayUiRenderer.cpp:1468
+#: game/ui/GameplayUiRenderer.cpp:1476
 msgid "Turn based"
 msgstr "回合制"
 
@@ -108643,12 +108874,12 @@ msgid "Helms"
 msgstr "头盔"
 
 # imported from zh-cn-todo.po
-#: game/ui/InventoryBagOverview.h:56
+#: game/ui/InventoryBagOverview.h:158
 msgid "tab {tab}, bag {bag}"
 msgstr "第 {tab} 页，第 {bag} 个背包"
 
 # imported from zh-cn-todo.po
-#: game/ui/InventoryBagOverview.h:57
+#: game/ui/InventoryBagOverview.h:159
 msgid "bag {bag}"
 msgstr "第 {bag} 个背包"
 
@@ -108791,11 +109022,11 @@ msgstr "开始时间"
 msgid "Last played"
 msgstr "上次游玩"
 
+# machine translation (Claude 2.6), review
 #: game/ui/screens/LoadGameScreen.cpp:1286
 msgid "{count} save"
 msgid_plural "{count} saves"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "{count} 个存档"
 
 #: game/ui/screens/LoadGameScreen.cpp:1291
 msgid ""
@@ -108978,13 +109209,13 @@ msgstr "该存档已不存在。"
 msgid "Delete Playthrough?"
 msgstr "删除这个周目？"
 
+# machine translation (Claude 2.6), review
 #: game/ui/screens/LoadGameScreen.cpp:901
 msgid ""
 "Permanently delete \"{playthrough}\", its {count} save and its statistics?"
 msgid_plural ""
 "Permanently delete \"{playthrough}\", its {count} saves and its statistics?"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "永久删除“{playthrough}”及其 {count} 个存档和统计数据？"
 
 # imported from zh-cn-todo.po
 #: game/ui/screens/LoadGameScreen.cpp:92
@@ -109000,13 +109231,15 @@ msgstr "有 {count} 个无法删除。"
 msgid "{weekday} {hour}:{minute}AM"
 msgstr "{weekday} 上午 {hour}:{minute}"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:105
 msgid "{rarity} or below"
-msgstr ""
+msgstr "{rarity} 及以下"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:113
 msgid "{levels}+ levels below"
-msgstr ""
+msgstr "低 {levels} 级以上"
 
 # imported from terms.engine.po
 #: assets_dev/engine/ui/gameplay/settings_game.yml:957 assets_dev/engine/ui/menu/settings_catalog.yml:767 game/ui/screens/MainMenuLootFilter.cpp:157
@@ -109025,21 +109258,25 @@ msgstr "你不想携带的掉落物会换成金币（价值的 40%）。等级�
 msgid "Strictness"
 msgstr "严格程度"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:215
 msgid "Your rules"
-msgstr ""
+msgstr "你的规则"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:223 game/ui/screens/MainMenuLootFilter.cpp:412
 msgid "Legendary, Celestial or artifact"
-msgstr ""
+msgstr "传奇、天界或神器"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:230 game/ui/screens/MainMenuLootFilter.cpp:466 game/ui/screens/MainMenuLootFilter.cpp:579
 msgid "Everything else"
-msgstr ""
+msgstr "其余所有"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:232
 msgid "Edit rules"
-msgstr ""
+msgstr "编辑规则"
 
 # imported from packs (base v1.21)
 #: game/ui/screens/MainMenuLootFilter.cpp:241
@@ -109121,93 +109358,113 @@ msgid ""
 "{filtered} turned into {gold} gold, {kept} kept, of {count}. Try a preset here before choosing it."
 msgstr "共 {count} 件，{filtered} 件换成了 {gold} 金币，保留 {kept} 件。选用预设前可以先在这里试一试。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:393
 msgid "Loot filter · rules"
-msgstr ""
+msgstr "战利品筛选 · 规则"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:395
 msgid ""
 "Every drop is checked against these rules from the top; the first rule that fits decides. Quest items, spellbooks and crafting materials are never filtered."
-msgstr ""
+msgstr "每件掉落物都会从上到下依次对照这些规则，第一条符合的规则生效。任务物品、法术书和制作材料不会被筛选。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:399
 msgid "Presets"
-msgstr ""
+msgstr "预设"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:470
 msgid "Add rule"
-msgstr ""
+msgstr "添加规则"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:506
 msgid "Rule {number}"
-msgstr ""
+msgstr "规则 {number}"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:509
 msgid "Rarity at most (weapons, armour and jewellery)"
-msgstr ""
+msgstr "稀有度至多（武器、护甲和首饰）"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:52
 msgid "Turn into gold"
-msgstr ""
+msgstr "转为金币"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:523
 msgid "Item types"
-msgstr ""
+msgstr "物品类型"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:53
 msgid "Leave on the ground"
-msgstr ""
+msgstr "留在地上"
 
 # imported from packs (base v1.21)
 #: game/ui/screens/MainMenuLootFilter.cpp:54 game/ui/screens/MainMenuScreen.cpp:942 game/ui/screens/NewGameScreenPartySheet.cpp:1888
 msgid "Keep"
 msgstr "保留"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:548
 msgid "All weapons"
-msgstr ""
+msgstr "所有武器"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:549
 msgid "All armour"
-msgstr ""
+msgstr "所有护甲"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:550
 msgid "All jewellery"
-msgstr ""
+msgstr "所有首饰"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:562
 msgid "Item level"
-msgstr ""
+msgstr "物品等级"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:568
 msgid "Any level"
-msgstr ""
+msgstr "任意等级"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:568
 msgid "{levels}+ below"
-msgstr ""
+msgstr "低 {levels}+ 级以上"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:581
 msgid ""
 "What becomes of a drop that no rule above takes. Below Legendary, items of a type no rule names come here too."
-msgstr ""
+msgstr "没有任何上述规则处理的掉落物的去向。传奇以下、且没有规则指明其类型的物品也在此处理。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:587
 msgid "Then"
-msgstr ""
+msgstr "然后"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:606
 msgid "Decided {decided} of your last {count} drops."
-msgstr ""
+msgstr "在你最近的 {count} 件掉落物中，已决定 {decided} 件。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:614
 msgid ""
 "Your last {count} drops: {filtered} filtered ({gold} gold), {kept} kept."
-msgstr ""
+msgstr "你最近的 {count} 件掉落物：筛选 {filtered} 件（{gold} 金币），保留 {kept} 件。"
 
+# imported from engine_zz-v2.6.po
 #: game/ui/screens/MainMenuLootFilter.cpp:98
 msgid "No item types yet"
-msgstr ""
+msgstr "尚无物品类型"
 
 #: game/ui/screens/MainMenuScreen.cpp:1052
 msgid "Your hirelings stay with you but take no part in combat."
@@ -109217,10 +109474,11 @@ msgstr "你的雇佣角色会跟着你，但不参与战斗。"
 msgid "Make This a Solo Run?"
 msgstr "转为单人冒险？"
 
+# imported from engine_zz-v2.5.po
 #: game/ui/screens/MainMenuScreen.cpp:1055
 msgid ""
 "Your adventurer goes on in first person, with an action bar and talents, and the party stays one for the rest of the adventure. This cannot be undone."
-msgstr "你的冒险者将以第一人称继续，拥有快捷栏和天赋，队伍在整个冒险中保持一人。此操作无法撤销。"
+msgstr "你的冒险者将以第一人称继续，拥有快捷栏和专长，队伍在整个冒险中保持一人。此操作无法撤销。"
 
 #: game/ui/screens/MainMenuScreen.cpp:1058
 msgid "Solo Run"
@@ -110306,6 +110564,38 @@ msgstr "通关证书"
 #: game/ui/screens/WinGameScreen.cpp:187
 msgid "Completed on {date}"
 msgstr "通关于{date}"
+
+# imported from zh-cn-todo.po
+#~ msgid "{name}'s {bag} is now a crafting bag"
+#~ msgstr "{name}的{bag}现在是合成袋"
+
+# imported from zh-cn-todo.po
+#~ msgid "{name}'s {bag} is now an alchemy bag"
+#~ msgstr "{name}的{bag}现在是炼金袋"
+
+# imported from zh-cn-todo.po
+#~ msgid "{name}'s {bag} is no longer a crafting bag"
+#~ msgstr "{name}的{bag}不再是合成袋"
+
+# imported from zh-cn-todo.po
+#~ msgid "{name}'s {bag} is no longer an alchemy bag"
+#~ msgstr "{name}的{bag}不再是炼金袋"
+
+# imported from zh-cn-todo.po
+#~ msgid "{bag} is a crafting bag (Shift+B): click to untag"
+#~ msgstr "{bag}是合成袋（Shift+B）：点击取消标记"
+
+# imported from zh-cn-todo.po
+#~ msgid "{bag} is an alchemy bag: click to untag"
+#~ msgstr "{bag}是炼金袋：点击取消标记"
+
+# imported from zh-cn-todo.po
+#~ msgid "Make {bag} a crafting bag (Shift+B)"
+#~ msgstr "将{bag}设为合成袋（Shift+B）"
+
+# imported from zh-cn-todo.po
+#~ msgid "Make {bag} an alchemy bag"
+#~ msgstr "将{bag}设为炼金袋"
 
 #~ msgid "No upkeep spells set (Battle Orders)"
 #~ msgstr "未设置维持法术（战斗指令）"

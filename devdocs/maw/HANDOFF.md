@@ -68,8 +68,13 @@ In order. GAPS.md and DEVIATIONS.md hold the details of each row.
    window (layout B), moving and resizing.
 4. **Inventory: four bags shown together** (H.1a, DEVIATIONS 141, session C): all four bags 2x2 at half size with
    dividers; 1-4 buttons and the Bag 1-4 keys zoom one. Save 121 fits older saves' five or 25 bags into four.
-5. **Bag tags** (H.10, DEVIATIONS 178, C): crafting and alchemy bags take what the party picks up. Shift+B, the hammer
-   and potion buttons, save 123.
+5. **Pouches** (H.10, DEVIATIONS 196; user, 2026-11-17, replacing the bag tags of DEVIATIONS 178): the hammer,
+   potion and key buttons open the party's Crafting, Alchemy and Quest pouches, each an endless scrolling tab in the
+   bags' place (one grid of 28 columns without dividers). Workbench materials (1041-1070), potions, bottles and
+   reagents, and quest items (Value 0 and no gear, `MawItemRules::pouch`) lie only there, shared by every member;
+   quest checks, the Workbench, quick-slots, upkeep and shops reach them. Saves 192 and 193 (the Quest pouch) move
+   an older save's items there (`Party::gatherPouchItems`). `Party::pouchItems`, `InventoryBags::pouchBag`,
+   `InventoryBagOverview::pouchSlot`; tests in `MawContentUiTests.cpp` ("pouch").
 6. **Bounty presentation** (H.11, session B): a map note on the target, the boss named in the texts, and the bounty
    cancelled when someone other than the party kills the target.
 7. **Party allies** (B): summons, enslaved, controlled and reanimated monsters fight for the party
@@ -272,7 +277,7 @@ reports in play come first.
 | 120 | `SaveVersionActorSummoner` | summoner of each summon (Summon Wisp limit) |
 | 121 | `SaveVersionFourMawBags` | four bags, older saves fitted |
 | 122 | `SaveVersionExtraQuickSpells` | four extra quick spells |
-| 123 | `SaveVersionMawBagTags` | crafting and alchemy bags |
+| 123 | `SaveVersionMawBagTags` | crafting and alchemy bags (read and dropped since 192) |
 | 124 | `SaveVersionMawMapVisits` | map visits, dimension runs cleared, bounties claimed |
 | 125 | `SaveVersionQuickItemSlots` | six potion quick-slots per character |
 | 126 | `SaveVersionLootFilterPresets` | loot filter preset, kinds, ground choice; the filtered mark |
@@ -281,6 +286,8 @@ reports in play come first.
 | 151 | `SaveVersionCrypticBossAffix` | a Cryptic boss's hidden affix (MAW 8fbb48d1 sync, 2026-11-05) |
 | 152 | `SaveVersionTrainerHints` | the Trainer Hints preference (MAW 8fbb48d1 sync, 2026-11-05) |
 | 154 | `SaveVersionBowDisabled` | the Bow preference, MAW's disableBow (dev 137, 2026-11-05) |
+| 192 | `SaveVersionMawPouches` | the party's Crafting and Alchemy pouches (dev 196, 2026-11-17); older saves' items move there, the bag tags are dropped |
+| 193 | `SaveVersionMawQuestPouch` | the party's Quest pouch (dev 196, 2026-11-17); older saves' quest items move there |
 
 `RulesetTests.cpp` carries the round trips and the legacy-save tests. A new version needs a round trip test and,
 for a reader change, a test of the older layout.

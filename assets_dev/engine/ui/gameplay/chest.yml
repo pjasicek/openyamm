@@ -139,6 +139,51 @@ elements:
         scale: 0.416667
       notes: 'MAW multibag (rulesets with ItemRules::bagCount > 1 only), in a shop or chest: opens bag 4 of the active
         member in the grid below; the open bag is selected. As CharacterInventoryBag4.'
+    - id: ChestInventoryCraftingPouch
+      anchor: top_left
+      offset_x: 310
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'Rulesets with pouches (ItemRules::hasPouches, MAW), over a shop''s or chest''s party inventory: shows the
+        party''s crafting materials in the grid below, one scrolling grid; again, the bags. As
+        CharacterInventoryCraftingTag; the hammer icon is drawn by the renderer.'
+    - id: ChestInventoryAlchemyPouch
+      anchor: top_left
+      offset_x: 336
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s potions, bottles and reagents; the potion icon is drawn by the renderer.'
+    - id: ChestInventoryQuestPouch
+      anchor: top_left
+      offset_x: 362
+      offset_y: -22
+      width: 24
+      height: 20
+      z_index: 300
+      interactive: true
+      asset:
+        default: obsidian_button_tab_normal
+        highlighted: obsidian_button_tab_hover
+        pressed: obsidian_button_tab_pressed
+        selected: obsidian_button_tab_selected
+      notes: 'The same for the party''s quest items (what is worth nothing and is no gear); the key icon is drawn by the
+        renderer.'
   - id: ChestTopBar
     anchor: top_center
     width: 640

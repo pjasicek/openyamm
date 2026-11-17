@@ -86,6 +86,11 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 | TB-9 | low | not a defect | stealing was thought to cost only the 30-tick minimum | none |
 | TB-10 | low | fixed | walking in TB ran buffs and regeneration on frame time | covered by `item_regeneration.yml` |
 | TB-11 | medium | fixed | at a high game speed monsters walked less each turn | `fast_speed_monsters_walk.yml` |
+| TB-12 | high | fixed | Immolation burned every 10 s of wall-clock time, also on the party's turn | `immolation_per_turn.yml` |
+| TB-13 | high | fixed | water, lava and burning floors never hurt a party standing in TB, and hurt by walking time | `drowning_per_turn.yml` |
+| TB-14 | medium | fixed | indoors, floor triggers (pressure plates) and MM9 exits did not fire during TB | none (code path) |
+| TB-15 | medium | fixed | outdoors, walking or falling in TB advanced the clock, timers and the monsters' shields | none (code path) |
+| TB-16 | medium | fixed | MAW's timers (poison, monster regeneration and auras, solo talents) ran on actor AI time | `maw_poison_per_turn.yml` |
 
 ### TB-1: one press acts for two members
 
@@ -176,7 +181,7 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 - **Original.** Actor buffs expire on game time (`IsBuffExpiredToTime(pParty->GetPlayingTime())`), which advances
   213 ticks (1.664 real-second equivalents) per turn.
 - **Fix.** In TB the actor AI step leaves the timers alone (`ActorTurnBasedMode` other than `RealTime`), and
-  `IGameplayWorldRuntime::advanceTurnBasedActorTimers` runs every actor's effects down by the turn's time from
+  `IGameplayWorldRuntime::advanceTurnBasedWorldTime` runs every actor's effects down by the turn's time from
   `advanceTurnBasedGameMinutes` (outdoor and indoor).
 - **Scenario.** A paralysis of 1800 s is untouched by the wait and the monsters' actions and is 1783.36 s after ten
   turns (`assert: {turn_based: {actor_effect: paralyze, ...}}`).
@@ -219,6 +224,59 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 - **Not changed.** The party's own walking in real-time fast mode keeps its 0.05 s and 0.1 s per-frame limits, so F2
   4x walks at about 3x at 60 frames a second; that does not touch turn-based fairness (the party's turn-based walk is
   never sped up).
+
+### TB-12: Immolation burns on wall-clock time
+
+- **Report.** Discord, 2026-11-17 (translated from Chinese, where the zh-cn name of Immolation, 怒火焚身, was read
+  back as "Incinerate"): in TB parties hold doorways with it and keep melee monsters from reaching them; some call it
+  the only way to win on the hardest difficulty.
+- **Cause.** Both world runtimes ran `updateImmolation` from `updateWorld` on each frame's time, also in TB, burning
+  every monster within 307 every five game minutes (10 s). In TB that time passes while a member chooses an action, so
+  a party that waited on its turn burned the monsters in reach without spending a turn, and the turn-based speed
+  settings made it faster.
+- **Original.** The aura burns from the timed effects (OE `Engine.cpp` Immolation block, every five game minutes),
+  which TB runs only at a turn's end with 213 ticks (0.832 game minutes), so it burns once every six or seven turns.
+- **Fix.** In TB `updateWorld` skips the aura and `advanceTurnBasedWorldTime` advances it by the completed turn's
+  time (outdoor and indoor).
+- **Scenario.** A paralysed Mercenary Captain 200 units from the party with Immolation (Fire 10) stays unhurt while
+  the party idles 30 s on its turn (three burns before the fix), and is burned once over eight turns.
+- **Not changed.** A burn still reads in the status line as the caster shooting the monster
+  (`recordPartyProjectileActorImpact`).
+
+### Wall clock against the turn's time (TB-13 to TB-16)
+
+After TB-12 the user asked for every other place where frame time stood in for the turn's game time. The rule is
+the original's: in TB the game clock (`pEventTimer->time()`) stands still, `_494035_timed_effects` runs once per
+completed turn with 213 ticks, and only physics, doors and animation use frame time.
+
+- **TB-13: water, lava and burning floors.** The original's timed effects drown (a tenth of each member's maximum HP)
+  or burn the party at most once per call, so once per turn. OpenYAMM ran its one-second damage timers in the
+  party's movement update: a turn-based physics step (`turnBasedPhysicsStep`) skipped them and reset the timer, so a
+  party standing in deep water or lava in TB was never hurt, and a turn-based walk (`turnBasedMovementStep`) hurt it
+  by the walking time. MM9's held breath (indoor water volumes) likewise ran only while walking. Now neither walking
+  nor falling in TB advances them, and `advanceTurnBasedWorldTime` gives one water or burning tick per turn
+  (`OutdoorPartyRuntime` / `IndoorPartyRuntime::advanceTurnBasedHazards`) and runs the breath down by the turn's
+  time. Scenario: in the sea off Dagger Wound, 30 s on the party's turn cost nothing and three turns cost three
+  ticks (before the fix the turns healed Ariel to full).
+- **TB-14: indoor floor triggers.** To freeze the clock in TB, `IndoorRenderer` ran only `advanceMechanisms`, which
+  also skipped `updatePartyFaceTriggers` and MM9's positioned exits (the original runs floor events on every step,
+  also in TB). The stepped faces waited until TB ended. `IndoorSceneRuntime::advanceSimulation(ms, false)` now runs
+  everything but the clock, its timers and the teacher schedules. The scenario driver called `advanceSimulation` in TB
+  and so advanced the indoor clock where the game did not; it now does as the renderer (`advanceIndoorScene`).
+- **TB-15: outdoor clock while walking.** `OutdoorSceneRuntime::advanceFrame` passed the turn-based walk's and fall's
+  time to `updateTimers` (the clock, timed events, the sky) and queued it as actor AI time, which the next wait stage
+  spent as one step: the monsters' energy shields regenerated and modifier cooldowns ran for the whole walk. A
+  turn-based step now passes no time to either.
+- **TB-16: ruleset timers.** `GameSession` ran `updateAuras`, `updateCombat`, `classes.update` and `updateMonsters`
+  on actor AI time, so MAW's poison, monster regeneration and auras and solo talent cooldowns advanced about 0.5 s
+  per turn plus the monsters' actions. MAW's timers follow `Game.Time`; in TB they now get no frame time and run once
+  per turn from `GameplayController::advanceTurnBasedGameMinutes`.
+- **Checked and matching.** Recovery, buffs, conditions and regeneration (TB-2, TB-10); monster spell effects (TB-6);
+  Immolation (TB-12); the indoor clock; Armageddon and missiles, which use frame time in the original too.
+- **Not changed.** OpenYAMM's own energy shields, monster modifiers and actor behaviours run on actor AI time, which in
+  TB passes in the wait stage and the monsters' actions; the shields' design says so (they pause while the party
+  acts). Fly and Water Walk drain no mana in OpenYAMM in real time either (the original drains the caster's SP while
+  flying); that is not a turn-based question.
 
 ## Scenario support
 

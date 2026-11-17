@@ -46,6 +46,9 @@ and its tabs): four bags a character, all four at once at about half size, and t
 
 ## Bag tags (GAPS H.10)
 
+Replaced on 2026-11-17 by the party's pouches, each an endless tab of the inventory: see
+[the Alchemy and Crafting tabs](../maw_pouch_tabs_20261117/README.md). The rest of this section is the record of the tags.
+
 Two toggles after the 1-4 buttons tag the open bag (the zoomed one, or in the overview the one opened last; their hover
 line names it): the hammer makes it a crafting bag (MAW's, zzzMaw_CraftingBag.lua; Shift+B too), the potion an alchemy
 bag (ours, DEVIATIONS 178). A toggle is selected while the open bag carries its tag.
