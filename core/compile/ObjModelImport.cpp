@@ -7,6 +7,7 @@
 #include <charconv>
 #include <cctype>
 #include <cmath>
+#include <cstdlib>
 #include <cstring>
 #include <fstream>
 #include <sstream>
@@ -55,12 +56,17 @@ std::string removeComment(const std::string &line)
     return line.substr(0, commentOffset);
 }
 
+// strtof: the libc++ of macOS and Android has no floating-point std::from_chars.
 bool parseFloatToken(const std::string &text, float &value)
 {
-    const char *pBegin = text.data();
-    const char *pEnd = text.data() + text.size();
-    const std::from_chars_result result = std::from_chars(pBegin, pEnd, value);
-    return result.ec == std::errc() && result.ptr == pEnd;
+    if (text.empty() || std::isspace(static_cast<unsigned char>(text.front())))
+    {
+        return false;
+    }
+
+    char *pEnd = nullptr;
+    value = std::strtof(text.c_str(), &pEnd);
+    return pEnd == text.c_str() + text.size() && std::isfinite(value);
 }
 
 bool parseIntToken(const std::string &text, int &value)
