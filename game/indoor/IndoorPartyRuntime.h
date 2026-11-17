@@ -51,6 +51,9 @@ public:
         float deltaSeconds,
         bool turnBasedMovementStep = false,
         bool turnBasedPhysicsStep = false);
+    // Turn-based combat: lava or a burning floor under the party hurts once per completed turn and MM9's held breath
+    // runs down by the turn's time, in equivalent real seconds (movementStatusText says so).
+    void advanceTurnBasedHazards(float seconds);
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
     void setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
@@ -135,6 +138,7 @@ private:
         std::vector<size_t> &contactedActorIndices);
     // The breath, drowning and the crossing sounds after an update's steps.
     void updateWaterBreath(float deltaSeconds);
+    bool burningHere(const IndoorBodyDimensions &body) const;
     void resetWaterState(bool refillBreath);
     void keepPlacementInWater(float requestedFootZ, const IndoorBodyDimensions &body);
     bool waterActive() const;

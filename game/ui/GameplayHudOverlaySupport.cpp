@@ -694,11 +694,24 @@ bool GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromSoloBar(
         overlay.objectDescriptionId = bar->slot.item.itemId;
         const int bags = std::max(1, pParty->rules().items.bagCount(*pParty));
 
-        if (const std::optional<QuickItemSlots::Location> location =
-                QuickItemSlots::findItem(*pMember, bar->slot.item, bags))
+        // The member's own bottle or scroll, or the party's from its pouches.
+        std::optional<QuickItemSlots::Location> location = QuickItemSlots::findItem(*pMember, bar->slot.item, bags);
+
+        if (!location)
         {
-            if (const InventoryItem *pItem =
-                    InventoryBags::itemInBagAt(*pMember, location->bag, location->gridX, location->gridY))
+            const std::optional<QuickItemSlots::PartyLocation> carried =
+                QuickItemSlots::findPartyItem(*pParty, memberIndex, bar->slot.item, bags);
+
+            if (carried && InventoryBags::isPouchBag(carried->location.bag))
+            {
+                location = carried->location;
+            }
+        }
+
+        if (location)
+        {
+            if (const InventoryItem *pItem = InventoryBags::itemInBagAt(
+                    *pParty, memberIndex, location->bag, location->gridX, location->gridY))
             {
                 overlay.hasItemState = true;
                 overlay.itemState = *pItem;
@@ -1878,6 +1891,7 @@ bool GameplayHudOverlaySupport::bagOverviewActive(const GameplayScreenRuntime &c
 #else
     const Party *pParty = context.partyReadOnly();
     return pParty != nullptr && !context.characterScreenReadOnly().inventoryBagZoomed
+        && !inventoryPouchShown(context)
         && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory
         && !context.isAdventurersInnCharacterSourceActive()
         && !(context.utilitySpellOverlayReadOnly().active
@@ -1895,13 +1909,191 @@ bool GameplayHudOverlaySupport::shopBagOverviewActive(const GameplayScreenRuntim
 #else
     const GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
     const Party *pParty = context.partyReadOnly();
-    return pParty != nullptr && overlay.active && !overlay.bagZoomed
+    return pParty != nullptr && overlay.active && !overlay.bagZoomed && !nestedPouchShown(context)
         && (overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopDisplay
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
             || overlay.mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair)
         && gameRulesFor(pParty).items.bagCount(*pParty) > 1;
 #endif
+}
+
+std::optional<ItemPouch> GameplayHudOverlaySupport::inventoryPouchShown(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    const GameplayUiController::CharacterScreenState &screen = context.characterScreenReadOnly();
+    const bool shown = pParty != nullptr && screen.open && screen.inventoryPouch.shown
+        && screen.page == GameplayUiController::CharacterPage::Inventory
+        && !context.isAdventurersInnCharacterSourceActive()
+        && !(context.utilitySpellOverlayReadOnly().active
+            && context.utilitySpellOverlayReadOnly().mode
+                == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget)
+        && gameRulesFor(pParty).items.hasPouches();
+    return shown ? screen.inventoryPouch.shown : std::nullopt;
+}
+
+std::optional<ItemPouch> GameplayHudOverlaySupport::nestedPouchShown(const GameplayScreenRuntime &context)
+{
+    const Party *pParty = context.partyReadOnly();
+    const GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
+    const bool shown = pParty != nullptr && overlay.active && overlay.pouch.shown
+        && gameRulesFor(pParty).items.hasPouches();
+    return shown ? overlay.pouch.shown : std::nullopt;
+}
+
+int GameplayHudOverlaySupport::pouchMaximumFirstRow(const GameplayScreenRuntime &context, ItemPouch pouch)
+{
+    const Party *pParty = context.partyReadOnly();
+
+    if (pParty == nullptr)
+    {
+        return 0;
+    }
+
+    // A held item may go a page past the last item, for a free row of its own.
+    const int maximum = InventoryBagOverview::pouchMaximumFirstRow(pParty->pouchItems(pouch));
+    return context.heldInventoryItem().active
+        ? std::min(maximum + InventoryBags::PouchVisibleRows - InventoryBagOverview::PouchSpareRows,
+              InventoryBags::PouchRows - InventoryBags::PouchVisibleRows)
+        : maximum;
+}
+
+int GameplayHudOverlaySupport::pouchFirstRow(
+    const GameplayScreenRuntime &context,
+    const InventoryPouchViewState &view,
+    ItemPouch pouch)
+{
+    return std::clamp(view.firstRow[size_t(pouch)], 0, pouchMaximumFirstRow(context, pouch));
+}
+
+InventoryBagOverview::Slot GameplayHudOverlaySupport::pouchSlot(
+    const GameplayScreenRuntime &context,
+    const InventoryPouchViewState &view,
+    ItemPouch pouch,
+    const GameplayResolvedHudLayoutElement &grid)
+{
+    return InventoryBagOverview::pouchSlot(grid, pouchFirstRow(context, view, pouch));
+}
+
+void GameplayHudOverlaySupport::scrollPouchView(
+    const GameplayScreenRuntime &context,
+    InventoryPouchViewState &view,
+    int rows)
+{
+    if (view.shown)
+    {
+        int &firstRow = view.firstRow[size_t(*view.shown)];
+        firstRow = std::clamp(pouchFirstRow(context, view, *view.shown) + rows, 0,
+            pouchMaximumFirstRow(context, *view.shown));
+    }
+}
+
+bool GameplayHudOverlaySupport::dragPouchScrollbar(
+    const GameplayScreenRuntime &context,
+    InventoryPouchViewState &view,
+    const GameplayResolvedHudLayoutElement &grid,
+    float pointerX,
+    float pointerY,
+    bool buttonHeld,
+    bool buttonPressed)
+{
+    if (!view.shown || !buttonHeld)
+    {
+        view.thumbDragOffset.reset();
+        return false;
+    }
+
+    const int maximumFirstRow = pouchMaximumFirstRow(context, *view.shown);
+    const InventoryBagOverview::PouchScrollbar bar =
+        InventoryBagOverview::pouchScrollbar(grid, pouchFirstRow(context, view, *view.shown), maximumFirstRow);
+
+    if (!view.thumbDragOffset)
+    {
+        const bool onTrack = pointerX >= bar.x && pointerX < bar.x + bar.width && pointerY >= bar.y
+            && pointerY < bar.y + bar.height;
+
+        if (!buttonPressed || !onTrack || maximumFirstRow <= 0)
+        {
+            return false;
+        }
+
+        // On the thumb, it follows from where it was taken; elsewhere on the track its middle jumps to the pointer.
+        const bool onThumb = pointerY >= bar.thumbY && pointerY < bar.thumbY + bar.thumbHeight;
+        view.thumbDragOffset = onThumb ? pointerY - bar.thumbY : bar.thumbHeight * 0.5f;
+    }
+
+    view.firstRow[size_t(*view.shown)] =
+        InventoryBagOverview::pouchFirstRowForThumb(bar, pointerY - *view.thumbDragOffset, maximumFirstRow);
+    return true;
+}
+
+void GameplayHudOverlaySupport::renderPouchFrame(
+    GameplayScreenRuntime &context,
+    const GameplayResolvedHudLayoutElement &grid,
+    const InventoryBagOverview::Slot &slot,
+    int maximumFirstRow)
+{
+    GameplayUiRuntime &ui = context.gameplayUiRuntime();
+    const std::optional<GameplayHudTextureHandle> backdrop =
+        ui.ensureSolidHudTextureLoaded("__bag_overview_backdrop__", 0xff121714u);
+    const std::optional<GameplayHudTextureHandle> edge =
+        ui.ensureSolidHudTextureLoaded("__bag_overview_edge__", 0xff2c3a40u);
+    const std::optional<GameplayHudTextureHandle> thumb =
+        ui.ensureSolidHudTextureLoaded("__bag_overview_divider__", 0xff4f7d98u);
+    const std::optional<GameplayHudTextureHandle> surface = ui.ensureHudTextureLoaded("obsidian_inventory_surface");
+
+    if (backdrop)
+    {
+        context.submitHudTexturedQuad(*backdrop, grid.x, grid.y, grid.width, grid.height);
+    }
+
+    // The grid part of the inventory page's surface (CharacterInventoryGrid at 7,8 on the 468 x 346 page), once per
+    // bag's worth of cells: two across and two down, edge to edge.
+    constexpr float PageWidth = 468.0f;
+    constexpr float PageHeight = 346.0f;
+    constexpr float GridLeft = 7.0f;
+    constexpr float GridTop = 8.0f;
+    constexpr float GridWidth = 448.0f;
+    constexpr float GridHeight = 288.0f;
+
+    if (surface)
+    {
+        const float tileWidth = slot.cellWidth() * float(Character::InventoryWidth);
+        const float tileHeight = slot.cellHeight() * float(Character::InventoryHeight);
+
+        for (int tile = 0; tile < 4; ++tile)
+        {
+            ui.submitHudTexturedQuad(surface->textureHandle, slot.x + float(tile % 2) * tileWidth,
+                slot.y + float(tile / 2) * tileHeight, tileWidth, tileHeight, GridLeft / PageWidth,
+                GridTop / PageHeight, (GridLeft + GridWidth) / PageWidth, (GridTop + GridHeight) / PageHeight);
+        }
+    }
+
+    const float line = std::max(1.0f, std::round(grid.scale));
+
+    if (edge)
+    {
+        context.submitHudTexturedQuad(*edge, slot.x, slot.y + slot.height, slot.width, line);
+        context.submitHudTexturedQuad(*edge, slot.x + slot.width, slot.y, line, slot.height + line);
+    }
+
+    // The scrollbar: its track always, its thumb once there is more than the view shows.
+    const InventoryBagOverview::PouchScrollbar bar =
+        InventoryBagOverview::pouchScrollbar(grid, slot.firstRow, maximumFirstRow);
+
+    if (edge)
+    {
+        const float trackWidth = std::max(1.0f, std::round(2.0f * grid.scale));
+        context.submitHudTexturedQuad(*edge, std::round(bar.x + (bar.width - trackWidth) * 0.5f), bar.y, trackWidth,
+            bar.height);
+    }
+
+    if (thumb && bar.thumbHeight > 0.0f)
+    {
+        const float thumbWidth = std::max(2.0f, std::round(5.0f * grid.scale));
+        context.submitHudTexturedQuad(*thumb, std::round(bar.x + (bar.width - thumbWidth) * 0.5f),
+            std::round(bar.thumbY), thumbWidth, std::round(bar.thumbHeight));
+    }
 }
 
 bool GameplayHudOverlaySupport::inventoryTabsShown(const GameplayScreenRuntime &context)
@@ -1991,11 +2183,6 @@ void GameplayHudOverlaySupport::renderBagOverview(
         }
 
         renderBag(slot, uint8_t(bag));
-        // The bag's tags in its bottom right corner, the place a bag fills last.
-        const float tagSize = std::round(16.0f * scale);
-        const float tagInset = std::round(2.0f * scale);
-        renderBagTagMarks(context, character, uint8_t(bag), slot.x + slot.width - 2 * tagSize - tagInset,
-            slot.y + slot.height - tagSize - tagInset, 2 * tagSize, tagSize);
     }
 
     // The dividers: a bronze rule down the middle of each gap between the bags.
@@ -2028,6 +2215,21 @@ std::optional<GameplayHudOverlaySupport::InventoryCell> GameplayHudOverlaySuppor
     if (pCharacter == nullptr || !grid)
     {
         return std::nullopt;
+    }
+
+    // A pouch's tab: the cell of the pouch's grid at its scroll position.
+    if (const std::optional<ItemPouch> pouch = nestedPouchShown(context))
+    {
+        const InventoryBagOverview::Slot slot =
+            pouchSlot(context, context.inventoryNestedOverlay().pouch, *pouch, *grid);
+
+        if (!InventoryBagOverview::insideGrid(slot, x, y))
+        {
+            return std::nullopt;
+        }
+
+        const auto [gridX, gridY] = InventoryBagOverview::cellAt(slot, x, y);
+        return InventoryCell{InventoryBags::pouchBag(*pouch), gridX, gridY};
     }
 
     if (shopBagOverviewActive(context))
@@ -2153,15 +2355,17 @@ void GameplayHudOverlaySupport::renderSearchDimmedItem(
     context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
 }
 
-void GameplayHudOverlaySupport::renderBagTagIcon(
+void GameplayHudOverlaySupport::renderPouchIcon(
     GameplayScreenRuntime &context,
-    BagTag tag,
+    ItemPouch pouch,
     float x,
     float y,
     float size)
 {
     const std::optional<GameplayHudTextureHandle> icon = context.gameplayUiRuntime().ensureHudTextureLoaded(
-        tag == BagTag::Crafting ? "obsidian_bag_tag_crafting" : "obsidian_bag_tag_alchemy");
+        pouch == ItemPouch::Crafting  ? "obsidian_bag_tag_crafting"
+        : pouch == ItemPouch::Alchemy ? "obsidian_bag_tag_alchemy"
+                                      : "obsidian_bag_tag_quest");
 
     if (icon)
     {
@@ -2241,25 +2445,5 @@ void GameplayHudOverlaySupport::renderSkillSwitchGem(
     }
 
     context.gameplayUiRuntime().submitHudQuadBatch(std::span<const GameplayHudBatchQuad>(&quad, 1));
-}
-
-void GameplayHudOverlaySupport::renderBagTagMarks(
-    GameplayScreenRuntime &context,
-    const Character &character,
-    uint8_t bag,
-    float x,
-    float y,
-    float width,
-    float size)
-{
-    if (InventoryBags::hasTag(character, bag, BagTag::Crafting))
-    {
-        renderBagTagIcon(context, BagTag::Crafting, x, y, size);
-    }
-
-    if (InventoryBags::hasTag(character, bag, BagTag::Alchemy))
-    {
-        renderBagTagIcon(context, BagTag::Alchemy, x + width - size, y, size);
-    }
 }
 } // namespace OpenYAMM::Game

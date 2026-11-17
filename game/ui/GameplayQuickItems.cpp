@@ -476,8 +476,10 @@ void renderPicker(GameplayScreenRuntime &context, const Party &party, const Char
         }
 
         // The HUD fonts are single-byte: the middle dot is 0xB7.
+        // Nobody carries what lies in the party's pouches.
         const std::string note =
-            (row.power > 0 ? Engine::tr("strength {power}", {{"power", int64_t(row.power)}}) + "  \xB7  "
+            (row.power > 0 ? Engine::tr("strength {power}", {{"power", int64_t(row.power)}})
+                    + (carriers.empty() ? "" : "  \xB7  ")
                            : std::string())
             + carriers;
         paint.text(TextFont, 10 * u, Muted, paint.fitted(TextFont, 10 * u, note, box.width - 44 * u), box.x + 38 * u,
@@ -1404,7 +1406,8 @@ void renderPopup(GameplayScreenRuntime &context, const Party &party, int width, 
         if (potions)
         {
             const std::string sub =
-                Engine::tr("strength {power}", {{"power", int64_t(entry.power)}}) + "  \xB7  " + carriers;
+                Engine::tr("strength {power}", {{"power", int64_t(entry.power)}})
+                + (carriers.empty() ? "" : "  \xB7  ") + carriers;
             const std::string fitted = paint.fitted(TextFont, 11 * k, sub, box->width - 70 * k - countWidth
                 - (idle ? paint.width(TextFont, 11 * k, "  \xB7  " + Engine::tr("no effect now")) : 0));
             paint.text(TextFont, 11 * k, Muted, fitted, subX, box->y + 28 * k);

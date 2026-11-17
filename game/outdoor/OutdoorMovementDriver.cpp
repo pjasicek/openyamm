@@ -248,8 +248,9 @@ void OutdoorMovementDriver::update(
     const float cosPitch = std::cos(movementPitchRadians);
     const float sinPitch = std::sin(movementPitchRadians);
     const float inputSpeedScale = std::clamp(input.movementSpeedScale, 0.0f, 1.0f);
-    const float speedMultiplier =
-        std::max(m_speedMultiplier, 0.0f) * inputSpeedScale * std::max(input.partySpeedMultiplier, 0.0f);
+    // Party speed (Fleet Foot, talents, MAW slows) changes ground speed only: jump height and flight climb stay put.
+    const float verticalSpeedMultiplier = std::max(m_speedMultiplier, 0.0f) * inputSpeedScale;
+    const float speedMultiplier = verticalSpeedMultiplier * std::max(input.partySpeedMultiplier, 0.0f);
     const bx::Vec3 forward = {cosYaw, sinYaw, 0.0f};
     const bx::Vec3 forwardFlying = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
@@ -406,7 +407,7 @@ void OutdoorMovementDriver::update(
         const OutdoorMoveState previousState = m_state;
         const bool jumpRequestedThisStep = m_pendingJumpPress;
         const float jumpVelocityThisStep =
-            m_pendingJumpVelocity.value_or(m_tuning.jumpVelocity * speedMultiplier);
+            m_pendingJumpVelocity.value_or(m_tuning.jumpVelocity * verticalSpeedMultiplier);
         const float jumpLiftThisStep = m_pendingJumpLift;
         std::vector<size_t> contactedActorIndices;
         const bool traceOutdoorMovement = m_collisionTraceEnabled || gameplayDebugTraceEnabled();
@@ -427,7 +428,7 @@ void OutdoorMovementDriver::update(
             m_partyMovementState.flying,
             m_partyMovementState.waterWalk,
             jumpVelocityThisStep,
-            m_tuning.flyVerticalSpeed * speedMultiplier,
+            m_tuning.flyVerticalSpeed * verticalSpeedMultiplier,
             m_tuning.maxFlightHeight,
             OutdoorMovementStepSeconds,
             &contactedActorIndices,
@@ -658,11 +659,11 @@ void OutdoorMovementDriver::update(
         m_state.fallDistance = 0.0f;
     }
 
-    if (!input.turnBasedPhysicsStep
-        && m_state.supportOnDeepWater()
-        && !m_partyMovementState.waterWalk
-        && !m_partyMovementState.flying
-        && !m_levitateActive)
+    // Turn-based walking and falling take no game time: the water and the burning ground hurt once per completed turn
+    // (addTurnBasedHazardTicks).
+    const bool turnBasedStep = input.turnBasedPhysicsStep || input.turnBasedMovementStep;
+
+    if (!turnBasedStep && drowningHere())
     {
         m_waterDamageTimerSeconds += deltaSeconds;
 
@@ -678,10 +679,7 @@ void OutdoorMovementDriver::update(
         m_waterDamageTimerSeconds = 0.0f;
     }
 
-    if (!input.turnBasedPhysicsStep
-        && m_state.supportOnBurning
-        && !m_partyMovementState.flying
-        && !m_levitateActive)
+    if (!turnBasedStep && burningHere())
     {
         m_burningDamageTimerSeconds += deltaSeconds;
 
@@ -789,6 +787,36 @@ const OutdoorMovementTuning &OutdoorMovementDriver::tuning() const
 const OutdoorMovementEffects &OutdoorMovementDriver::pendingEffects() const
 {
     return m_pendingEffects;
+}
+
+bool OutdoorMovementDriver::drowningHere() const
+{
+    return m_state.supportOnDeepWater()
+        && !m_partyMovementState.waterWalk
+        && !m_partyMovementState.flying
+        && !m_levitateActive;
+}
+
+bool OutdoorMovementDriver::burningHere() const
+{
+    return m_state.supportOnBurning && !m_partyMovementState.flying && !m_levitateActive;
+}
+
+// The original's timed effects hurt at most once per call, and a turn's call (213 ticks) is longer than the damage
+// interval (128 ticks): one tick per completed turn.
+void OutdoorMovementDriver::addTurnBasedHazardTicks()
+{
+    if (drowningHere())
+    {
+        m_waterDamageConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.waterDamageTicks += 1;
+    }
+
+    if (burningHere())
+    {
+        m_burningDamageConsequenceSeconds = EventHoldSeconds;
+        m_pendingEffects.burningDamageTicks += 1;
+    }
 }
 
 OutdoorMovementEffects OutdoorMovementDriver::consumePendingEffects()

@@ -34,7 +34,8 @@ int bagCountOf(const Party &party)
     return std::max(1, party.rules().items.bagCount(party));
 }
 
-// Every item in the members' bags (InventoryBags), member by member and bag by bag.
+// Every item in the members' bags (InventoryBags), member by member and bag by bag; the party's pouches come with the
+// first member, where a ruleset keeps its potions and reagents.
 void forEachCarriedItem(
     const Party &party,
     const std::function<void(const ItemLocation &, const InventoryItem &)> &visit)
@@ -43,11 +44,11 @@ void forEachCarriedItem(
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
-        for (int bag = 0; bag < bagCount; ++bag)
+        for (const uint8_t bag : InventoryBags::carriedBags(party, bagCount, memberIndex == 0))
         {
-            for (const InventoryItem &item : InventoryBags::itemsInBag(party.members()[memberIndex], uint8_t(bag)))
+            for (const InventoryItem &item : InventoryBags::itemsInBag(party, memberIndex, bag))
             {
-                visit(ItemLocation{memberIndex, uint8_t(bag), item.gridX, item.gridY}, item);
+                visit(ItemLocation{memberIndex, bag, item.gridX, item.gridY}, item);
             }
         }
     }
@@ -55,17 +56,15 @@ void forEachCarriedItem(
 
 const InventoryItem *itemAt(const Party &party, const ItemLocation &location)
 {
-    const Character *pMember = party.member(location.memberIndex);
-    return pMember != nullptr
-        ? InventoryBags::itemInBagAt(*pMember, location.bag, location.gridX, location.gridY)
+    return party.member(location.memberIndex) != nullptr
+        ? InventoryBags::itemInBagAt(party, location.memberIndex, location.bag, location.gridX, location.gridY)
         : nullptr;
 }
 
 InventoryItem *itemAt(Party &party, const ItemLocation &location)
 {
-    Character *pMember = party.member(location.memberIndex);
-    return pMember != nullptr
-        ? InventoryBags::itemInBagAt(*pMember, location.bag, location.gridX, location.gridY)
+    return party.member(location.memberIndex) != nullptr
+        ? InventoryBags::itemInBagAt(party, location.memberIndex, location.bag, location.gridX, location.gridY)
         : nullptr;
 }
 

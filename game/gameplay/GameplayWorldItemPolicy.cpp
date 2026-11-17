@@ -43,21 +43,13 @@ bool worldItemPickupAllowed(const MapWorldItemSource &source, const Party &party
         });
 }
 
-std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem &item, const ItemTable *pItemTable)
+bool worldItemCollectable(const MapWorldItemSource &source, const Party &party)
 {
-    const ItemRules &rules = gameRulesFor(&party).items;
-    const ItemDefinition *pDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
-    const std::optional<BagTag> tag = pDefinition != nullptr ? rules.bagTag(*pDefinition) : std::nullopt;
+    return source.pickupEvent == 0 && worldItemPolicyAvailable(source, party) && worldItemPickupAllowed(source, party);
+}
 
-    if (tag)
-    {
-        if (const std::optional<size_t> owner =
-                InventoryBags::placeInTaggedBag(party, party.activeMemberIndex(), item, *tag, rules.bagCount(party)))
-        {
-            return StoredPickup{*owner, true};
-        }
-    }
-
+std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem &item, const ItemTable *)
+{
     size_t recipient = 0;
 
     if (!party.tryGrantInventoryItem(item, &recipient))
@@ -65,14 +57,6 @@ std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem 
         return std::nullopt;
     }
 
-    return StoredPickup{recipient, false};
-}
-
-std::string storedPickupOwnerSuffix(const Party &party, const StoredPickup &stored)
-{
-    const Character *pOwner = party.member(stored.memberIndex);
-    return stored.taggedBag && stored.memberIndex != party.activeMemberIndex() && pOwner != nullptr
-        ? " -- " + pOwner->name
-        : "";
+    return StoredPickup{recipient, party.pouchFor(item)};
 }
 }

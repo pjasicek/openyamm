@@ -238,6 +238,10 @@ public:
     // An Attack press: the active combatant's attack (a member's battle orders, game/party/BattleOrders.h); in real time
     // a member who holds hands the press to the next ready combatant.
     static PartyAttackExecutionResult executePartyAttack(const PartyAttackConfig &config);
+    // The spell the active member's battle orders cast on an Attack made now, as executePartyAttack walks them (whether
+    // it finds a target is left to the cast); none when a blow, shot or talent order comes first, or the fallback.
+    // config.useTalentOrder is only asked whether the talent is ready. A solo view model shows the cast from the press.
+    static std::optional<std::string> attackOrderSpell(const PartyAttackConfig &config);
     // The swing sound of the member's melee weapon at a point (a view model swing plays it as the swing starts).
     static void playMeleeSwingSound(GameplayScreenRuntime &runtime, const Character &attacker, const ItemTable *pItemTable,
                                     float x, float y, float z);

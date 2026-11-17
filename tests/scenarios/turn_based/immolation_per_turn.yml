@@ -1,0 +1,37 @@
+id: turn_based.immolation_per_turn
+title: Turn-based - Immolation burns by each turn's game time, not by wall-clock time on the party's turn
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        TB-12 in devdocs/TURN_BASED_COMBAT_AUDIT.md. The original burns the Immolation aura from the timed effects every
+        five game minutes, and in turn-based play the clock advances only 213 ticks (0.832 game minutes) per completed
+        turn, so the aura burns once every six or seven turns. OpenYAMM burned it every ten seconds of wall-clock time,
+        also while a member chose an action, so a party could stand in a doorway and let the aura burn every monster in
+        reach without spending a turn. A paralysed Mercenary Captain beside the party must stay unhurt while the party
+        idles for 30 s on its turn, and must be burned after eight completed turns.
+  - new_game_flow:
+      start_map: out01.odm
+  - set_pose: {map: out01.odm, x: 12296, y: 8216, z: 736, yaw_degrees: -78}
+  - spawn_actor: {monster_id: 195, count: 1, near_party: true}
+  - advance_runtime: {seconds: 0.1}
+  # Paralysed, it never acts (Paralyze has no resistance roll); 30 minutes outlast every turn below.
+  - cast_spell: {member_index: 0, spell_id: 81, skill: 10, mastery: 2, actor_index: last}
+  - cast_spell: {member_index: 0, spell_id: 8, skill: 10, mastery: 3}
+  - assert:
+      buff: {spell_id: 8, present: true}
+  - press_action: combat
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: true, report: true}}
+  - assert:
+      actor_count: {monster_id: 195, hurt: false, min: 1, max: 1}
+  # Thirty seconds of the party's turn: three real-time burns before the fix, none now.
+  - advance_runtime: {seconds: 30}
+  - assert:
+      actor_count: {monster_id: 195, hurt: false, min: 1, max: 1}
+  # Eight turns are 6.66 game minutes: one burn.
+  - turn_based_turns: {count: 8}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1, max: 1}

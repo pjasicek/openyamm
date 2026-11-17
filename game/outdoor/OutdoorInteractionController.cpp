@@ -5076,7 +5076,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
             recipientMemberIndex,
             SpeechId::FoundItem,
             true);
-        view.setStatusBarEvent(formatFoundItemStatusText(0, itemName) + storedPickupOwnerSuffix(party, *stored));
+        view.setStatusBarEvent(formatFoundItemStatusText(0, itemName));
 
         if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
         {

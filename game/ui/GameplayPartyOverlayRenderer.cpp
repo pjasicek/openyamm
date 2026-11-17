@@ -2197,13 +2197,23 @@ std::string characterSkillRowLabel(const std::string &skillName, SkillMastery ma
 // The size of the overview's bag under the point against the full-size grid, or 1 elsewhere.
 float bagOverviewFractionAt(GameplayScreenRuntime &context, int width, int height, float x, float y)
 {
+    const std::optional<GameplayResolvedHudLayoutElement> grid =
+        context.resolveHudLayoutElement("CharacterInventoryGrid", width, height, 0, 0);
+
+    // A pouch's tab has the overview's cell size.
+    if (const std::optional<ItemPouch> pouch = GameplayHudOverlaySupport::inventoryPouchShown(context))
+    {
+        const InventoryBagOverview::Slot slot = grid
+            ? GameplayHudOverlaySupport::pouchSlot(context, context.characterScreenReadOnly().inventoryPouch, *pouch,
+                  *grid)
+            : InventoryBagOverview::Slot{};
+        return grid && InventoryBagOverview::insideGrid(slot, x, y) ? slot.fraction : 1.0f;
+    }
+
     if (!context.characterScreenReadOnly().open || !GameplayHudOverlaySupport::bagOverviewActive(context))
     {
         return 1.0f;
     }
-
-    const std::optional<GameplayResolvedHudLayoutElement> grid =
-        context.resolveHudLayoutElement("CharacterInventoryGrid", width, height, 0, 0);
 
     for (int index = 0; grid && index < InventoryBagOverview::Bags; ++index)
     {
@@ -2218,13 +2228,15 @@ float bagOverviewFractionAt(GameplayScreenRuntime &context, int width, int heigh
     return 1.0f;
 }
 
-// Under a held item over an overview bag, the cells it would take: green when it fits there, gold when it swaps with
-// the item it would replace (outlined), red when it cannot go there (also where it would cross the divider).
+// Under a held item over an overview bag or a pouch's tab, the cells it would take: green when it fits there, gold
+// when it swaps with the item it would replace (outlined), red when it cannot go there (also where it would cross the
+// divider, or into a pouch that is not its own).
 void renderBagOverviewDropPreview(
     GameplayScreenRuntime &context,
     const GameplayResolvedHudLayoutElement &grid,
     const InventoryBagOverview::Slot &slot,
-    const Character &character,
+    const Party &party,
+    size_t memberIndex,
     uint8_t bag,
     float mouseX,
     float mouseY)
@@ -2246,25 +2258,33 @@ void renderBagOverviewDropPreview(
     }
 
     const float iconScale = grid.scale * slot.fraction * pDefinition->inventoryDrawScale;
-    const auto [dropX, dropY] = InventoryBagOverview::dropCell(slot, character, bag, held.item,
+    const auto [dropX, dropY] = InventoryBagOverview::dropCell(slot, party, memberIndex, bag, held.item,
         float(icon->width) * iconScale, float(icon->height) * iconScale, mouseX, mouseY, held.grabOffsetX,
         held.grabOffsetY);
-    const InventoryBags::PlacementPreview preview = dropX >= 0 && dropY >= 0
-        ? InventoryBags::previewPlaceInBag(character, bag, held.item, uint8_t(dropX), uint8_t(dropY))
+
+    // An item with a pouch goes there from any bag or other pouch it is dropped on: no cells here to show.
+    if (const std::optional<ItemPouch> pouch = party.pouchFor(held.item);
+        pouch && bag != InventoryBags::pouchBag(*pouch))
+    {
+        return;
+    }
+
+    const InventoryBags::PlacementPreview preview = dropX >= 0 && dropY >= 0 && dropY <= 255
+        ? InventoryBags::previewPlaceInBag(party, memberIndex, bag, held.item, uint8_t(dropX), uint8_t(dropY))
         : InventoryBags::PlacementPreview{};
     const uint32_t color = !preview.fits ? 0x664848e0u : preview.replacedItem ? 0x6650c8e8u : 0x6658d058u;
     const std::optional<GameplayHudTextureHandle> fill = context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
         !preview.fits ? "__bag_drop_blocked__" : preview.replacedItem ? "__bag_drop_swap__" : "__bag_drop_free__",
         color);
-    const float cellWidth = slot.width / float(Character::InventoryWidth);
-    const float cellHeight = slot.height / float(Character::InventoryHeight);
-    // The cells, clamped to the bag where the item would stick out of it.
+    const float cellWidth = slot.cellWidth();
+    const float cellHeight = slot.cellHeight();
+    // The cells, clamped to the rows and columns shown where the item would stick out of them.
     const int left = std::max(0, preview.fits ? int(preview.gridX) : dropX);
-    const int top = std::max(0, preview.fits ? int(preview.gridY) : dropY);
-    const int right = std::min(Character::InventoryWidth,
+    const int top = std::max(0, (preview.fits ? int(preview.gridY) : dropY) - slot.firstRow);
+    const int right = std::min(slot.columns,
         (preview.fits ? int(preview.gridX) : dropX) + std::max<int>(1, held.item.width));
-    const int bottom = std::min(Character::InventoryHeight,
-        (preview.fits ? int(preview.gridY) : dropY) + std::max<int>(1, held.item.height));
+    const int bottom = std::min(slot.rows,
+        (preview.fits ? int(preview.gridY) : dropY) - slot.firstRow + std::max<int>(1, held.item.height));
 
     if (fill && right > left && bottom > top)
     {
@@ -2278,10 +2298,13 @@ void renderBagOverviewDropPreview(
     if (preview.replacedItem && gold)
     {
         const InventoryItem &replaced = *preview.replacedItem;
+        const int replacedTop = std::max(0, int(replaced.gridY) - slot.firstRow);
+        const int replacedBottom =
+            std::min(slot.rows, int(replaced.gridY) - slot.firstRow + std::max<int>(1, replaced.height));
         const float x = slot.x + float(replaced.gridX) * cellWidth;
-        const float y = slot.y + float(replaced.gridY) * cellHeight;
+        const float y = slot.y + float(replacedTop) * cellHeight;
         const float width = float(std::max<int>(1, replaced.width)) * cellWidth;
-        const float height = float(std::max<int>(1, replaced.height)) * cellHeight;
+        const float height = float(std::max(0, replacedBottom - replacedTop)) * cellHeight;
         const float line = std::max(1.0f, std::round(grid.scale));
         context.submitHudTexturedQuad(*gold, x, y, width, line);
         context.submitHudTexturedQuad(*gold, x, y + height - line, width, line);
@@ -2765,7 +2788,10 @@ std::string resolveItemInspectDetailText(
     // so it shows once (OY-250).
     const bool rulesShowReagentPower = pItemState != nullptr && pItemState->rulesetFields.dropLevel > 0;
 
-    if (equipStat == "Reagent" && hasMod1Int && mod1Value > 0 && !rulesShowReagentPower)
+    // MM6's reagents are herbs (1762-1764).
+    const bool isReagent = equipStat == "Reagent" || equipStat == "Herb";
+
+    if (isReagent && hasMod1Int && mod1Value > 0 && !rulesShowReagentPower)
     {
         return Engine::tr("Power: {power}", {{"power", mod1Value}});
     }
@@ -10100,19 +10126,22 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             continue;
         }
 
-        // The bag tags' buttons, for the open bag: selected while it carries the tag, with the tag's icon.
-        if (normalizedLayoutId == "characterinventorycraftingtag" || normalizedLayoutId == "characterinventoryalchemytag")
+        // The pouches' buttons (the party's crafting materials; its potions, bottles and reagents; its quest items):
+        // selected while the inventory shows that pouch's tab, with the pouch's icon.
+        if (normalizedLayoutId == "characterinventorycraftingtag" || normalizedLayoutId == "characterinventoryalchemytag"
+            || normalizedLayoutId == "characterinventoryquesttag")
         {
-            const BagTag tag =
-                normalizedLayoutId == "characterinventorycraftingtag" ? BagTag::Crafting : BagTag::Alchemy;
+            const ItemPouch pouch = normalizedLayoutId == "characterinventorycraftingtag" ? ItemPouch::Crafting
+                : normalizedLayoutId == "characterinventoryalchemytag"                 ? ItemPouch::Alchemy
+                                                                                        : ItemPouch::Quest;
 
             if (!context.isAdventurersInnCharacterSourceActive() && pCharacter != nullptr
-                && gameRulesFor(&party).items.bagCount(party) > 1)
+                && gameRulesFor(&party).items.hasPouches())
             {
                 GameplayUiSkin::renderButton(context, pLayout->id, width, height,
-                    InventoryBags::hasTag(*pCharacter, pCharacter->rulesetState.currentBag, tag), true);
+                    GameplayHudOverlaySupport::inventoryPouchShown(context) == pouch, true);
                 const float size = std::round(16.0f * resolved->scale);
-                GameplayHudOverlaySupport::renderBagTagIcon(context, tag,
+                GameplayHudOverlaySupport::renderPouchIcon(context, pouch,
                     resolved->x + (resolved->width - size) * 0.5f, resolved->y + (resolved->height - size) * 0.5f,
                     size);
             }
@@ -10121,7 +10150,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         // MAW's multibag: a button per bag of the open bag's tab, selected while that bag fills the grid (Android
-        // always shows one), with its tags in the corners.
+        // always shows one).
         if (normalizedLayoutId.starts_with("characterinventorybag"))
         {
             const int bagCount = gameRulesFor(&party).items.bagCount(party);
@@ -10134,13 +10163,9 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             {
                 GameplayUiSkin::renderButton(context, pLayout->id, width, height,
                     !GameplayHudOverlaySupport::bagOverviewActive(context)
+                        && !GameplayHudOverlaySupport::inventoryPouchShown(context)
                         && pCharacter->rulesetState.currentBag == bag,
                     true);
-                const float markSize = std::round(11.0f * resolved->scale);
-                GameplayHudOverlaySupport::renderBagTagMarks(context, *pCharacter, uint8_t(bag),
-                    resolved->x - 2.0f * resolved->scale,
-                    resolved->y + resolved->height - markSize + 3.0f * resolved->scale,
-                    resolved->width + 4.0f * resolved->scale, markSize);
             }
 
             continue;
@@ -10802,12 +10827,16 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             // The item search dims the items it leaves out, in every bag.
             const std::optional<ItemSearch::Query> searchQuery =
                 GameplayHudOverlaySupport::inventorySearchQuery(context);
-            // One bag's items on its grid, each inspected with its actions in the bag it lies in.
+            // One bag's items on its grid, each inspected with its actions in the bag it lies in. A scrolling grid
+            // (a pouch's tab) names the rows it shows as `clipTop` and `clipBottom` on screen: items outside them are
+            // left out and one across an edge is cut there.
             const auto renderBagItems =
                 [&context, &searchQuery, pCharacter, characterSourceIndex, inspectedCharacterCanAct](
                     const std::vector<InventoryItem> &items,
                     const InventoryGridMetrics &gridMetrics,
-                    uint8_t bag)
+                    uint8_t bag,
+                    std::optional<float> clipTop = std::nullopt,
+                    std::optional<float> clipBottom = std::nullopt)
                 {
                     for (const InventoryItem &item : items)
                     {
@@ -10816,6 +10845,21 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                         if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
                         {
                             continue;
+                        }
+
+                        // The item's cells on screen, cut to the rows shown.
+                        float cellsTop = gridMetrics.y + float(item.gridY) * gridMetrics.cellHeight;
+                        float cellsBottom = cellsTop + float(item.height) * gridMetrics.cellHeight;
+
+                        if (clipTop && clipBottom)
+                        {
+                            cellsTop = std::max(cellsTop, *clipTop);
+                            cellsBottom = std::min(cellsBottom, *clipBottom);
+
+                            if (cellsBottom - cellsTop < 0.5f)
+                            {
+                                continue;
+                            }
                         }
 
                         const std::optional<GameplayHudTextureHandle> itemTexture =
@@ -10834,8 +10878,23 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                                 * pItemDefinition->inventoryDrawScale;
                         const InventoryItemScreenRect itemRect =
                             computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
+                        const bool cut = clipTop && clipBottom
+                            && (itemRect.y < *clipTop || itemRect.y + itemRect.height > *clipBottom);
 
-                        if (searchQuery
+                        if (cut)
+                        {
+                            // The part of the icon inside the rows shown, without the glow and the tint.
+                            const float top = std::max(itemRect.y, *clipTop);
+                            const float bottom = std::min(itemRect.y + itemRect.height, *clipBottom);
+
+                            if (bottom > top && itemRect.height > 0.0f)
+                            {
+                                context.gameplayUiRuntime().submitHudTexturedQuad(itemTexture->textureHandle,
+                                    itemRect.x, top, itemRect.width, bottom - top, 0.0f,
+                                    (top - itemRect.y) / itemRect.height, 1.0f, (bottom - itemRect.y) / itemRect.height);
+                            }
+                        }
+                        else if (searchQuery
                             && !ItemSearch::matches(*searchQuery,
                                 GameplayHudOverlaySupport::itemSearchText(context, item, pCharacter)))
                         {
@@ -10878,16 +10937,34 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                             // The item's grid cells answer a right-click, as a left-click picks by them, not only
                             // its icon's opaque pixels (OY-220).
                             inspectableItem.x = gridMetrics.x + float(item.gridX) * gridMetrics.cellWidth;
-                            inspectableItem.y = gridMetrics.y + float(item.gridY) * gridMetrics.cellHeight;
+                            inspectableItem.y = cellsTop;
                             inspectableItem.width = float(item.width) * gridMetrics.cellWidth;
-                            inspectableItem.height = float(item.height) * gridMetrics.cellHeight;
+                            inspectableItem.height = cellsBottom - cellsTop;
                             inspectableItem.wholeAreaHits = true;
                             context.addRenderedInspectableHudItem(inspectableItem);
                         }
                     }
                 };
 
-            if (resolvedInventoryGrid.has_value() && GameplayHudOverlaySupport::bagOverviewActive(context))
+            const std::optional<ItemPouch> shownPouch = GameplayHudOverlaySupport::inventoryPouchShown(context);
+
+            if (resolvedInventoryGrid.has_value() && shownPouch)
+            {
+                // The party's pouch in the bags' place: one grid without dividers, scrolled by rows.
+                const GameplayResolvedHudLayoutElement &grid = *resolvedInventoryGrid;
+                const uint8_t bag = InventoryBags::pouchBag(*shownPouch);
+                const InventoryBagOverview::Slot slot = GameplayHudOverlaySupport::pouchSlot(
+                    context, characterScreen.inventoryPouch, *shownPouch, grid);
+                GameplayHudOverlaySupport::renderPouchFrame(context, grid, slot,
+                    GameplayHudOverlaySupport::pouchMaximumFirstRow(context, *shownPouch));
+                renderBagItems(party.pouchItems(*shownPouch),
+                    computeInventoryGridMetrics(slot.x, slot.y - float(slot.firstRow) * slot.cellHeight(),
+                        slot.width, slot.height, grid.scale * slot.fraction, slot.columns, slot.rows),
+                    bag, slot.y, slot.y + slot.height);
+                renderBagOverviewDropPreview(context, grid, slot, party, characterSourceIndex, bag, characterMouseX,
+                    characterMouseY);
+            }
+            else if (resolvedInventoryGrid.has_value() && GameplayHudOverlaySupport::bagOverviewActive(context))
             {
                 const GameplayResolvedHudLayoutElement &grid = *resolvedInventoryGrid;
                 GameplayHudOverlaySupport::renderBagOverview(context, grid, *pCharacter,
@@ -10903,8 +10980,8 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
                 for (int bag = firstBag; bag < firstBag + InventoryBagOverview::Bags; ++bag)
                 {
-                    renderBagOverviewDropPreview(context, grid, InventoryBagOverview::slot(grid, bag), *pCharacter,
-                        uint8_t(bag), characterMouseX, characterMouseY);
+                    renderBagOverviewDropPreview(context, grid, InventoryBagOverview::slot(grid, bag), party,
+                        characterSourceIndex, uint8_t(bag), characterMouseX, characterMouseY);
                 }
             }
             else if (resolvedInventoryGrid.has_value())

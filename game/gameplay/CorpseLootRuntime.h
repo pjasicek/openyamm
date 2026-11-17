@@ -70,4 +70,12 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
 // Loots every satchel on the map into the party's bags (MAW's gather key on a completed map): all the gold, and each
 // item that fits; the rest stays in its satchel. The result opens the loot summary.
 GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRuntime &worldRuntime, Party &party);
+
+// Takes the spotted ground items (WorldItemSpotter) into the summary of the same key press, through the loot filter:
+// gold piles whole, kept items into the bags when they fit (else they stay where they lie), items it sells as their
+// gold, and items it leaves on the ground stay there, no longer spotted.
+void lootSpottedWorldItems(
+    IGameplayWorldRuntime &worldRuntime,
+    Party &party,
+    GameplayUiController::LootSummaryOverlayState &summary);
 }

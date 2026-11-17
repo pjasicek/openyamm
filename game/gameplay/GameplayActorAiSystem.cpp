@@ -2866,7 +2866,7 @@ void AI_ClearMovement(ActorAiCommandContext &ai)
 
 void applyActiveSpellTimerUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
-    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedActorTimers).
+    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedWorldTime).
     if (!actor.world.active
         || update.state.spellEffects
         || !GameplayActorService::hasRunningSpellEffectTimer(actor.status.spellEffects)
@@ -8731,7 +8731,7 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
         return true;
     }
 
-    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedActorTimers).
+    // Turn-based combat runs spell effects down once per turn (IGameplayWorldRuntime::advanceTurnBasedWorldTime).
     GameplayActorSpellEffectState spellEffects = actor.status.spellEffects;
     const float spellEffectSeconds =
         pFrame->turnBased.mode == ActorTurnBasedMode::RealTime ? pFrame->fixedStepSeconds : 0.0f;

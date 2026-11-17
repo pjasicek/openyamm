@@ -757,7 +757,7 @@ bool tryActivateWorldItem(
             + " member_index=" + std::to_string(stored->memberIndex));
         pParty->requestSound(SoundId::Gold);
         runtime.playSpeechReaction(stored->memberIndex, SpeechId::FoundItem, true);
-        runtime.setStatusBarEvent(formatFoundItemStatusText(itemName) + storedPickupOwnerSuffix(*pParty, *stored));
+        runtime.setStatusBarEvent(formatFoundItemStatusText(itemName));
         recordWorldItemActivationResult(worldRuntime, "picked up " + itemName);
         return true;
     }
@@ -982,6 +982,75 @@ bool soloDragonBreathes(IGameplayWorldRuntime &world, const Party &party, const 
         world, world.buildPartyAttackFrameInput(pickRequest), directActor);
 }
 
+// A world target under the crosshair a party attack may damage: a face or BModel (Surface), or a decoration (Entity).
+struct AttackHitWorldTarget
+{
+    std::optional<size_t> bModelIndex;
+    std::optional<size_t> entityIndex;
+    float distance = 0.0f;
+};
+
+AttackHitWorldTarget attackHitWorldTarget(const GameplayWorldHit &hit)
+{
+    AttackHitWorldTarget target;
+    if (hit.kind != GameplayWorldHitKind::EventTarget || !hit.eventTarget)
+    {
+        return target;
+    }
+    if (hit.eventTarget->targetKind == GameplayWorldEventTargetKind::Surface)
+    {
+        target.bModelIndex = hit.eventTarget->targetIndex;
+    }
+    else if (hit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity)
+    {
+        target.entityIndex = hit.eventTarget->targetIndex;
+    }
+    if (target.bModelIndex || target.entityIndex)
+    {
+        target.distance = hit.eventTarget->distance;
+    }
+    return target;
+}
+
+// The spell a solo Attack pressed now casts by the member's battle orders, at the target the release would meet
+// (GameplayActionController::attackOrderSpell): the view model shows that cast from the press, else the swing or shot.
+// The orders decide again at the release.
+std::optional<std::string> soloPressOrderSpell(GameplayScreenRuntime &runtime, GameplaySpellService &spellService,
+    IGameplayWorldRuntime &world, const GameplayWorldHit &attackHit, const GameplayWorldPickRequest &pickRequest)
+{
+    Party *pParty = world.party();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    if (pMember == nullptr)
+    {
+        return std::nullopt;
+    }
+    const GameplayPartyAttackFrameInput input = world.buildPartyAttackFrameInput(pickRequest);
+    const AttackHitWorldTarget worldTarget = attackHitWorldTarget(attackHit);
+    GameplayActionController::PartyAttackConfig config;
+    config.pRuntime = &runtime;
+    config.pSpellService = &spellService;
+    config.pWorldRuntime = &world;
+    config.pParty = pParty;
+    config.pItemTable = runtime.itemTable();
+    config.pSpellTable = runtime.spellTable();
+    config.directTargetActorIndex = attackHit.kind == GameplayWorldHitKind::Actor && attackHit.actor
+        ? std::optional<size_t>(attackHit.actor->actorIndex) : std::nullopt;
+    config.directTargetBModelIndex = worldTarget.bModelIndex;
+    config.directTargetEntityIndex = worldTarget.entityIndex;
+    config.directWorldTargetDistance = worldTarget.distance;
+    config.partyPosition = {input.partyPosition.x, input.partyPosition.y, input.partyPosition.z};
+    config.fallbackQuery = input.fallbackQuery;
+    // A ready talent order above the spell keeps the swing or shot: the talent lands at its blow.
+    if (runtime.soloTalents())
+    {
+        config.useTalentOrder = [pMember](const std::string &talentId)
+        {
+            return talentRank(*pMember, talentId) > 0 && talentCooldownRemaining(*pMember, talentId) <= 0.0f;
+        };
+    }
+    return GameplayActionController::attackOrderSpell(config);
+}
+
 // A solo run's talent blow (devdocs/solo_action/TALENTS.md): a set target, a share of the damage, an extra blow without
 // sound or recovery, a shot.
 std::vector<size_t> collectTalentTargets(IGameplayWorldRuntime &world, const GameplayPartyAttackFrameInput &attackInput,
@@ -1142,21 +1211,7 @@ GameplayActionController::PartyAttackExecutionResult executePartyAttack(
         currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
             ? localizedActorName(currentHit.actor->displayName)
             : "";
-    const std::optional<size_t> directTargetBModelIndex =
-        currentHit.kind == GameplayWorldHitKind::EventTarget
-            && currentHit.eventTarget
-            && currentHit.eventTarget->targetKind == GameplayWorldEventTargetKind::Surface
-        ? std::optional<size_t>(currentHit.eventTarget->targetIndex)
-        : std::nullopt;
-    const std::optional<size_t> directTargetEntityIndex =
-        currentHit.kind == GameplayWorldHitKind::EventTarget
-            && currentHit.eventTarget
-            && currentHit.eventTarget->targetKind == GameplayWorldEventTargetKind::Entity
-        ? std::optional<size_t>(currentHit.eventTarget->targetIndex)
-        : std::nullopt;
-    const float directWorldTargetDistance = directTargetBModelIndex || directTargetEntityIndex
-        ? currentHit.eventTarget->distance
-        : 0.0f;
+    const AttackHitWorldTarget worldTarget = attackHitWorldTarget(currentHit);
     const std::optional<GameplayActionController::WorldPoint> hitRangedTarget =
         partyRangedTargetFromWorldHit(currentHit);
     const std::optional<GameplayActionController::WorldPoint> directTargetHitPoint =
@@ -1184,9 +1239,9 @@ GameplayActionController::PartyAttackExecutionResult executePartyAttack(
             .pMm9HirelingTable = runtime.mm9HirelingTable(),
             .directTargetActorIndex = directActorIndex,
             .directTargetHitPoint = directTargetHitPoint,
-            .directTargetBModelIndex = directTargetBModelIndex,
-            .directTargetEntityIndex = directTargetEntityIndex,
-            .directWorldTargetDistance = directWorldTargetDistance,
+            .directTargetBModelIndex = worldTarget.bModelIndex,
+            .directTargetEntityIndex = worldTarget.entityIndex,
+            .directWorldTargetDistance = worldTarget.distance,
             .directTargetName = directTargetName,
             .partyPosition = toActionWorldPoint(partyAttackInput.partyPosition),
             .rangedSource = toActionWorldPoint(partyAttackInput.rangedSource),
@@ -2772,15 +2827,25 @@ GameplayInteractionController::updateWorldInteractionFrame(
             useTalentOrder);
     };
 
+    // The spell the battle orders cast on this press, if any (soloPressOrderSpell).
+    const auto pressOrderSpell = [&]() -> std::optional<std::string>
+    {
+        if (pWorldRuntime == nullptr)
+        {
+            return std::nullopt;
+        }
+        pickCurrentHit();
+        return soloPressOrderSpell(runtime, spellService, *pWorldRuntime,
+            pWorldRuntime->pickPartyAttackTarget(currentInteractionPickRequest), currentInteractionPickRequest);
+    };
+
     // A solo dragon whose target is out of claw reach breathes at once, as a party dragon does: no swing and no
-    // inhale (devdocs/solo_action/DRAGON.md). Battle orders holding a spell show that cast instead, as below.
+    // inhale (devdocs/solo_action/DRAGON.md). Battle orders casting a spell now show that cast instead, as below.
     const auto soloDragonBreathesNow = [&]() -> bool
     {
         const Party *pParty = pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
         const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
-        if (pMember == nullptr || soloBowDrawn(runtime, pMember)
-            || std::any_of(pMember->battleOrders.begin(), pMember->battleOrders.end(), [](const BattleOrder &order)
-                { return order.enabled && order.kind == BattleOrderKind::Spell; }))
+        if (pMember == nullptr || soloBowDrawn(runtime, pMember) || pressOrderSpell())
         {
             return false;
         }
@@ -2828,26 +2893,13 @@ GameplayInteractionController::updateWorldInteractionFrame(
             result.attackAttempted = true;
             const Party *pSwingParty = pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
             const Character *pAttacker = pSwingParty != nullptr ? pSwingParty->activeMember() : nullptr;
-            // An Attack whose battle orders hold a spell shows that spell's cast (the first enabled one; the orders
-            // still decide at the release what is done, as they would at the press). A ready talent order above it
-            // keeps the swing or shot: the talent lands at its blow.
+            // An Attack whose battle orders cast a spell now (their conditions at the target, a blow or shot order
+            // above it) shows that spell's cast; the orders still decide at the release what is done.
             if (pAttacker != nullptr)
             {
-                for (const BattleOrder &order : pAttacker->battleOrders)
-                {
-                    if (order.enabled && order.kind == BattleOrderKind::Talent && runtime.soloTalents()
-                        && talentRank(*pAttacker, order.talentId) > 0
-                        && talentCooldownRemaining(*pAttacker, order.talentId) <= 0.0f)
-                    {
-                        break;
-                    }
-                    if (order.enabled && order.kind == BattleOrderKind::Spell
-                        && GameplaySpellActionController::prepareViewModelCast(runtime, *pAttacker, order.spellName))
-                    {
-                        viewModel.waitIsCast = true;
-                        break;
-                    }
-                }
+                const std::optional<std::string> spellName = pressOrderSpell();
+                viewModel.waitIsCast = spellName
+                    && GameplaySpellActionController::prepareViewModelCast(runtime, *pAttacker, *spellName);
             }
             if (pAttacker != nullptr && runtime.itemTable() != nullptr)
             {

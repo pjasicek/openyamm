@@ -405,11 +405,11 @@ std::vector<uint32_t> listUpkeepPotions(const GameplayScreenRuntime &context, bo
     };
     const int bags = std::max(1, pParty->rules().items.bagCount(*pParty));
 
-    for (const Character &member : pParty->members())
+    for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
     {
-        for (int bag = 0; bag < bags; ++bag)
+        for (const uint8_t bag : InventoryBags::carriedBags(*pParty, bags, memberIndex == 0))
         {
-            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            for (const InventoryItem &item : InventoryBags::itemsInBag(*pParty, memberIndex, bag))
             {
                 add(item.objectDescriptionId);
             }

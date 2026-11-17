@@ -235,13 +235,20 @@ bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen
     return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
 }
 
-InventoryGridMetrics computeInventoryGridMetrics(float x, float y, float width, float height, float scale)
+InventoryGridMetrics computeInventoryGridMetrics(
+    float x,
+    float y,
+    float width,
+    float height,
+    float scale,
+    int columns = Character::InventoryWidth,
+    int rows = Character::InventoryHeight)
 {
     InventoryGridMetrics metrics = {};
     metrics.x = x;
     metrics.y = y;
-    metrics.cellWidth = width / static_cast<float>(std::max(1, Character::InventoryWidth));
-    metrics.cellHeight = height / static_cast<float>(std::max(1, Character::InventoryHeight));
+    metrics.cellWidth = width / static_cast<float>(std::max(1, columns));
+    metrics.cellHeight = height / static_cast<float>(std::max(1, rows));
     metrics.scale = scale;
     return metrics;
 }
@@ -622,23 +629,12 @@ void appendCharacterSkillUiRows(
 }
 
 // "Water Magic 7 to 8: 3 skill points (8, shared with Fire Magic and Air Magic)" when the rules show raise costs.
-// What a bag tag's button would do: the bag it acts on (the zoomed one, or in the overview the one opened last).
-std::string bagTagHoverText(const Character &member, BagTag tag, int bagCount)
+// What a pouch's button shows.
+std::string pouchHoverText(ItemPouch pouch)
 {
-    const uint8_t bag = member.rulesetState.currentBag;
-    const bool tagged = InventoryBags::hasTag(member, bag, tag);
-    const std::string name = InventoryBagOverview::bagName(bag, bagCount);
-
-    if (tagged)
-    {
-        const std::string bagText = Engine::Utf8::capitalizedFirst(name);
-        return tag == BagTag::Crafting
-            ? Engine::tr("{bag} is a crafting bag (Shift+B): click to untag", {{"bag", bagText}})
-            : Engine::tr("{bag} is an alchemy bag: click to untag", {{"bag", bagText}});
-    }
-
-    return tag == BagTag::Crafting ? Engine::tr("Make {bag} a crafting bag (Shift+B)", {{"bag", name}})
-                                   : Engine::tr("Make {bag} an alchemy bag", {{"bag", name}});
+    return pouch == ItemPouch::Crafting  ? Engine::tr("The party's crafting materials (Shift+B)")
+        : pouch == ItemPouch::Alchemy ? Engine::tr("The party's potions, bottles and reagents")
+                                      : Engine::tr("The party's quest items");
 }
 
 std::string skillRaiseCostHoverText(
@@ -1939,7 +1935,11 @@ void zoomInventoryBag(GameplayScreenRuntime &context, Party &party, size_t membe
         return;
     }
 
-    if (screen.inventoryBagZoomed && pMember->rulesetState.currentBag == bag)
+    // From a pouch's tab, the bag at full size whichever was zoomed before.
+    const bool fromPouch = screen.inventoryPouch.shown.has_value();
+    screen.inventoryPouch.shown.reset();
+
+    if (!fromPouch && screen.inventoryBagZoomed && pMember->rulesetState.currentBag == bag)
     {
         screen.inventoryBagZoomed = false;
         return;
@@ -1973,9 +1973,15 @@ void activateBagOverviewTarget(
     }
 
     const int bagCount = gameRulesFor(&party).items.bagCount(party);
-    const InventoryBagOverview::Slot slot = InventoryBagOverview::slot(*grid, target.bag);
-    const InventoryGridMetrics metrics =
-        computeInventoryGridMetrics(slot.x, slot.y, slot.width, slot.height, grid->scale * slot.fraction);
+    // A pouch's tab is one slot of its own, at its scroll position.
+    const bool pouchTab = InventoryBags::isPouchBag(target.bag);
+    const InventoryBagOverview::Slot slot = pouchTab
+        ? GameplayHudOverlaySupport::pouchSlot(context, context.characterScreenReadOnly().inventoryPouch,
+              InventoryBags::pouchOfBag(target.bag), *grid)
+        : InventoryBagOverview::slot(*grid, target.bag);
+    const InventoryGridMetrics metrics = computeInventoryGridMetrics(slot.x,
+        slot.y - float(slot.firstRow) * slot.cellHeight(), slot.width, slot.height, grid->scale * slot.fraction,
+        slot.columns, slot.rows);
     GameplayUiController::HeldInventoryItemState &held = context.heldInventoryItem();
     // The item's icon size on this bag's grid.
     const auto iconSize = [&context, &metrics](const InventoryItem &item) -> std::optional<std::pair<float, float>>
@@ -2004,23 +2010,31 @@ void activateBagOverviewTarget(
             return;
         }
 
-        const auto [gridX, gridY] = InventoryBagOverview::dropCell(slot, *party.member(memberIndex), target.bag,
+        const auto [gridX, gridY] = InventoryBagOverview::dropCell(slot, party, memberIndex, target.bag,
             held.item, size->first, size->second, pointerX, pointerY, held.grabOffsetX, held.grabOffsetY);
+        const std::optional<ItemPouch> itemPouch = party.pouchFor(held.item);
+        // An item with a pouch goes there wherever it is dropped: the cell does not matter.
+        const bool toItsPouch = itemPouch && target.bag != InventoryBags::pouchBag(*itemPouch);
 
-        if (gridX < 0 || gridY < 0)
+        if (!toItsPouch && (gridX < 0 || gridY < 0 || gridY > 255))
         {
             return;
         }
 
         std::optional<InventoryItem> replacedItem;
 
-        if (!InventoryBags::placeInBag(
-                party, memberIndex, target.bag, bagCount, held.item, uint8_t(gridX), uint8_t(gridY), replacedItem))
+        if (!InventoryBags::placeInBag(party, memberIndex, target.bag, bagCount, held.item,
+                uint8_t(std::clamp(gridX, 0, 255)), uint8_t(std::clamp(gridY, 0, 255)), replacedItem))
         {
             const std::string &partyStatus = party.lastStatus();
             context.setStatusBarEvent(
                 partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!") : partyStatus);
             return;
+        }
+
+        if (toItsPouch)
+        {
+            context.setStatusBarEvent(party.lastStatus());
         }
 
         if (replacedItem)
@@ -2159,6 +2173,11 @@ bool GameplayPartyOverlayInputController::openBagTab(GameplayScreenRuntime &cont
         context.setStatusBarEvent(Engine::Utf8::capitalizedFirst(name));
     }
 
+    if (!partyBagButtonsShown(context))
+    {
+        context.characterScreen().inventoryPouch.shown.reset();
+    }
+
     return true;
 }
 
@@ -2175,7 +2194,11 @@ void GameplayPartyOverlayInputController::openNestedInventoryBag(GameplayScreenR
         return;
     }
 
-    if (overlay.bagZoomed && pMember->rulesetState.currentBag == bag)
+    // From a pouch's tab, the bag whichever was zoomed before.
+    const bool fromPouch = overlay.pouch.shown.has_value();
+    overlay.pouch.shown.reset();
+
+    if (!fromPouch && overlay.bagZoomed && pMember->rulesetState.currentBag == bag)
     {
         overlay.bagZoomed = false;
         return;
@@ -2213,29 +2236,31 @@ void GameplayPartyOverlayInputController::openFirstBagsInOverview(GameplayScreen
     }
 }
 
-bool GameplayPartyOverlayInputController::toggleBagTag(GameplayScreenRuntime &context, BagTag tag)
+bool GameplayPartyOverlayInputController::togglePouchTab(GameplayScreenRuntime &context, ItemPouch pouch)
 {
-    Party *pParty = context.party();
-    const int bagCount = pParty != nullptr ? gameRulesFor(pParty).items.bagCount(*pParty) : 1;
-    Character *pMember = pParty != nullptr ? pParty->member(context.selectedCharacterScreenSourceIndex()) : nullptr;
+    const Party *pParty = context.partyReadOnly();
 
-    if (pMember == nullptr || bagCount <= 1 || !context.characterScreenReadOnly().open
+    if (pParty == nullptr || !gameRulesFor(pParty).items.hasPouches() || !context.characterScreenReadOnly().open
         || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
         || context.isAdventurersInnCharacterSourceActive())
     {
         return false;
     }
 
-    const uint8_t bag = pMember->rulesetState.currentBag;
-    const bool tagged = InventoryBags::toggleTag(*pMember, bag, tag);
-    const std::string bagName = InventoryBagOverview::bagName(bag, bagCount);
-    const bool crafting = tag == BagTag::Crafting;
-    const std::initializer_list<Engine::TextArgument> arguments = {{"name", pMember->name}, {"bag", bagName}};
-    context.setStatusBarEvent(tagged
-            ? (crafting ? Engine::tr("{name}'s {bag} is now a crafting bag", arguments)
-                        : Engine::tr("{name}'s {bag} is now an alchemy bag", arguments))
-            : (crafting ? Engine::tr("{name}'s {bag} is no longer a crafting bag", arguments)
-                        : Engine::tr("{name}'s {bag} is no longer an alchemy bag", arguments)));
+    // The pouch's tab in the bags' place; its button again, back to the bags.
+    InventoryPouchViewState &view = context.characterScreen().inventoryPouch;
+    view.thumbDragOffset.reset();
+
+    if (view.shown == pouch)
+    {
+        view.shown.reset();
+        return true;
+    }
+
+    view.shown = pouch;
+    context.setStatusBarEvent(pouch == ItemPouch::Crafting  ? Engine::tr("Crafting materials")
+            : pouch == ItemPouch::Alchemy ? Engine::tr("Potions and reagents")
+                                          : Engine::tr("Quest items"));
     return true;
 }
 
@@ -2496,6 +2521,38 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return;
             }
         }
+    }
+
+    // A pouch's tab scrolls by rows: the wheel over the grid, and its scrollbar's thumb.
+    if (GameplayHudOverlaySupport::inventoryPouchShown(context))
+    {
+        const GameplayScreenRuntime::HudLayoutElement *pGridLayout =
+            context.findHudLayoutElement("CharacterInventoryGrid");
+        const std::optional<GameplayResolvedHudLayoutElement> grid = pGridLayout != nullptr
+            ? context.resolveHudLayoutElement("CharacterInventoryGrid", screenWidth, screenHeight, pGridLayout->width,
+                  pGridLayout->height)
+            : std::nullopt;
+
+        if (grid)
+        {
+            if (input.mouseWheelDelta != 0.0f
+                && context.isPointerInsideResolvedElement(*grid, input.pointerX, input.pointerY))
+            {
+                const int rows = int(std::lround(-input.mouseWheelDelta * 2.0f));
+                GameplayHudOverlaySupport::scrollPouchView(context, screen.inventoryPouch,
+                    rows != 0 ? rows : input.mouseWheelDelta > 0.0f ? -1 : 1);
+            }
+
+            if (GameplayHudOverlaySupport::dragPouchScrollbar(context, screen.inventoryPouch, *grid, input.pointerX,
+                    input.pointerY, input.leftMouseButton.held, input.leftMouseButton.pressed))
+            {
+                return;
+            }
+        }
+    }
+    else
+    {
+        screen.inventoryPouch.thumbDragOffset.reset();
     }
 
     // The Use key on a pack item uses or equips it (below); only a keyboard key, not the classic scheme's left button.
@@ -2862,18 +2919,21 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 #endif
 
-                for (const auto &[pTagId, tag] : {std::pair("CharacterInventoryCraftingTag", BagTag::Crafting),
-                         std::pair("CharacterInventoryAlchemyTag", BagTag::Alchemy)})
+                const bool hasPouches = pParty != nullptr && gameRulesFor(pParty).items.hasPouches();
+
+                for (const auto &[pPouchId, pouch] : {std::pair("CharacterInventoryCraftingTag", ItemPouch::Crafting),
+                         std::pair("CharacterInventoryAlchemyTag", ItemPouch::Alchemy),
+                         std::pair("CharacterInventoryQuestTag", ItemPouch::Quest)})
                 {
-                    GameplayCharacterPointerTarget tagTarget = bagCount > 1
+                    GameplayCharacterPointerTarget pouchTarget = hasPouches
                         ? resolveCharacterButtonTarget(
-                              pTagId, GameplayCharacterPointerTargetType::InventoryBagTagButton)
+                              pPouchId, GameplayCharacterPointerTargetType::InventoryPouchButton)
                         : GameplayCharacterPointerTarget{};
 
-                    if (tagTarget.type != GameplayCharacterPointerTargetType::None)
+                    if (pouchTarget.type != GameplayCharacterPointerTargetType::None)
                     {
-                        tagTarget.bagButton = uint8_t(tag);
-                        return tagTarget;
+                        pouchTarget.bagButton = uint8_t(pouch);
+                        return pouchTarget;
                     }
                 }
 
@@ -3149,6 +3209,50 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         pointerTarget.page = context.characterScreenReadOnly().page;
                         return pointerTarget;
                     }
+                }
+            }
+
+            // A pouch's tab: its items and, under a held item, its cells, as the overview's bags have them.
+            if (const std::optional<ItemPouch> shownPouch = GameplayHudOverlaySupport::inventoryPouchShown(context);
+                shownPouch && pParty != nullptr && pActiveCharacter != nullptr)
+            {
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedInventoryGrid =
+                    resolveCharacterInventoryGrid();
+
+                if (resolvedInventoryGrid.has_value()
+                    && context.isPointerInsideResolvedElement(*resolvedInventoryGrid, pointerX, pointerY))
+                {
+                    const InventoryBagOverview::Slot slot = GameplayHudOverlaySupport::pouchSlot(
+                        context, context.characterScreenReadOnly().inventoryPouch, *shownPouch,
+                        *resolvedInventoryGrid);
+                    GameplayCharacterPointerTarget target = {};
+                    target.page = GameplayUiController::CharacterPage::Inventory;
+                    target.bag = InventoryBags::pouchBag(*shownPouch);
+
+                    if (!InventoryBagOverview::insideGrid(slot, pointerX, pointerY))
+                    {
+                        return {};
+                    }
+
+                    const auto [gridX, gridY] = InventoryBagOverview::cellAt(slot, pointerX, pointerY);
+                    const InventoryItem *pItem = InventoryBags::itemInBagAt(
+                        *pParty, context.selectedCharacterScreenSourceIndex(), target.bag, gridX, gridY);
+
+                    if (pItem != nullptr)
+                    {
+                        target.type = GameplayCharacterPointerTargetType::BagOverviewItem;
+                        target.gridX = pItem->gridX;
+                        target.gridY = pItem->gridY;
+                    }
+                    else if (context.heldInventoryItem().active)
+                    {
+                        target.type = GameplayCharacterPointerTargetType::BagOverviewCell;
+                        target.gridX = gridX;
+                        target.gridY = gridY;
+                    }
+
+                    return target.type != GameplayCharacterPointerTargetType::None ? target
+                                                                                    : GameplayCharacterPointerTarget{};
                 }
             }
 
@@ -3428,8 +3532,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         ? noneCharacterTarget
         : findCharacterPointerTarget(mouseX, mouseY);
 
-    // The skills page names a hovered skill's raise cost when the rules show it; a bag tag's button names the bag it
-    // acts on.
+    // The skills page names a hovered skill's raise cost when the rules show it; a pouch's button names what it holds.
     const Character *pShownCharacter = pParty != nullptr ? pParty->member(selectedPartyMemberIndex) : nullptr;
     context.setStatusBarHoverText(
         hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::SkillRow && pActiveCharacter != nullptr
@@ -3452,10 +3555,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             ? Engine::tr("Tab {tab} (Shift+{key})",
                 {{"tab", InventoryBagOverview::tabNumeral(hoveredCharacterTarget.bagButton)},
                   {"key", int64_t(hoveredCharacterTarget.bagButton + 1)}})
-        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryBagTagButton
-                && pShownCharacter != nullptr
-            ? bagTagHoverText(*pShownCharacter, BagTag(hoveredCharacterTarget.bagButton),
-                  gameRulesFor(pParty).items.bagCount(*pParty))
+        : hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryPouchButton
+            ? pouchHoverText(ItemPouch(hoveredCharacterTarget.bagButton))
             : std::string());
 
     if (pParty != nullptr)
@@ -3483,8 +3584,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 : pHoveredCharacter->rulesetState.currentBag;
             const InventoryItem *pTargetItem =
                 pHoveredCharacter != nullptr
-                    ? InventoryBags::itemInBagAt(
-                        *pHoveredCharacter, targetBag, hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+                    ? InventoryBags::itemInBagAt(*pParty, selectedPartyMemberIndex, targetBag,
+                        hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
                     : nullptr;
 
             if (pTargetItem != nullptr)
@@ -3817,13 +3918,25 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             {
                 // With several bags (MAW) every sort is MAW's: the open bag, Shift its tab's bags as one, Ctrl the
                 // whole party's (MAW's T and G); every member's items stay with that member (audit TXT-2-B2).
-                const ItemRules &itemRules = gameRulesFor(pParty).items;
-                const int bagCount = itemRules.bagCount(*pParty);
+                const int bagCount = gameRulesFor(pParty).items.bagCount(*pParty);
                 // The overview shows every bag, so its Sort sorts every bag, as Shift does on one bag.
                 const bool shiftHeld = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT]
                     || GameplayHudOverlaySupport::bagOverviewActive(context);
                 const bool ctrlHeld = pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL];
                 const Character *pMember = pParty->member(selectedPartyMemberIndex);
+
+                // A pouch's tab: Sort sorts that pouch.
+                if (const std::optional<ItemPouch> shownPouch =
+                        GameplayHudOverlaySupport::inventoryPouchShown(context))
+                {
+                    InventoryBags::sortPouch(*pParty, *shownPouch);
+                    context.characterScreen().inventoryPouch.firstRow[size_t(*shownPouch)] = 0;
+                    context.setStatusBarEvent(
+                        *shownPouch == ItemPouch::Crafting  ? Engine::tr("Crafting materials sorted")
+                        : *shownPouch == ItemPouch::Alchemy ? Engine::tr("Potions and reagents sorted")
+                                                            : Engine::tr("Quest items sorted"));
+                    return;
+                }
 
                 if (bagCount > 1 && pMember != nullptr)
                 {
@@ -3839,14 +3952,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         }
                     }
 
-                    const ItemTable *pItemTable = pParty->itemTable();
-                    const bool sorted = InventoryBags::sortPartyBags(*pParty, members, shiftHeld, bagCount,
-                        [&itemRules, pItemTable](const InventoryItem &item) -> std::optional<BagTag>
-                        {
-                            const ItemDefinition *pDefinition =
-                                pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
-                            return pDefinition != nullptr ? itemRules.bagTag(*pDefinition) : std::nullopt;
-                        });
+                    const bool sorted = InventoryBags::sortPartyBags(*pParty, members, shiftHeld, bagCount);
                     context.setStatusBarEvent(!sorted ? Engine::tr("Not enough room to sort.")
                             : ctrlHeld && shiftHeld ? Engine::tr("All bags of the party sorted")
                             : ctrlHeld              ? Engine::tr("All inventories have been sorted")
@@ -3885,9 +3991,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return;
             }
 
-            if (target.type == GameplayCharacterPointerTargetType::InventoryBagTagButton)
+            if (target.type == GameplayCharacterPointerTargetType::InventoryPouchButton)
             {
-                toggleBagTag(context, BagTag(target.bagButton));
+                togglePouchTab(context, ItemPouch(target.bagButton));
                 return;
             }
 
@@ -3895,6 +4001,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             if (target.type == GameplayCharacterPointerTargetType::InventoryBagOverviewButton)
             {
                 context.characterScreen().inventoryBagZoomed = false;
+                context.characterScreen().inventoryPouch.shown.reset();
                 return;
             }
 
@@ -4235,6 +4342,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     return;
                 }
 
+                // An item with a pouch went there, not to the cell: the status says where.
+                if (pParty->pouchFor(context.heldInventoryItem().item))
+                {
+                    context.setStatusBarEvent(pParty->lastStatus());
+                }
+
                 if (replacedItem.has_value())
                 {
                     setHeldItem(*replacedItem);
@@ -4308,6 +4421,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         partyStatus.empty() || partyStatus == "inventory full" ? Engine::tr("Pack is Full!")
                                                                                : partyStatus);
                     return;
+                }
+
+                // An item with a pouch went there, not to the cell: the status says where.
+                if (pParty->pouchFor(context.heldInventoryItem().item))
+                {
+                    context.setStatusBarEvent(pParty->lastStatus());
                 }
 
                 if (replacedItem.has_value())
@@ -4402,8 +4521,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     if (canUseHoveredItem)
     {
         pHoveredPackItem = hoveredOverviewItem
-            ? InventoryBags::itemInBagAt(
-                *pHoveredOwner, hoveredCharacterTarget.bag, hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+            ? InventoryBags::itemInBagAt(*pParty, selectedPartyMemberIndex, hoveredCharacterTarget.bag,
+                hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
             : pHoveredOwner->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY);
     }
 

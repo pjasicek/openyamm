@@ -693,11 +693,7 @@ bool ScenarioRuntimeDriver::holdGameplayAction(KeyboardAction action, float seco
             && !session.gameplayScreenState().pendingSpellTarget().active)
         {
             pWorldRuntime->updateWorld(deltaSeconds);
-            IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-            if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
-            {
-                static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
-            }
+            advanceIndoorScene(deltaSeconds);
         }
         button.pressed = false;
         remaining -= deltaSeconds;
@@ -1292,6 +1288,18 @@ bool ScenarioRuntimeDriver::simulateMovementSegment(
     return true;
 }
 
+void ScenarioRuntimeDriver::advanceIndoorScene(float deltaSeconds)
+{
+    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
+
+    if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
+    {
+        const bool turnBased =
+            ScenarioGameApplicationAccess::gameSession(m_application).turnBasedCombatRuntime().active();
+        static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f, !turnBased);
+    }
+}
+
 void ScenarioRuntimeDriver::presentGrantedEventItems()
 {
     // As the game views do every frame (IndoorGameView::presentPendingEventFeedback): the items events gave
@@ -1332,11 +1340,7 @@ bool ScenarioRuntimeDriver::advanceMovementFrame(
     }
     pWorldRuntime->updateWorld(deltaSeconds);
 
-    IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-    if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
-    {
-        static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
-    }
+    advanceIndoorScene(deltaSeconds);
 
     presentGrantedEventItems();
 
@@ -3191,27 +3195,77 @@ bool ScenarioRuntimeDriver::grantItem(
     return true;
 }
 
+namespace
+{
+// Where a scenario step finds an item a member carries: the member's open bag, else the party's pouches (rulesets
+// with them keep potions, reagents and crafting materials there, for every member).
+std::optional<BagItemRef> findCarriedItem(const Party &party, size_t memberIndex, uint32_t itemId)
+{
+    const Character *pMember = party.member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<uint8_t> bags = {pMember->rulesetState.currentBag};
+
+    if (party.rules().items.hasPouches())
+    {
+        bags.push_back(InventoryBags::AlchemyPouchBag);
+        bags.push_back(InventoryBags::CraftingPouchBag);
+        bags.push_back(InventoryBags::QuestPouchBag);
+    }
+
+    for (const uint8_t bag : bags)
+    {
+        for (const InventoryItem &item : InventoryBags::itemsInBag(party, memberIndex, bag))
+        {
+            if (item.objectDescriptionId == itemId)
+            {
+                return BagItemRef{memberIndex, bag, item.gridX, item.gridY};
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+// takeInventoryItemToCursor for an item of any bag findCarriedItem names.
+bool takeCarriedItemToCursor(GameplayScreenRuntime &runtime, const BagItemRef &place, std::string &failure)
+{
+    Party *pParty = runtime.party();
+    InventoryItem item;
+
+    if (pParty == nullptr || runtime.heldInventoryItem().active
+        || !InventoryBags::takeFromBag(*pParty, place.memberIndex, place.bag, pParty->rules().items.bagCount(*pParty),
+            place.gridX, place.gridY, item))
+    {
+        failure = "could not take inventory item onto the empty cursor";
+        return false;
+    }
+
+    GameplayHeldItemController::setHeldInventoryItem(runtime.heldInventoryItem(), item);
+    pParty->setHeldItemForQueries(item);
+    return true;
+}
+}
+
 bool ScenarioRuntimeDriver::useInventoryItem(size_t memberIndex, uint32_t itemId, bool &used, std::string &failure)
 {
     GameplayScreenRuntime &runtime =
         ScenarioGameApplicationAccess::gameSession(m_application).gameplayScreenRuntime();
     Party *pParty = runtime.party();
-    const Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
-    const auto found = pMember != nullptr
-        ? std::find_if(pMember->inventory.begin(), pMember->inventory.end(),
-              [itemId](const InventoryItem &item)
-              {
-                  return item.objectDescriptionId == itemId;
-              })
-        : std::vector<InventoryItem>::const_iterator{};
+    const std::optional<BagItemRef> found =
+        pParty != nullptr ? findCarriedItem(*pParty, memberIndex, itemId) : std::nullopt;
 
-    if (pMember == nullptr || found == pMember->inventory.end())
+    if (!found)
     {
         failure = "use_item: member " + std::to_string(memberIndex) + " carries no item " + std::to_string(itemId);
         return false;
     }
 
-    if (!takeInventoryItemToCursor(memberIndex, found->gridX, found->gridY, failure))
+    if (!takeCarriedItemToCursor(runtime, *found, failure))
     {
         return false;
     }
@@ -3249,23 +3303,17 @@ bool ScenarioRuntimeDriver::rightClickPortraitWithItem(
     GameSession &session = ScenarioGameApplicationAccess::gameSession(m_application);
     GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
     Party *pParty = runtime.party();
-    const Character *pCarrier = pParty != nullptr ? pParty->member(carrierIndex) : nullptr;
-    const auto found = pCarrier != nullptr
-        ? std::find_if(pCarrier->inventory.begin(), pCarrier->inventory.end(),
-              [itemId](const InventoryItem &item)
-              {
-                  return item.objectDescriptionId == itemId;
-              })
-        : std::vector<InventoryItem>::const_iterator{};
+    const std::optional<BagItemRef> found =
+        pParty != nullptr ? findCarriedItem(*pParty, carrierIndex, itemId) : std::nullopt;
 
-    if (pCarrier == nullptr || found == pCarrier->inventory.end())
+    if (!found)
     {
         failure = "right_click_portrait: member " + std::to_string(carrierIndex) + " carries no item "
             + std::to_string(itemId);
         return false;
     }
 
-    if (!takeInventoryItemToCursor(carrierIndex, found->gridX, found->gridY, failure))
+    if (!takeCarriedItemToCursor(runtime, *found, failure))
     {
         return false;
     }
@@ -3516,17 +3564,10 @@ bool ScenarioRuntimeDriver::craftItem(
             target = CraftItemRef{memberIndex, true, 0, 0, *wornSlot};
         }
     }
-    else
+    else if (const std::optional<BagItemRef> carried = findCarriedItem(*pParty, memberIndex, targetItemId))
     {
-        for (const InventoryItem &item : pMember->inventory)
-        {
-            if (item.objectDescriptionId == targetItemId)
-            {
-                target = CraftItemRef{memberIndex, false, item.gridX, item.gridY, EquipmentSlot::MainHand,
-                    pMember->rulesetState.currentBag};
-                break;
-            }
-        }
+        target = CraftItemRef{memberIndex, false, carried->gridX, carried->gridY, EquipmentSlot::MainHand,
+            carried->bag};
     }
 
     const std::vector<CraftMaterialEntry> materials =
@@ -4303,11 +4344,7 @@ bool ScenarioRuntimeDriver::advanceRuntime(float seconds, std::string &failure, 
             session.gameplayScreenRuntime().ensurePendingEventDialogPresented(true);
         }
 
-        IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-        if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
-        {
-            static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(deltaSeconds * 1000.0f);
-        }
+        advanceIndoorScene(deltaSeconds);
 
         presentGrantedEventItems();
 
@@ -4407,12 +4444,7 @@ bool ScenarioRuntimeDriver::playTurnBasedTurns(
             && !session.gameplayScreenState().pendingSpellTarget().active)
         {
             pWorldRuntime->updateWorld(frameSeconds);
-            IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-
-            if (pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor)
-            {
-                static_cast<IndoorSceneRuntime *>(pSceneRuntime)->advanceSimulation(frameSeconds * 1000.0f);
-            }
+            advanceIndoorScene(frameSeconds);
         }
 
         elapsedSeconds += RuntimeStepSeconds;

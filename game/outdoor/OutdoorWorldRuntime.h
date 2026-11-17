@@ -19,6 +19,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/MonsterDeathExplosion.h"
 #include "game/gameplay/SearchableLootPropRuntime.h"
+#include "game/gameplay/WorldItemSpotter.h"
 #include "game/maps/ActorModelManifest.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
@@ -988,6 +989,9 @@ public:
     void onPlacedWorldItemTaken(const std::string &sourceId);
     // A scene's placed world item shown but not yet takeable (MapWorldItemSource::pickupQBits).
     bool placedWorldItemLocked(const WorldItemState &worldItem) const;
+    // Whether the gather key may take a ground item once spotted (worldItemCollectable for a placed one; never one the
+    // loot filter left on the ground).
+    bool spottableWorldItem(const WorldItemState &worldItem) const;
     bool activateSemanticLootContainer(size_t worldItemIndex);
     bool spawnWorldItem(
         const InventoryItem &item,
@@ -1089,7 +1093,7 @@ public:
     void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
     void stopTurnBasedActorMovement() override;
-    void advanceTurnBasedActorTimers(float seconds) override;
+    void advanceTurnBasedWorldTime(float seconds) override;
     void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
@@ -1233,6 +1237,9 @@ public:
     size_t gatherCorpsesToParty(size_t maxCount) override;
     size_t gatherWorldItemsToParty(size_t maxCount, const std::function<bool(const InventoryItem &)> &gathers) override;
     std::vector<size_t> lootableCorpseActorIndices() const override;
+    std::vector<size_t> collectableSpottedWorldItemIndices() const override;
+    bool hasSpottedWorldItems() const override;
+    void unspotWorldItem(size_t worldItemIndex) override;
     bool openActorCorpseView(size_t actorIndex) override;
     const GameplayProjectileService *projectileServiceView() const override
     {
@@ -1623,6 +1630,8 @@ private:
         const bx::Vec3 &end,
         std::vector<size_t> &candidateFaceIndices) const;
     void updateImmolation(float deltaSeconds);
+    // Spots the ground items the party passes (ItemRules::worldItemSpotting, WorldItemSpotter).
+    void updateWorldItemSpotting(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
     void applyFireSpikeTrapTriggerResult(
         FireSpikeTrapState &trap,
@@ -1849,6 +1858,7 @@ private:
     mutable std::unordered_map<uint64_t, ActorSightCacheEntry> m_actorSightCache;
     size_t m_actorPathPlansThisStep = 0;
     float m_outdoorMechanismGeometryRefreshAccumulatorSeconds = 0.0f;
+    WorldItemSpotter m_worldItemSpotter;
     std::unordered_map<uint32_t, std::array<int32_t, 3>> m_outdoorMechanismOffsets;
     std::unordered_map<uint32_t, bool> m_outdoorNavigationMechanismMovingStates;
     std::unordered_map<uint32_t, size_t> m_outdoorDestructibleDefinitionBySourceObject;

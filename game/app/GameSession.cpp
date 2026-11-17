@@ -1178,7 +1178,11 @@ void GameSession::updateGameplay(
 
             const uint64_t actorAiBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
             pWorldRuntime->updateActorAi(deltaSeconds);
-            gameRulesFor(pWorldRuntime->party()).monsters.updateMonsters(*pWorldRuntime, deltaSeconds);
+            // A ruleset's timers (MAW's poison, monster regeneration and auras, solo talents) follow the game clock,
+            // which turn-based combat moves once per completed turn (GameplayController); actor AI time is not it.
+            const bool turnBased = m_turnBasedCombatRuntime.active();
+            const float rulesSeconds = turnBased ? 0.0f : deltaSeconds;
+            gameRulesFor(pWorldRuntime->party()).monsters.updateMonsters(*pWorldRuntime, rulesSeconds);
 
             if (Party *pParty = pWorldRuntime->party())
             {
@@ -1187,15 +1191,15 @@ void GameSession::updateGameplay(
                 pParty->setSpellMovementMultiplier(pFleetFoot != nullptr
                     ? fleetFootSpeedMultiplier(pFleetFoot->power, partyHasGreenAlert(*pWorldRuntime))
                     : 1.0f);
-                pParty->rules().spells.updateAuras(*pParty, deltaSeconds);
-                // Turn-based combat regenerates once per completed turn (GameplayController).
-                if (!m_turnBasedCombatRuntime.active())
+                // A zero step applies the auras at once, so turn-based frames leave them to the turn.
+                if (!turnBased)
                 {
+                    pParty->rules().spells.updateAuras(*pParty, deltaSeconds);
                     pParty->rules().skills.updateRegeneration(*pParty, *pWorldRuntime, deltaSeconds);
                 }
 
-                pParty->rules().combat.updateCombat(*pParty, *pWorldRuntime, deltaSeconds);
-                pParty->rules().classes.update(*pParty, *pWorldRuntime, deltaSeconds);
+                pParty->rules().combat.updateCombat(*pParty, *pWorldRuntime, rulesSeconds);
+                pParty->rules().classes.update(*pParty, *pWorldRuntime, rulesSeconds);
             }
             recordDiagnostics(
                 m_gameplayUpdatePerformanceDiagnostics.actorAiNanoseconds,
@@ -2417,6 +2421,13 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionFourMawBags)
     {
         InventoryBags::fitIntoBagCount(*m_partyState, m_partyState->rules().items.bagCount(*m_partyState));
+    }
+
+    // A save from before the party's pouches (or before the quest pouch): its potions, reagents, Workbench materials
+    // and quest items move out of the members' bags into them.
+    if (m_partyState && saveData.sourceSaveVersion < SaveVersionMawQuestPouch)
+    {
+        m_partyState->gatherPouchItems();
     }
 
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionClassChangeMasteries)

@@ -1,6 +1,7 @@
 #include "game/items/InventoryBags.h"
 
 #include "game/party/Party.h"
+#include "game/rules/GameRules.h"
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
@@ -202,32 +203,14 @@ std::vector<InventoryItem> packIntoBags(
     return leftovers;
 }
 
-// The tag of a member's bag, if any.
-std::optional<BagTag> tagOfBag(const Character &character, int bag)
-{
-    for (const BagTag tag : {BagTag::Crafting, BagTag::Alchemy})
-    {
-        if (InventoryBags::hasTag(character, uint8_t(bag), tag))
-        {
-            return tag;
-        }
-    }
-
-    return std::nullopt;
-}
-
-// packIntoBags for a sort of every bag of the open tab when the member's bags carry tags or the member has other tabs.
-// An item with a tag goes to the bags with that tag first, then to the untagged bags, then to the bags of the other tag;
-// an item without one to the untagged bags first (pickups route by the tags the same way, placeInTaggedBag). Each rank
-// tries the tab's bags, then the free places of the other tabs' bags, the next tab first and round (OY-651): a tab whose
-// alchemy bags are full sends the rest of its reagents to the next tab's alchemy bags, not into its own other bags.
-// Items placed in other tabs are added to `otherTabs` by bag; the tab's own bags are packed afresh into `bags`.
-std::vector<InventoryItem> packIntoTaggedBags(
+// packIntoBags for a sort of every bag of the open tab when the member has other tabs: the tab's bags, then the free
+// places of the other tabs' bags, the next tab first and round (OY-651). Items placed in other tabs are added to
+// `otherTabs` by bag; the tab's own bags are packed afresh into `bags`.
+std::vector<InventoryItem> packIntoTabBags(
     const std::vector<InventoryItem> &items,
     const BagRange &range,
     int bagCount,
     const Character &character,
-    const std::function<std::optional<BagTag>(const InventoryItem &)> &bagTagOf,
     std::vector<std::vector<InventoryItem>> &bags,
     std::map<uint8_t, std::vector<InventoryItem>> &otherTabs)
 {
@@ -247,14 +230,7 @@ std::vector<InventoryItem> packIntoTaggedBags(
         }
     }
 
-    bool tagged = false;
-
-    for (int bag = 0; bag < count; ++bag)
-    {
-        tagged = tagged || tagOfBag(character, range.firstBag + bag).has_value();
-    }
-
-    if (otherBags.empty() && (!tagged || !bagTagOf))
+    if (otherBags.empty())
     {
         return packIntoBags(items, count, bags);
     }
@@ -275,49 +251,31 @@ std::vector<InventoryItem> packIntoTaggedBags(
     {
         item.width = std::max<uint8_t>(1, item.width);
         item.height = std::max<uint8_t>(1, item.height);
-        const std::optional<BagTag> itemTag = bagTagOf ? bagTagOf(item) : std::nullopt;
-        const auto rankOf = [&itemTag](std::optional<BagTag> bagTag)
-        {
-            return itemTag && bagTag == itemTag ? 0 : !bagTag ? 1 : 2;
-        };
         bool placed = false;
 
-        for (int pass = 0; pass < 3 && !placed; ++pass)
+        for (int bag = 0; bag < count && !placed; ++bag)
         {
-            for (int bag = 0; bag < count && !placed; ++bag)
+            if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                    firstFreePlace(grids[size_t(bag)], item.width, item.height))
             {
-                if (rankOf(tagOfBag(character, range.firstBag + bag)) != pass)
-                {
-                    continue;
-                }
-
-                if (const std::optional<std::pair<uint8_t, uint8_t>> place =
-                        firstFreePlace(grids[size_t(bag)], item.width, item.height))
-                {
-                    item.gridX = place->first;
-                    item.gridY = place->second;
-                    occupy(grids[size_t(bag)], item);
-                    bags[size_t(bag)].push_back(item);
-                    placed = true;
-                }
+                item.gridX = place->first;
+                item.gridY = place->second;
+                occupy(grids[size_t(bag)], item);
+                bags[size_t(bag)].push_back(item);
+                placed = true;
             }
+        }
 
-            for (size_t other = 0; other < otherBags.size() && !placed; ++other)
+        for (size_t other = 0; other < otherBags.size() && !placed; ++other)
+        {
+            if (const std::optional<std::pair<uint8_t, uint8_t>> place =
+                    firstFreePlace(otherGrids[other], item.width, item.height))
             {
-                if (rankOf(tagOfBag(character, otherBags[other])) != pass)
-                {
-                    continue;
-                }
-
-                if (const std::optional<std::pair<uint8_t, uint8_t>> place =
-                        firstFreePlace(otherGrids[other], item.width, item.height))
-                {
-                    item.gridX = place->first;
-                    item.gridY = place->second;
-                    occupy(otherGrids[other], item);
-                    otherTabs[uint8_t(otherBags[other])].push_back(item);
-                    placed = true;
-                }
+                item.gridX = place->first;
+                item.gridY = place->second;
+                occupy(otherGrids[other], item);
+                otherTabs[uint8_t(otherBags[other])].push_back(item);
+                placed = true;
             }
         }
 
@@ -371,7 +329,8 @@ bool openBag(Character &character, uint8_t bag, int bagCount)
 {
     CharacterRulesetState &state = character.rulesetState;
 
-    if (bag == state.currentBag || !reachableBag(int(bag), bagCount))
+    // Not while a pouch is the open bag for an operation (withBagOpen): its items are not this character's to store.
+    if (bag == state.currentBag || !reachableBag(int(bag), bagCount) || isPouchBag(state.currentBag))
     {
         return false;
     }
@@ -410,12 +369,7 @@ bool sortAllBags(Character &character, int bagCount, const ItemTable *pItemTable
     return true;
 }
 
-bool sortPartyBags(
-    Party &party,
-    const std::vector<size_t> &members,
-    bool allBags,
-    int bagCount,
-    const std::function<std::optional<BagTag>(const InventoryItem &)> &bagTagOf)
+bool sortPartyBags(Party &party, const std::vector<size_t> &members, bool allBags, int bagCount)
 {
     const ItemTable *pItemTable = party.itemTable();
     std::vector<std::vector<std::vector<InventoryItem>>> packed(party.members().size());
@@ -434,10 +388,9 @@ bool sortPartyBags(
         const BagRange bagRange = sortedBagRange(*pMember, bagCount);
         std::vector<InventoryItem> items = bagItems(*pMember, allBags, bagRange);
         sortByMawOrder(items, pItemTable);
-        // Sorting every bag honours the member's bag tags; the open bag alone has nowhere else to send an item.
+        // The open bag alone has nowhere else to send an item.
         const std::vector<InventoryItem> leftOver = allBags
-            ? packIntoTaggedBags(items, bagRange, bagCount, *pMember, bagTagOf, packed[memberIndex],
-                otherTabs[memberIndex])
+            ? packIntoTabBags(items, bagRange, bagCount, *pMember, packed[memberIndex], otherTabs[memberIndex])
             : packIntoBags(items, 1, packed[memberIndex]);
 
         if (!leftOver.empty())
@@ -460,6 +413,98 @@ bool sortPartyBags(
     }
 
     return true;
+}
+
+void sortPouch(Party &party, ItemPouch pouch)
+{
+    std::vector<InventoryItem> &stored = party.pouchItemsMutable(pouch);
+    std::vector<InventoryItem> items = stored;
+    const ItemTable *pItemTable = party.itemTable();
+    // sortAllBags' order (the tallest first, then by skill and item id), then what tells two of a kind apart: the
+    // higher level, the stronger and the fuller first.
+    const auto sortKey = [pItemTable](const InventoryItem &item)
+    {
+        const ItemDefinition *pDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
+        return std::tuple(-int(std::max<uint8_t>(1, item.height)),
+            pDefinition != nullptr ? engineSkillNumber(pDefinition->skillGroup) : 40, item.objectDescriptionId,
+            -int(item.rulesetFields.dropLevel), -int(item.standardEnchantPower), -int(item.currentCharges));
+    };
+    std::stable_sort(items.begin(), items.end(),
+        [&sortKey](const InventoryItem &left, const InventoryItem &right)
+        {
+            return sortKey(left) < sortKey(right);
+        });
+    // Row by row from the top: a free place of a row above takes a smaller item, so the rows close up.
+    std::vector<bool> occupied(size_t(PouchColumns) * size_t(PouchRows), false);
+    const auto freeAt = [&occupied](int x, int y, int width, int height)
+    {
+        for (int offsetY = 0; offsetY < height; ++offsetY)
+        {
+            for (int offsetX = 0; offsetX < width; ++offsetX)
+            {
+                if (occupied[size_t(y + offsetY) * size_t(PouchColumns) + size_t(x + offsetX)])
+                {
+                    return false;
+                }
+            }
+        }
+
+        return true;
+    };
+    const auto rowFull = [&occupied](int y)
+    {
+        return std::all_of(occupied.begin() + y * PouchColumns, occupied.begin() + (y + 1) * PouchColumns,
+            [](bool cell) { return cell; });
+    };
+    std::vector<InventoryItem> packed;
+    packed.reserve(items.size());
+    // Rows above it have no free cell.
+    int firstOpenRow = 0;
+
+    for (InventoryItem item : items)
+    {
+        item.width = std::max<uint8_t>(1, item.width);
+        item.height = std::max<uint8_t>(1, item.height);
+        bool placed = false;
+
+        for (int y = firstOpenRow; y + item.height <= PouchRows && !placed; ++y)
+        {
+            for (int x = 0; x + item.width <= PouchColumns && !placed; ++x)
+            {
+                if (!freeAt(x, y, item.width, item.height))
+                {
+                    continue;
+                }
+
+                item.gridX = uint8_t(x);
+                item.gridY = uint8_t(y);
+
+                for (int offsetY = 0; offsetY < item.height; ++offsetY)
+                {
+                    for (int offsetX = 0; offsetX < item.width; ++offsetX)
+                    {
+                        occupied[size_t(y + offsetY) * size_t(PouchColumns) + size_t(x + offsetX)] = true;
+                    }
+                }
+
+                packed.push_back(item);
+                placed = true;
+            }
+        }
+
+        // The pouch held them all before the sort, so every item finds a place; were one not to, nothing changes.
+        if (!placed)
+        {
+            return;
+        }
+
+        while (firstOpenRow < PouchRows && rowFull(firstOpenRow))
+        {
+            ++firstOpenRow;
+        }
+    }
+
+    stored = std::move(packed);
 }
 
 size_t fitIntoBagCount(Party &party, int bagCount)
@@ -616,11 +661,111 @@ InventoryItem *itemInBagAt(Character &character, uint8_t bag, uint8_t gridX, uin
     return const_cast<InventoryItem *>(itemInBagAt(std::as_const(character), bag, gridX, gridY));
 }
 
+const std::vector<InventoryItem> &itemsInBag(const Party &party, size_t memberIndex, uint8_t bag)
+{
+    static const std::vector<InventoryItem> NoItems;
+
+    if (isPouchBag(bag))
+    {
+        return party.pouchItems(pouchOfBag(bag));
+    }
+
+    const Character *pMember = party.member(memberIndex);
+    return pMember != nullptr ? itemsInBag(*pMember, bag) : NoItems;
+}
+
+const InventoryItem *itemInBagAt(const Party &party, size_t memberIndex, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    for (const InventoryItem &item : itemsInBag(party, memberIndex, bag))
+    {
+        if (gridX >= item.gridX && gridX < item.gridX + std::max<uint8_t>(1, item.width)
+            && gridY >= item.gridY && gridY < item.gridY + std::max<uint8_t>(1, item.height))
+        {
+            return &item;
+        }
+    }
+
+    return nullptr;
+}
+
+InventoryItem *itemInBagAt(Party &party, size_t memberIndex, uint8_t bag, uint8_t gridX, uint8_t gridY)
+{
+    return const_cast<InventoryItem *>(itemInBagAt(std::as_const(party), memberIndex, bag, gridX, gridY));
+}
+
+std::vector<uint8_t> carriedBags(const Party &party, int bagCount, bool withPouches)
+{
+    std::vector<uint8_t> bags;
+
+    for (int bag = 0; bag < std::max(1, bagCount); ++bag)
+    {
+        bags.push_back(uint8_t(bag));
+    }
+
+    if (withPouches && party.rules().items.hasPouches())
+    {
+        bags.push_back(AlchemyPouchBag);
+        bags.push_back(CraftingPouchBag);
+        bags.push_back(QuestPouchBag);
+    }
+
+    return bags;
+}
+
 bool withBagOpen(Party &party, size_t memberIndex, uint8_t bag, int bagCount, const std::function<bool()> &operation)
 {
     Character *pMember = party.member(memberIndex);
 
-    if (pMember == nullptr || !reachableBag(int(bag), bagCount))
+    if (pMember != nullptr && isPouchBag(bag))
+    {
+        CharacterRulesetState &state = pMember->rulesetState;
+
+        if (state.currentBag == bag)
+        {
+            return operation();
+        }
+
+        // One member at a time: the pouch's items are that member's inventory for the call.
+        for (const Character &member : party.members())
+        {
+            if (member.rulesetState.currentBag == bag)
+            {
+                return false;
+            }
+        }
+
+        // As openBag: the member's open bag waits with the stored ones, so item checks still find its items.
+        const uint8_t openBagIndex = state.currentBag;
+        std::vector<InventoryItem> pouchItems = std::move(party.pouchItemsMutable(pouchOfBag(bag)));
+        party.pouchItemsMutable(pouchOfBag(bag)).clear();
+
+        if (!pMember->inventory.empty())
+        {
+            state.storedBags[openBagIndex] = std::move(pMember->inventory);
+        }
+
+        pMember->inventory = std::move(pouchItems);
+        state.currentBag = bag;
+        const bool done = operation();
+        // The member is looked up again: the operation may have changed the party.
+        pMember = party.member(memberIndex);
+        CharacterRulesetState &stateAfter = pMember->rulesetState;
+        pouchItems = std::move(pMember->inventory);
+        pMember->inventory.clear();
+        stateAfter.currentBag = openBagIndex;
+        const auto stored = stateAfter.storedBags.find(openBagIndex);
+
+        if (stored != stateAfter.storedBags.end())
+        {
+            pMember->inventory = std::move(stored->second);
+            stateAfter.storedBags.erase(stored);
+        }
+
+        party.pouchItemsMutable(pouchOfBag(bag)) = std::move(pouchItems);
+        return done;
+    }
+
+    if (pMember == nullptr || !reachableBag(int(bag), bagCount) || isPouchBag(pMember->rulesetState.currentBag))
     {
         return false;
     }
@@ -654,16 +799,28 @@ bool placeInBag(
 }
 
 PlacementPreview previewPlaceInBag(
-    const Character &character,
+    const Party &party,
+    size_t memberIndex,
     uint8_t bag,
     const InventoryItem &item,
     uint8_t gridX,
     uint8_t gridY)
 {
-    // The real placement on a copy of the bag's items.
-    Character probe;
-    probe.inventory = itemsInBag(character, bag);
     PlacementPreview preview;
+    preview.gridX = gridX;
+    preview.gridY = gridY;
+    const std::optional<ItemPouch> pouch = party.pouchFor(item);
+
+    // An item goes to its pouch wherever it is dropped, and a pouch takes nothing else: no place to show.
+    if (pouch ? bag != pouchBag(*pouch) : isPouchBag(bag))
+    {
+        return preview;
+    }
+
+    // The real placement on a copy of the bag's items, on the bag's grid.
+    Character probe;
+    probe.inventory = itemsInBag(party, memberIndex, bag);
+    probe.rulesetState.currentBag = isPouchBag(bag) ? bag : 0;
     preview.fits = probe.tryPlaceInventoryItemAt(item, gridX, gridY, preview.replacedItem);
 
     if (preview.fits && !probe.inventory.empty())
@@ -679,57 +836,6 @@ PlacementPreview previewPlaceInBag(
     }
 
     return preview;
-}
-
-bool hasTag(const Character &character, uint8_t bag, BagTag tag)
-{
-    const uint32_t tags =
-        tag == BagTag::Crafting ? character.rulesetState.craftingBags : character.rulesetState.alchemyBags;
-    return bag < 32 && (tags & (1u << bag)) != 0;
-}
-
-bool toggleTag(Character &character, uint8_t bag, BagTag tag)
-{
-    if (bag >= 32)
-    {
-        return false;
-    }
-
-    uint32_t &tags = tag == BagTag::Crafting ? character.rulesetState.craftingBags : character.rulesetState.alchemyBags;
-    tags ^= 1u << bag;
-    return (tags & (1u << bag)) != 0;
-}
-
-std::optional<size_t> placeInTaggedBag(
-    Party &party,
-    size_t pickerIndex,
-    const InventoryItem &item,
-    BagTag tag,
-    int bagCount)
-{
-    const size_t memberCount = party.members().size();
-
-    for (size_t offset = 0; offset < memberCount; ++offset)
-    {
-        const size_t memberIndex = offset == 0 ? pickerIndex : (offset <= pickerIndex ? offset - 1 : offset);
-
-        if (memberIndex >= memberCount)
-        {
-            continue;
-        }
-
-        for (int bag = 0; bag < bagCount; ++bag)
-        {
-            if (hasTag(*party.member(memberIndex), uint8_t(bag), tag)
-                && withBagOpen(party, memberIndex, uint8_t(bag), bagCount,
-                    [&]() { return party.tryGrantInventoryItemToMember(memberIndex, item); }))
-            {
-                return memberIndex;
-            }
-        }
-    }
-
-    return std::nullopt;
 }
 
 bool takeFromBag(
@@ -754,8 +860,8 @@ bool refitChangedItem(
     uint8_t gridY,
     const ItemTable &itemTable)
 {
-    const Character *pMember = party.member(memberIndex);
-    const InventoryItem *pItem = pMember != nullptr ? itemInBagAt(*pMember, bag, gridX, gridY) : nullptr;
+    const InventoryItem *pItem =
+        party.member(memberIndex) != nullptr ? itemInBagAt(party, memberIndex, bag, gridX, gridY) : nullptr;
     const ItemDefinition *pDefinition = pItem != nullptr ? itemTable.get(pItem->objectDescriptionId) : nullptr;
 
     if (pDefinition == nullptr)
@@ -786,7 +892,7 @@ bool refitChangedItem(
     std::optional<InventoryItem> replaced;
 
     // Where it lies when its new size fits there without moving another item, else wherever the party has room.
-    if (!previewPlaceInBag(*party.member(memberIndex), bag, refitted, originX, originY).replacedItem
+    if (!previewPlaceInBag(party, memberIndex, bag, refitted, originX, originY).replacedItem
         && placeInBag(party, memberIndex, bag, bagCount, refitted, originX, originY, replaced))
     {
         return true;

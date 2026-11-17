@@ -18,6 +18,7 @@
 #include "game/gameplay/MonsterDeathExplosion.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/SearchableLootPropRuntime.h"
+#include "game/gameplay/WorldItemSpotter.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorSectorFaceGrid.h"
@@ -415,7 +416,7 @@ public:
     size_t turnBasedPendingWorldActionCount() const override;
     void scareNearbyPeasants(float radius, float seconds) override;
     bool turnBasedActorActionInProgress() const override;
-    void advanceTurnBasedActorTimers(float seconds) override;
+    void advanceTurnBasedWorldTime(float seconds) override;
     void setGameSpeed(float speed) override;
     void setTurnBasedActorMode(ActorTurnBasedMode mode) override;
     void grantTurnBasedActorAction(size_t actorIndex) override;
@@ -587,6 +588,9 @@ public:
     size_t gatherCorpsesToParty(size_t maxCount) override;
     size_t gatherWorldItemsToParty(size_t maxCount, const std::function<bool(const InventoryItem &)> &gathers) override;
     std::vector<size_t> lootableCorpseActorIndices() const override;
+    std::vector<size_t> collectableSpottedWorldItemIndices() const override;
+    bool hasSpottedWorldItems() const override;
+    void unspotWorldItem(size_t worldItemIndex) override;
     bool openActorCorpseView(size_t actorIndex) override;
     const GameplayProjectileService *projectileServiceView() const override
     {
@@ -1214,6 +1218,10 @@ private:
     // with RUDE dialogue who perceives the party (mm9Perceives: its placement's sight in front, hearing all round, a
     // clear line; searched once a second) runs it once per visit.
     void updateMm9FoundPlayerEvents(float deltaSeconds);
+    // Spots the ground items the party passes (ItemRules::worldItemSpotting, WorldItemSpotter).
+    void updateWorldItemSpotting(float deltaSeconds);
+    // Whether the gather key may take a placed ground item (worldItemCollectable); true for every other item.
+    bool placedWorldItemCollectable(const MapDeltaSpriteObject &object) const;
     void applyMm9BarrelVisual(const MapMm9BarrelSource &source, const MapDeltaMm9BarrelState &state);
 
     std::optional<MapStatsEntry> m_map;
@@ -1274,6 +1282,7 @@ private:
     // Per map actor: its FoundPlayer greeting has run this visit; and the time since the last check.
     std::vector<bool> m_mm9FoundPlayerDone;
     float m_mm9FoundPlayerAccumulatorSeconds = 0.0f;
+    WorldItemSpotter m_worldItemSpotter;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     // Gold and random item that Telepathy rolled for a living actor; its corpse takes them at death.
     std::vector<std::optional<CorpseViewState>> m_mapActorRevealedLoot;

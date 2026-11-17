@@ -1327,6 +1327,9 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             minimapState.wizardEyeActive ? uiRuntime.ensureHudPaletteColor(0xff00ffffu) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> worldItemMarkerTexture =
             minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xffff0000u) : std::nullopt;
+        // Spotted ground items in teal-blue (ABGR) beside the others' blue.
+        const std::optional<GameplayHudPaletteColor> spottedWorldItemMarkerTexture =
+            minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xffdcbe00u) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> projectileMarkerTexture =
             minimapState.wizardEyeShowsExpertObjects ? uiRuntime.ensureHudPaletteColor(0xff0000ffu) : std::nullopt;
         const std::optional<GameplayHudPaletteColor> decorationMarkerTexture =
@@ -1353,6 +1356,11 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 break;
             case GameplayMinimapMarkerType::WorldItem:
                 pTexture = worldItemMarkerTexture ? &*worldItemMarkerTexture : nullptr;
+                markerHalfExtent = worldItemMarkerHalfSize;
+                markerDrawSize = worldItemMarkerSize;
+                break;
+            case GameplayMinimapMarkerType::SpottedWorldItem:
+                pTexture = spottedWorldItemMarkerTexture ? &*spottedWorldItemMarkerTexture : nullptr;
                 markerHalfExtent = worldItemMarkerHalfSize;
                 markerDrawSize = worldItemMarkerSize;
                 break;

@@ -41,8 +41,9 @@ std::optional<Location> findItem(const Character &character, const QuickItemSlot
 // How many items of the slot's kind the character carries in every bag.
 size_t countItems(const Character &character, const QuickItemSlot &slot, int bagCount);
 
-// The item a member's slot uses from the whole party (user, 2026-10-25): the slot owner's bags first, then every other
-// member's in party order, each by the slot's bottle rule.
+// The item a member's slot uses from the whole party (user, 2026-10-25): the party's pouches first (with the slot's
+// owner as the carrier), then the slot owner's bags, then every other member's in party order, each by the slot's
+// bottle rule.
 struct PartyLocation
 {
     size_t memberIndex = 0;
@@ -53,11 +54,11 @@ std::optional<PartyLocation> findPartyItem(
     size_t ownerIndex,
     const QuickItemSlot &slot,
     int bagCount);
-// How many items of the slot's kind the whole party carries.
+// How many items of the slot's kind the whole party carries, its pouches too.
 size_t countPartyItems(const Party &party, const QuickItemSlot &slot, int bagCount);
 
 // One kind of potion or scroll the party carries at one power (the ring's picker and the basebar popups list these):
-// how many, in whose bags (member indices in party order), and whether it is a scroll.
+// how many, in whose bags (member indices in party order; none for the party's pouches), and whether it is a scroll.
 struct PartyItemKind
 {
     uint32_t itemId = 0;

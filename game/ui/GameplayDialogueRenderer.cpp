@@ -684,8 +684,8 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
 
             if (pActiveCharacter != nullptr && cell)
             {
-                const InventoryItem *pItem =
-                    InventoryBags::itemInBagAt(*pActiveCharacter, cell->bag, cell->gridX, cell->gridY);
+                const InventoryItem *pItem = InventoryBags::itemInBagAt(
+                    *view.party(), view.party()->activeMemberIndex(), cell->bag, cell->gridX, cell->gridY);
 
                 if (pItem != nullptr)
                 {

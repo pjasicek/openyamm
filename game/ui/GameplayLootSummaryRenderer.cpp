@@ -82,6 +82,14 @@ std::vector<SummaryLine> buildLines(const GameplayUiController::LootSummaryOverl
         appendItemLines(state.leftItems, nullptr, lines);
     }
 
+    if (!state.leftGroundItems.empty())
+    {
+        SummaryLine header;
+        header.header = Engine::tr("Left on the ground: no room in the bags");
+        lines.push_back(header);
+        appendItemLines(state.leftGroundItems, nullptr, lines);
+    }
+
     return lines;
 }
 
@@ -97,8 +105,8 @@ const InventoryItem *itemInPlace(const GameplayScreenRuntime &context, const Sum
         return nullptr;
     }
 
-    const InventoryItem *pItem =
-        InventoryBags::itemInBagAt(*pMember, entry.pPlace->bag, entry.pPlace->gridX, entry.pPlace->gridY);
+    const InventoryItem *pItem = InventoryBags::itemInBagAt(
+        *pParty, entry.pPlace->memberIndex, entry.pPlace->bag, entry.pPlace->gridX, entry.pPlace->gridY);
     return pItem != nullptr && pItem->objectDescriptionId == entry.pItem->objectDescriptionId ? pItem : nullptr;
 }
 
@@ -185,11 +193,19 @@ void GameplayLootSummaryRenderer::render(GameplayScreenRuntime &context, int wid
     context.gameplayUiRuntime().clearRenderedInspectableHudItems();
     GameplayUiSkin::renderPanel(context, *panel, false, 0.75f);
     painter.label("LootSummaryTitle", Engine::tr("Map Looted"));
-    painter.label("LootSummaryOverview", Engine::tr("{satchels} emptied, {items} taken",
-        {{"satchels", Engine::trn("{count} satchel", "{count} satchels", state.satchelCount,
-             {{"count", state.satchelCount}})},
-            {"items", Engine::trn("{count} item", "{count} items", state.takenItems.size(),
-                {{"count", state.takenItems.size()}})}}));
+    const std::string satchels = Engine::trn("{count} satchel", "{count} satchels", state.satchelCount,
+        {{"count", state.satchelCount}});
+    const std::string items = Engine::trn("{count} item", "{count} items", state.takenItems.size(),
+        {{"count", state.takenItems.size()}});
+    const std::string groundItems = Engine::trn("{count} ground item", "{count} ground items", state.groundItemCount,
+        {{"count", state.groundItemCount}});
+    painter.label("LootSummaryOverview",
+        state.groundItemCount == 0 ? Engine::tr("{satchels} emptied, {items} taken",
+            {{"satchels", satchels}, {"items", items}})
+        : state.satchelCount == 0 ? Engine::tr("{ground} picked up, {items} taken",
+            {{"ground", groundItems}, {"items", items}})
+        : Engine::tr("{satchels} emptied, {ground} picked up, {items} taken",
+            {{"satchels", satchels}, {"ground", groundItems}, {"items", items}}));
     renderGold(context, painter, state.goldAmount, state.followerGoldShare);
 
     if (const std::optional<Rect> list = painter.rect("LootSummaryList"))

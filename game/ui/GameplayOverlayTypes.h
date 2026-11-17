@@ -258,6 +258,8 @@ enum class GameplayMinimapMarkerType
     HostileActor,
     CorpseActor,
     WorldItem,
+    // A ground item the party has spotted (WorldItemSpotter): the gather key on a completed map takes it.
+    SpottedWorldItem,
     Projectile,
     Decoration
 };
@@ -435,10 +437,10 @@ enum class GameplayCharacterPointerTargetType
     InventorySortButton,
     InventoryDropButton,
     InventoryBagButton,
-    // The bag overview: its button, an item in a bag and a free cell under a held item.
+    // The bag overview and a pouch's tab: the overview's button, an item in a bag and a free cell under a held item.
     InventoryBagOverviewButton,
-    // A bag tag's toggle (bagButton: BagTag) for the open bag.
-    InventoryBagTagButton,
+    // A pouch's button (bagButton: ItemPouch): its tab in the bags' place.
+    InventoryPouchButton,
     // A party of one's tab button (bagButton: the tab, 0-based).
     InventoryTabButton,
     BagOverviewItem,
@@ -473,9 +475,9 @@ struct GameplayCharacterPointerTarget
     uint8_t gridY = 0;
     EquipmentSlot equipmentSlot = EquipmentSlot::MainHand;
     size_t innIndex = 0;
-    // The bag a multibag button zooms (0-3, in the open bag's tab), a tag button's BagTag or a tab button's tab.
+    // The bag a multibag button zooms (0-3, in the open bag's tab), a pouch button's ItemPouch or a tab button's tab.
     uint8_t bagButton = 0;
-    // The bag (0-based) of an overview target; gridX and gridY are its cell.
+    // The bag (0-based, or a pouch's: InventoryBags::pouchBag) of an overview target; gridX and gridY are its cell.
     uint8_t bag = 0;
     uint8_t implantSocket = 0;
 

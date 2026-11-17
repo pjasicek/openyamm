@@ -210,10 +210,12 @@ public:
     // K pulls 30 corpses and 30 crafting items (1041-1070) or dimension maps (290) to the party
     // (zzMaw-Monsters.lua:4563-4596).
     std::optional<LootGathering> lootGathering() const override;
+    std::optional<WorldItemSpotting> worldItemSpotting() const override;
     bool gathersItem(const InventoryItem &item) const override;
-    // Crafting items (1041-1070, zzzMaw_CraftingBag.lua:1-6) go to a crafting bag; potions, bottles and reagents to
-    // an alchemy bag (ours).
-    std::optional<BagTag> bagTag(const ItemDefinition &definition) const override;
+    // Crafting items (1041-1070, zzzMaw_CraftingBag.lua:1-6) live in the crafting pouch; potions, bottles and
+    // reagents in the alchemy pouch; what is worth nothing and is no gear in the quest pouch (ours, DEVIATIONS 196).
+    std::optional<ItemPouch> pouch(const ItemDefinition &definition) const override;
+    bool hasPouches() const override;
     // Doom and the modes after it (IT:4129-4201): chests open only for a member whose Disarm Traps skill x mastery
     // reaches the map's lock (twice a lock of 4 or more), or a Grandmaster, trapped or not (PHASE9_SCOPE Q1);
     // unidentified items cannot be worn; identifying costs the identify difficulty squared and repairs take the

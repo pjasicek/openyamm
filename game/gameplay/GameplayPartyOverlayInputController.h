@@ -10,7 +10,7 @@
 namespace OpenYAMM::Game
 {
 struct GameplayInputFrame;
-enum class BagTag : uint8_t;
+enum class ItemPouch : uint8_t;
 class GameplayScreenRuntime;
 
 class GameplayPartyOverlayInputController
@@ -58,9 +58,8 @@ public:
     // Whether the bag keys act only with Shift held, so that the numbers alone select a member: MAW's way and the
     // default of the bag_number_keys setting, in a party of more than one (zzMaw-MultiBag.lua:3-25).
     static bool bagKeysNeedShift(const GameplayScreenRuntime &context);
-    // Tags or untags the open bag of the member the inventory page shows (the zoomed bag, or in the overview the bag
-    // opened last) as a crafting or alchemy bag (zzzMaw_CraftingBag.lua:30-47), with a status line. False, with
-    // nothing changed, off the inventory page or with a single bag.
-    static bool toggleBagTag(GameplayScreenRuntime &context, BagTag tag);
+    // Shows one of the party's pouches on the inventory page in the bags' place (its endless tab), or the bags again
+    // when it shows already. False, with nothing changed, off the inventory page or under rules without pouches.
+    static bool togglePouchTab(GameplayScreenRuntime &context, ItemPouch pouch);
 };
 } // namespace OpenYAMM::Game

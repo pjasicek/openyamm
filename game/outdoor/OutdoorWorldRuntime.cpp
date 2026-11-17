@@ -5072,6 +5072,7 @@ void OutdoorWorldRuntime::initialize(
     const MapItemSourceData *pItemSourceData
 )
 {
+    m_worldItemSpotter.reset();
     m_mapId = map.id;
     m_map = map;
     gameRulesFor(pParty).monsters.adjustMapEncounters(m_map);
@@ -6115,7 +6116,7 @@ void OutdoorWorldRuntime::spawnMonsterDeathDropsForActor(size_t actorIndex, cons
     }
 
     // Without a corpse, what the rules add to the loot (MAW's crafting drops) lands on the ground or with the party
-    // (in a tagged bag first, as a pickup), from the rolls the corpse would have made.
+    // (in its pouch, as a pickup), from the rolls the corpse would have made.
     const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
 
     if (!leaveCorpse && actor.proceduralDeathLoot && pStats != nullptr)
@@ -7595,6 +7596,108 @@ std::vector<size_t> OutdoorWorldRuntime::lootableCorpseActorIndices() const
     return actorIndices;
 }
 
+std::vector<size_t> OutdoorWorldRuntime::collectableSpottedWorldItemIndices() const
+{
+    std::vector<size_t> indices;
+
+    for (size_t index = m_worldItems.size(); index-- > 0;)
+    {
+        const WorldItemState &worldItem = m_worldItems[index];
+
+        if ((worldItem.attributes & SpriteAttrSpotted) == 0 || !spottableWorldItem(worldItem))
+        {
+            continue;
+        }
+
+        indices.push_back(index);
+    }
+
+    return indices;
+}
+
+bool OutdoorWorldRuntime::spottableWorldItem(const WorldItemState &worldItem) const
+{
+    if (worldItem.isExpired || worldItem.semanticLootContainer || worldItem.item.rulesetFields.lootFiltered != 0)
+    {
+        return false;
+    }
+
+    if (!worldItem.semanticPlacedPickup)
+    {
+        return true;
+    }
+
+    const auto sourceIt = std::find_if(
+        m_itemSourceData.worldItems.begin(),
+        m_itemSourceData.worldItems.end(),
+        [&worldItem](const MapWorldItemSource &source)
+        {
+            return source.sourceId == worldItem.semanticSourceId;
+        });
+    return sourceIt != m_itemSourceData.worldItems.end() && m_pParty != nullptr
+        && worldItemCollectable(*sourceIt, *m_pParty);
+}
+
+bool OutdoorWorldRuntime::hasSpottedWorldItems() const
+{
+    return std::any_of(
+        m_worldItems.begin(),
+        m_worldItems.end(),
+        [](const WorldItemState &worldItem)
+        {
+            return (worldItem.attributes & SpriteAttrSpotted) != 0 && !worldItem.isExpired;
+        });
+}
+
+void OutdoorWorldRuntime::unspotWorldItem(size_t worldItemIndex)
+{
+    if (worldItemIndex < m_worldItems.size())
+    {
+        m_worldItems[worldItemIndex].attributes &= ~SpriteAttrSpotted;
+    }
+}
+
+void OutdoorWorldRuntime::updateWorldItemSpotting(float deltaSeconds)
+{
+    const std::optional<WorldItemSpotting> spotting =
+        m_pParty != nullptr ? m_pParty->rules().items.worldItemSpotting() : std::nullopt;
+
+    if (!spotting || m_pPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    // The ray ends a little above where the item lies, clear of the ground it rests on.
+    constexpr float SpotPointHeight = 32.0f;
+    const bx::Vec3 eye = {partyX(), partyY(), partyEyeZ()};
+    m_worldItemSpotter.update(
+        deltaSeconds,
+        spotting->outdoorRadius,
+        eye,
+        m_worldItems.size(),
+        [this](size_t index) -> std::optional<bx::Vec3>
+        {
+            const WorldItemState &worldItem = m_worldItems[index];
+
+            if ((worldItem.attributes & SpriteAttrSpotted) != 0 || worldItem.isExpired
+                || worldItem.semanticLootContainer || worldItem.item.rulesetFields.lootFiltered != 0)
+            {
+                return std::nullopt;
+            }
+
+            return bx::Vec3{worldItem.x, worldItem.y, worldItem.z + SpotPointHeight};
+        },
+        [this](size_t index, const bx::Vec3 &from, const bx::Vec3 &to)
+        {
+            // Only what the gather key may take is spotted: a placed item its quest hides or locks, or whose pickup
+            // runs an event, is tried again on later passes.
+            if (spottableWorldItem(m_worldItems[index]) && hasClearOutdoorLineOfSight(from, to))
+            {
+                m_worldItems[index].attributes |= SpriteAttrSpotted;
+            }
+        });
+}
+
 bool OutdoorWorldRuntime::openActorCorpseView(size_t actorIndex)
 {
     return openMapActorCorpseView(actorIndex);
@@ -8355,8 +8458,20 @@ bool OutdoorWorldRuntime::turnBasedActorActionInProgress() const
         });
 }
 
-void OutdoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
+void OutdoorWorldRuntime::advanceTurnBasedWorldTime(float seconds)
 {
+    updateImmolation(seconds);
+
+    if (m_pPartyRuntime != nullptr && seconds > 0.0f)
+    {
+        m_pPartyRuntime->advanceTurnBasedHazards();
+
+        if (m_pInteractionView != nullptr && !m_pPartyRuntime->movementStatusText().empty())
+        {
+            m_pInteractionView->setStatusBarEvent(m_pPartyRuntime->movementStatusText());
+        }
+    }
+
     if (m_pGameplayActorService == nullptr || m_pMonsterTable == nullptr || seconds <= 0.0f)
     {
         return;
@@ -8525,7 +8640,12 @@ void OutdoorWorldRuntime::runPendingScriptedActorArrivals()
 
 void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
 {
-    updateImmolation(deltaSeconds);
+    // In turn-based combat the aura burns only by each completed turn's game time (advanceTurnBasedWorldTime), as the
+    // original burns it from the turn's timed effects; wall-clock time on the party's turn must not burn monsters.
+    if (m_turnBasedActorFacts.mode == ActorTurnBasedMode::RealTime)
+    {
+        updateImmolation(deltaSeconds);
+    }
     updateOutdoorTriggerVolumes();
     runPendingScriptedActorArrivals();
 
@@ -8533,6 +8653,8 @@ void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
     {
         updateOutdoorJournalRevealMask(*m_pPartyRuntime, *m_pOutdoorMapDeltaData);
     }
+
+    updateWorldItemSpotting(deltaSeconds);
 
     if (!m_eventRuntimeState || m_eventRuntimeState->outdoorModelMechanisms.empty())
     {
@@ -8993,6 +9115,7 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
 
 void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
+    m_worldItemSpotter.reset();
     m_pendingMonsterKilledEvents.clear();
     m_pendingDeathExplosions.clear();
     m_actorSightCache.clear();
@@ -23680,7 +23803,9 @@ void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMini
             }
 
             GameplayMinimapMarkerState marker = {};
-            marker.type = GameplayMinimapMarkerType::WorldItem;
+            marker.type = (pWorldItem->attributes & SpriteAttrSpotted) != 0
+                ? GameplayMinimapMarkerType::SpottedWorldItem
+                : GameplayMinimapMarkerType::WorldItem;
             const GameplayMinimapPoint markerPoint = gameplayMinimapWorldToUv(
                 minimapState,
                 pWorldItem->x,

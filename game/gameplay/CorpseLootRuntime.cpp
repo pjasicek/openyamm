@@ -650,16 +650,17 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
 
 namespace
 {
-// How many items each member's bags hold, to find where a granted item went.
+// How many items each member's bags hold, and after them the party's pouches (every member's), to find where a
+// granted item went.
 std::vector<std::vector<size_t>> memberBagSizes(const Party &party, int bagCount)
 {
     std::vector<std::vector<size_t>> sizes(party.members().size());
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
-        for (int bag = 0; bag < bagCount; ++bag)
+        for (const uint8_t bag : InventoryBags::carriedBags(party, bagCount, true))
         {
-            sizes[memberIndex].push_back(InventoryBags::itemsInBag(party.members()[memberIndex], uint8_t(bag)).size());
+            sizes[memberIndex].push_back(InventoryBags::itemsInBag(party, memberIndex, bag).size());
         }
     }
 
@@ -681,15 +682,15 @@ GameplayUiController::LootedItemPlace grantedItemPlace(
         return place;
     }
 
-    const Character &recipient = party.members()[recipientIndex];
+    const std::vector<uint8_t> bags = InventoryBags::carriedBags(party, bagCount, true);
 
-    for (int bag = 0; bag < bagCount && size_t(bag) < bagSizesBefore[recipientIndex].size(); ++bag)
+    for (size_t index = 0; index < bags.size() && index < bagSizesBefore[recipientIndex].size(); ++index)
     {
-        const std::vector<InventoryItem> &items = InventoryBags::itemsInBag(recipient, uint8_t(bag));
+        const std::vector<InventoryItem> &items = InventoryBags::itemsInBag(party, recipientIndex, bags[index]);
 
-        if (items.size() > bagSizesBefore[recipientIndex][size_t(bag)])
+        if (items.size() > bagSizesBefore[recipientIndex][index])
         {
-            place.bag = uint8_t(bag);
+            place.bag = bags[index];
             place.gridX = items.back().gridX;
             place.gridY = items.back().gridY;
             break;
@@ -773,5 +774,105 @@ GameplayUiController::LootSummaryOverlayState lootAllCorpses(IGameplayWorldRunti
 
     summary.active = summary.satchelCount > 0;
     return summary;
+}
+
+void lootSpottedWorldItems(
+    IGameplayWorldRuntime &worldRuntime,
+    Party &party,
+    GameplayUiController::LootSummaryOverlayState &summary)
+{
+    const ItemTable *pItemTable = party.itemTable();
+    const int bagCount = party.rules().items.bagCount(party);
+    // Added once after the sweep, as the satchels' gold.
+    int partyGold = 0;
+    bool tookItem = false;
+
+    const auto addFoundGold = [&](uint32_t amount)
+    {
+        const FoundGold foundGold = resolveFoundGold(amount, worldRuntime.eventRuntimeState(), &party);
+        partyGold += static_cast<int>(foundGold.partyAmount);
+        summary.goldAmount += static_cast<int>(foundGold.amount);
+        summary.followerGoldShare += static_cast<int>(foundGold.followerShare);
+    };
+
+    // Highest index first: taking an item shifts only the ones after it.
+    for (size_t index : worldRuntime.collectableSpottedWorldItemIndices())
+    {
+        GameplayWorldItemInspectState state = {};
+
+        if (!worldRuntime.worldItemInspectState(index, state))
+        {
+            continue;
+        }
+
+        GameplayWorldItemInspectState taken = {};
+
+        if (state.isGold)
+        {
+            if (worldRuntime.takeWorldItemInspectState(index, taken))
+            {
+                addFoundGold(taken.goldAmount);
+                ++summary.groundItemCount;
+            }
+
+            continue;
+        }
+
+        InventoryItem item = state.item;
+        const ItemDefinition *pDefinition = pItemTable != nullptr ? pItemTable->get(item.objectDescriptionId) : nullptr;
+
+        if (pDefinition == nullptr)
+        {
+            continue;
+        }
+
+        const FilteredLoot filtered = filterDroppedLoot(
+            item, *pDefinition, &party, party.standardItemEnchantTable(), party.specialItemEnchantTable());
+
+        if (filtered.verdict == LootFilterVerdict::Ground)
+        {
+            worldRuntime.updateWorldItemInspectState(index, item);
+            worldRuntime.unspotWorldItem(index);
+            continue;
+        }
+
+        if (filtered.verdict == LootFilterVerdict::Gold)
+        {
+            if (worldRuntime.takeWorldItemInspectState(index, taken))
+            {
+                addFoundGold(filtered.gold);
+                ++summary.groundItemCount;
+            }
+
+            continue;
+        }
+
+        const std::vector<std::vector<size_t>> bagSizes = memberBagSizes(party, bagCount);
+        const std::optional<StoredPickup> stored = storePickedUpItem(party, item, pItemTable);
+
+        if (!stored)
+        {
+            summary.leftGroundItems.push_back(item);
+            continue;
+        }
+
+        // collectableSpottedWorldItemIndices left out every item the world refuses to give up.
+        worldRuntime.takeWorldItemInspectState(index, taken);
+        tookItem = true;
+        ++summary.groundItemCount;
+        summary.takenItems.push_back(item);
+        summary.takenItemPlaces.push_back(grantedItemPlace(party, stored->memberIndex, bagCount, bagSizes));
+    }
+
+    if (partyGold > 0)
+    {
+        party.addGold(partyGold, GoldReason::LootGround);
+    }
+    else if (tookItem)
+    {
+        party.requestSound(SoundId::Gold);
+    }
+
+    summary.active = summary.active || summary.groundItemCount > 0 || !summary.leftGroundItems.empty();
 }
 }

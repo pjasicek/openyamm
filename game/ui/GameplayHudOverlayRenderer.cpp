@@ -196,7 +196,7 @@ void renderViewportParchmentSidePanels(GameplayScreenRuntime &view, int width, i
     view.renderViewportSidePanels(width, height, "obsidian_reading_surface");
 }
 // Several bags (MAW): a button per bag over a chest's or shop's party inventory, the active member's open bag
-// selected (none while a shop shows the bag overview), with its tags in the corners; the bag that takes what is moved
+// selected (none while a shop shows the bag overview or a pouch's tab); the bag that takes what is moved
 // there.
 void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
 {
@@ -218,17 +218,30 @@ void renderPartyBagButtons(GameplayScreenRuntime &view, int width, int height)
         }
 
         GameplayUiSkin::renderButton(view, id, width, height,
-            !GameplayHudOverlaySupport::shopBagOverviewActive(view) && pCharacter->rulesetState.currentBag == bag,
+            !GameplayHudOverlaySupport::shopBagOverviewActive(view)
+                && !GameplayHudOverlaySupport::nestedPouchShown(view) && pCharacter->rulesetState.currentBag == bag,
             true);
+    }
+
+    // The party's pouches over a shop's or chest's party inventory: a button each, selected while its tab shows.
+    for (const auto &[pId, pouch] : {std::pair("ChestInventoryCraftingPouch", ItemPouch::Crafting),
+             std::pair("ChestInventoryAlchemyPouch", ItemPouch::Alchemy),
+             std::pair("ChestInventoryQuestPouch", ItemPouch::Quest)})
+    {
+        const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pId);
         const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button =
-            view.resolveHudLayoutElement(id, width, height, pLayout->width, pLayout->height);
+            pLayout != nullptr && pParty != nullptr && view.inventoryNestedOverlay().active
+                    && gameRulesFor(pParty).items.hasPouches()
+                ? view.resolveHudLayoutElement(pId, width, height, pLayout->width, pLayout->height)
+                : std::nullopt;
 
         if (button)
         {
-            const float markSize = std::round(11.0f * button->scale);
-            GameplayHudOverlaySupport::renderBagTagMarks(view, *pCharacter, uint8_t(bag),
-                button->x - 2.0f * button->scale, button->y + button->height - markSize + 3.0f * button->scale,
-                button->width + 4.0f * button->scale, markSize);
+            GameplayUiSkin::renderButton(view, pId, width, height,
+                GameplayHudOverlaySupport::nestedPouchShown(view) == pouch, true);
+            const float size = std::round(16.0f * button->scale);
+            GameplayHudOverlaySupport::renderPouchIcon(view, pouch, button->x + (button->width - size) * 0.5f,
+                button->y + (button->height - size) * 0.5f, size);
         }
     }
 }
@@ -579,12 +592,25 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         }
     };
 
-    // One bag's items on its grid, each inspected in the bag it lies in.
+    // One bag's items on its grid, each inspected in the bag it lies in. A scrolling grid (a pouch's tab) names the
+    // rows it shows as `clipTop` and `clipBottom` on screen: an item not wholly inside them is left out.
     const auto renderBagItems =
-        [&](const std::vector<InventoryItem> &items, const InventoryGridMetrics &gridMetrics, uint8_t bag)
+        [&](const std::vector<InventoryItem> &items, const InventoryGridMetrics &gridMetrics, uint8_t bag,
+            std::optional<float> clipTop = std::nullopt, std::optional<float> clipBottom = std::nullopt)
         {
             for (const InventoryItem &item : items)
             {
+                if (clipTop && clipBottom)
+                {
+                    const float top = gridMetrics.y + float(item.gridY) * gridMetrics.cellHeight;
+                    const float bottom = top + float(item.height) * gridMetrics.cellHeight;
+
+                    if (top < *clipTop - 0.5f || bottom > *clipBottom + 0.5f)
+                    {
+                        continue;
+                    }
+                }
+
                 const bool picked = sellTrashPicking
                     && std::find(overlay.sellTrashItems.begin(), overlay.sellTrashItems.end(),
                            BagItemRef{activeMemberIndex, bag, item.gridX, item.gridY})
@@ -684,6 +710,21 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
                 view.addRenderedInspectableHudItem(inspectableItem);
             }
         };
+
+    if (const std::optional<ItemPouch> shownPouch = GameplayHudOverlaySupport::nestedPouchShown(view))
+    {
+        // The party's pouch in the bags' place: one grid without dividers, scrolled by rows.
+        const GameplayScreenRuntime::ResolvedHudLayoutElement &grid = *resolvedInventoryGrid;
+        const InventoryBagOverview::Slot slot =
+            GameplayHudOverlaySupport::pouchSlot(view, overlay.pouch, *shownPouch, grid);
+        GameplayHudOverlaySupport::renderPouchFrame(view, grid, slot,
+            GameplayHudOverlaySupport::pouchMaximumFirstRow(view, *shownPouch));
+        renderBagItems(view.partyReadOnly()->pouchItems(*shownPouch),
+            computeInventoryGridMetrics(slot.x, slot.y - float(slot.firstRow) * slot.cellHeight(), slot.width,
+                slot.height, grid.scale * slot.fraction, slot.columns, slot.rows),
+            InventoryBags::pouchBag(*shownPouch), slot.y, slot.y + slot.height);
+        return;
+    }
 
     if (GameplayHudOverlaySupport::shopBagOverviewActive(view))
     {

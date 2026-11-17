@@ -4094,6 +4094,7 @@ void IndoorWorldRuntime::initialize(
     const MapItemSourceData *pItemSourceData
 )
 {
+    m_worldItemSpotter.reset();
     m_map = map;
     gameRulesFor(pParty).monsters.adjustMapEncounters(*m_map);
     m_mapName = map.name;
@@ -4249,6 +4250,7 @@ void IndoorWorldRuntime::initialize(
     const MapItemSourceData *pItemSourceData
 )
 {
+    m_worldItemSpotter.reset();
     m_map = map;
     gameRulesFor(pParty).monsters.adjustMapEncounters(*m_map);
     m_mapName = map.name;
@@ -13311,8 +13313,20 @@ std::string IndoorWorldRuntime::mapWorldId() const
     return m_map ? m_map->worldId : std::string();
 }
 
-void IndoorWorldRuntime::advanceTurnBasedActorTimers(float seconds)
+void IndoorWorldRuntime::advanceTurnBasedWorldTime(float seconds)
 {
+    updateImmolation(seconds);
+
+    if (m_pPartyRuntime != nullptr && seconds > 0.0f)
+    {
+        m_pPartyRuntime->advanceTurnBasedHazards(seconds);
+
+        if (m_pGameplayView != nullptr && !m_pPartyRuntime->movementStatusText().empty())
+        {
+            m_pGameplayView->setStatusBarEvent(m_pPartyRuntime->movementStatusText());
+        }
+    }
+
     if (m_pGameplayActorService == nullptr || seconds <= 0.0f)
     {
         return;
@@ -13432,7 +13446,12 @@ void IndoorWorldRuntime::updateWorld(float deltaSeconds)
     }
 
     m_firstFillOpen = false;
-    updateImmolation(deltaSeconds);
+    // In turn-based combat the aura burns only by each completed turn's game time (advanceTurnBasedWorldTime), as the
+    // original burns it from the turn's timed effects; wall-clock time on the party's turn must not burn monsters.
+    if (m_turnBasedActorFacts.mode == ActorTurnBasedMode::RealTime)
+    {
+        updateImmolation(deltaSeconds);
+    }
     updateWorldItems(deltaSeconds);
     updateIndoorProjectiles(deltaSeconds);
     updateFireSpikeTraps(deltaSeconds);
@@ -13440,6 +13459,7 @@ void IndoorWorldRuntime::updateWorld(float deltaSeconds)
     runPendingDestructibleEvents();
     runPendingScriptedActorArrivals();
     updateMm9FoundPlayerEvents(deltaSeconds);
+    updateWorldItemSpotting(deltaSeconds);
 }
 
 void IndoorWorldRuntime::updateImmolation(float deltaSeconds)
@@ -14746,6 +14766,140 @@ void IndoorWorldRuntime::wakeIndoorActorNeighbours(size_t actorIndex)
         aiState.hasDetectedParty = true;
         aiState.spellEffects.hasDetectedParty = true;
     }
+}
+
+namespace
+{
+// A ground item the party could spot or collect: an item or gold lying on the floor, not a loot container, a missile,
+// an object the party cannot pick up or an item the loot filter left on the ground.
+bool indoorGroundItemObject(const MapDeltaSpriteObject &object, const ObjectTable *pObjectTable)
+{
+    if ((object.attributes & (SpriteAttrRemoved | SpriteAttrMissile)) != 0 || object.semanticLootContainer
+        || (!object.heldItem && !hasContainingItemPayload(object.rawContainingItem))
+        || (object.heldItem && object.heldItem->rulesetFields.lootFiltered != 0))
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = pObjectTable != nullptr ? pObjectTable->get(object.objectDescriptionId) : nullptr;
+    return pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescUnpickable) == 0;
+}
+}
+
+std::vector<size_t> IndoorWorldRuntime::collectableSpottedWorldItemIndices() const
+{
+    std::vector<size_t> indices;
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return indices;
+    }
+
+    for (size_t index = pMapDeltaData->spriteObjects.size(); index-- > 0;)
+    {
+        const MapDeltaSpriteObject &object = pMapDeltaData->spriteObjects[index];
+
+        if ((object.attributes & SpriteAttrSpotted) == 0 || !indoorGroundItemObject(object, m_pObjectTable)
+            || !placedWorldItemCollectable(object))
+        {
+            continue;
+        }
+
+        indices.push_back(index);
+    }
+
+    return indices;
+}
+
+bool IndoorWorldRuntime::placedWorldItemCollectable(const MapDeltaSpriteObject &object) const
+{
+    if (!object.semanticPlacedPickup)
+    {
+        return true;
+    }
+
+    const auto sourceIt = std::find_if(
+        m_itemSourceData.worldItems.begin(),
+        m_itemSourceData.worldItems.end(),
+        [&object](const MapWorldItemSource &source)
+        {
+            return source.sourceId == object.semanticSourceId;
+        });
+    return sourceIt != m_itemSourceData.worldItems.end() && m_pParty != nullptr
+        && worldItemCollectable(*sourceIt, *m_pParty);
+}
+
+bool IndoorWorldRuntime::hasSpottedWorldItems() const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    return pMapDeltaData != nullptr
+        && std::any_of(
+            pMapDeltaData->spriteObjects.begin(),
+            pMapDeltaData->spriteObjects.end(),
+            [](const MapDeltaSpriteObject &object)
+            {
+                return (object.attributes & SpriteAttrSpotted) != 0 && (object.attributes & SpriteAttrRemoved) == 0;
+            });
+}
+
+void IndoorWorldRuntime::unspotWorldItem(size_t worldItemIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData != nullptr && worldItemIndex < pMapDeltaData->spriteObjects.size())
+    {
+        pMapDeltaData->spriteObjects[worldItemIndex].attributes &= ~SpriteAttrSpotted;
+    }
+}
+
+void IndoorWorldRuntime::updateWorldItemSpotting(float deltaSeconds)
+{
+    const std::optional<WorldItemSpotting> spotting =
+        m_pParty != nullptr ? m_pParty->rules().items.worldItemSpotting() : std::nullopt;
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (!spotting || m_pPartyRuntime == nullptr || pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    // The ray ends a little above where the item lies, clear of the floor it rests on.
+    constexpr float SpotPointHeight = 32.0f;
+    const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+    const bx::Vec3 eye = {moveState.x, moveState.y, moveState.eyeZ()};
+    const int16_t eyeSectorId = moveState.eyeSectorId >= 0 ? moveState.eyeSectorId : moveState.sectorId;
+    std::vector<MapDeltaSpriteObject> &objects = pMapDeltaData->spriteObjects;
+    m_worldItemSpotter.update(
+        deltaSeconds,
+        spotting->indoorRadius,
+        eye,
+        objects.size(),
+        [this, &objects](size_t index) -> std::optional<bx::Vec3>
+        {
+            const MapDeltaSpriteObject &object = objects[index];
+
+            if ((object.attributes & SpriteAttrSpotted) != 0 || !indoorGroundItemObject(object, m_pObjectTable))
+            {
+                return std::nullopt;
+            }
+
+            return bx::Vec3{float(object.x), float(object.y), float(object.z) + SpotPointHeight};
+        },
+        [this, &objects, eyeSectorId, &spotting](size_t index, const bx::Vec3 &from, const bx::Vec3 &to)
+        {
+            MapDeltaSpriteObject &object = objects[index];
+
+            // Only what the gather key may take is spotted: a placed item its quest locks, or whose pickup runs an
+            // event, is tried again on later passes.
+            if (placedWorldItemCollectable(object)
+                && hasIndoorCombatLineOfSight(
+                    {from.x, from.y, from.z}, eyeSectorId, {to.x, to.y, to.z}, object.sectorId,
+                    spotting->indoorRadius + 1.0f))
+            {
+                object.attributes |= SpriteAttrSpotted;
+            }
+        });
 }
 
 std::vector<size_t> IndoorWorldRuntime::lootableCorpseActorIndices() const
@@ -19223,8 +19377,7 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
 
         if (m_pGameplayView != nullptr)
         {
-            m_pGameplayView->setStatusBarEvent(
-                formatFoundItemStatusText(itemName) + storedPickupOwnerSuffix(*m_pParty, *stored));
+            m_pGameplayView->setStatusBarEvent(formatFoundItemStatusText(itemName));
         }
 
         if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
@@ -21423,6 +21576,7 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
             GameplayMinimapMarkerState marker = {};
             marker.type = (pObjectEntry->flags & ObjectDescUnpickable) != 0
                 ? GameplayMinimapMarkerType::Projectile
+                : (spriteObject.attributes & SpriteAttrSpotted) != 0 ? GameplayMinimapMarkerType::SpottedWorldItem
                 : GameplayMinimapMarkerType::WorldItem;
             const GameplayMinimapPoint markerPoint = gameplayMinimapWorldToUv(
                 minimapState,
@@ -24058,6 +24212,7 @@ IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const
 
 void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
+    m_worldItemSpotter.reset();
     // the scene restored its map state (its placed items' runtime-only pickup locks unset): evaluate them again
     m_placedWorldItemRevision = 0;
     m_actorShields.clear();

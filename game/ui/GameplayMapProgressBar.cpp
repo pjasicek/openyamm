@@ -152,8 +152,8 @@ std::optional<Tab> fitTab(GameplayScreenRuntime &context, const Layout &layout, 
     return std::nullopt;
 }
 
-// On a cleared map with satchels left, the gather key loots them all (GameplayActionController::gatherLoot): "G: loot
-// all" with the key it is bound to; empty otherwise.
+// On a cleared map with satchels or spotted ground items left, the gather key loots them all
+// (GameplayActionController::gatherLoot): "G: loot all" with the key it is bound to; empty otherwise.
 std::string lootAllHint(GameplayScreenRuntime &context, const RulesetMapProgress &progress)
 {
     const Party *pParty = context.partyReadOnly();
@@ -161,7 +161,7 @@ std::string lootAllHint(GameplayScreenRuntime &context, const RulesetMapProgress
 
     if (!progress.complete || progress.kind == RulesetMapProgress::Kind::Arena || pParty == nullptr
         || pWorldRuntime == nullptr || !pParty->rules().items.lootGathering()
-        || pWorldRuntime->lootableCorpseActorIndices().empty())
+        || (pWorldRuntime->lootableCorpseActorIndices().empty() && !pWorldRuntime->hasSpottedWorldItems()))
     {
         return {};
     }

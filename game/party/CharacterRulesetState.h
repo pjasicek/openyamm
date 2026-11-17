@@ -81,13 +81,16 @@ struct CharacterRulesRuntime
     }
 };
 
-// What a tagged bag takes when the party picks an item up from the ground (ItemRules::bagTag): MAW's crafting bag
-// (zzzMaw_CraftingBag.lua) and our alchemy bag.
-enum class BagTag : uint8_t
+// The party's shared pouches (ItemRules::pouch; ours, in place of MAW's crafting bag, zzzMaw_CraftingBag.lua, and
+// its alchemist): Workbench materials; potions, bottles and reagents; quest items. Party::pouchItems holds them; the
+// inventory shows each as an endless tab of its own (InventoryBags::pouchBag). Saves write them in this order.
+enum class ItemPouch : uint8_t
 {
     Crafting,
     Alchemy,
+    Quest,
 };
+constexpr size_t ItemPouchCount = 3;
 
 struct CharacterRulesetState
 {
@@ -119,9 +122,6 @@ struct CharacterRulesetState
     // x 5 + bag), and the other bags' items by bag, each laid out on its own grid.
     uint8_t currentBag = 0;
     std::map<uint8_t, std::vector<InventoryItem>> storedBags;
-    // The bags tagged as crafting and alchemy bags, a bit per bag (a solo character's 25 too: OY-344).
-    uint32_t craftingBags = 0;
-    uint32_t alchemyBags = 0;
     // The game minute from which a Seraphim's Divine Protection works again (vars.divineProtectionCooldown).
     float divineProtectionReadyGameMinutes = 0;
     // The same for legendary 15 (vars.legendaryProtectionCooldown).

@@ -30,6 +30,9 @@ public:
         const OutdoorMovementInput &input,
         float deltaSeconds,
         GameplayWorldMovementFrameDiagnostics *pPerformanceDiagnostics = nullptr);
+    // Turn-based combat: the water or burning ground under the party hurts once per completed turn (movementStatusText
+    // says so).
+    void advanceTurnBasedHazards();
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     void setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities);
     void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
@@ -74,6 +77,8 @@ public:
     void requestSpecialJump(float velocityX, float velocityY, float velocityZ);
 
 private:
+    void applyPendingMovementEffects();
+
     OutdoorMovementDriver m_movementDriver;
     float m_eyeHeight = 176.0f;
     Party m_party;

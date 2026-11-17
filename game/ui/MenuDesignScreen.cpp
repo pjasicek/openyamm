@@ -5,6 +5,7 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/audio/SoundIds.h"
 #include "game/render/WaterMath.h"
+#include "game/ui/GameplayHudCommon.h"
 
 #include <algorithm>
 #include <cmath>
@@ -292,15 +293,26 @@ void MenuDesignScreen::drawDesign()
 }
 
 // The lines of one paragraph word-wrapped to width (pixels); an empty paragraph is one empty line. Any run of
-// whitespace separates words.
+// whitespace separates words. A form feed is not whitespace here: it starts a colour code ("\f02016"), which stays
+// with its word.
 std::vector<std::string> MenuDesignScreen::wrapParagraph(const std::string &paragraph, const std::string &font,
                                                          float scale, float width)
 {
-    std::istringstream input(paragraph);
-    std::string word, words;
-    while (input >> word)
+    std::string words;
+    bool pendingSpace = false;
+    for (const char character : paragraph)
     {
-        words += (words.empty() ? "" : " ") + word;
+        if (character == ' ' || character == '\t' || character == '\r' || character == '\n' || character == '\v')
+        {
+            pendingSpace = !words.empty();
+            continue;
+        }
+        if (pendingSpace)
+        {
+            words += ' ';
+            pendingSpace = false;
+        }
+        words += character;
     }
     return Engine::Utf8::wrap(words, width + 0.5f,
         [&](const std::string &line)
@@ -349,6 +361,7 @@ void MenuDesignScreen::textInRect(const Rect &rect, const std::string &text, con
         const std::vector<std::string> wrapped = wrapParagraph(paragraph, font, scale, rect.width);
         lines.insert(lines.end(), wrapped.begin(), wrapped.end());
     }
+    GameplayHudCommon::carryTextColorsAcrossLines(lines);
     const float glyphHeight = logicalSize * designScale();
     const float blockHeight = glyphHeight + (lines.empty() ? 0 : lines.size() - 1) * lineHeight;
     float y = rect.y + std::max(0.0f, (rect.height - blockHeight) / 2);

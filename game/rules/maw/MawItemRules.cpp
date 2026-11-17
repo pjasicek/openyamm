@@ -30,6 +30,7 @@
 #include <limits>
 #include <iomanip>
 #include <sstream>
+#include <string_view>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -1215,7 +1216,8 @@ void MawItemRules::rollPlainItem(
         return;
     }
 
-    if (itemDefinition.equipStat != "Reagent")
+    // MM6's herbs (1762-1764) are reagents too (zzAlchemy.lua reagentList).
+    if (itemDefinition.equipStat != "Reagent" && itemDefinition.equipStat != "Herb")
     {
         return;
     }
@@ -2436,7 +2438,7 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
     }
 
     // A reagent's power from its item level (Tooltip.lua:135-138).
-    if (itemDefinition.equipStat == "Reagent" && fields.dropLevel > 0)
+    if ((itemDefinition.equipStat == "Reagent" || itemDefinition.equipStat == "Herb") && fields.dropLevel > 0)
     {
         const int power =
             mawReagentBasePower(InventoryItemMixingRuntime::reagentPower(itemDefinition), fields.dropLevel);
@@ -3128,6 +3130,12 @@ std::optional<LootGathering> MawItemRules::lootGathering() const
     return LootGathering{30, 30};
 }
 
+std::optional<WorldItemSpotting> MawItemRules::worldItemSpotting() const
+{
+    // The user's radii (2026-11-17): what the party walks past is found, and the gather key on a completed map takes it.
+    return WorldItemSpotting{1200.0f, 1000.0f};
+}
+
 bool MawItemRules::gathersItem(const InventoryItem &item) const
 {
     constexpr uint32_t DimensionMapItemId = 290;
@@ -3135,17 +3143,35 @@ bool MawItemRules::gathersItem(const InventoryItem &item) const
         || item.objectDescriptionId == DimensionMapItemId;
 }
 
-std::optional<BagTag> MawItemRules::bagTag(const ItemDefinition &definition) const
+bool MawItemRules::hasPouches() const
+{
+    return true;
+}
+
+std::optional<ItemPouch> MawItemRules::pouch(const ItemDefinition &definition) const
 {
     if (definition.itemId >= 1041 && definition.itemId <= 1070)
     {
-        return BagTag::Crafting;
+        return ItemPouch::Crafting;
     }
 
     // MM6's reagents are herbs (1762-1764).
     if (definition.equipStat == "Bottle" || definition.equipStat == "Reagent" || definition.equipStat == "Herb")
     {
-        return BagTag::Alchemy;
+        return ItemPouch::Alchemy;
+    }
+
+    // Quest items are what is worth nothing (the user, 2026-11-17): keys, letters, message scrolls, trophies. What
+    // is worn or wielded stays with the gear, whatever it is worth (blasters, the Wetsuit); a pile of gold is no item
+    // of a bag.
+    static constexpr std::array<std::string_view, 15> Gear = {
+        "Weapon", "Weapon2", "Weapon1or2", "Missile", "WeaponW", "Armor", "Shield", "Helm", "Belt", "Cloak",
+        "Gauntlets", "Boots", "Ring", "Amulet", "Gold"};
+
+    if (definition.itemId != 0 && definition.value == 0 && !definition.name.empty()
+        && std::find(Gear.begin(), Gear.end(), definition.equipStat) == Gear.end())
+    {
+        return ItemPouch::Quest;
     }
 
     return std::nullopt;

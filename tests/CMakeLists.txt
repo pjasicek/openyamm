@@ -72,6 +72,8 @@ add_executable(openyamm_unit_tests
     TrainerDirectoryTests.cpp
     CombatLogTests.cpp
     LootFilterTests.cpp
+    WorldItemSpotterTests.cpp
+    ../game/gameplay/WorldItemSpotter.cpp
     MawMonsterLevelTests.cpp
     GameplayActorAiSystemTests.cpp
     GameplayActorHitFeedbackTests.cpp

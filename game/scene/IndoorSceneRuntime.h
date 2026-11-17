@@ -134,8 +134,9 @@ public:
     void stampLastVisitTime();
     void applyMapReentryReset();
     void prepareTimers();
-    bool advanceSimulation(float deltaMilliseconds);
-    // Doors and lifts only; turn-based mode keeps them moving while game time stays frozen.
+    // advanceGameTime false (turn-based combat): everything but the clock, its timers and schedules.
+    bool advanceSimulation(float deltaMilliseconds, bool advanceGameTime = true);
+    // Doors and lifts only, while a held world (a screenshot tour) keeps game time frozen.
     bool advanceMechanisms(float deltaMilliseconds);
     bool activateEvent(
         uint16_t eventId,

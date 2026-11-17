@@ -134,7 +134,7 @@ bool handleSellTrashClick(GameplayScreenRuntime &view, const HouseEntry &houseEn
 
     const size_t memberIndex = pParty->activeMemberIndex();
     const InventoryItem *pItem = cell && memberIndex < pParty->members().size()
-        ? InventoryBags::itemInBagAt(pParty->members()[memberIndex], cell->bag, cell->gridX, cell->gridY)
+        ? InventoryBags::itemInBagAt(*pParty, memberIndex, cell->bag, cell->gridX, cell->gridY)
         : nullptr;
 
     if (pItem == nullptr)
@@ -4911,6 +4911,62 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
             if (resolvedInventoryGrid
                 && activateNestedInventoryItem
+                && GameplayHudOverlaySupport::nestedPouchShown(view)
+                && chestMouseX >= resolvedInventoryGrid->x
+                && chestMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
+                && chestMouseY >= resolvedInventoryGrid->y
+                && chestMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
+            {
+                // A pouch's tab: the held item goes to the cell under the pointer (on an item, the two swap), or the
+                // item there is taken.
+                Party &party = *view.party();
+                const size_t memberIndex = party.activeMemberIndex();
+                const int bagCount = gameRulesFor(&party).items.bagCount(party);
+                const std::optional<GameplayHudOverlaySupport::InventoryCell> cell =
+                    GameplayHudOverlaySupport::nestedInventoryCellAt(view, screenWidth, screenHeight, chestMouseX,
+                        chestMouseY);
+                const InventoryItem *pItem = cell
+                    ? InventoryBags::itemInBagAt(party, memberIndex, cell->bag, cell->gridX, cell->gridY)
+                    : nullptr;
+
+                if (cell && view.heldInventoryItem().active)
+                {
+                    std::optional<InventoryItem> replacedItem;
+
+                    if (InventoryBags::placeInBag(party, memberIndex, cell->bag, bagCount, view.heldInventoryItem().item,
+                            pItem != nullptr ? pItem->gridX : cell->gridX, pItem != nullptr ? pItem->gridY : cell->gridY,
+                            replacedItem))
+                    {
+                        if (replacedItem)
+                        {
+                            setHeldItem(*replacedItem);
+                        }
+                        else
+                        {
+                            view.heldInventoryItem() = {};
+                            party.clearHeldItemForQueries();
+                        }
+                    }
+                    else if (!party.lastStatus().empty() && party.lastStatus() != "inventory full")
+                    {
+                        view.setStatusBarEvent(party.lastStatus());
+                    }
+                }
+                else if (pItem != nullptr)
+                {
+                    InventoryItem heldItem = {};
+
+                    if (InventoryBags::takeFromBag(party, memberIndex, cell->bag, bagCount, pItem->gridX, pItem->gridY,
+                            heldItem))
+                    {
+                        setHeldItem(heldItem);
+                    }
+                }
+
+                view.interactionState().inventoryNestedOverlayItemClickLatch = true;
+            }
+            else if (resolvedInventoryGrid
+                && activateNestedInventoryItem
                 && chestMouseX >= resolvedInventoryGrid->x
                 && chestMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
                 && chestMouseY >= resolvedInventoryGrid->y
@@ -4979,6 +5035,12 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                                         static_cast<uint8_t>(placement->second),
                                         replacedItem))
                                 {
+                                    // An item with a pouch went there, not to the cell: the status says where.
+                                    if (party.pouchFor(view.heldInventoryItem().item))
+                                    {
+                                        view.setStatusBarEvent(party.lastStatus());
+                                    }
+
                                     if (replacedItem)
                                     {
                                         view.heldInventoryItem().item = *replacedItem;

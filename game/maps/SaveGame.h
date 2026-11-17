@@ -97,6 +97,15 @@ constexpr uint32_t SaveVersionSpecialItemEnchants = 177;
 // by health when loaded (Party::arrangeDefaultFormationByHealth).
 constexpr uint32_t SaveVersionFormationsEverywhere = 179;
 
+// The party keeps potions, bottles and reagents and the Workbench materials in its shared pouches from this version on
+// (Party::pouchItems; the members' bag tags are gone); an older save's move there out of the members' bags when
+// loaded (Party::gatherPouchItems).
+constexpr uint32_t SaveVersionMawPouches = 192;
+
+// The quest pouch joins the crafting and alchemy pouches from this version on (quest items: what is worth nothing
+// and is no gear); an older save's quest items move there when loaded (Party::gatherPouchItems).
+constexpr uint32_t SaveVersionMawQuestPouch = 193;
+
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);
 void migrateLegacyMapAutonotes(GameSaveData &data, uint32_t sourceSaveVersion);

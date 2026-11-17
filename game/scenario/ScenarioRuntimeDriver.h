@@ -472,6 +472,9 @@ private:
     ScenarioInteractionResult pickCenterInteractionTarget(bool ignoreActors, std::string &failure);
     bool activateInteractionResult(ScenarioInteractionResult &result, std::string &failure);
     void presentGrantedEventItems();
+    // An indoor map's doors, floor events and clock for this frame, as IndoorRenderer runs them (no clock in turn-based
+    // combat).
+    void advanceIndoorScene(float deltaSeconds);
     // One gameplay frame with this input, as simulateMovementSegment and walkTo run it.
     bool advanceMovementFrame(const GameplayInputFrame &input, float deltaSeconds, bool actorAi, std::string &failure);
     std::vector<ScenarioPose> planWalkRoute(const ScenarioPose &from, const ScenarioPose &to, size_t nodeLimit,

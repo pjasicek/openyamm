@@ -494,7 +494,7 @@ size_t grantKit(
                 }
 
                 // Reagents take their power from their level, as a drop of the stage's level does.
-                if (pDefinition->equipStat == "Reagent")
+                if (pDefinition->equipStat == "Reagent" || pDefinition->equipStat == "Herb")
                 {
                     ItemGenerationRequest request;
                     request.dropLevel = level;

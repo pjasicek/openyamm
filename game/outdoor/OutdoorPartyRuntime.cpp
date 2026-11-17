@@ -78,6 +78,16 @@ void OutdoorPartyRuntime::update(
         stageBeginTickCount = SDL_GetTicksNS();
     }
 
+    applyPendingMovementEffects();
+
+    if (pPerformanceDiagnostics != nullptr)
+    {
+        pPerformanceDiagnostics->partyEffectsNanoseconds += SDL_GetTicksNS() - stageBeginTickCount;
+    }
+}
+
+void OutdoorPartyRuntime::applyPendingMovementEffects()
+{
     const OutdoorMovementEffects effects = m_movementDriver.consumePendingEffects();
     m_party.applyMovementEffects(effects);
 
@@ -89,11 +99,13 @@ void OutdoorPartyRuntime::update(
     {
         m_movementStatusText = Engine::tr("You are drowning!");
     }
+}
 
-    if (pPerformanceDiagnostics != nullptr)
-    {
-        pPerformanceDiagnostics->partyEffectsNanoseconds += SDL_GetTicksNS() - stageBeginTickCount;
-    }
+void OutdoorPartyRuntime::advanceTurnBasedHazards()
+{
+    m_movementStatusText.clear();
+    m_movementDriver.addTurnBasedHazardTicks();
+    applyPendingMovementEffects();
 }
 
 void OutdoorPartyRuntime::setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders)

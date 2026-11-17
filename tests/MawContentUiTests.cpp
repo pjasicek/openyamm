@@ -920,135 +920,365 @@ TEST_CASE("A party of one's tabs: Shift+Sort sorts the open tab, and the other t
     CHECK_EQ(InventoryBags::storedItemCount(solo), 2u);
 }
 
-TEST_CASE("MAW's crafting and alchemy bags take what the party picks up: the picker's first, then the others' (H.10)")
+TEST_CASE("MAW's pouches take every potion, reagent and crafting material the party gets, and nothing else (H.10)")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Party party = mawParty(rules, 3);
-    party.member(0)->name = "First";
-    party.member(2)->name = "Third";
-    REQUIRE_EQ(party.activeMemberIndex(), 0u);
-    const auto pickUp = [&party, &itemTable](uint32_t itemId)
+    party.setItemTable(&itemTable);
+    const auto holds = [](const std::vector<InventoryItem> &items, uint32_t itemId)
     {
-        return storePickedUpItem(party, packItem(itemId, 1, 1), &itemTable);
-    };
-    const auto bagHolds = [&party](size_t member, uint8_t bag, uint32_t itemId)
-    {
-        const std::vector<InventoryItem> &items = InventoryBags::itemsInBag(*party.member(member), bag);
-        return std::any_of(items.begin(), items.end(),
+        return std::count_if(items.begin(), items.end(),
             [itemId](const InventoryItem &item) { return item.objectDescriptionId == itemId; });
     };
+    const auto inBags = [&party, &holds](uint32_t itemId)
+    {
+        int count = 0;
 
-    // No tagged bag: the inventory, as before.
-    std::optional<StoredPickup> stored = pickUp(1041);
-    REQUIRE(stored);
-    CHECK_FALSE(stored->taggedBag);
-    CHECK(bagHolds(0, 0, 1041));
+        for (const Character &member : party.members())
+        {
+            count += int(holds(member.inventory, itemId));
 
-    // Another member's crafting bag takes a crafting item, named in the status line (zzzMaw_CraftingBag.lua:240-245).
-    CHECK(InventoryBags::toggleTag(*party.member(2), 2, BagTag::Crafting));
-    CHECK(InventoryBags::toggleTag(*party.member(1), 1, BagTag::Alchemy));
-    stored = pickUp(1042);
+            for (const auto &[bag, items] : member.rulesetState.storedBags)
+            {
+                count += int(holds(items, itemId));
+            }
+        }
+
+        return count;
+    };
+
+    // A ground pickup: a material to the crafting pouch, a potion to the alchemy pouch, a sword to a member's bag.
+    std::optional<StoredPickup> stored = storePickedUpItem(party, packItem(1041, 1, 1), &itemTable);
     REQUIRE(stored);
-    CHECK(stored->taggedBag);
-    CHECK_EQ(stored->memberIndex, 2u);
-    CHECK(bagHolds(2, 2, 1042));
+    CHECK(stored->pouch == ItemPouch::Crafting);
+    stored = storePickedUpItem(party, packItem(222, 1, 2), &itemTable);
+    REQUIRE(stored);
+    CHECK(stored->pouch == ItemPouch::Alchemy);
+    stored = storePickedUpItem(party, packItem(1, 1, 3), &itemTable);
+    REQUIRE(stored);
+    CHECK_FALSE(stored->pouch.has_value());
+    CHECK_EQ(holds(party.pouchItems(ItemPouch::Crafting), 1041), 1);
+    CHECK_EQ(holds(party.pouchItems(ItemPouch::Alchemy), 222), 1);
+    CHECK_EQ(inBags(1041) + inBags(222), 0);
+    CHECK_EQ(inBags(1), 1);
+
+    // Every other way in ends there too: an event's gift, a gift to one member, a drop on a bag's cell.
+    REQUIRE(party.tryGrantItem(222, 3));
+    REQUIRE(party.grantItemToMember(2, 1042));
+    REQUIRE(party.tryGrantInventoryItemToMember(1, packItem(1043, 1, 1)));
+    std::optional<InventoryItem> replaced;
+    REQUIRE(party.tryPlaceItemInMemberInventoryCell(1, packItem(222, 1, 2), 5, 5, replaced));
+    CHECK_FALSE(replaced.has_value());
+    REQUIRE(InventoryBags::placeInBag(party, 2, 3, 4, packItem(1044, 1, 1), 0, 0, replaced));
+    CHECK_EQ(holds(party.pouchItems(ItemPouch::Alchemy), 222), 5);
+    CHECK_EQ(party.pouchItems(ItemPouch::Crafting).size(), 4u);
+    CHECK_EQ(inBags(222) + inBags(1042) + inBags(1043) + inBags(1044), 0);
+
+    // No two items of a pouch share a cell, and the pouch fills row by row from its first.
+    const std::vector<InventoryItem> &potions = party.pouchItems(ItemPouch::Alchemy);
+
+    for (size_t index = 0; index < potions.size(); ++index)
+    {
+        CHECK_EQ(potions[index].gridY, 0);
+        CHECK_EQ(potions[index].gridX, index);
+    }
+
+    // A pouch takes only its own kind: a sword is refused, a potion dropped on the crafting pouch goes to its own.
+    CHECK_FALSE(InventoryBags::placeInBag(party, 0, InventoryBags::AlchemyPouchBag, 4, packItem(1, 1, 3), 10, 10,
+        replaced));
+    REQUIRE(InventoryBags::placeInBag(party, 0, InventoryBags::CraftingPouchBag, 4, packItem(222, 1, 2), 10, 10,
+        replaced));
+    CHECK_EQ(holds(party.pouchItems(ItemPouch::Alchemy), 222), 6);
+    CHECK_EQ(holds(party.pouchItems(ItemPouch::Crafting), 222), 0);
+    CHECK_EQ(party.member(0)->rulesetState.currentBag, 0);
+
+    // A potion placed on a cell of its own pouch lies there, past a bag's 14 columns and 9 rows.
+    REQUIRE(InventoryBags::placeInBag(party, 1, InventoryBags::AlchemyPouchBag, 4, packItem(223, 1, 2), 27, 40,
+        replaced));
+    const InventoryItem *pPlaced = InventoryBags::itemInBagAt(party, 0, InventoryBags::AlchemyPouchBag, 27, 41);
+    REQUIRE(pPlaced != nullptr);
+    CHECK_EQ(pPlaced->objectDescriptionId, 223u);
+    CHECK_EQ(pPlaced->gridY, 40);
+    // Out of it again from whichever member asks; the members' own bags are as they were.
+    InventoryItem taken;
+    REQUIRE(InventoryBags::takeFromBag(party, 2, InventoryBags::AlchemyPouchBag, 4, 27, 40, taken));
+    CHECK_EQ(taken.objectDescriptionId, 223u);
+    CHECK_EQ(inBags(1), 1);
     CHECK_EQ(party.member(2)->rulesetState.currentBag, 0);
-    CHECK_EQ(storedPickupOwnerSuffix(party, *stored), " -- Third");
 
-    // The picker's own crafting bag comes first, with no name.
-    CHECK(InventoryBags::toggleTag(*party.member(0), 3, BagTag::Crafting));
-    stored = pickUp(1043);
-    REQUIRE(stored);
-    CHECK_EQ(stored->memberIndex, 0u);
-    CHECK(bagHolds(0, 3, 1043));
-    CHECK_EQ(storedPickupOwnerSuffix(party, *stored), "");
-
-    // Potions go to the alchemy bag; other items do not care for tags.
-    stored = pickUp(222);
-    REQUIRE(stored);
-    CHECK_EQ(stored->memberIndex, 1u);
-    CHECK(bagHolds(1, 1, 222));
-    stored = pickUp(1);
-    REQUIRE(stored);
-    CHECK_FALSE(stored->taggedBag);
-
-    // Full crafting bags pass the item on, in the end to the inventory.
-    party.member(0)->rulesetState.storedBags[3] = {packItem(10, Character::InventoryWidth, Character::InventoryHeight)};
-    stored = pickUp(1044);
-    REQUIRE(stored);
-    CHECK_EQ(stored->memberIndex, 2u);
-    party.member(2)->rulesetState.storedBags[2] = {packItem(10, Character::InventoryWidth, Character::InventoryHeight)};
-    stored = pickUp(1045);
-    REQUIRE(stored);
-    CHECK_FALSE(stored->taggedBag);
-    CHECK(bagHolds(0, 0, 1045));
-
-    // Untagging; Standard has no tags, whatever a character carries.
-    CHECK_FALSE(InventoryBags::toggleTag(*party.member(0), 3, BagTag::Crafting));
-    CHECK_FALSE(InventoryBags::hasTag(*party.member(0), 3, BagTag::Crafting));
+    // Standard has no pouches, whatever the party carries.
     Party standard = {};
     standard.seed(PartySeed{{Character{}}});
-    InventoryBags::toggleTag(*standard.member(0), 0, BagTag::Crafting);
+    standard.setItemTable(&itemTable);
     stored = storePickedUpItem(standard, packItem(1046, 1, 1), &itemTable);
     REQUIRE(stored);
-    CHECK_FALSE(stored->taggedBag);
+    CHECK_FALSE(stored->pouch.has_value());
+    CHECK(standard.pouchItems(ItemPouch::Crafting).empty());
+    CHECK_EQ(standard.member(0)->inventory.size(), 1u);
 }
 
-TEST_CASE("a solo character's tagged bags on every tab take what the party picks up (OY-344)")
+TEST_CASE("event and quest item checks and removals see MAW's pouches, for the party and for any member")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 2);
+    party.setItemTable(&itemTable);
+    REQUIRE(party.tryGrantItem(222, 3));
+    REQUIRE(party.tryGrantItem(1041, 2));
+    REQUIRE(party.member(0)->inventory.empty());
+
+    CHECK_EQ(party.inventoryItemCount(222), 3);
+    CHECK_EQ(party.inventoryItemCount(222, 0), 3);
+    CHECK_EQ(party.inventoryItemCount(222, 1), 3);
+    CHECK_EQ(party.inventoryItemCount(1041), 2);
+
+    // The count is the same while a pouch is a member's open bag for an operation (a potion being used).
+    REQUIRE(InventoryBags::withBagOpen(party, 1, InventoryBags::AlchemyPouchBag, 4,
+        [&party]()
+        {
+            CHECK_EQ(party.inventoryItemCount(222), 3);
+            CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 3u);
+            // What the party is given meanwhile still lands in the pouch, and a sword in the member's own bags.
+            CHECK(party.tryGrantItem(222));
+            CHECK(party.tryGrantInventoryItemToMember(1, packItem(1, 1, 3)));
+            return true;
+        }));
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 4u);
+    CHECK_EQ(party.member(1)->rulesetState.currentBag, 0);
+    REQUIRE_EQ(party.member(1)->inventory.size(), 1u);
+    CHECK_EQ(party.member(1)->inventory[0].objectDescriptionId, 1u);
+
+    // A quest takes its items out of the pouch, by the party or by a member; never more than there are.
+    CHECK_FALSE(party.removeItem(222, 5));
+    CHECK_EQ(party.inventoryItemCount(222), 4);
+    CHECK(party.removeItem(222, 2));
+    CHECK(party.removeItemFromMember(1, 222));
+    CHECK_EQ(party.inventoryItemCount(222), 1);
+    CHECK(party.removeItemFromMember(0, 1041, 2));
+    CHECK_EQ(party.inventoryItemCount(1041), 0);
+    CHECK_FALSE(party.removeItemFromMember(0, 1041));
+}
+
+TEST_CASE("a save from before MAW's pouches moves its potions, reagents and materials there when loaded")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 2);
+    party.setItemTable(&itemTable);
+    // As an old save has them: in open bags and stored ones, of both members, among other items.
+    Character &first = *party.member(0);
+    Character &second = *party.member(1);
+    InventoryItem potion = packItem(222, 1, 2);
+    potion.standardEnchantPower = 37;
+    first.inventory = {packItem(1, 1, 3), potion};
+    first.inventory[1].gridX = 3;
+    first.rulesetState.storedBags[2] = {packItem(1041, 1, 1)};
+    second.rulesetState.storedBags[1] = {packItem(222, 1, 2), packItem(2, 1, 3)};
+    second.rulesetState.storedBags[1][1].gridX = 1;
+    second.rulesetState.storedBags[3] = {packItem(1042, 1, 1)};
+
+    CHECK_EQ(party.gatherPouchItems(), 4u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 2u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Crafting).size(), 2u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy)[0].standardEnchantPower, 37);
+    // The other items stay where they lay; emptied bags are gone.
+    REQUIRE_EQ(first.inventory.size(), 1u);
+    CHECK_EQ(first.inventory[0].objectDescriptionId, 1u);
+    CHECK_FALSE(first.rulesetState.storedBags.contains(2));
+    REQUIRE_EQ(second.rulesetState.storedBags.at(1).size(), 1u);
+    CHECK_EQ(second.rulesetState.storedBags.at(1)[0].gridX, 1);
+    CHECK_FALSE(second.rulesetState.storedBags.contains(3));
+    // Nothing left to move.
+    CHECK_EQ(party.gatherPouchItems(), 0u);
+
+    // A member who joins brings theirs.
+    Character recruit;
+    recruit.name = "Recruit";
+    recruit.inventory = {packItem(222, 1, 2), packItem(3, 1, 3)};
+    recruit.inventory[1].gridX = 1;
+    REQUIRE(party.recruitCharacter(recruit));
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 3u);
+    CHECK_EQ(party.member(2)->inventory.size(), 1u);
+}
+
+TEST_CASE("sorting a MAW pouch groups its items and closes the rows up")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
     const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Party party = mawParty(rules, 1);
-    Character &solo = *party.member(0);
-    const int bagCount = rules.gameRules().items.bagCount(party);
-    REQUIRE_EQ(bagCount, 20);
+    party.setItemTable(&itemTable);
+    std::vector<InventoryItem> &pouch = party.pouchItemsMutable(ItemPouch::Alchemy);
+    // Scattered over the pouch: two kinds of two-cell bottles, the second kind at two strengths, and a reagent.
+    const auto at = [](InventoryItem item, uint8_t gridX, uint8_t gridY, uint16_t power)
+    {
+        item.gridX = gridX;
+        item.gridY = gridY;
+        item.standardEnchantPower = power;
+        return item;
+    };
+    pouch = {at(packItem(223, 1, 2), 20, 100, 10), at(packItem(200, 1, 1), 5, 30, 0),
+        at(packItem(222, 1, 2), 9, 60, 5), at(packItem(223, 1, 2), 0, 7, 50)};
 
-    // Tab III, bag 2 crafting and tab V, bag 4 alchemy, tagged while open; the overview then opens tab I's first.
-    REQUIRE(InventoryBags::openBag(solo, 9, bagCount));
-    CHECK(InventoryBags::toggleTag(solo, 9, BagTag::Crafting));
-    REQUIRE(InventoryBags::openBag(solo, 19, bagCount));
-    CHECK(InventoryBags::toggleTag(solo, 19, BagTag::Alchemy));
-    REQUIRE(InventoryBags::openBag(solo, 0, bagCount));
+    InventoryBags::sortPouch(party, ItemPouch::Alchemy);
+    REQUIRE_EQ(pouch.size(), 4u);
+    // The tall bottles first, by item and then the stronger one; the reagent after them, all in the first rows.
+    CHECK_EQ(pouch[0].objectDescriptionId, 222u);
+    CHECK_EQ(pouch[1].objectDescriptionId, 223u);
+    CHECK_EQ(pouch[1].standardEnchantPower, 50);
+    CHECK_EQ(pouch[2].objectDescriptionId, 223u);
+    CHECK_EQ(pouch[2].standardEnchantPower, 10);
+    CHECK_EQ(pouch[3].objectDescriptionId, 200u);
 
-    const std::optional<StoredPickup> material = storePickedUpItem(party, packItem(1041, 1, 1), &itemTable);
-    REQUIRE(material);
-    CHECK(material->taggedBag);
-    REQUIRE_EQ(InventoryBags::itemsInBag(solo, 9).size(), 1u);
-    CHECK_EQ(InventoryBags::itemsInBag(solo, 9)[0].objectDescriptionId, 1041u);
+    for (size_t index = 0; index < pouch.size(); ++index)
+    {
+        CHECK_EQ(pouch[index].gridX, index);
+        CHECK_EQ(pouch[index].gridY, 0);
+    }
 
-    const std::optional<StoredPickup> potion = storePickedUpItem(party, packItem(222, 1, 1), &itemTable);
-    REQUIRE(potion);
-    CHECK(potion->taggedBag);
-    REQUIRE_EQ(InventoryBags::itemsInBag(solo, 19).size(), 1u);
-    CHECK_EQ(InventoryBags::itemsInBag(solo, 19)[0].objectDescriptionId, 222u);
-    CHECK(solo.inventory.empty());
-    CHECK_EQ(solo.rulesetState.currentBag, 0);
+    // More than a row holds: the next items start the row under the bottles.
+    pouch.clear();
+
+    for (int count = 0; count < InventoryBags::PouchColumns + 3; ++count)
+    {
+        pouch.push_back(packItem(222, 1, 2));
+    }
+
+    InventoryBags::sortPouch(party, ItemPouch::Alchemy);
+    CHECK_EQ(pouch[size_t(InventoryBags::PouchColumns) - 1].gridX, InventoryBags::PouchColumns - 1);
+    CHECK_EQ(pouch[size_t(InventoryBags::PouchColumns)].gridX, 0);
+    CHECK_EQ(pouch[size_t(InventoryBags::PouchColumns)].gridY, 2);
 }
 
-TEST_CASE("MAW bag tags survive a save (H.10, save 123)")
+TEST_CASE("MAW's pouches survive a save (saves 192 and 193)")
 {
     GameSaveData save;
     save.mapFileName = "oute3.odm";
-    save.saveName = "tags";
+    save.saveName = "pouches";
     Character maw;
     maw.name = "Maw";
-    InventoryBags::toggleTag(maw, 1, BagTag::Crafting);
-    InventoryBags::toggleTag(maw, 3, BagTag::Crafting);
-    InventoryBags::toggleTag(maw, 3, BagTag::Alchemy);
     save.party.members = {maw};
+    InventoryItem potion = packItem(222, 1, 2);
+    potion.gridX = 27;
+    potion.gridY = 200;
+    potion.standardEnchantPower = 44;
+    save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion};
+    save.party.pouches[size_t(ItemPouch::Crafting)] = {packItem(1041, 1, 1), packItem(1042, 1, 1)};
+    save.party.pouches[size_t(ItemPouch::Quest)] = {packItem(620, 1, 2), packItem(732, 1, 1), packItem(733, 1, 1)};
 
     std::string error;
     const std::optional<GameSaveData> restored = roundTrip(save, error);
     REQUIRE_MESSAGE(restored.has_value(), error);
-    const Character &loaded = restored->party.members.at(0);
-    CHECK(InventoryBags::hasTag(loaded, 1, BagTag::Crafting));
-    CHECK(InventoryBags::hasTag(loaded, 3, BagTag::Crafting));
-    CHECK(InventoryBags::hasTag(loaded, 3, BagTag::Alchemy));
-    CHECK_FALSE(InventoryBags::hasTag(loaded, 1, BagTag::Alchemy));
-    CHECK_FALSE(InventoryBags::hasTag(loaded, 0, BagTag::Crafting));
+    REQUIRE_EQ(restored->party.pouches[size_t(ItemPouch::Alchemy)].size(), 1u);
+    CHECK(restored->party.pouches[size_t(ItemPouch::Alchemy)][0] == potion);
+    CHECK_EQ(restored->party.pouches[size_t(ItemPouch::Crafting)].size(), 2u);
+    CHECK_EQ(restored->party.pouches[size_t(ItemPouch::Quest)].size(), 3u);
+}
+
+TEST_CASE("MAW's quest pouch takes what is worth nothing and is no gear; quests find it there")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &itemTable = OpenYAMM::Tests::regressionGameData().itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    const ItemRules &items = rules.gameRules().items;
+    const auto pouchOf = [&itemTable, &items](uint32_t itemId)
+    {
+        const ItemDefinition *pDefinition = itemTable.get(itemId);
+        REQUIRE(pDefinition != nullptr);
+        return items.pouch(*pDefinition);
+    };
+    // A key, a letter and a message scroll, all worth nothing.
+    CHECK(pouchOf(620) == ItemPouch::Quest);
+    CHECK(pouchOf(1409) == ItemPouch::Quest);
+    CHECK(pouchOf(732) == ItemPouch::Quest);
+    // Not what has a price (a Lich Jar, a recipe, a spell scroll), nor gear worth nothing (a blaster, the Wetsuit).
+    CHECK_FALSE(pouchOf(628).has_value());
+    CHECK_FALSE(pouchOf(700).has_value());
+    CHECK_FALSE(pouchOf(300).has_value());
+    CHECK_FALSE(pouchOf(866).has_value());
+    CHECK_FALSE(pouchOf(1406).has_value());
+    // The other pouches keep their kinds.
+    CHECK(pouchOf(222) == ItemPouch::Alchemy);
+    CHECK(pouchOf(1041) == ItemPouch::Crafting);
+
+    // A quest's gift goes there and its checks and removals find it; an old save's keys move there when loaded.
+    Party party = mawParty(rules, 2);
+    party.setItemTable(&itemTable);
+    REQUIRE(party.tryGrantItem(620));
+    REQUIRE(party.grantItemToMember(1, 1409));
+    party.member(1)->rulesetState.storedBags[2] = {packItem(732, 1, 1), packItem(1, 1, 3)};
+    CHECK_EQ(party.gatherPouchItems(), 1u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 3u);
+    CHECK(party.member(0)->inventory.empty());
+    CHECK(party.member(1)->inventory.empty());
+    CHECK_EQ(party.member(1)->rulesetState.storedBags.at(2).size(), 1u);
+    CHECK_EQ(party.inventoryItemCount(620), 1);
+    CHECK_EQ(party.inventoryItemCount(1409, 0), 1);
+    CHECK(party.removeItemFromMember(0, 732));
+    CHECK(party.removeItem(620));
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 1u);
+    // The tab takes only quest items (a potion dropped on it goes to its own), and a key dropped on a bag goes to it.
+    std::optional<InventoryItem> replaced;
+    REQUIRE(InventoryBags::placeInBag(party, 0, InventoryBags::QuestPouchBag, 4, packItem(222, 1, 2), 9, 9, replaced));
+    CHECK_EQ(party.pouchItems(ItemPouch::Alchemy).size(), 1u);
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 1u);
+    CHECK_FALSE(
+        InventoryBags::placeInBag(party, 0, InventoryBags::QuestPouchBag, 4, packItem(1, 1, 3), 0, 5, replaced));
+    REQUIRE(InventoryBags::placeInBag(party, 0, 1, 4, packItem(620, 1, 2), 3, 3, replaced));
+    CHECK_EQ(party.pouchItems(ItemPouch::Quest).size(), 2u);
+    CHECK_EQ(InventoryBags::carriedBags(party, 4, true).back(), InventoryBags::QuestPouchBag);
+}
+
+TEST_CASE("an item with an effect on the whole party while carried works from MAW's quest pouch and any bag")
+{
+    // MM9's Fizbin of Misfortune: worth nothing, no gear, and its effect is on every member while the party has it.
+    std::vector<std::string> itemRow(26);
+    itemRow[0] = "10216";
+    itemRow[1] = "missing_test_icon";
+    itemRow[2] = "Fizbin of Misfortune";
+    itemRow[3] = "0";
+    itemRow[4] = "Misc";
+    itemRow[17] = "test";
+    itemRow[18] = "test:item/10216";
+    itemRow[19] = "10216";
+    std::vector<std::string> swordRow = itemRow;
+    itemRow[25] = "test:item_effect/216";
+    swordRow[0] = "1";
+    swordRow[2] = "Sword";
+    swordRow[3] = "20";
+    swordRow[4] = "Weapon";
+    swordRow[18] = "test:item/1";
+    swordRow[19] = "1";
+    std::vector<std::string> effectRow(30);
+    effectRow[0] = "10216";
+    effectRow[1] = "test:item_effect/216";
+    effectRow[29] = "CarriedPartyEffect|EncounterChancePlus15Percent";
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+    ItemTable itemTable;
+    REQUIRE(itemTable.load(assetFileSystem, {swordRow, itemRow}, {}));
+    std::string error;
+    REQUIRE_MESSAGE(itemTable.loadContentEffectRows({effectRow}, error), error);
+
+    MawRules rules(RulesetOptions{}, MawMapLevels{});
+    Party party = mawParty(rules, 2);
+    party.setItemTable(&itemTable);
+    party.refreshDerivedState();
+    CHECK_EQ(party.member(1)->randomEncounterChanceMultiplier, doctest::Approx(1.0f));
+    REQUIRE(party.tryGrantItem(10216));
+    REQUIRE_EQ(party.pouchItems(ItemPouch::Quest).size(), 1u);
+    CHECK(party.member(0)->inventory.empty());
+    party.refreshDerivedState();
+    CHECK_EQ(party.member(0)->randomEncounterChanceMultiplier, doctest::Approx(1.15f));
+    CHECK_EQ(party.member(1)->randomEncounterChanceMultiplier, doctest::Approx(1.15f));
+    REQUIRE(party.removeItem(10216));
+    party.refreshDerivedState();
+    CHECK_EQ(party.member(0)->randomEncounterChanceMultiplier, doctest::Approx(1.0f));
 }
 
 TEST_CASE("MAW's sort takes items of one height in the engine's skill order, Sword before Axe (audit TXT-2-B3)")

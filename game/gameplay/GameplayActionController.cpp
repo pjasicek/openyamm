@@ -1187,7 +1187,157 @@ GameplayActionController::PartyAttackExecutionResult executeHirelingAttack(
     result.attack = attack;
     return result;
 }
+
+// What an Attack made now meets and what its battle orders read there, as executeActiveCombatantAttack picks it: the
+// usable actor under the crosshair, else the nearest hostile the fallback finds (a standing destructible under the
+// crosshair wins over a fallback out of blow reach), and a world target a blow damages.
+struct AttackOrderFacts
+{
+    // A standing destructible BModel or face, or a destructible decoration (an entity), under the crosshair.
+    bool bModelTargetHit = false;
+    bool entityTargetHit = false;
+    std::optional<GameplayActionController::PartyAttackActorFacts> target;
+    float targetDistance = 0.0f;
+    bool targetInMeleeRange = false;
+    bool worldTargetInMeleeRange = false;
+    CharacterAttackProfile attackProfile = {};
+    bool eyeUnderWater = false;
+    BattleOrderSituation situation = {};
+};
+
+AttackOrderFacts attackOrderFacts(
+    const GameplayActionController::PartyAttackConfig &config,
+    const Party &party,
+    size_t memberIndex,
+    const Character &member)
+{
+    AttackOrderFacts facts;
+    facts.bModelTargetHit = config.pWorldRuntime != nullptr
+        && config.directTargetBModelIndex.has_value()
+        && config.pWorldRuntime->isPartyAttackMeleeBModelTarget(*config.directTargetBModelIndex);
+    facts.entityTargetHit = config.pWorldRuntime != nullptr
+        && config.directTargetEntityIndex.has_value()
+        && config.pWorldRuntime->isPartyAttackMeleeEntityTarget(*config.directTargetEntityIndex);
+    facts.target = resolveUsableActorTarget(config, config.directTargetActorIndex);
+
+    if (!facts.target)
+    {
+        facts.target = chooseFallbackRangedTarget(config);
+
+        // A standing destructible under the crosshair wins over a fallback hostile out of blow reach: the shot flies
+        // at the crosshair (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming").
+        if (facts.target
+            && GameplayActionController::crosshairDestructibleOverridesFallback(
+                facts.bModelTargetHit || facts.entityTargetHit,
+                actorDistanceFromParty(*facts.target, config.partyPosition)))
+        {
+            facts.target.reset();
+        }
+    }
+
+    facts.targetDistance = facts.target ? actorDistanceFromParty(*facts.target, config.partyPosition) : 0.0f;
+    facts.targetInMeleeRange = facts.target.has_value() && facts.targetDistance <= CharacterMeleeAttackDistance;
+    facts.worldTargetInMeleeRange = (facts.bModelTargetHit || facts.entityTargetHit)
+        && config.directWorldTargetDistance <= CharacterMeleeAttackDistance;
+    const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
+        ? characterAttackTuningFromSettings(config.pRuntime->settingsSnapshot())
+        : CharacterAttackTuning{};
+    facts.attackProfile =
+        GameMechanics::buildCharacterAttackProfile(member, config.pItemTable, config.pSpellTable, attackTuning);
+    facts.eyeUnderWater =
+        config.pWorldRuntime != nullptr && config.pWorldRuntime->partyBreathFraction().has_value();
+    facts.situation = battleOrderSituation(party, memberIndex,
+        facts.target ? std::optional<float>(facts.targetDistance) : std::nullopt, config.pWorldRuntime);
+    return facts;
+}
+
+// The battle orders (game/party/BattleOrders.h) are tried top to bottom: the index of the first from `first` on whose
+// conditions hold and that can be done now, or none (the fallback). A blow needs a target in reach, a shot a ranged
+// weapon, a talent order config.useTalentOrder (whether the talent acts is the caller's), a spell to be castable
+// (whether it finds a target is the cast's).
+std::optional<size_t> nextBattleOrder(
+    const GameplayActionController::PartyAttackConfig &config,
+    size_t memberIndex,
+    const Character &member,
+    const AttackOrderFacts &facts,
+    size_t first)
+{
+    for (size_t index = first; index < member.battleOrders.size(); ++index)
+    {
+        const BattleOrder &order = member.battleOrders[index];
+
+        if (!order.enabled)
+        {
+            continue;
+        }
+
+        bool applies = false;
+
+        switch (order.kind)
+        {
+        case BattleOrderKind::Melee:
+            applies = (facts.targetInMeleeRange || facts.worldTargetInMeleeRange)
+                && battleOrderConditionsHold(order, facts.situation);
+            break;
+        case BattleOrderKind::Shoot:
+            applies = shootingAttackMode(facts.attackProfile, facts.eyeUnderWater).has_value()
+                && battleOrderConditionsHold(order, facts.situation);
+            break;
+        case BattleOrderKind::Talent:
+            applies = config.useTalentOrder && battleOrderConditionsHold(order, facts.situation);
+            break;
+        case BattleOrderKind::Spell:
+            applies = castableOrderSpell(config, memberIndex, member, order, facts.situation);
+            break;
+        case BattleOrderKind::Potion:
+            break;
+        }
+
+        if (applies)
+        {
+            return index;
+        }
+    }
+
+    return std::nullopt;
+}
 } // namespace
+
+std::optional<std::string> GameplayActionController::attackOrderSpell(const PartyAttackConfig &config)
+{
+    const Party *pParty = config.pParty;
+    const Character *pMember = pParty != nullptr && pParty->activeHireling() == nullptr ? pParty->activeMember()
+                                                                                         : nullptr;
+
+    if (pMember == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const size_t memberIndex = pParty->activeMemberIndex();
+    const AttackOrderFacts facts = attackOrderFacts(config, *pParty, memberIndex, *pMember);
+
+    for (std::optional<size_t> index = nextBattleOrder(config, memberIndex, *pMember, facts, 0); index;
+         index = nextBattleOrder(config, memberIndex, *pMember, facts, *index + 1))
+    {
+        const BattleOrder &order = pMember->battleOrders[*index];
+
+        // A talent the caller says is ready acts; one that is not passes to the next order, as at the release.
+        if (order.kind == BattleOrderKind::Talent)
+        {
+            if (config.useTalentOrder(order.talentId))
+            {
+                return std::nullopt;
+            }
+
+            continue;
+        }
+
+        return order.kind == BattleOrderKind::Spell ? std::optional<std::string>(order.spellName) : std::nullopt;
+    }
+
+    return std::nullopt;
+}
 
 bool GameplayActionController::partyAttackTargetInMeleeReach(IGameplayWorldRuntime &world,
     const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
@@ -1427,93 +1577,45 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     const size_t actingMemberIndex = party.activeMemberIndex();
     result.actingMemberIndex = actingMemberIndex;
 
-    // A world target a blow or missile damages: a standing destructible BModel or face, or a destructible decoration
-    // (an entity).
-    const bool bModelTargetHit = config.pWorldRuntime != nullptr
-        && config.directTargetBModelIndex.has_value()
-        && config.pWorldRuntime->isPartyAttackMeleeBModelTarget(*config.directTargetBModelIndex);
-    const bool entityTargetHit = config.pWorldRuntime != nullptr
-        && config.directTargetEntityIndex.has_value()
-        && config.pWorldRuntime->isPartyAttackMeleeEntityTarget(*config.directTargetEntityIndex);
-    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, config.directTargetActorIndex);
-
-    if (!target)
-    {
-        target = chooseFallbackRangedTarget(config);
-
-        // A standing destructible under the crosshair wins over a fallback hostile out of blow reach: the shot flies
-        // at the crosshair (devdocs/INDOOR_DESTRUCTIBLES.md "Aiming").
-        if (target
-            && crosshairDestructibleOverridesFallback(
-                bModelTargetHit || entityTargetHit,
-                actorDistanceFromParty(*target, config.partyPosition)))
-        {
-            target.reset();
-        }
-    }
-
+    const AttackOrderFacts facts = attackOrderFacts(config, party, actingMemberIndex, *pAttacker);
+    const bool bModelTargetHit = facts.bModelTargetHit;
+    const std::optional<PartyAttackActorFacts> &target = facts.target;
+    const float targetDistance = facts.targetDistance;
+    const bool targetInMeleeRange = facts.targetInMeleeRange;
+    const bool worldTargetInMeleeRange = facts.worldTargetInMeleeRange;
+    const CharacterAttackProfile &attackProfile = facts.attackProfile;
+    const bool eyeUnderWater = facts.eyeUnderWater;
     result.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
-
-    const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
-    const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
-    const bool worldTargetInMeleeRange = (bModelTargetHit || entityTargetHit)
-        && config.directWorldTargetDistance <= CharacterMeleeAttackDistance;
     const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
         ? characterAttackTuningFromSettings(config.pRuntime->settingsSnapshot())
         : CharacterAttackTuning{};
-    const CharacterAttackProfile attackProfile =
-        GameMechanics::buildCharacterAttackProfile(*pAttacker, config.pItemTable, config.pSpellTable, attackTuning);
-    const bool eyeUnderWater =
-        config.pWorldRuntime != nullptr && config.pWorldRuntime->partyBreathFraction().has_value();
-    // The battle orders (game/party/BattleOrders.h): the first that holds and can be done now; a spell without a target
-    // passes to the next order.
-    const BattleOrderSituation situation =
-        battleOrderSituation(party, actingMemberIndex, target ? std::optional<float>(targetDistance) : std::nullopt,
-            config.pWorldRuntime);
+    // The battle orders (game/party/BattleOrders.h): the first that holds and can be done now; a talent that does not
+    // act and a spell without a target pass to the next order. A talent's own blow skips them.
     std::optional<CharacterAttackMode> orderedMode;
 
     const bool talentBlow = config.talentBlow;
 
-    for (const BattleOrder &order : pAttacker->battleOrders)
+    for (std::optional<size_t> orderIndex =
+             talentBlow ? std::nullopt : nextBattleOrder(config, actingMemberIndex, *pAttacker, facts, 0);
+         orderIndex; orderIndex = nextBattleOrder(config, actingMemberIndex, *pAttacker, facts, *orderIndex + 1))
     {
-        if (talentBlow)
-        {
-            break;
-        }
-
-        if (!order.enabled)
-        {
-            continue;
-        }
+        const BattleOrder &order = pAttacker->battleOrders[*orderIndex];
 
         if (order.kind == BattleOrderKind::Melee)
         {
-            if ((targetInMeleeRange || worldTargetInMeleeRange) && battleOrderConditionsHold(order, situation))
-            {
-                orderedMode = CharacterAttackMode::Melee;
-                break;
-            }
-
-            continue;
+            orderedMode = CharacterAttackMode::Melee;
+            break;
         }
 
         if (order.kind == BattleOrderKind::Shoot)
         {
-            const std::optional<CharacterAttackMode> shooting = shootingAttackMode(attackProfile, eyeUnderWater);
-
-            if (shooting && battleOrderConditionsHold(order, situation))
-            {
-                orderedMode = shooting;
-                break;
-            }
-
-            continue;
+            orderedMode = shootingAttackMode(attackProfile, eyeUnderWater);
+            break;
         }
 
         if (order.kind == BattleOrderKind::Talent)
         {
-            if (config.useTalentOrder && battleOrderConditionsHold(order, situation)
-                && config.useTalentOrder(order.talentId))
+            if (config.useTalentOrder(order.talentId))
             {
                 result.attempted = true;
                 result.talentUsed = true;
@@ -1521,11 +1623,6 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                 return result;
             }
 
-            continue;
-        }
-
-        if (!castableOrderSpell(config, actingMemberIndex, *pAttacker, order, situation))
-        {
             continue;
         }
 
@@ -2466,13 +2563,14 @@ GameplayActionController::GatherLootResult GameplayActionController::gatherLoot(
         return result;
     }
 
-    // A completed map has nothing left to fight for its loot: the satchels empty straight into the bags, and only
-    // what did not fit is gathered.
+    // A completed map has nothing left to fight for its loot: the satchels and the ground items the party spotted
+    // empty straight into the bags, and only what did not fit is gathered.
     const std::optional<RulesetMapProgress> progress = party.rules().monsters.mapProgress(worldRuntime);
 
     if (progress && progress->complete && progress->kind != RulesetMapProgress::Kind::Arena)
     {
         result.summary = lootAllCorpses(worldRuntime, party);
+        lootSpottedWorldItems(worldRuntime, party, result.summary);
     }
 
     const size_t corpses = worldRuntime.gatherCorpsesToParty(gathering->corpses);

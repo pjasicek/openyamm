@@ -495,6 +495,16 @@ void GameplayUiController::openInventoryNestedOverlay(InventoryNestedOverlayMode
     {
         beginHouseShopVisit(houseId);
     }
+    // A shop going from one service to another (Display to Sell closes the inventory and opens it again) keeps the
+    // pouch's tab it showed; another house's inventory, or a chest's after a shop's, starts on the bags.
+    if (state.inventoryNestedOverlay.pouchHouseId != houseId)
+    {
+        state.inventoryNestedOverlay.pouch = {};
+    }
+
+    state.inventoryNestedOverlay.pouchHouseId = houseId;
+    state.inventoryNestedOverlay.pouch.thumbDragOffset.reset();
+
     state.inventoryNestedOverlay.active = true;
     state.inventoryNestedOverlay.mode = mode;
     state.inventoryNestedOverlay.houseId = houseId;
@@ -505,7 +515,13 @@ void GameplayUiController::openInventoryNestedOverlay(InventoryNestedOverlayMode
 
 void GameplayUiController::closeInventoryNestedOverlay()
 {
-    resolvedState().inventoryNestedOverlay = {};
+    // The pouch view stays for when the same house opens the inventory again (openInventoryNestedOverlay).
+    InventoryNestedOverlayState &overlay = resolvedState().inventoryNestedOverlay;
+    const InventoryPouchViewState pouch = overlay.pouch;
+    const uint32_t pouchHouseId = overlay.pouchHouseId;
+    overlay = {};
+    overlay.pouch = pouch;
+    overlay.pouchHouseId = pouchHouseId;
 }
 
 void GameplayUiController::openHouseShopOverlay(uint32_t houseId, HouseShopMode mode, uint32_t spellbookShelf)

@@ -194,23 +194,68 @@ void handleNestedInventoryBagButtons(GameplayScreenRuntime &context, const Gamep
     const int bagCount = pParty->rules().items.bagCount(*pParty);
     // The buttons name the bags of the open bag's tab.
     const int firstBag = InventoryBagOverview::firstBag(*pParty->activeMember());
-
-    for (int bag = firstBag; bagCount > 1 && bag < std::min(bagCount, firstBag + InventoryBagOverview::Bags); ++bag)
+    const auto pressed = [&context, &input](const std::string &id)
     {
-        const std::string id = "ChestInventoryBag" + std::to_string(bag - firstBag + 1);
         const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(id);
         const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> button = pLayout != nullptr
             ? context.resolveHudLayoutElement(id, input.screenWidth, input.screenHeight, pLayout->width,
                   pLayout->height)
             : std::nullopt;
+        return button && input.pointerX >= button->x && input.pointerX < button->x + button->width
+            && input.pointerY >= button->y && input.pointerY < button->y + button->height;
+    };
 
-        if (button && input.pointerX >= button->x && input.pointerX < button->x + button->width
-            && input.pointerY >= button->y && input.pointerY < button->y + button->height)
+    for (int bag = firstBag; bagCount > 1 && bag < std::min(bagCount, firstBag + InventoryBagOverview::Bags); ++bag)
+    {
+        if (pressed("ChestInventoryBag" + std::to_string(bag - firstBag + 1)))
         {
             GameplayPartyOverlayInputController::openNestedInventoryBag(context, bag);
             return;
         }
     }
+
+    // The party's pouches, over a party inventory: the pouch's tab in the bags' place, its button again the bags.
+    GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
+
+    for (const auto &[pId, pouch] : {std::pair("ChestInventoryCraftingPouch", ItemPouch::Crafting),
+             std::pair("ChestInventoryAlchemyPouch", ItemPouch::Alchemy),
+             std::pair("ChestInventoryQuestPouch", ItemPouch::Quest)})
+    {
+        if (overlay.active && pParty->rules().items.hasPouches() && pressed(pId))
+        {
+            overlay.pouch.thumbDragOffset.reset();
+            overlay.pouch.shown = overlay.pouch.shown == pouch ? std::nullopt : std::optional<ItemPouch>(pouch);
+            return;
+        }
+    }
+}
+
+// A pouch's tab over a shop's or chest's party inventory scrolls by rows: the wheel over the grid and its scrollbar.
+// True while the pointer drives the scrollbar, so the press does nothing else.
+bool handleNestedPouchScroll(GameplayScreenRuntime &context, const GameplayInputFrame &input)
+{
+    GameplayUiController::InventoryNestedOverlayState &overlay = context.inventoryNestedOverlay();
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> grid =
+        GameplayHudOverlaySupport::nestedPouchShown(context)
+            ? context.resolveInventoryNestedOverlayGridArea(input.screenWidth, input.screenHeight)
+            : std::nullopt;
+
+    if (!grid)
+    {
+        overlay.pouch.thumbDragOffset.reset();
+        return false;
+    }
+
+    if (input.mouseWheelDelta != 0.0f && input.pointerX >= grid->x && input.pointerX < grid->x + grid->width
+        && input.pointerY >= grid->y && input.pointerY < grid->y + grid->height)
+    {
+        const int rows = int(std::lround(-input.mouseWheelDelta * 2.0f));
+        GameplayHudOverlaySupport::scrollPouchView(context, overlay.pouch,
+            rows != 0 ? rows : input.mouseWheelDelta > 0.0f ? -1 : 1);
+    }
+
+    return GameplayHudOverlaySupport::dragPouchScrollbar(context, overlay.pouch, *grid, input.pointerX,
+        input.pointerY, input.leftMouseButton.held, input.leftMouseButton.pressed);
 }
 
 constexpr std::array<SDL_Scancode, 9> NumberHotkeyScancodes = {{
@@ -645,8 +690,8 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
                     return;
                 }
 
-                const InventoryItem *pItem = InventoryBags::itemInBagAt(
-                    *pSourceMember, overlay.sourceBag, overlay.sourceGridX, overlay.sourceGridY);
+                const InventoryItem *pItem = InventoryBags::itemInBagAt(*pParty, overlay.sourceMemberIndex,
+                    overlay.sourceBag, overlay.sourceGridX, overlay.sourceGridY);
 
                 if (pItem != nullptr)
                 {
@@ -876,6 +921,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleSharedOverlayInput(
 {
     GameplayPartyOverlayInputController::openFirstBagsInOverview(context);
     handleNestedInventoryBagButtons(context, input);
+    handleNestedPouchScroll(context, input);
     GameplayUiOverlayInputResult result = GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
         context,
         input,
@@ -1072,10 +1118,11 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
             }
         }
 
-        // MAW's crafting bag key (Shift+B by default, zzzMaw_CraftingBag.lua:49-55) on the inventory page.
+        // MAW's crafting bag key (Shift+B by default, zzzMaw_CraftingBag.lua:49-55) on the inventory page: the
+        // party's crafting pouch.
         if (shiftHeld && input.action(KeyboardAction::CraftingBag).pressed)
         {
-            GameplayPartyOverlayInputController::toggleBagTag(context, BagTag::Crafting);
+            GameplayPartyOverlayInputController::togglePouchTab(context, ItemPouch::Crafting);
         }
 
         // A solo run's number keys drive its action bar (GameplayInputController), not the member selection.

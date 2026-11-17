@@ -1828,7 +1828,7 @@ bool HouseServiceRuntime::tryBuyStockItem(
         return false;
     }
 
-    // A purchase goes where a pickup would: a tagged bag first (alchemy reagents and bottles, MAW's crafting), OY-257.
+    // A purchase goes where a pickup would: its pouch (alchemy reagents and bottles, MAW's crafting), OY-257.
     if (!storePickedUpItem(party, item, &itemTable))
     {
         statusText = Engine::tr("Inventory full.");
@@ -2076,6 +2076,7 @@ std::vector<BagItemRef> HouseServiceRuntime::findSellTrash(
 
     for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
+        // The party's pouches (potions, reagents, Workbench materials) hold no trash: the members' bags only.
         const Character &member = party.members()[memberIndex];
 
         for (int bag = 0; bag < bagCount; ++bag)
@@ -2118,8 +2119,7 @@ const InventoryItem *HouseServiceRuntime::sellTrashItem(const Party &party, cons
         return nullptr;
     }
 
-    const InventoryItem *pItem =
-        InventoryBags::itemInBagAt(party.members()[ref.memberIndex], ref.bag, ref.gridX, ref.gridY);
+    const InventoryItem *pItem = InventoryBags::itemAt(party, ref);
     return pItem != nullptr && pItem->gridX == ref.gridX && pItem->gridY == ref.gridY ? pItem : nullptr;
 }
 

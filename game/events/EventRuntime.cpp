@@ -17,6 +17,7 @@
 #include "game/events/MechanismAudio.h"
 #include "game/events/MechanismDistance.h"
 #include "game/outdoor/OutdoorMechanismRuntime.h"
+#include "game/items/InventoryBags.h"
 #include "game/rules/GameRules.h"
 #include "game/rules/ExperienceRules.h"
 #include "game/rules/MonsterRules.h"
@@ -6107,13 +6108,13 @@ int luaPartyMemberHasItem(lua_State *pLuaState)
 
     if (pMember != nullptr)
     {
-        for (const InventoryItem &item : pMember->inventory)
+        // Every bag the member carries, and the party's pouches (any member's as much as another's).
+        for (const uint8_t bag : InventoryBags::carriedBags(*pParty, pParty->rules().items.bagCount(*pParty), true))
         {
-            if (item.objectDescriptionId == itemId)
-            {
-                hasItem = true;
-                break;
-            }
+            const std::vector<InventoryItem> &items = InventoryBags::itemsInBag(*pParty, memberIndex, bag);
+            hasItem = hasItem
+                || std::any_of(items.begin(), items.end(),
+                    [itemId](const InventoryItem &item) { return item.objectDescriptionId == itemId; });
         }
     }
 
@@ -6197,6 +6198,32 @@ int luaReplacePartyInventoryItems(lua_State *pLuaState)
             for (auto &[bag, items] : pMember->rulesetState.storedBags)
             {
                 replace(items);
+            }
+        }
+
+        // The party's pouches too, unless one is a member's inventory for an operation and so done above.
+        for (const ItemPouch pouch : {ItemPouch::Crafting, ItemPouch::Alchemy, ItemPouch::Quest})
+        {
+            const bool open = std::any_of(pParty->members().begin(), pParty->members().end(),
+                [pouch](const Character &member)
+                {
+                    return member.rulesetState.currentBag == InventoryBags::pouchBag(pouch);
+                });
+
+            if (!open)
+            {
+                const auto replaceIn = [fromItemId, toItemId, &replacedCount](std::vector<InventoryItem> &items)
+                {
+                    for (InventoryItem &item : items)
+                    {
+                        if (item.objectDescriptionId == fromItemId)
+                        {
+                            item.objectDescriptionId = toItemId;
+                            ++replacedCount;
+                        }
+                    }
+                };
+                replaceIn(pParty->pouchItemsMutable(pouch));
             }
         }
     }

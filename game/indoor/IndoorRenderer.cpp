@@ -4095,8 +4095,9 @@ void IndoorRenderer::render(
 
     if (allowWorldSimulation && m_pSceneRuntime != nullptr)
     {
-        // Turn-based mode and a held world (setWorldTimeHeld) freeze game time, but doors and lifts keep moving.
-        const bool gameTimeFrozen = gameSession.turnBasedCombatRuntime().active() || m_worldTimeHeld;
+        // Turn-based mode freezes game time, but the party's steps still fire floor events and doors and lifts keep
+        // moving; a held world (setWorldTimeHeld) runs only the doors and lifts.
+        const bool turnBased = gameSession.turnBasedCombatRuntime().active();
         const bool collectDiagnostics = m_logIndoorPerformanceDiagnostics;
         const uint64_t mechanismBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
         const uint64_t simulationBeginTickCount = collectDiagnostics ? SDL_GetTicksNS() : 0;
@@ -4105,9 +4106,9 @@ void IndoorRenderer::render(
             pPreviousEventRuntimeState != nullptr
                 ? pPreviousEventRuntimeState->mechanisms
                 : std::unordered_map<uint32_t, RuntimeMechanismState>();
-        const bool simulationAdvanced = gameTimeFrozen
+        const bool simulationAdvanced = m_worldTimeHeld
             ? m_pSceneRuntime->advanceMechanisms(deltaMilliseconds)
-            : m_pSceneRuntime->advanceSimulation(deltaMilliseconds);
+            : m_pSceneRuntime->advanceSimulation(deltaMilliseconds, !turnBased);
 
         if (collectDiagnostics)
         {

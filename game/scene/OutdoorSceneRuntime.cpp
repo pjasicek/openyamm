@@ -367,8 +367,12 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 
     result.shouldOpenEventDialog = processMonsterKilledEvents();
 
+    // Turn-based walking and falling take no game time: the clock and its timers advance once per completed turn
+    // (advanceTurnBasedGameMinutes), as indoors.
+    const bool turnBasedStep = movementInput.turnBasedMovementStep || movementInput.turnBasedPhysicsStep;
+
     if (m_pWorldRuntime->updateTimers(
-            deltaSeconds,
+            turnBasedStep ? 0.0f : deltaSeconds,
             m_eventRuntime,
             m_localEventProgram,
             m_globalEventProgram,
@@ -560,7 +564,10 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         stageBeginTickCount = SDL_GetTicksNS();
     }
 
-    m_pWorldRuntime->queueActorAiUpdate(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
+    // Nor do the monsters live through the party's turn-based walk: queued, it reached the next wait stage as one
+    // step (shield regeneration and modifier cooldowns for the whole walk).
+    m_pWorldRuntime->queueActorAiUpdate(
+        turnBasedStep ? 0.0f : deltaSeconds, moveState.x, moveState.y, moveState.footZ);
     notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
 
     if (pPerformanceDiagnostics != nullptr)

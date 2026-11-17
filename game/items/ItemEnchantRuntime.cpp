@@ -308,7 +308,8 @@ void addHalfLearnedSkillBonus(Character &member, const std::string &skillName)
 
 void addStandardEnchantBonus(Character &member, StandardItemEnchantKind kind, int amount)
 {
-    if (amount <= 0)
+    // A loss counts too: a MAW artifact's stat budget takes some stats down (Hell's Cleaver's Personality and Intellect).
+    if (amount == 0)
     {
         return;
     }

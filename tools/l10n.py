@@ -186,6 +186,8 @@ def decimal_commas(english, translation):
 
 
 IDENTIFIER = re.compile(r"\S*(?:[a-z][A-Z]|[A-Za-z]\d|\d[A-Za-z]|_[A-Z])\S*")
+# An asset named by package and path ("openyamm:fx/arcane_pulse", a behaviour's `effect =`), not a shown text.
+ASSET_ID = re.compile(r"[a-z0-9_]+:[a-z0-9_]+(?:/[\w.-]+)+")
 
 
 def is_text(value):
@@ -196,7 +198,7 @@ def is_text(value):
     stripped = TOKEN.sub("", value)
     if not any(character.isalpha() for character in stripped):
         return False
-    return not IDENTIFIER.fullmatch(value.strip())
+    return not IDENTIFIER.fullmatch(value.strip()) and not ASSET_ID.fullmatch(value.strip())
 
 
 # ----------------------------------------------------------------------------------------------------------------------
@@ -883,6 +885,11 @@ def extract_yaml(template):
             # The ruleset's names for the game's skills (MAW: Learning is Ascension).
             extract_yaml_values(template, ruleset / "ruleset.yml", "engine",
                                 lambda keys, key: keys[:1] == ["skillNames"])
+            # The new-game Rules panel's column names, warnings, and its texts keyed by progression and challenge mode.
+            extract_yaml_values(template, ruleset / "ruleset.yml", "engine",
+                                lambda keys, key: keys[:1] == ["rulesPanel"]
+                                and (keys[1:2] in (["difficultyColumns"], ["progressions"], ["challengeModes"])
+                                     or key == "warning"))
         # MAW's legendary affix tooltips, and its dimension map affixes and quest speeches.
         if (ruleset / "data" / "items.yml").is_file():
             extract_yaml_values(template, ruleset / "data" / "items.yml", "engine",

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/maps/MapItemSourceData.h"
+#include "game/party/CharacterRulesetState.h"
 
 #include <cstddef>
 #include <optional>
@@ -16,15 +17,17 @@ struct InventoryItem;
 bool worldItemPolicyAvailable(const MapWorldItemSource &source, const Party &party);
 // Whether a shown placed world item may be taken: every pickup quest bit set (MM9's Kira's Shield before the quest).
 bool worldItemPickupAllowed(const MapWorldItemSource &source, const Party &party);
+// Whether the gather key may spot and take a placed world item (WorldItemSpotter): shown, takeable and without a
+// pickup event, which waits for the party's own hand.
+bool worldItemCollectable(const MapWorldItemSource &source, const Party &party);
 
-// Where an item the party picked up or looted (ground, chest Take All, corpses) went: a member's bag tagged for it
-// (ItemRules::bagTag, MAW's crafting bag), else the inventory as Party::tryGrantInventoryItem gives it.
+// Where an item the party picked up or looted (ground, chest Take All, corpses) went, as Party::tryGrantInventoryItem
+// gives it: the party's pouch for it (ItemRules::pouch; MAW's crafting materials, potions and reagents), else the
+// bags of the member named.
 struct StoredPickup
 {
     size_t memberIndex = 0;
-    bool taggedBag = false;
+    std::optional<ItemPouch> pouch;
 };
 std::optional<StoredPickup> storePickedUpItem(Party &party, const InventoryItem &item, const ItemTable *pItemTable);
-// " -- <name>" when a tagged bag of a member other than the active one took the item (zzzMaw_CraftingBag.lua:240-245).
-std::string storedPickupOwnerSuffix(const Party &party, const StoredPickup &stored);
 }

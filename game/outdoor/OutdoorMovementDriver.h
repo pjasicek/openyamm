@@ -135,6 +135,8 @@ public:
     const OutdoorMovementTuning &tuning() const;
     const OutdoorMovementEffects &pendingEffects() const;
     OutdoorMovementEffects consumePendingEffects();
+    // Turn-based combat: one water or burning damage tick for a completed turn where the party stands.
+    void addTurnBasedHazardTicks();
     void toggleRunning();
     void toggleFlying();
     // Descends at fly-down speed until the party touches down, then ends flight; no fall damage.
@@ -161,6 +163,8 @@ public:
 private:
     bool canActivateFlying() const;
     bool isEffectiveRunning(const OutdoorMovementInput &input) const;
+    bool drowningHere() const;
+    bool burningHere() const;
 
     OutdoorMovementController m_movementController;
     OutdoorMoveState m_state;

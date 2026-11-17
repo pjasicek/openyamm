@@ -302,22 +302,23 @@ TEST_CASE("MAW knows every recipe of its mixing table from the start")
     CHECK_EQ(book.entries.size(), book.totalResultCount);
 }
 
-TEST_CASE("MAW's alchemy bag tag takes bottles, reagents and MM6's herbs; crafting materials go to the crafting bag")
+TEST_CASE("MAW's alchemy pouch takes bottles, reagents and MM6's herbs; crafting materials go to the crafting pouch")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     const ItemRules &items = rules.gameRules().items;
-    const auto tagOf = [&items](uint32_t itemId, const std::string &equipStat)
+    const auto pouchOf = [&items](uint32_t itemId, const std::string &equipStat)
     {
         ItemDefinition definition;
         definition.itemId = itemId;
         definition.equipStat = equipStat;
-        return items.bagTag(definition);
+        return items.pouch(definition);
     };
-    CHECK(tagOf(222, "Bottle") == BagTag::Alchemy);
-    CHECK(tagOf(200, "Reagent") == BagTag::Alchemy);
-    CHECK(tagOf(1762, "Herb") == BagTag::Alchemy);
-    CHECK(tagOf(1050, "Misc") == BagTag::Crafting);
-    CHECK_FALSE(tagOf(1, "Weapon").has_value());
+    CHECK(items.hasPouches());
+    CHECK(pouchOf(222, "Bottle") == ItemPouch::Alchemy);
+    CHECK(pouchOf(200, "Reagent") == ItemPouch::Alchemy);
+    CHECK(pouchOf(1762, "Herb") == ItemPouch::Alchemy);
+    CHECK(pouchOf(1050, "Misc") == ItemPouch::Crafting);
+    CHECK_FALSE(pouchOf(1, "Weapon").has_value());
 }
 
 TEST_CASE("a seeded party needs its ruleset's rules back before MAW's challenge-mode start (Doom: 5000 gold)")

@@ -158,11 +158,11 @@ CarriedStock carriedStock(
     CarriedStock stock;
     const int bags = bagCount(party);
 
-    for (const Character &member : party.members())
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
     {
-        for (int bag = 0; bag < bags; ++bag)
+        for (const uint8_t bag : InventoryBags::carriedBags(party, bags, memberIndex == 0))
         {
-            for (const InventoryItem &item : InventoryBags::itemsInBag(member, uint8_t(bag)))
+            for (const InventoryItem &item : InventoryBags::itemsInBag(party, memberIndex, bag))
             {
                 const int power = PotionUpkeep::bottlePower(effects, item);
 
@@ -279,8 +279,8 @@ PotionUpkeep::OrderBottle PotionUpkeep::orderBottle(
         party, memberIndex, QuickItemSlot{order.potionItemId, order.bottleRule}, bagCount(party));
     const Character *pCarrier = bottle.location ? party.member(bottle.location->memberIndex) : nullptr;
     const InventoryItem *pItem = pCarrier != nullptr
-        ? InventoryBags::itemInBagAt(*pCarrier, bottle.location->location.bag, bottle.location->location.gridX,
-            bottle.location->location.gridY)
+        ? InventoryBags::itemInBagAt(party, bottle.location->memberIndex, bottle.location->location.bag,
+            bottle.location->location.gridX, bottle.location->location.gridY)
         : nullptr;
 
     if (pItem == nullptr)

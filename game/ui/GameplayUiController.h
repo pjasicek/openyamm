@@ -13,6 +13,7 @@
 #include "game/party/SkillData.h"
 #include "game/ui/HouseShopLedgerCategory.h"
 #include "game/ui/HudReading.h"
+#include "game/ui/InventoryPouchViewState.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -309,6 +310,10 @@ public:
         std::vector<LootedItemPlace> takenItemPlaces;
         // Items the bags had no room for: left in their satchels, which are gathered in front of the party.
         std::vector<InventoryItem> leftItems;
+        // Spotted ground items and gold piles taken (WorldItemSpotter), the ones the loot filter sold included.
+        size_t groundItemCount = 0;
+        // Spotted ground items the bags had no room for: left where they lie.
+        std::vector<InventoryItem> leftGroundItems;
         float scrollOffset = 0.0f;
     };
 
@@ -651,6 +656,7 @@ public:
         // Several bags (MAW): the open bag fills the grid at full size instead of the four-bag overview (the 1-4
         // buttons and keys zoom, the overview button returns). Not saved.
         bool inventoryBagZoomed = false;
+        InventoryPouchViewState inventoryPouch;
         // The inventory's item search (ItemSearch): what is typed, kept over every bag and member until Escape or the
         // screen closes, and whether typing goes to it.
         std::string inventorySearch;
@@ -687,6 +693,10 @@ public:
         uint32_t houseId = 0;
         // A shop's party inventory shows one bag at full size rather than the bag overview (several bags, desktop).
         bool bagZoomed = false;
+        // The party's pouch a shop's or chest's party inventory shows, and the house it was chosen in (0: a chest):
+        // both outlive the overlay, so a shop's next service shows the same tab.
+        InventoryPouchViewState pouch;
+        uint32_t pouchHouseId = 0;
         // Sell trash (ShopSell, HouseServiceRuntime::findSellTrash): while picking, the picked items of the whole
         // party are highlighted, a click on an item adds or removes it instead of selling it, and the button sells
         // the pick.

@@ -753,7 +753,7 @@ bool GameplayItemService::useCarriedItem(
             heldItem = {};
             pParty->clearHeldItemForQueries();
         }
-        else if (pCarrier->addInventoryItem(heldItem.item))
+        else if (pParty->tryAutoPlaceItemInMemberInventory(carrierIndex, heldItem.item))
         {
             heldItem = {};
             pParty->clearHeldItemForQueries();

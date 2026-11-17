@@ -582,6 +582,34 @@ void moveSummaryPlaythroughToLegacyPlace(std::vector<uint8_t> &bytes)
     bytes.insert(bytes.end() - static_cast<std::ptrdiff_t>(sizeof(uint64_t)), sizeof(uint64_t), uint8_t(0));
 }
 
+void eraseEmptyCounts(std::vector<uint8_t> &bytes, size_t offset, size_t count);
+
+// Where the party's pouches start in the save as written: after the party's last outdoor map (empty in these saves).
+// Found by writing the save again with that map named.
+size_t partyPouchesOffset(const OpenYAMM::Game::GameSaveData &save)
+{
+    REQUIRE(save.party.lastOutdoorMapFileName.empty());
+    OpenYAMM::Game::GameSaveData probe = save;
+    const std::string marker = "pouchprobemarker";
+    probe.party.lastOutdoorMapFileName = marker;
+    const std::filesystem::path path = makeTemporaryRoot("pouch_probe").replace_extension(".oysav");
+    std::string error;
+    REQUIRE_MESSAGE(OpenYAMM::Game::saveGameDataToPath(path, probe, error), error);
+    const std::vector<uint8_t> probeBytes = readBytes(path);
+    std::filesystem::remove(path);
+    const auto markerIt = std::search(probeBytes.begin(), probeBytes.end(), marker.begin(), marker.end());
+    REQUIRE(markerIt != probeBytes.end());
+    // The map's name starts where, with no name, the pouches' counts do.
+    return static_cast<size_t>(markerIt - probeBytes.begin());
+}
+
+// Saves before version 192 end the party without its pouches: cuts their empty counts. Called on the save as
+// written, before anything else is cut.
+void erasePartyPouches(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
+{
+    eraseEmptyCounts(bytes, partyPouchesOffset(save), OpenYAMM::Game::ItemPouchCount);
+}
+
 // Saves before version 181 have no solo run: cuts the ruleset's last byte (the solo flag, before the name, the preview
 // and the playthrough id and time that end the summary block) and every character's empty action bar (twenty slots of
 // a kind byte, an id and a quick item slot, between the six empty quick item slots and the spellbook page, -1 in these
@@ -589,6 +617,7 @@ void moveSummaryPlaythroughToLegacyPlace(std::vector<uint8_t> &bytes)
 // with an older version, while the playthrough is still in the summary.
 void eraseSoloRun(std::vector<uint8_t> &bytes, const OpenYAMM::Game::GameSaveData &save)
 {
+    erasePartyPouches(bytes, save);
     constexpr size_t HeaderSize = 8 + sizeof(uint32_t);
     constexpr size_t PlaythroughSize = sizeof(uint64_t) + sizeof(double);
     uint32_t summarySize = 0;
@@ -1787,20 +1816,37 @@ TEST_CASE("saves keep the outdoor map the party was last on (OY-303)")
     CHECK_EQ(restored->party.lastOutdoorMapFileName, "oute3.odm");
 }
 
-TEST_CASE("saves keep a solo character's bag tags past the eighth bag (OY-344)")
+// Version 192 wrote the crafting and alchemy pouches; the quest pouch came with 193.
+TEST_CASE("saves of version 192 load their two pouches, with an empty quest pouch")
 {
+    using OpenYAMM::Game::ItemPouch;
     OpenYAMM::Game::GameSaveData save = minimalSave();
-    OpenYAMM::Game::Character member;
-    member.name = "Solo";
-    member.rulesetState.craftingBags = 1u << 20;
-    member.rulesetState.alchemyBags = 1u << 24;
-    save.party.members.push_back(member);
+    const size_t pouchesOffset = partyPouchesOffset(save);
+    const std::filesystem::path path = makeTemporaryRoot("two_pouches").replace_extension(".oysav");
     std::string error;
-    const std::optional<OpenYAMM::Game::GameSaveData> restored = roundTrip(save, error);
+    REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
+    const size_t emptySize = readBytes(path).size();
+    OpenYAMM::Game::InventoryItem material;
+    material.objectDescriptionId = 1041;
+    OpenYAMM::Game::InventoryItem potion;
+    potion.objectDescriptionId = 222;
+    potion.gridX = 5;
+    save.party.pouches[size_t(ItemPouch::Crafting)] = {material};
+    save.party.pouches[size_t(ItemPouch::Alchemy)] = {potion, potion};
+    REQUIRE(OpenYAMM::Game::saveGameDataToPath(path, save, error));
+    std::vector<uint8_t> bytes = readBytes(path);
+    // The quest pouch's empty count follows the two pouches' counts and their three items.
+    eraseEmptyCounts(bytes, pouchesOffset + 2 * sizeof(uint64_t) + (bytes.size() - emptySize), 1);
+    const uint32_t previousVersion = 192;
+    std::memcpy(bytes.data() + 8, &previousVersion, sizeof(previousVersion));
+    writeBytes(path, bytes);
+    const auto restored = OpenYAMM::Game::loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
     REQUIRE_MESSAGE(restored.has_value(), error);
-    REQUIRE_EQ(restored->party.members.size(), 1u);
-    CHECK_EQ(restored->party.members[0].rulesetState.craftingBags, 1u << 20);
-    CHECK_EQ(restored->party.members[0].rulesetState.alchemyBags, 1u << 24);
+    CHECK_EQ(restored->sourceSaveVersion, 192u);
+    CHECK(restored->party.pouches[size_t(ItemPouch::Crafting)] == save.party.pouches[size_t(ItemPouch::Crafting)]);
+    CHECK(restored->party.pouches[size_t(ItemPouch::Alchemy)] == save.party.pouches[size_t(ItemPouch::Alchemy)]);
+    CHECK(restored->party.pouches[size_t(ItemPouch::Quest)].empty());
 }
 
 // eraseSoloRun gives back a save of the version before the solo run: it loads, with a hireling (a character outside

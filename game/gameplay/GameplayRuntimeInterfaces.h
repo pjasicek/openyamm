@@ -916,9 +916,10 @@ public:
     {
         (void)mode;
     }
-    // Turn-based combat: the monsters' spell effects (stun, paralysis, slow, their buffs) run down once per completed
-    // turn by its game time, in equivalent real seconds, instead of by actor AI time (the original's game clock).
-    virtual void advanceTurnBasedActorTimers(float seconds)
+    // Turn-based combat: what the original's timed effects run once per completed turn, by the turn's game time in
+    // equivalent real seconds, never by frame time: the monsters' spell effects (stun, paralysis, slow, their buffs),
+    // the party's Immolation aura, and the water, lava or burning floor under the party (one damage tick per turn).
+    virtual void advanceTurnBasedWorldTime(float seconds)
     {
         (void)seconds;
     }
@@ -1261,6 +1262,23 @@ public:
     virtual std::vector<size_t> lootableCorpseActorIndices() const
     {
         return {};
+    }
+    // The spotted ground items (WorldItemSpotter) that the gather key on a completed map may take, highest index first:
+    // taking one shifts the indices after it. Loot containers, items a quest still locks and items whose pickup runs
+    // an event are left for the party's own hand.
+    virtual std::vector<size_t> collectableSpottedWorldItemIndices() const
+    {
+        return {};
+    }
+    // Whether any ground item is spotted (the map progress tab's "loot all" hint).
+    virtual bool hasSpottedWorldItems() const
+    {
+        return false;
+    }
+    // Takes a ground item out of the spotted ones (the loot filter left it on the ground: it is no longer the party's).
+    virtual void unspotWorldItem(size_t worldItemIndex)
+    {
+        (void)worldItemIndex;
     }
     // Opens an actor's satchel as the active corpse view, as clicking it does; false when it holds nothing.
     virtual bool openActorCorpseView(size_t actorIndex)

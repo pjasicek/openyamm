@@ -734,24 +734,11 @@ void IndoorPartyRuntime::update(
         m_movementState.fallDistance = landingFallDistance;
     }
 
-    // A lava volume (scene water_volumes, liquid lava: MM9's Kato liquid, Drangheim Prison's Lava0) burns whoever is
-    // in it, as a lava floor does; Levitate does not lift the party out of it.
-    bool inLava = false;
+    // Turn-based walking and falling take no game time: lava, a burning floor and held breath advance once per
+    // completed turn (advanceTurnBasedHazards).
+    const bool turnBasedStep = turnBasedMovementStep || turnBasedPhysicsStep;
 
-    if (inWaterMap)
-    {
-        if (const std::optional<IndoorWaterSample> water = bodyWaterSample(m_movementState, body))
-        {
-            inLava = m_movementController.indoorMapData()->waterVolumes[water->volumeIndex].liquid
-                == IndoorLiquid::Lava;
-        }
-    }
-
-    // Levitate keeps the party just off the lava, as MM8 does in every world.
-    if (inLava
-        || (m_movementState.grounded
-            && !m_party.hasPartyBuff(PartyBuffId::Levitate)
-            && m_movementController.supportFaceIsBurning(m_movementState.supportFaceIndex)))
+    if (!turnBasedStep && burningHere(body))
     {
         m_burningDamageTimerSeconds += deltaSeconds;
 
@@ -776,7 +763,50 @@ void IndoorPartyRuntime::update(
 
     if (inWaterMap)
     {
-        updateWaterBreath(deltaSeconds);
+        updateWaterBreath(turnBasedStep ? 0.0f : deltaSeconds);
+    }
+}
+
+bool IndoorPartyRuntime::burningHere(const IndoorBodyDimensions &body) const
+{
+    // A lava volume (scene water_volumes, liquid lava: MM9's Kato liquid, Drangheim Prison's Lava0) burns whoever is
+    // in it, as a lava floor does; Levitate does not lift the party out of it.
+    if (waterActive())
+    {
+        if (const std::optional<IndoorWaterSample> water = bodyWaterSample(m_movementState, body))
+        {
+            if (m_movementController.indoorMapData()->waterVolumes[water->volumeIndex].liquid == IndoorLiquid::Lava)
+            {
+                return true;
+            }
+        }
+    }
+
+    // Levitate keeps the party just off the lava, as MM8 does in every world.
+    return m_movementState.grounded
+        && !m_party.hasPartyBuff(PartyBuffId::Levitate)
+        && m_movementController.supportFaceIsBurning(m_movementState.supportFaceIndex);
+}
+
+// The original's timed effects hurt at most once per call, and a turn's call (213 ticks) is longer than the damage
+// interval (128 ticks): one burning tick per completed turn. MM9's breath runs down by the turn's time.
+void IndoorPartyRuntime::advanceTurnBasedHazards(float seconds)
+{
+    m_movementStatusText.clear();
+    const IndoorBodyDimensions body = {};
+
+    if (burningHere(body))
+    {
+        OutdoorMovementEffects effects = {};
+        effects.burningDamageTicks = 1;
+        effects.indoor = !m_openAir;
+        m_party.applyMovementEffects(effects);
+        m_movementStatusText = Engine::tr("You are burning!");
+    }
+
+    if (waterActive())
+    {
+        updateWaterBreath(seconds);
     }
 }
 

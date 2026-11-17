@@ -24,6 +24,9 @@ constexpr uint16_t SpriteAttrTemporary = 0x0002;
 constexpr uint16_t SpriteAttrMissile = 0x0100;
 constexpr uint16_t SpriteAttrRemoved = 0x0200;
 constexpr uint16_t SpriteAttrDroppedByPlayer = 0x0400;
+// A ground item the party has spotted (WorldItemSpotter): saved with the item and never cleared. The original formats
+// use no bit above 0x0200.
+constexpr uint16_t SpriteAttrSpotted = 0x0800;
 
 inline bool hasContainingItemPayload(const std::vector<uint8_t> &rawContainingItem)
 {

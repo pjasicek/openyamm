@@ -39,7 +39,8 @@ int bagCountOf(const Party &party)
     return std::max(1, party.rules().items.bagCount(party));
 }
 
-// Every item in the members' bags, member by member and bag by bag, with its reference.
+// Every item in the members' bags, member by member and bag by bag, then the party's pouches (the first member's, as
+// good as anyone's), with its reference.
 void forEachPackItem(const Party &party, const std::function<void(const CraftItemRef &, const InventoryItem &)> &visit)
 {
     const int bagCount = bagCountOf(party);
@@ -52,6 +53,19 @@ void forEachPackItem(const Party &party, const std::function<void(const CraftIte
             {
                 visit(packRef(memberIndex, uint8_t(bag), item), item);
             }
+        }
+    }
+
+    if (party.members().empty() || !party.rules().items.hasPouches())
+    {
+        return;
+    }
+
+    for (const uint8_t bag : {InventoryBags::AlchemyPouchBag, InventoryBags::CraftingPouchBag})
+    {
+        for (const InventoryItem &item : InventoryBags::itemsInBag(party, 0, bag))
+        {
+            visit(packRef(0, bag, item), item);
         }
     }
 }
@@ -84,9 +98,13 @@ std::vector<CraftItemRef> materialRefs(const Party &party, const CraftMaterialKe
 }
 
 // Whether an item of this size fits at a cell of the bag without covering another item.
-bool fitsAt(const Character &member, uint8_t bag, const InventoryItem &item, uint8_t gridX, uint8_t gridY)
+bool fitsAt(const Party &party, size_t memberIndex, uint8_t bag, const InventoryItem &item, uint8_t gridX,
+    uint8_t gridY)
 {
-    if (gridX + item.width > Character::InventoryWidth || gridY + item.height > Character::InventoryHeight)
+    const bool pouch = InventoryBags::isPouchBag(bag);
+
+    if (gridX + item.width > (pouch ? InventoryBags::PouchColumns : Character::InventoryWidth)
+        || gridY + item.height > (pouch ? InventoryBags::PouchRows : Character::InventoryHeight))
     {
         return false;
     }
@@ -95,7 +113,7 @@ bool fitsAt(const Character &member, uint8_t bag, const InventoryItem &item, uin
     {
         for (uint8_t x = gridX; x < gridX + item.width; ++x)
         {
-            if (InventoryBags::itemInBagAt(member, bag, x, y) != nullptr)
+            if (InventoryBags::itemInBagAt(party, memberIndex, bag, x, y) != nullptr)
             {
                 return false;
             }
@@ -112,7 +130,7 @@ bool returnToParty(Party &party, const CraftItemRef &from, const InventoryItem &
     const Character *pMember = party.member(from.memberIndex);
     std::optional<InventoryItem> replaced;
 
-    if (pMember != nullptr && fitsAt(*pMember, from.bag, item, from.gridX, from.gridY)
+    if (pMember != nullptr && fitsAt(party, from.memberIndex, from.bag, item, from.gridX, from.gridY)
         && InventoryBags::placeInBag(
             party, from.memberIndex, from.bag, bagCountOf(party), item, from.gridX, from.gridY, replaced))
     {
@@ -130,9 +148,9 @@ std::optional<InventoryItem> CraftingRuntime::itemAt(const Party &party, const C
         return party.equippedItem(ref.memberIndex, ref.slot);
     }
 
-    const Character *pMember = party.member(ref.memberIndex);
-    const InventoryItem *pItem =
-        pMember != nullptr ? InventoryBags::itemInBagAt(*pMember, ref.bag, ref.gridX, ref.gridY) : nullptr;
+    const InventoryItem *pItem = party.member(ref.memberIndex) != nullptr
+        ? InventoryBags::itemInBagAt(party, ref.memberIndex, ref.bag, ref.gridX, ref.gridY)
+        : nullptr;
     return pItem != nullptr ? std::optional<InventoryItem>(*pItem) : std::nullopt;
 }
 
@@ -403,9 +421,9 @@ bool CraftingRuntime::apply(
     }
     else
     {
-        Character *pOwner = party.member(target.memberIndex);
-        InventoryItem *pItem =
-            pOwner != nullptr ? InventoryBags::itemInBagAt(*pOwner, target.bag, target.gridX, target.gridY) : nullptr;
+        InventoryItem *pItem = party.member(target.memberIndex) != nullptr
+            ? InventoryBags::itemInBagAt(party, target.memberIndex, target.bag, target.gridX, target.gridY)
+            : nullptr;
         const bool sameSize = pItem != nullptr && pItem->width == applied.item.width
             && pItem->height == applied.item.height;
 

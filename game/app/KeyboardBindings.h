@@ -87,7 +87,8 @@ enum class KeyboardAction : uint8_t
     Bag2,
     Bag3,
     Bag4,
-    // MAW's crafting bag (zzzMaw_CraftingBag.lua:49-55): with Shift, tags or untags the open bag on the inventory page.
+    // MAW's crafting bag key (zzzMaw_CraftingBag.lua:49-55): with Shift, shows the party's crafting pouch on the
+    // inventory page (and the bags again).
     CraftingBag,
     // MAW: opens the Journal on its Progress tab (unbound by default).
     OpenProgress,

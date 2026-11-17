@@ -657,25 +657,28 @@ void IndoorSceneRuntime::prepareTimers()
     initializeTimers(static_cast<double>(m_worldRuntime.gameMinutes()));
 }
 
-bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
+bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds, bool advanceGameTime)
 {
     if (!m_eventRuntimeState || !m_mapDeltaData || deltaMilliseconds <= 0.0f)
     {
         return false;
     }
 
-    const float deltaGameMinutes = deltaMilliseconds * SecondsPerMillisecond * GameMinutesPerRealSecond;
+    bool stateChanged = false;
 
-    if (deltaGameMinutes > 0.0f)
+    // Turn-based combat moves the clock once per completed turn (advanceTurnBasedGameMinutes); the party's steps still
+    // press plates and take exits.
+    if (advanceGameTime)
     {
+        const float deltaGameMinutes = deltaMilliseconds * SecondsPerMillisecond * GameMinutesPerRealSecond;
         m_worldRuntime.advanceGameMinutes(deltaGameMinutes);
+        stateChanged = updateTimers(deltaGameMinutes);
+        stateChanged = applyMm9TeacherScheduleActivations(
+            m_mm9TeacherScheduleRuntime.update(m_worldRuntime.gameMinutes()),
+            m_worldRuntime,
+            m_worldRuntime) || stateChanged;
     }
 
-    bool stateChanged = updateTimers(deltaGameMinutes);
-    stateChanged = applyMm9TeacherScheduleActivations(
-        m_mm9TeacherScheduleRuntime.update(m_worldRuntime.gameMinutes()),
-        m_worldRuntime,
-        m_worldRuntime) || stateChanged;
     stateChanged = updatePartyFaceTriggers() || stateChanged;
     const IndoorMoveState &moveState = m_partyRuntime.movementState();
     const IndoorBodyDimensions partyBody = {};

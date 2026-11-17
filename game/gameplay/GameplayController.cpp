@@ -125,7 +125,12 @@ bool GameplayController::advanceTurnBasedGameMinutes(float minutes)
     if (pWorldRuntime != nullptr)
     {
         party.rules().skills.updateRegeneration(party, *pWorldRuntime, equivalentRealSeconds);
-        pWorldRuntime->advanceTurnBasedActorTimers(equivalentRealSeconds);
+        // The ruleset's timers (GameSession runs them with no time in turn-based frames).
+        party.rules().spells.updateAuras(party, equivalentRealSeconds);
+        party.rules().combat.updateCombat(party, *pWorldRuntime, equivalentRealSeconds);
+        party.rules().classes.update(party, *pWorldRuntime, equivalentRealSeconds);
+        party.rules().monsters.updateMonsters(*pWorldRuntime, equivalentRealSeconds);
+        pWorldRuntime->advanceTurnBasedWorldTime(equivalentRealSeconds);
     }
 
     return true;

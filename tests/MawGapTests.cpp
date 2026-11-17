@@ -341,6 +341,22 @@ TEST_CASE("MAW makes the halberd artifact Guardian two-handed, its budget double
     CHECK(pGuardian->slotMultiplier == doctest::Approx(2));
 }
 
+TEST_CASE("MAW artifacts take their stat losses: Hell's Cleaver lowers Personality and Intellect")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const ItemTable &items = OpenYAMM::Tests::regressionGameData().itemTable;
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    REQUIRE(items.get(526) != nullptr);
+    Character wearer;
+    Character bonuses = wearer;
+    EquippedItemRuntimeState state;
+    rules.gameRules().items.applyEquippedEnchantEffects(*items.get(526), state, nullptr, nullptr, wearer, bonuses);
+    CHECK(bonuses.magicalBonuses.might > 0);
+    CHECK(bonuses.magicalBonuses.accuracy > 0);
+    CHECK(bonuses.magicalBonuses.personality < 0);
+    CHECK(bonuses.magicalBonuses.intellect < 0);
+}
+
 TEST_CASE("MAW shows a Celestial item at its viewer's level (audit ITM-4)")
 {
     REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
@@ -751,6 +767,11 @@ TEST_CASE("MAW reagents take an item level from where they drop (A4.2)")
     request.dropLevel = 60;
     rules.gameRules().items.rollPlainItem(item, reagent, request);
     CHECK_EQ(item.rulesetFields.dropLevel, 20);
+
+    // MM6's herbs are reagents too.
+    InventoryItem herb;
+    rules.gameRules().items.rollPlainItem(herb, itemDefinition(1762, "Herb", "Misc"), request);
+    CHECK_EQ(herb.rulesetFields.dropLevel, 20);
     request.dropLevel = 300;
     rules.gameRules().items.rollPlainItem(item, reagent, request);
     CHECK_EQ(item.rulesetFields.dropLevel, 30);
@@ -770,6 +791,35 @@ TEST_CASE("MAW reagents take an item level from where they drop (A4.2)")
     InventoryItem potion;
     rules.gameRules().items.rollPlainItem(potion, itemDefinition(222, "Bottle", "Misc"), request);
     CHECK(potion.rulesetFields.empty());
+}
+
+TEST_CASE("MAW rolls MM6's herbs a level and shows their power, like the other reagents")
+{
+    REQUIRE(OpenYAMM::Tests::regressionGameDataLoaded());
+    const OpenYAMM::Tests::RegressionGameData &gameData = OpenYAMM::Tests::regressionGameData();
+    MawRules rules(RulesetOptions{}, MawMapLevels{}, installedItemData());
+    rules.state().continentLevels = {60, 30, 0, 0};
+    Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    party.setRules(&rules.gameRules());
+    std::mt19937 rng(17);
+    ItemGenerationRequest request;
+    request.treasureLevel = 1;
+    request.mode = ItemGenerationMode::ChestLoot;
+    request.dropLevel = 60;
+    const std::optional<InventoryItem> herb = ItemGenerator::generateRandomInventoryItem(gameData.itemTable,
+        gameData.standardItemEnchantTable, gameData.specialItemEnchantTable, request, &party, rng,
+        [](const ItemDefinition &entry)
+        {
+            return entry.equipStat == "Herb";
+        });
+    REQUIRE(herb.has_value());
+    const ItemDefinition *pHerb = gameData.itemTable.get(herb->objectDescriptionId);
+    REQUIRE(pHerb != nullptr);
+    CHECK_EQ(pHerb->equipStat, "Herb");
+    CHECK_EQ(herb->rulesetFields.dropLevel, 20);
+
+    // Base power 1 at item level 20: floor(1 * 1.25 + 15).
+    CHECK_EQ(inspectLine(rules.gameRules().items, *herb, *pHerb, nullptr, "Power: 16"), "Power: 16");
 }
 
 TEST_CASE("MAW clubs keep a rolled Unarmed; a second enchantment within one takes the first's strength (audit ITM-8)")

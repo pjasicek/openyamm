@@ -24,7 +24,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 191;
+constexpr uint32_t SaveVersion = 193;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -923,8 +923,6 @@ void writeValue(BinaryWriter &writer, const CharacterRulesetState &value)
 
         writeValue(writer, value.progressionStoredMasteries);
         writeValue(writer, value.soloStoredMasteries);
-        writeValue(writer, value.craftingBags);
-        writeValue(writer, value.alchemyBags);
     }
 }
 
@@ -976,29 +974,24 @@ bool readValue(BinaryReader &reader, CharacterRulesetState &value)
             || (readValue(reader, value.poisonSeconds) && readValue(reader, value.divineProtectionReadyGameMinutes)
                 && readValue(reader, value.legendaryProtectionReadyGameMinutes));
     };
-    const auto readBagTags = [&reader, &value]()
+    // The bag tags of versions 123 to 191 (a crafting and an alchemy bit per bag): the party's pouches replaced them.
+    const auto readBagTags = [&reader]()
     {
-        if (reader.version() < SaveVersionMawBagTags)
+        if (reader.version() < SaveVersionMawBagTags || reader.version() >= SaveVersionMawPouches)
         {
             return true;
         }
 
         if (reader.version() >= SaveVersionWideBagTags)
         {
-            return readValue(reader, value.craftingBags) && readValue(reader, value.alchemyBags);
+            uint32_t crafting = 0;
+            uint32_t alchemy = 0;
+            return readValue(reader, crafting) && readValue(reader, alchemy);
         }
 
         uint8_t crafting = 0;
         uint8_t alchemy = 0;
-
-        if (!readValue(reader, crafting) || !readValue(reader, alchemy))
-        {
-            return false;
-        }
-
-        value.craftingBags = crafting;
-        value.alchemyBags = alchemy;
-        return true;
+        return readValue(reader, crafting) && readValue(reader, alchemy);
     };
     const auto readBags = [&reader, &value]()
     {
@@ -2037,6 +2030,28 @@ bool readValue(BinaryReader &reader, WorldCompletionRecord &value)
         && readValue(reader, value.timed);
 }
 
+// The party's pouches, in ItemPouch order: the crafting and alchemy pouches since version 192, the quest pouch since
+// 193.
+bool readPouches(BinaryReader &reader, Party::Snapshot &value)
+{
+    if (reader.version() < SaveVersionMawPouches)
+    {
+        return true;
+    }
+
+    const size_t count = reader.version() < SaveVersionMawQuestPouch ? 2 : value.pouches.size();
+
+    for (size_t pouch = 0; pouch < count; ++pouch)
+    {
+        if (!readValue(reader, value.pouches[pouch]))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 bool readWorldCompletions(BinaryReader &reader, Party::Snapshot &value)
 {
     if (reader.version() < SaveVersionWorldCompletions)
@@ -2184,6 +2199,11 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.mm9Hirelings);
     writeValue(writer, value.memberFormationCells);
     writeValue(writer, value.lastOutdoorMapFileName);
+
+    for (const std::vector<InventoryItem> &items : value.pouches)
+    {
+        writeValue(writer, items);
+    }
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -2239,6 +2259,7 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionMm9Hirelings || readValue(reader, value.mm9Hirelings))
         && (reader.version() < SaveVersionMm9Formation || readValue(reader, value.memberFormationCells))
         && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName))
+        && readPouches(reader, value)
         && migrateMm9HirelingStats(reader, value);
 }
 
@@ -5619,13 +5640,21 @@ std::vector<uint32_t> persistentSaveItemIds(const GameSaveData &data)
             appendInventoryItem(item.item);
         }
     };
-    const auto appendCharacterItems = [&itemIds](const Character &member)
+    const auto appendCharacterItems = [&itemIds, &appendInventoryItem](const Character &member)
     {
         for (const InventoryItem &item : member.inventory)
         {
             if (item.objectDescriptionId != 0)
             {
                 itemIds.push_back(item.objectDescriptionId);
+            }
+        }
+
+        for (const auto &[bag, items] : member.rulesetState.storedBags)
+        {
+            for (const InventoryItem &item : items)
+            {
+                appendInventoryItem(item);
             }
         }
 
@@ -5658,6 +5687,14 @@ std::vector<uint32_t> persistentSaveItemIds(const GameSaveData &data)
     for (const Character &member : data.party.members)
     {
         appendCharacterItems(member);
+    }
+
+    for (const std::vector<InventoryItem> &items : data.party.pouches)
+    {
+        for (const InventoryItem &item : items)
+        {
+            appendInventoryItem(item);
+        }
     }
 
     for (const AdventurersInnMember &member : data.party.adventurersInnMembers)

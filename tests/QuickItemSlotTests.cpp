@@ -153,60 +153,13 @@ TEST_CASE("a potion preview says what a drink would restore and cure without dri
     CHECK_EQ(preview.cures, std::vector<CharacterCondition>{CharacterCondition::PoisonMedium});
 }
 
-TEST_CASE("sorting every bag sends crafting and alchemy items to the bags tagged for them")
+TEST_CASE("sorting a tab sends what its bags have no room for to the next tab's free places (OY-651)")
 {
-    using OpenYAMM::Game::BagTag;
     using OpenYAMM::Game::Party;
     using OpenYAMM::Game::PartySeed;
     namespace InventoryBags = OpenYAMM::Game::InventoryBags;
 
-    const auto item = [](uint32_t itemId, uint8_t gridX)
-    {
-        InventoryItem result;
-        result.objectDescriptionId = itemId;
-        result.width = 1;
-        result.height = 1;
-        result.gridX = gridX;
-        return result;
-    };
-    // 1050 a crafting material, 222 a reagent, 1 a sword (the rules' bagTag, by id here).
-    const auto bagTagOf = [](const InventoryItem &stored) -> std::optional<BagTag>
-    {
-        return stored.objectDescriptionId == 1050 ? std::optional<BagTag>(BagTag::Crafting)
-            : stored.objectDescriptionId == 222   ? std::optional<BagTag>(BagTag::Alchemy)
-                                                  : std::nullopt;
-    };
-
-    PartySeed seed;
-    seed.members = {Character{}};
-    Party party;
-    party.seed(seed);
-    Character &member = *party.member(0);
-    member.inventory = {item(1050, 0), item(222, 1), item(1, 2)};
-    InventoryBags::toggleTag(member, 2, BagTag::Alchemy);
-    InventoryBags::toggleTag(member, 3, BagTag::Crafting);
-
-    // The open bag alone keeps everything: it has nowhere else to put an item.
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, false, 4, bagTagOf));
-    CHECK_EQ(InventoryBags::itemsInBag(member, 0).size(), 3u);
-
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, 4, bagTagOf));
-    REQUIRE_EQ(InventoryBags::itemsInBag(member, 0).size(), 1u);
-    CHECK_EQ(InventoryBags::itemsInBag(member, 0)[0].objectDescriptionId, 1u);
-    REQUIRE_EQ(InventoryBags::itemsInBag(member, 2).size(), 1u);
-    CHECK_EQ(InventoryBags::itemsInBag(member, 2)[0].objectDescriptionId, 222u);
-    REQUIRE_EQ(InventoryBags::itemsInBag(member, 3).size(), 1u);
-    CHECK_EQ(InventoryBags::itemsInBag(member, 3)[0].objectDescriptionId, 1050u);
-}
-
-TEST_CASE("sorting a tab sends what finds no bag of its kind there to the next tab's bags of its kind (OY-651)")
-{
-    using OpenYAMM::Game::BagTag;
-    using OpenYAMM::Game::Party;
-    using OpenYAMM::Game::PartySeed;
-    namespace InventoryBags = OpenYAMM::Game::InventoryBags;
-
-    // A reagent (222) as large as a whole bag, so each takes one bag; a sword (1) of one cell.
+    // An item (222) as large as a whole bag, so each takes one bag; a sword (1) of one cell.
     const auto item = [](uint32_t itemId, bool wholeBag)
     {
         InventoryItem result;
@@ -214,10 +167,6 @@ TEST_CASE("sorting a tab sends what finds no bag of its kind there to the next t
         result.width = wholeBag ? uint8_t(Character::InventoryWidth) : 1;
         result.height = wholeBag ? uint8_t(Character::InventoryHeight) : 1;
         return result;
-    };
-    const auto bagTagOf = [](const InventoryItem &stored) -> std::optional<BagTag>
-    {
-        return stored.objectDescriptionId == 222 ? std::optional<BagTag>(BagTag::Alchemy) : std::nullopt;
     };
 
     PartySeed seed;
@@ -227,28 +176,18 @@ TEST_CASE("sorting a tab sends what finds no bag of its kind there to the next t
     Character &member = *party.member(0);
     constexpr int BagCount = 8;
 
-    // Tab I (bags 0-3) all alchemy bags, holding five bag-sized reagents and a sword (more than fits: the sort reads
-    // a bag's items as a list); tab II has an untagged bag 4 with a shield in it and the alchemy bag 5.
-    for (uint8_t bag = 0; bag < 4; ++bag)
-    {
-        InventoryBags::toggleTag(member, bag, BagTag::Alchemy);
-    }
-
-    InventoryBags::toggleTag(member, 5, BagTag::Alchemy);
+    // Tab I (bags 0-3) holds five bag-sized items and a sword (more than fits: the sort reads a bag's items as a
+    // list); tab II has a shield in bag 4.
     member.inventory = {item(222, true)};
     member.rulesetState.storedBags[1] = {item(222, true)};
     member.rulesetState.storedBags[2] = {item(222, true)};
-    member.rulesetState.storedBags[3] = {item(222, true)};
-    InventoryItem shield = item(2, false);
-    member.rulesetState.storedBags[4] = {shield};
-    // A fifth reagent and the sword in bag 3 too: a sort takes every item of the tab's bags as one list.
-    member.rulesetState.storedBags[3].push_back(item(222, true));
-    member.rulesetState.storedBags[3].push_back(item(1, false));
+    member.rulesetState.storedBags[3] = {item(222, true), item(222, true), item(1, false)};
+    member.rulesetState.storedBags[4] = {item(2, false)};
 
-    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, BagCount, bagTagOf));
+    REQUIRE(InventoryBags::sortPartyBags(party, {0}, true, BagCount));
 
-    // Tab I's four alchemy bags take four reagents; the fifth goes to tab II's alchemy bag, not its untagged one, and
-    // the sword to tab II's untagged bag beside the shield.
+    // Tab I's four bags take four of the large items; the fifth and the sword go to tab II's free places: the sword
+    // beside the shield, the large item into the first empty bag.
     for (uint8_t bag = 0; bag < 4; ++bag)
     {
         REQUIRE_EQ(InventoryBags::itemsInBag(member, bag).size(), 1u);
@@ -266,14 +205,8 @@ TEST_CASE("sorting a tab sends what finds no bag of its kind there to the next t
     Party small;
     small.seed(seed);
     Character &alone = *small.member(0);
-
-    for (uint8_t bag = 0; bag < 4; ++bag)
-    {
-        InventoryBags::toggleTag(alone, bag, BagTag::Alchemy);
-    }
-
     alone.inventory = {item(222, true), item(222, true), item(222, true), item(222, true), item(222, true)};
-    CHECK_FALSE(InventoryBags::sortPartyBags(small, {0}, true, 4, bagTagOf));
+    CHECK_FALSE(InventoryBags::sortPartyBags(small, {0}, true, 4));
 }
 
 TEST_CASE("giving the party an item keeps every pointer to its members valid")

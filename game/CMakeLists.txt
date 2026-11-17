@@ -81,6 +81,7 @@ add_library(openyamm_game STATIC
     gameplay/GameplayController.cpp
     gameplay/CorpseLootRuntime.cpp
     gameplay/GameplayLootFilter.cpp
+    gameplay/WorldItemSpotter.cpp
     gameplay/MonsterDeathExplosion.cpp
     gameplay/ChestRuntime.cpp
     gameplay/BountyHuntRuntime.cpp
