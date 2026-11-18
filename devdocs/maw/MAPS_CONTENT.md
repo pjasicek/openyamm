@@ -445,7 +445,8 @@ ruleset package that is mounted only for MAW games, see §3.0).
   - MAW: Same pirate and lizardman respawns; in Insanity stops once `mapvars.piratesSpawned > 25` (counts pirate groups
     10/11 only)
   - Base: Same spawns, no cap (`out01.lua` 463)
-  - Port: Replace 463 with a counter and an Insanity check
+  - Port: Replace 463 with a counter and an Insanity check; its two off-map points (y -66192, 55504) corrected to -6192
+    and 5504, and stranded actors in older saves moved back on load (DEVIATIONS 200)
 - **out03 197 Merchant Guildhouse**
   - MAW: Alliance step when QBit 63 (Overdune's quest done) and not QBit 59, **without Overdune in the party**; same
     rewards (10000 XP, award 5, QBits 13–18 and 59, 4000 gold, topics on NPCs 5/13); always enters house 773
@@ -647,6 +648,8 @@ must come from a declared MAW range at 10000+ (AGENTS.md); MAW reuses empty base
   through MAW's level-sorted pool `monTbl` (`zzMaw-Maps.lua:774`). 14 spawn points (z 1): `(3850|4600|3100, 9350)`,
   `(5500, 8600)`, `(2200, 8600)`, `(6500|1200, 7600|6600|5600)`, `(6500, 3600)`, `(1200, 4600|3600)`. Corpses drop
   nothing. Clearing a level pays `L × 20000` gold and records the wave. Buffs are restored after the reload.
+  Since MAW 2f172096 the Arena's monsters are sized by the level: a B row at `6 + 6 L` (8 in Beyond Madness), the
+  level's second family 2 higher and its third 4 (BALANCE_MODEL.md §7.5).
 - OpenYAMM has a native arena (`d42_1.scene.yml`, `runtime_restrictions.arena`); Endless Arena is a new arena mode
   for that runtime (C++), not a map script. The d42 gate faces (§2.3) belong with it.
 

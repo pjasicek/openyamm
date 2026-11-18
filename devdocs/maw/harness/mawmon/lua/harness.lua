@@ -1,4 +1,4 @@
--- MAW 8967ae88 balance-model harness (line ranges updated from 8fbb48d1) (Lua 5.4 with Lua 5.1/MMExt shims).
+-- MAW 7ddb228c balance-model harness (line ranges updated from 8967ae88) (Lua 5.4 with Lua 5.1/MMExt shims).
 -- usage: lua harness.lua <maw_root> <bolster> <mode> <insanity> <madness> <trueNightmare> <austerity>
 --                        <partyCount> <buffTable: spells|mapping> <statEffectRounding: trunc|round> [levels...]
 local ROOT = arg[1]
@@ -84,7 +84,7 @@ chunk(G .. "zzMaw-Monsters.lua", 770, 796)     -- density tables, GetMonsterExpM
 -- encStrUp selection done in zzMaw-Items.lua:895-901 (BeforeLoadMap)
 encStrUp = vars.AusterityMode and encStrUpAusterity or encStrUpNormal
 -- Estimates.lua with its locals exported for the golden table
-chunk("Scripts/Modules/MawCore/Estimates.lua", 1, 755, [[
+chunk("Scripts/Modules/MawCore/Estimates.lua", 1, 781, [[
 EXPORT = {armor = estimateArmorClass, res = estimateResistance, enchRes = estimateEnchantResistance,
   hit = estimateChanceToGetHit, phys = estimatePhysicalDamageTaken, magic = estimateMagicDamageTaken,
   leg = estimateLegendaryDamageTaken, cover = coverMultiplier, worn = estimateWornArmor}

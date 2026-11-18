@@ -1,6 +1,10 @@
 # The special skills (talents) of an augmented solo run under MAW (devdocs/solo_action/TALENTS.md; tree v2, the
-# user's design of 2026-11-14: devdocs/solo_action/TALENT_TREE_V2_BUILD.md). Only a MAW solo run reads them; a ruleset
+# user's design of 2026-11-14: devdocs/solo_action/TALENT_TREE_V2_BUILD.md; the archetypes of 2026-11-18: one path a
+# character, nine talents a path, devdocs/solo_action/ARCHETYPES_BUILD.md). Only a MAW solo run reads them; a ruleset
 # may replace this table like any other. Numbers are first values to tune in play.
+#
+# The action bar keeps a talent by its place in this list: never move or remove an entry without a save migration
+# (SaveGame.cpp, migrateTalentPaths). New talents go at the end.
 #
 # Each talent:
 #   id, name, tree (arms, archery, arcana, any), kind (passive, active), max_rank (1 to 50, or unlimited).
@@ -16,6 +20,10 @@
 #     arrows and an arrow's chained leaps add nothing).
 #   cooldown_per_crit: the same for each critical hit of an ordinary weapon attack's own arrows and blow (every critical
 #     arrow of a shot counts; a chained leap or a Sweeping Blows blow does not).
+#   cooldown_per_kill: the same for each monster the character kills, by any means.
+#   cooldown_per_cast: the same for each damaging spell cast that hits a monster (once per cast).
+#   rage_cost: the rage an active needs and spends (Arms; 100 is the full bar).
+#   full_distance: where a passive that grows with distance, from `distance`, reaches its value (Long Shot).
 #   targets, share (percent of a normal blow or shot), share_per_skill (percent per point of the tree's weapon skill,
 #     added to share), share_cap, distance (world units), arc (degrees either side of the view).
 #   share_by_rank: an active's share at each rank, in place of share (its {value}).
@@ -32,11 +40,37 @@ keystone_levels: [150, 300]
 # stood toe to toe, so a regenerating bow character could hardly die. Then the tail lengthened (user, 2026-11-15):
 # 1.4 at level 50 as the simulation asks, fading linearly to nothing at 75. Remove the list for no cut.
 early_monster_cut: [[1, 2.5], [5, 2.0], [10, 1.6], [50, 1.4], [75, 1.0]]
+# The solo run's early Regeneration (not a talent; user, 2026-11-18): [character level, share] pairs read as the cut
+# above, the share being what the character gets of the Regeneration skill's own hit points per second (the aura,
+# potions and items are not touched). Lone Discipline lets every class learn the skill, and at low levels it healed a
+# solo faster than monsters could hurt it: half until level 15, then back to the whole along an S-curve by level 75.
+# Only for a character whose class and race cannot learn Regeneration in MAW (user, 2026-11-19): a Troll, Vampire,
+# Dragon, Minotaur or Monk keeps the whole at every level. Remove the list for MAW's Regeneration at every level.
+early_regeneration: [[15, 0.5], [25, 0.54], [35, 0.63], [45, 0.75], [55, 0.87], [65, 0.96], [75, 1.0]]
 # The solo run's experience surcharge (not a talent; POWER_CURVE_DIRECTION.md §8): past level 100 each level costs this
 # much more per level above 100, in place of MAW's 0.005 (MAW 5.0). The solo character trains by it; monster levels and
 # the continent banks keep MAW's curve, and kills give what MAW gives. Halved for solo runs (user, 2026-11-15). Remove
 # the line for MAW's curve.
 experience_surcharge: 0.0025
+# One path a character (user, 2026-11-18): ranks in one of these trees close the others until the talents are forgotten
+# at a training hall. Trees not listed (any) are open to everyone. Remove the line for free mixing.
+paths: [arms, archery, arcana]
+# The Arms path's rage bar (user, 2026-11-18; devdocs/solo_action/ARCHETYPES_RESEARCH.md §3.5). A melee blow that hits
+# gives per_recovery_second for each second of its recovery plus per_monster_bar times the share of the monster's full
+# HP it took; an extra blow (Cleave's other monsters, Sweeping Blows) extra_blow_share of that; a hit taken per_own_bar
+# times the share of the character's full HP it took. At most limit_per_second in all; drain_per_second is lost while
+# no hostile monster has noticed the character. Only a character on the Arms path has the bar.
+rage:
+  maximum: 100
+  per_recovery_second: 6
+  per_monster_bar: 30
+  per_own_bar: 60
+  extra_blow_share: 0.3333
+  limit_per_second: 20
+  drain_per_second: 5
+# What the solo run's own cuts of a hit on the character (Vanguard, Outnumbered, Nimble, Phase, Spell Suppression) leave
+# of it together at the least.
+damage_floor: 0.2
 talents:
   - id: cleave
     name: Cleave
@@ -67,15 +101,17 @@ talents:
     share_cap: 50
     arc: 60
     text: "Every swing also strikes {value} more in the same arc at 30 % + 0.25 % per weapon-skill point (at most 50 %)"
+  # In the Any tree with five ranks of 6 % (user, 2026-11-18; three of 10 in Arms before), and its speed is every
+  # recovery's: weapon attacks and spell casts.
   - id: onslaught
     name: Onslaught
-    tree: arms
+    tree: any
     kind: passive
-    max_rank: 3
+    max_rank: 5
     icon_item: talent_onslaught
-    per_rank: 10
+    per_rank: 6
     duration: 60
-    text: "Each kill: +1 % attack speed, at most {value} stacks; they last 60 s and every kill refreshes them"
+    text: "Each kill: +1 % attack and casting speed, at most {value} stacks; they last 60 s and every kill refreshes them"
   - id: charge
     name: Charge
     tree: arms
@@ -86,21 +122,26 @@ talents:
     cooldown: 25
     cooldown_per_rank: -3
     cooldown_per_attack: 1
+    # A kill takes 3 s off (2026-11-18): kill, dash to the next shooter.
+    cooldown_per_kill: 3
     distance: 2500
     duration: 1.5
-    text: "Dash to the target, strike and stagger it for 1.5 s; each ordinary attack takes 1 s off the cooldown"
-  - id: shield_wall
-    name: Shield Wall
+    text: "Dash to the target, strike and stagger it for 1.5 s; each ordinary attack takes 1 s off the cooldown, each kill 3 s"
+  # Challenge took Shield Wall's place in the list (user, 2026-11-18: Shield Wall removed entirely). The opener: it
+  # needs no rage.
+  - id: challenge
+    name: Challenge
     tree: arms
     kind: active
     max_rank: 3
-    icon_item: talent_shield_wall
+    icon_item: talent_challenge
     requires: expert
-    cooldown: 60
-    cooldown_per_rank: -10
-    duration: 6
-    per_rank: 50
-    text: "With a shield: 50 % less damage for 6 s"
+    cooldown: 30
+    cooldown_per_rank: -4
+    cooldown_per_hit: 1
+    duration: 4
+    duration_per_rank: 1
+    text: "Every hostile that has noticed you cannot shoot or cast for {value} s and comes at you (a boss: half as long); each ordinary attack that hits a monster takes 1 s off the cooldown"
   - id: multishot
     name: Multishot
     tree: archery
@@ -180,18 +221,22 @@ talents:
     max_rank: 3
     icon_item: talent_spell_surge
     requires: master
-    cooldown: 45
-    cooldown_per_rank: -5
+    # 20, 16 and 12 s, and a cast that hits takes 1 s off (2026-11-18; 45, 40, 35 and nothing before).
+    cooldown: 20
+    cooldown_per_rank: -4
+    cooldown_per_cast: 1
     per_rank: 50
-    text: "The next spell costs no SP and hits 50 % harder"
-  - id: resolve
-    name: Resolve
+    text: "The next damaging spell costs no SP and hits 50 % harder; each damaging spell cast that hits a monster takes 1 s off the cooldown"
+  # Arcane Ward took Resolve's place in the list (user, 2026-11-18): resistances sit at MAW's 90 % cap late, where
+  # Resolve did nothing. MAW caps Mana Shield at skill 50 (5 HP an SP); this is the cut after that cap.
+  - id: arcane_ward
+    name: Arcane Ward
     tree: arcana
     kind: passive
-    max_rank: 5
-    icon_item: talent_resolve
-    per_rank: 2
-    text: "+{value} % to all resistances"
+    max_rank: 3
+    icon_item: talent_arcane_ward
+    per_rank: 10
+    text: "Mana Shield spends {value} % fewer SP for the damage it absorbs"
   - id: overload
     name: Overload
     tree: arcana
@@ -201,7 +246,7 @@ talents:
     requires: expert
     per_rank: 10
     targets: 3
-    text: "Area spells: +{value} % damage per monster near the target beyond the first (at most 3 more)"
+    text: "Area spells: +{value} % damage per monster the blast strikes beyond the first (at most 3 more)"
   - id: binding_circle
     name: Binding Circle
     tree: arcana
@@ -226,7 +271,8 @@ talents:
     per_rank: 2
     text: "+{value} % leech on melee, bow and spells; the leech floor grows (÷5 less 0.5 a rank: ÷2.5 at rank 5)"
   # Conditioning replaced Weapon Training, Marksman and Attunement (user, 2026-11-16): the points past the trees go
-  # here, as many as the character has. The first rank gives 10 %, each after 1 % (user, 2026-11-16).
+  # here, as many as the character has. The first rank gives 10 %, each after 1 % (user, 2026-11-16), of the whole
+  # stat: base, permanent bonuses, items and buffs (user, 2026-11-18).
   - id: conditioning
     name: Conditioning
     tree: any
@@ -238,16 +284,16 @@ talents:
     text: "+{value} % to all seven stats"
   # Spell Suppression (user, 2026-11-16): the last cut of every non-physical hit, after armour, resistances and their
   # 90 % cap, so it still counts for a character at the cap. Late Beyond Madness spells hit 2.3 times harder than blows
-  # and come in spikes (devdocs/solo_action/TALENT_TREE_V2_BUILD.md). The first rank gives 8 %, each after 0.8 %, up
-  # to 40 % at rank 41 (user, 2026-11-16; was 50 ranks of 0.8 %). Last in the table so the bar's indexes keep.
+  # and come in spikes (devdocs/solo_action/TALENT_TREE_V2_BUILD.md). The first rank gives 4 %, each after 0.4 %, up
+  # to 20 % at rank 41 (user, 2026-11-17: half the 8 %, 0.8 % and 40 % of 2026-11-16). Last in the table so the bar's indexes keep.
   - id: spell_suppression
     name: Spell Suppression
     tree: any
     kind: passive
     max_rank: 41
     icon_item: talent_spell_suppression
-    first_rank: 8
-    per_rank: 0.8
+    first_rank: 4
+    per_rank: 0.4
     text: "{value} % less damage from every hit that is not physical, after armour, resistances and their cap"
   # Manathirst: Bloodthirst for the spell point bar (user, 2026-11-16), what keeps a Mana Shield up; five ranks of 2 %
   # like it (user, 2026-11-17). An area spell's mana counts for at most three monsters at once.
@@ -259,6 +305,145 @@ talents:
     icon_item: talent_manathirst
     per_rank: 2
     text: "{value} % of the SP bar back the way leech heals, on melee, bow and spells (an area spell's from at most three monsters); its floor grows like Bloodthirst's (÷2.5 at rank 5)"
+  # The archetypes of 2026-11-18 (devdocs/solo_action/ARCHETYPES_RESEARCH.md), appended so the bar's indexes keep.
+  # Arms: the pack is the armour. The three passives count MAW's own "nearby" (512, the legendaries' count).
+  - id: vanguard
+    name: Vanguard
+    tree: arms
+    kind: passive
+    max_rank: 3
+    icon_item: talent_vanguard
+    per_rank: 20
+    distance: 800
+    text: "With a melee weapon drawn: missiles and spells a monster looses from more than 8 m away deal {value} % less"
+  - id: outnumbered
+    name: Outnumbered
+    tree: arms
+    kind: passive
+    max_rank: 3
+    icon_item: talent_outnumbered
+    first_rank: 2
+    per_rank: 1
+    targets: 10
+    distance: 768
+    text: "With a melee weapon drawn: {value} % less damage for each hostile monster within 7.5 m, at most 10 monsters"
+  - id: battle_frenzy
+    name: Battle Frenzy
+    tree: arms
+    kind: passive
+    max_rank: 3
+    icon_item: talent_battle_frenzy
+    first_rank: 2
+    per_rank: 1.5
+    targets: 10
+    distance: 768
+    text: "+{value} % melee damage for each hostile monster within 7.5 m, at most 10 monsters"
+  # The rage bar's two abilities (user, 2026-11-18): each needs the full bar and empties it.
+  - id: heroic_strike
+    name: Heroic Strike
+    tree: arms
+    kind: active
+    max_rank: 3
+    icon_item: talent_heroic_strike
+    requires: expert
+    cooldown: 1
+    rage_cost: 100
+    share_by_rank: [200, 250, 300]
+    recovery: 50
+    text: "On a full rage bar: one blow at {value} % of a normal blow, in half a swing's recovery; it empties the bar"
+  - id: demoralizing_shout
+    name: Demoralizing Shout
+    tree: arms
+    kind: active
+    max_rank: 3
+    icon_item: talent_demoralizing_shout
+    requires: expert
+    cooldown: 45
+    cooldown_per_rank: -5
+    rage_cost: 100
+    duration: 6
+    duration_per_rank: 2
+    per_rank: 30
+    distance: 1024
+    text: "On a full rage bar: hostile monsters within 10 m deal 30 % less damage for {value} s; it empties the bar"
+  # Archery (user, 2026-11-18: Long Shot, Expose Weakness and Hamstring in the user's words; Nimble proposed).
+  - id: long_shot
+    name: Long Shot
+    tree: archery
+    kind: passive
+    max_rank: 3
+    icon_item: talent_long_shot
+    per_rank: 3
+    distance: 1536
+    full_distance: 5120
+    text: "Bow damage grows with the distance to the monster: nothing within 15 m, rising evenly to +{value} % at the bow's full range of 50 m"
+  - id: expose_weakness
+    name: Expose Weakness
+    tree: archery
+    kind: passive
+    max_rank: 3
+    icon_item: talent_expose_weakness
+    per_rank: 3
+    duration: 5
+    text: "A critical bow hit exposes the monster: it takes {value} % more damage for 5 s (not stacking; each critical hit renews it)"
+  - id: hamstring
+    name: Hamstring
+    tree: archery
+    kind: passive
+    max_rank: 3
+    icon_item: talent_hamstring
+    per_rank: 5
+    duration: 3
+    text: "A critical bow hit slows the monster's movement by {value} % for 3 s (not stacking)"
+  - id: nimble
+    name: Nimble
+    tree: archery
+    kind: passive
+    max_rank: 3
+    icon_item: talent_nimble
+    per_rank: 5
+    text: "{value} % less damage while moving"
+  # Arcana: artillery. Spell Surge, Overload and Opening Volley add to one another; they do not multiply.
+  - id: arc
+    name: Arc
+    tree: arcana
+    kind: passive
+    max_rank: 3
+    icon_item: talent_arc
+    requires: expert
+    per_rank: 1
+    share: 30
+    share_per_skill: 0.25
+    share_cap: 50
+    distance: 1024
+    text: "A single-target spell leaps on from the monster it strikes to the nearest other within 10 m, up to {value} times, each at 30 % + 0.25 % per point of your best magic school (at most 50 %)"
+  - id: opening_volley
+    name: Opening Volley
+    tree: arcana
+    kind: passive
+    max_rank: 3
+    icon_item: talent_opening_volley
+    per_rank: 15
+    text: "+{value} % spell damage to a monster at full health"
+  - id: breach
+    name: Breach
+    tree: arcana
+    kind: passive
+    max_rank: 3
+    icon_item: talent_breach
+    per_rank: 5
+    text: "Your spells ignore {value} % of a monster's resistance"
+  - id: phase
+    name: Phase
+    tree: arcana
+    kind: passive
+    max_rank: 3
+    icon_item: talent_phase
+    needs: blink
+    first_rank: 20
+    per_rank: 15
+    duration: 3
+    text: "For 3 s after a Blink you take {value} % less damage"
 keystones:
   - id: cheat_death
     name: Cheat Death

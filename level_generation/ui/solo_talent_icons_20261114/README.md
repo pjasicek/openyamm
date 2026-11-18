@@ -52,6 +52,21 @@ keyed out; the export nudges any such texel, there were none).
 | Any | Conditioning (2026-11-16) | seven-pointed old gold star, a gem of a different colour on each point |
 | Any | Spell Suppression (2026-11-16) | gold gauntlet crushing an orange-violet spell orb into fading sparks |
 | Any | Manathirst (2026-11-16) | Bloodthirst's ivory fang dripping a glowing sapphire-blue mana drop |
+| Arms | Challenge (2026-11-18) | steel-banded war horn blowing three red sound arcs |
+| Arms | Vanguard (2026-11-18) | steel kite shield with a red chevron, arrows snapping against it |
+| Arms | Outnumbered (2026-11-18) | bright great helm inside a ring of dark red enemy heads |
+| Arms | Battle Frenzy (2026-11-18) | raised steel gauntlet fist wreathed in red-orange flame |
+| Arms | Heroic Strike (2026-11-18) | greatsword plunging down into a white-crimson starburst |
+| Arms | Demoralizing Shout (2026-11-18) | roaring steel lion head, red shock rings from its jaws |
+| Archery | Long Shot (2026-11-18) | spyglass and long arrow crossed, a far target at the arrowhead |
+| Archery | Expose Weakness (2026-11-18) | cracked breastplate, an arrow in the crack, green light spilling out |
+| Archery | Hamstring (2026-11-18) | clawed monster leg with an arrow through the calf, thorn vine at the ankle |
+| Archery | Nimble (2026-11-18) | fox springing up in a compact arc, an arrow passing beneath it |
+| Arcana | Arcane Ward (2026-11-18, replaced Resolve) | faceted sapphire crystal shield with a star at its centre |
+| Arcana | Arc (2026-11-18) | three orbs joined by one forked lightning bolt |
+| Arcana | Opening Volley (2026-11-18) | violet comet streaking down, white-hot head |
+| Arcana | Breach (2026-11-18) | lance of light bursting through a shattering ward disc |
+| Arcana | Phase (2026-11-18) | hooded figure of light dissolving into motes |
 | Keystone | Cheat Death | cracked bone skull, a gold spark of life bursting out |
 | Keystone | Unbroken | whole stone heart bound in crossed gold bands |
 
@@ -86,6 +101,16 @@ table that day; their masters and runtime copies stay here, unused.
 
 Manathirst added the same day (`run_batch.sh h "19"`, one generation, no retry; 29,147 Codex tokens) and installed
 the same way.
+
+2026-11-18, the solo archetypes (`devdocs/solo_action/ARCHETYPES_BUILD.md`): fifteen icons for the talents that
+came with the paths (`run_batch.sh i "5, 20, 21, 22"`, `j "23, 24, 13, 29"`, `k "25, 26, 27, 28"`, `l "30, 31, 32"`
+in parallel) and installed the same way; they replace the stand-ins the build shipped with (spell icons and the
+unused Shield Wall, Resolve, Weapon Training, Marksman, Attunement and Pinning Shot icons, whose files stay). One
+retry by the worker's own check (Hamstring) and one by review (`run_batch.sh m "28" "<correction>"`): Nimble's first
+pick (`raw/nimble_master_round1.png`) was a fox stretched flat, a strip that shrank to a sliver at the Talents page's
+19 px rows; the redo springs upward and fills the square. 19 generations for 15 icons, about 210,000 Codex tokens
+(batches i 46,912, j 47,127, k 47,527, l 38,465, m 30,343). Shield Wall and Resolve left the table that day; their
+masters stay here, unused.
 
 Spend: no paid API calls. Codex subscription only: 25 image generations and about 220,000 Codex tokens (batches
 a 45,952, b 41,533, c 49,277, d 50,073, e 32,802).

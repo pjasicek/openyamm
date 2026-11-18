@@ -108,8 +108,9 @@ place of the portrait loop when the HUD is solo. Everything is drawn with existi
 | Ring | `GameplayUiSkin::renderArc` through 360° with the rim material. Not `obsidian_hud_portrait_rim_selected`, which has two gold ovals (the "double oval" the user rejected) | none |
 | Level coin | a solid ellipse, a 360° `renderArc` ring and the level in Arrus gold | none |
 | Weapon socket | the same ring and the main-hand item's inventory icon | existing icons |
+| Rage (Arms path, 2026-11-18) | `renderArc` round the medallion's right side, 3.8 units outside the ring, from the foot up to the crown (start 85°, sweep −165°): track, then `ArcMaterial::Rage` to the bar's share, `RageFull` (gold) when full; the weapon socket sits over it. See `ARCHETYPES_BUILD.md` | none |
 | Readiness (aggro gem) | `renderPortraitReadiness`, placed at the medallion's lower right | existing |
-| Class counter (MAW combo points, Elementalist stacks) | `renderPortraitCounterGems` along the box's top edge | existing |
+| Class counter (MAW combo points, Elementalist stacks) | `renderCounterGemRow` along the box's top edge (built) | existing |
 
 **Data.** The active member (`Party::activeMember()`): `health` and `spellPoints`, the effective maxima
 (`GameMechanics::calculateEffectiveCharacterMaxHealth`, `calculateEffectiveCharacterMaxSpellPoints`), the level, the
@@ -466,7 +467,7 @@ save fields off, they come from another uncommitted save change in the tree (ver
 - Rebindable bar keys (`ActionBar1..10` actions), the Shift row and the signature slot; the weapon slot does not
   repeat while held.
 - Drag and drop onto the bar; a slot's tooltip; cooldown, proc, charges and range states (they need talents).
-- The unit frame's aggro gem and class counter gems (MAW combo points, Elementalist stacks); conditions without
+- The unit frame's aggro gem (the class counter gems are built, see "Class counter gems" below); conditions without
   timers; icons of their own for poison, disease and the other conditions.
 - The special-skills screen (stage 6) and Android (stage 7: the bar's touch slots and `touch_controls.yml`).
 
@@ -604,3 +605,17 @@ matching categories, disabled tabs) and put/move/empty on the bar.
 `selector_ctrl_released` (key 0 emptied), `selector_empty_key` (Ctrl+0 on the empty key), `selector_spells_tab`,
 `selector_search` ("bolt"), `selector_potions_tab`, `selector_potion_assigned` (Cure Wounds on key 0, count 4),
 `selector_move_before` and `selector_spell_moved` (Fire Bolt from key 3 to key 9).
+
+## Class counter gems (built 2026-11-17)
+
+A solo run showed no combo points or Elementalist stacks: the party portraits draw them round the HP arc
+(`level_generation/ui/maw_combo_points_20261025`, option B), and the solo HUD draws no portraits. The unit frame now
+draws the same gems, a straight row centred over the bars on the box's top edge, right of the weapon socket
+(`SoloUnitFrameLayout::counterX/counterY`, `renderCounterGemRow` and the pure `counterGemRowPlaces` in
+`GameplayPortraitGems`). The bottom band was not free: MAW's map progress channel and its tab sit there. Five rubies
+for an Assassin (radius 4.4 units, half-lit for an arrow's half point); ten amber gems for an Elementalist (radius 3.3)
+with the number badge right of the row and the pale gold second lap past ten. The row's badge is wider than the arc's
+(6 + 6 units a digit), because Lucida's digits came out wider than the pill at the unit frame's scale. Hovering the row
+opens the counter's popup below it (`GameplaySoloHud::counterAt`); in solo play the party portraits' hidden gems no
+longer answer the hover. Test: `SoloRunTests` (the row clears the weapon socket and the name row and stays inside the
+box).

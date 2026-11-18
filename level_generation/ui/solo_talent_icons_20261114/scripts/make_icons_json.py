@@ -76,6 +76,51 @@ SUBJECTS = {
     'manathirst': 'ONE large curved bone-ivory fang with a big glossy glowing sapphire-blue mana drop dripping from '
                   'its tip, a faint blue shimmer of light around the drop; the drop and the fang share the main '
                   'silhouette. A sibling of a fang dripping blood, but the drop is clearly blue magic, not water.',
+    # The solo archetypes (2026-11-18, devdocs/solo_action/ARCHETYPES_BUILD.md): fifteen talents.
+    'challenge': 'ONE curved steel-banded war horn with a dark blood-red leather strap, its bell pointing to the '
+                 'right, blowing three bold blood-red sound-wave arcs out of its mouth. The horn and the arcs are '
+                 'the whole shape (no person, no mouth).',
+    'vanguard': 'ONE tall steel kite shield with a single blood-red chevron on its face, tilted forward and to the '
+                'left, with three wooden arrows glancing off and snapping against its face in small white sparks; '
+                'the shield is the main shape and the arrows clearly bounce away from it.',
+    'outnumbered': 'ONE bright closed steel great helm seen from the front in the centre, standing firm, completely '
+                   'encircled by a ring of six small dark blood-red shadowy enemy heads (simple head-and-shoulders '
+                   'shapes) pressing in around it. The bright helm in the dark ring is the main read.',
+    'battle_frenzy': 'ONE raised clenched steel-armoured gauntlet fist seen from the front, wreathed in tall '
+                     'blazing blood-red and orange flames that rise from it in a single flame shape. A fist on '
+                     'fire: fury (no weapon).',
+    'heroic_strike': 'ONE heavy broad steel greatsword plunging straight down, point at the bottom, with a blinding '
+                     'white-and-crimson impact starburst at its tip and a bold vertical red streak trailing above '
+                     'the blade. The starburst at the tip is as large as the hilt.',
+    'demoralizing_shout': 'ONE fierce roaring lion head cast in dark steel, seen from the front, jaws wide open '
+                          'showing fangs, with heavy jagged blood-red shock rings rolling outward from the jaws to '
+                          'both sides. A terrifying roar (no horn).',
+    'long_shot': 'ONE long brass-and-brown-leather spyglass and ONE long slender wooden arrow with green fletching '
+                 'crossed in an X, the arrow pointing to the upper right, with a tiny distant round target ring '
+                 'glinting at the upper right corner beyond the arrowhead.',
+    'expose_weakness': 'ONE dark steel breastplate seen from the front with a jagged crack down its middle, a '
+                       'wooden arrow with green fletching lodged exactly in the crack, and bright leaf-green light '
+                       'spilling out of the crack around the arrow.',
+    'hamstring': 'ONE dark scaly clawed monster leg and foot in side view, mid-stride, with a wooden arrow with '
+                 'green fletching struck through its calf, and a loop of green thorny vine dragging around the '
+                 'ankle. The leg and the arrow through it are the whole shape.',
+    'nimble': 'ONE lithe rust-red fox leaping to the right in side view, body stretched in mid-air, tail streaming, '
+              'with green motion streaks behind it and one arrow passing harmlessly just under it.',
+    'arc': 'THREE small glowing violet-blue orbs set in a curved row from lower left to upper right, joined by one '
+           'bright forked blue-white lightning bolt that leaps from the first through the second to the third. The '
+           'zigzag bolt jumping between the three orbs is the main shape.',
+    'arcane_ward': 'ONE shield-shaped (heater shield) plate made of faceted translucent sapphire-blue crystal, '
+                   'seen from the front, with a bright violet-white star of light at its centre and two thin rings '
+                   'of blue light around it. A flat crystal shield, not a dome and not a bubble.',
+    'opening_volley': 'ONE great blazing violet-blue arcane comet streaking down from the upper left to the lower '
+                      'right, a bright white-hot head with a long flaring violet tail and a few trailing sparks, '
+                      'just before it strikes.',
+    'breach': 'ONE straight lance of bright blue-white arcane light driving from the lower left through the centre '
+              'of a round violet warding disc, bursting out of its far side; the disc shatters into angular glowing '
+              'shards around the hole.',
+    'phase': 'ONE hooded robed figure silhouette (head, shoulders and upper body only, no face) made of translucent '
+             'violet-blue light, its right half dissolving into drifting glowing motes, with a fainter ghostly copy '
+             'of the same silhouette offset just beside it.',
     'cheat_death': 'ONE bone-ivory human skull seen from the front with a jagged crack across its brow, and a '
                    'bright golden spark of life bursting out through the crack.',
     'unbroken': 'ONE heart carved of solid grey stone, bound with crossed bands of old gold, whole and unbroken, '

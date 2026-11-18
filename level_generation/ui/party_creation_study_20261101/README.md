@@ -101,6 +101,12 @@ are in [native/captures/](native/captures/).
   immunities; MAW keeps its own notes.
 - Skills a teacher can teach only later (not a starting choice) are drawn at about half opacity, in their mastery
   colour, so the starting skill and the choices stand out (user, 2 November 2026).
+- Solo run (user, 19 November 2026): ticking it makes Regeneration a fixed starting skill of the adventurer where
+  the run's rules let the class learn it (under MAW every class), and it stops being one of the picks; unticking
+  takes it away again, and the picks made stay (`NewGameScreen::setSoloRun`). The skill list and the skill card
+  read what the class can reach through the game's rules (`ruledSkillReach`: the class table, lifted by MAW's Lone
+  Discipline in a solo run), so the given skill is drawn in its real mastery colour and its card says "now" for
+  Normal and Expert. The mastery table and the party board still read the class table alone.
 - The race card scrolls when a race has more lines than fit (the MAW Dragon), with a scrollbar and narrower text
   while it does. Every menu scroll box (`MenuDesignScreen::scrollViewport`) also scrolls by dragging its content, for
   touch screens: a press that moves 6 logical units becomes a drag and no longer clicks what it started on; settings

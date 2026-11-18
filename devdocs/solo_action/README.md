@@ -4,6 +4,10 @@ A possible mode (a ruleset option, not decided) in which the player controls one
 weapon and shield on screen, swings that land when the blade does, an action bar of spells, buffs and special skills,
 and a character made as strong as possible. Started 2026-11-13.
 
+**Archetypes (2026-11-18):** one talent path per character, nine talents a path, the Arms path's rage bar. The
+research and the user's decisions: [ARCHETYPES_RESEARCH.md](ARCHETYPES_RESEARCH.md); as built:
+[ARCHETYPES_BUILD.md](ARCHETYPES_BUILD.md).
+
 ## Direction (user, 2026-11-13)
 
 Experimental and parallel to the normal game. "Solo" is chosen at new game. It makes a party of one and turns on the

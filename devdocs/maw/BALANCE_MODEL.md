@@ -1,6 +1,6 @@
 # MAW balance model and monster resolution
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12) and `7ddb228c` (2026-11-18) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) and [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) list a change. The tables of section 2 are not regenerated; [data/balance_golden.csv](data/balance_golden.csv) is.
 
 Status: investigation only (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
@@ -162,7 +162,8 @@ with index 0 = 0 unless stated.
   (`BUFF_MULT_PER_SKILL = 0.02`).
 - `masterLearned()` (E:59-66): 12, 20 (insanity), 30 (madness). **Never called.**
 - `estimateWeaponDamageMultiplier(L) = 1 + 0.02 x estimateSkill(L)` (E:68-70).
-- `legendaryRamp(L) = ramp((L - 100) / (420 - 100))` (E:72-77): legendary items phase in from level 100 to 420.
+- `legendaryRamp(L) = ramp((L - 100) / (500 - 100))` (E:72-77): legendary items phase in from level 100 to 500
+  (420 before 7ddb228c).
 
 ### 3.2 Skill and mastery
 
@@ -185,12 +186,21 @@ Resulting skill: 1.0 at level 1, 4.0 at 10, 11.4 at 50, 19.1 at 100, 33.7 at 200
 
 ### 3.3 Weapon (E:98-158)
 
-Constants: `WEAPON_BASE_DICE_DAMAGE = 8`, `WEAPON_TIER_FLAT_DAMAGE = 16`, `WEAPON_FLAT_PER_LEVEL = 0.5`,
+Constants: `WEAPON_BASE_DICE_DAMAGE = 8`, `WEAPON_TIER_FLAT_DAMAGE = 16`, `BASE_TOP_TIER_LEVEL = 100`,
 `WEAPON_FLAT_PER_POWER = 2`, `WEAPON_DICE_PER_POWER = 2`.
 
 - `weaponTierFlat(tier) = 16 x (clamp(tier, 1, 6) - 1) / 5` (E:101-105), default tier `ItemLevel.ExpectedTier = 3.5`.
-  **Not used by the model.**
-- `estimateWeaponFlat(L) = min(0.5 L, 16)` (E:109-111): the expected base type's flat damage.
+- `estimateBaseTier(L) = 1 + 5 x clamp(L / 100, 0, 1)` (E:109-112, 7ddb228c): the ladder rung of the base items the
+  expected character carries, the first at level 0 and the sixth from level 100.
+- `estimateWeaponFlat(L) = weaponTierFlat(estimateBaseTier(L)) = 16 x min(L / 100, 1)` (E:114-116; `min(0.5 L, 16)`
+  before 7ddb228c, which reached 16 at level 32).
+- `referenceWeaponLevel(L) = GetPrimordialCharges(L) x 5` (E:165-167): the item level of the Primordial weapon a
+  drop of this level can be.
+- `estimateWeapon(L)` (E:169-175): `getWeaponDamageForLevel(0, ...)` plus the share `gearedFraction(L)` of what
+  `getWeaponDamageForLevel(referenceWeaponLevel(L), ...)` has over it, for the total, the dice and the flat part.
+  The attack and power estimates read it (they read `getWeaponDamageForLevel(L, ...)` before).
+- `estimateWeaponLevelDamage(L) = getWeaponLevelDamage(referenceWeaponLevel(L), two-handed, estimateWeaponFlat(L))
+  x gearedFraction(L)` (E:177-179): the enchant base of the power and spell power estimates.
 - `getWeaponDamageForLevel(IL, twoHanded, flat)` (E:120-139), with `power = min(ItemLevel.PowerFor(IL), 255)` and
   `PowerFor(IL) = min(floor(IL/5), 100)`:
   - `flatPower = floor(power/2)`; `powerFlat = 2 x flatPower`; `powerDice = 4 x (power - flatPower)`
@@ -267,19 +277,22 @@ stat (Might, Endurance, Speed, Luck, Accuracy, Intellect). 21.5 at level 1, 88.9
 
 ### 3.7 Defence (E:347-437)
 
-- `EXPECTED_NEARBY_MONSTERS = 5`, `ARMOR_REFERENCE_AC = 116`.
-- `estimateWornArmor(L) = (116 + 116 x c / 40) x gearedFraction(L)` (E:350-354), `c = GetPrimordialCharges(L) =
-  min(max(round(1.2 PowerFor(L)), PowerFor(L) + 4), 255)` (`zzMaw-Items.lua:512-529`), `Formulas.chargesArmorAC`.
+- `EXPECTED_NEARBY_MONSTERS = 5`, `ARMOR_REFERENCE_AC = 116`, `ARMOR_TIER1_SHARE = 0.21`.
+- `armorTierAC(tier) = 116 x (0.21 + 0.79 x (tier - 1) / 5)` (E:372-375): the base armour of a ladder rung.
+- `estimateWornArmor(L) = armorTierAC(estimateBaseTier(L)) + 116 x c / 40 x gearedFraction(L)` (E:377-381),
+  `c = GetPrimordialCharges(L) = min(max(round(1.2 PowerFor(L)), PowerFor(L) + 4), 255)` (`zzMaw-Items.lua:512-529`),
+  `Formulas.chargesArmorAC`. Before 7ddb228c the whole `116 + 116 x c / 40` was scaled by the geared share.
 - `estimateArmorClass(L) = worn x (1 + 0.5 legendaryRamp + gradualRow(skillItemAC[Chain] = {3, 4, 5, 6}, s, m) x s
   / 100) + buffFlat(Stone Skin 38, s, m, L, 4)` (E:356-366; `LEGENDARY_28_ARMOR = 0.5`).
 - `estimateResistance(L) = worn x gradualRow(skillItemRes[Chain] = {1, 2, 3, 4}, s, m) x s / 100 + buffFlat(Fire
   Resistance 3, s, m, L) + statEffect(stat)` (E:368-376): one element stands for all six; Luck adds the stat effect.
-- `estimateEnchantResistance(L) = (GetMaxEnchantStrength(L) x 100 / 200) x (1 + 0.5 legendaryRamp)` (E:378-383): a
+- `estimateEnchantResistance(L) = (GetMaxEnchantStrength(L) x 100 / 200) x gearedFraction(L) x (1 + 0.5
+  legendaryRamp)` (E:405-410; the geared share since 7ddb228c): a
   ring resistance roll (`Formulas.resistanceEnchantPower`, `ringReductionDivisor = 200`), `LEGENDARY_16_RESISTANCE`.
 - `estimateChanceToGetHit(L) = 1 / (1 + stat / (100 + stat) x 0.5)` (E:385-387, `Formulas.chanceToBeHit` with the
   monster at the same level, `speedDodgeShare = 0.5`).
 - `estimatePhysicalDamageTaken(L) = max(1 / (AC / (200 + L) + 1), 0.1)` (E:389-392).
-- `estimateMagicDamageTaken(L) = max(1 / (res / (100 + L) + 1) x max(1 - buffMult(Shield 17), 0.7)
+- `estimateMagicDamageTaken(L) = max(1 / (res / (100 + 2 L) + 1) x max(1 - buffMult(Shield 17), 0.7)
   x 1 / (enchantRes / 100 + 1), 0.1)` (E:394-403).
 - `estimateLegendaryDamageTaken(L) = (1 - 0.10 r) x (1 - (1 - 0.97^5) r)`, r = legendaryRamp (E:405-412;
   `LEGENDARY_18_REDUCTION = 0.10`, `LEGENDARY_22_PER_MONSTER = 0.03`).
@@ -321,7 +334,7 @@ Constants: `expectedEnchantCoeff = enchantbonusdamage[46].Coeff (0.5) x ENCHANT_
 `LEGENDARY_11_DAMAGE = 0.15`, `LEGENDARY19_ENCHANT_MULT = 1.5` (`zzMaw-Items.lua:2097`).
 
 ```
-(wDmg, wDice, wFlat) = getWeaponDamageForLevel(L, two-handed, estimateWeaponFlat(L))
+(wDmg, wDice, wFlat) = estimateWeapon(L)                               (3.3; since 7ddb228c)
 melee   = getMeleeSkill(L);              wsm = 1 + skillDamage[Sword] (2) x melee / 100
 arms    = 1.5 s;                         armsBase = GGMV(armsmasterSkill.Damage = {0, 1, 1, 1.5}, arms, m(arms)) x arms
 scal    = 0 + wFlat + 0.5 wDice + armsBase
@@ -335,7 +348,7 @@ cc      = stat / min(500 + 5L, 3000) + 0.05 + 0.1 r + buffMult(Fate 47)      (lu
 cd      = stat / min(250 + 2.5L, 2000 or 3000 in madness) + 1.5 - 1
 critM   = 1 + min(cc, 1) x cd;       damage *= critM
 encL    = (1 + 0.5 r) x (1 + (critM - 1) r)                                    (legendary 19, crits on enchants)
-encBase = getWeaponLevelDamage(L, two-handed, wFlat) x encL
+encBase = estimateWeaponLevelDamage(L) x encL
 damage += encBase x 0.5 x min(L / 100, 1) + encBase x GGMV(fireAuraDamage = {0.1, 0.15, 0.2, 0.25}, s, m)
 damage *= min(1 + 0.05 x 5 x r, 2) x (1 + 0.15 r)                             (legendaries 21 and 11)
 damage *= max(cc, 1)                                                           (crit chance overflow)
@@ -437,7 +450,7 @@ Two `--[[ ]]` test loops: a healing readout (HPS as a share of max HP for levels
 - `fireAuraDamage`: `{0.1,0.15,0.2,0.25}` (`zzMaw-Items.lua:4283`)
 - `MawCore.ItemLevel`: `PerPower 5`, `POWER_CAP 100`, `POWER_HARD_CAP 255`, `Tiers 6`, `ExpectedTier 3.5`
   (`Modules/MawCore/ItemLevel.lua:5-24`)
-- `Formulas`: `damageFloor 0.1`, `soloCoverDamageTaken 0.5`, armour `200 + L`, resistance `100 + L`,
+- `Formulas`: `damageFloor 0.1`, `soloCoverDamageTaken 0.5`, armour `200 + L`, resistance `100 + 2 L` (`100 + L` before 7ddb228c),
   `speedDodgeShare 0.5`, `physicalVitalityShare 0.5`, `hitAtPar 0.75`, `hitMax 1`, Bless hit 0.05-0.10, spell scales,
   crit (`luck/min(500+5L,3000) + 0.05`, `stat/min(250+2.5L, 2000/3000) + 1.5`, spell `/4`), `enlightenmentManaPerSkill
   {0.5,1,1.5,2}`, `ringReductionDivisor 200`, `chargesArmorAC = ref x c/40` (`Modules/MawCore/Formulas.lua`)
@@ -604,9 +617,11 @@ from the banks.
 
 - **Dimension maps** (`mapvars.mapAffixes`): `L = base + extra + Power x 10 + 20`; no party bolster, no horizontal or
   madness rule (`M:439-443`). Shown level: `Power x 10 + 20 + round(mean)`.
-- **Arena d42**: `L = max(6 base - 4.8 (base - LB) + 2 adjust, 5)`, plus `600 + 3.5 x ((highestArenaWave + 1) x 3 -
-  #monTbl)` once the wave counter passes the end of the C-tier family list (`M:577-589`). Arena waves pick family
-  `monTbl[(level x 3 - 2 + k) % #monTbl]` ([COMBAT.md](COMBAT.md) §6.7).
+- **Arena d42** (7ddb228c): with `A` the Endless Arena's level (the one being fought, else the next one) and
+  `step = 6` (8 in Beyond Madness), a B row sits at `step + A x step`, 2 higher for the family of the level's second
+  wave and 4 for its third; `L = max(that + 1.2 (base - LB), 5)` (`M:577-589`). Arena waves pick family
+  `monTbl[(level x 3 - 2 + k) % #monTbl]` ([COMBAT.md](COMBAT.md) §6.7). Before: `L = max(6 base - 4.8 (base - LB)
+  + 2 adjust, 5)`, plus 600 and 3.5 a wave once the waves ran past the family list.
 - **Bounty maps**: `L = base + mawBounty` for every monster on the map, `mawBounty = max(getPartyLevel(4) - LB(target)
   / 1.5, 0)` (`M:591-593`, `BountyHunt.lua:214`). The map variable is never cleared, so the whole town keeps that level.
 - **Resets**: +20 per reset of that dungeon (7.1); not available in Road to Insanity and Beyond Madness.

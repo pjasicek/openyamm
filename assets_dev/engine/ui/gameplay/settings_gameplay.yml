@@ -465,7 +465,7 @@ elements:
       visible: true
       interactive: false
       text:
-        value: Turn-based combat
+        value: Fast mode
         font: fondamento
         color: '#e0c990'
         align_x: left
@@ -475,7 +475,24 @@ elements:
     - id: SettingsGameplayGroup3
       anchor: top_left
       offset_x: 0.0
-      offset_y: 432.6938
+      offset_y: 369.977
+      width: 525.3333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Turn-based combat
+        font: fondamento
+        color: '#e0c990'
+        align_x: left
+        align_y: middle
+        scale: 0.4
+        pad_x: 0.0
+    - id: SettingsGameplayGroup4
+      anchor: top_left
+      offset_x: 0.0
+      offset_y: 525.2773
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -489,10 +506,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsGameplayGroup4
+    - id: SettingsGameplayGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 513.0026
+      offset_y: 605.5861
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -506,10 +523,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsGameplayGroup5
+    - id: SettingsGameplayGroup6
       anchor: top_left
       offset_x: 0.0
-      offset_y: 666.7871
+      offset_y: 759.3706
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -523,10 +540,10 @@ elements:
         align_y: middle
         scale: 0.4
         pad_x: 0.0
-    - id: SettingsGameplayGroup6
+    - id: SettingsGameplayGroup7
       anchor: top_left
       offset_x: 0.0
-      offset_y: 735.5791
+      offset_y: 828.1626
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -771,10 +788,70 @@ elements:
       asset:
         default: hud_x2/menus/omenu_toggle_off.png
         selected: hud_x2/menus/omenu_toggle_on.png
-    - id: SettingsGameplayTurnBasedMonsterSpeedLabel
+    - id: SettingsGameplayFastModeSpeedLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 302.9935
+      width: 216.7083
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Fast mode speed
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsGameplayFastModeSpeedValue
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 302.9935
+      width: 522.1333
+      height: 18.1333
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: '{fast_mode_speed}'
+        font: fondamento
+        color: '#e0c990'
+        align_x: center
+        align_y: middle
+        scale: 0.45
+        pad_x: 0.0
+    - id: SettingsGameplayFastModeSpeedControl
+      anchor: top_left
+      offset_x: 5.6
+      offset_y: 323.4935
+      width: 514.1333
+      height: 16.0
+      z_index: 10
+      visible: true
+      interactive: true
+    - id: SettingsGameplayFastModeSpeedDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 342.9935
+      width: 522.1333
+      height: 11.5168
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The game speed while fast mode is on. Its key (F2 unless rebound) turns fast mode on and off.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsGameplayTurnBasedMonsterSpeedLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 395.577
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -791,7 +868,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 302.9935
+      offset_y: 395.577
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -808,7 +885,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 323.4935
+      offset_y: 416.077
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -817,7 +894,7 @@ elements:
     - id: SettingsGameplayTurnBasedMonsterSpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 342.9935
+      offset_y: 435.577
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -834,7 +911,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 365.7103
+      offset_y: 458.2938
       width: 216.7083
       height: 18.1333
       z_index: 10
@@ -851,7 +928,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedValue
       anchor: top_left
       offset_x: 1.6
-      offset_y: 365.7103
+      offset_y: 458.2938
       width: 522.1333
       height: 18.1333
       z_index: 10
@@ -868,7 +945,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedControl
       anchor: top_left
       offset_x: 5.6
-      offset_y: 386.2103
+      offset_y: 478.7938
       width: 514.1333
       height: 16.0
       z_index: 10
@@ -877,7 +954,7 @@ elements:
     - id: SettingsGameplayTurnBasedPartySpeedDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 405.7103
+      offset_y: 498.2938
       width: 522.1333
       height: 11.5168
       z_index: 10
@@ -894,7 +971,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 458.2938
+      offset_y: 550.8773
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -911,7 +988,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 474.5023
+      offset_y: 567.0858
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -928,7 +1005,7 @@ elements:
     - id: SettingsGameplayMm9LootInOlderWorldsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 461.8359
+      offset_y: 554.4194
       width: 70.4
       height: 32.158
       z_index: 10
@@ -940,7 +1017,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 538.6026
+      offset_y: 631.1861
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -957,7 +1034,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 554.8111
+      offset_y: 647.3946
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -975,7 +1052,7 @@ elements:
     - id: SettingsGameplayWorkbenchKeepMixedPotionsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 547.9031
+      offset_y: 640.4866
       width: 70.4
       height: 32.158
       z_index: 10
@@ -987,7 +1064,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 600.5615
+      offset_y: 693.145
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1004,7 +1081,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 616.77
+      offset_y: 709.3535
       width: 435.7333
       height: 34.5504
       z_index: 10
@@ -1023,7 +1100,7 @@ elements:
     - id: SettingsGameplayUpkeepAutoBrewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 609.862
+      offset_y: 702.4455
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1035,7 +1112,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 692.3871
+      offset_y: 784.9706
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1052,7 +1129,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 708.5956
+      offset_y: 801.1791
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1069,7 +1146,7 @@ elements:
     - id: SettingsGameplaySkipEventCutscenesControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 690.1708
+      offset_y: 782.7543
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1081,7 +1158,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 761.1791
+      offset_y: 853.7626
       width: 382.9333
       height: 14.0752
       z_index: 10
@@ -1098,7 +1175,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 777.3876
+      offset_y: 869.9711
       width: 382.9333
       height: 23.0336
       z_index: 10
@@ -1115,7 +1192,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsControl
       anchor: top_left
       offset_x: 400.5333
-      offset_y: 772.8002
+      offset_y: 865.3837
       width: 88.5333
       height: 16.0
       z_index: 10
@@ -1124,7 +1201,7 @@ elements:
     - id: SettingsGameplayQuicksaveSlotsValue
       anchor: top_left
       offset_x: 497.0666
-      offset_y: 774.9335
+      offset_y: 867.517
       width: 26.6667
       height: 11.7333
       z_index: 10

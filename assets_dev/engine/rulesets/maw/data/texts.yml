@@ -1005,52 +1005,52 @@ class_skills:
         current hit points (0.1 % per point, at least 1 damage per point).
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     AirMagic:
       append: >-
         Shaman: all damage you take is reduced by <good>{school_cut:1}</> %.
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     WaterMagic:
       append: >-
         Shaman: every hit you take is reduced by a further <good>{school_flat_cut}</> damage after
         resistances.
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     EarthMagic:
       append: >-
         Shaman: your melee blows deal 0.5, 1, 1.5 or 2 extra damage per point at Novice, Expert, Master or
         Grandmaster.
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     SpiritMagic:
       append: >-
         Shaman: your melee damage is raised by <good>{school_percent:1}</> % (1 % per point).
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     MindMagic:
       append: >-
         Shaman: each of your melee blows restores <mana>{mind_sp}</> spell points.
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
     BodyMagic:
       append: >-
         Shaman: each of your melee blows restores <good>{body_hp}</> hit points.
 
         Every point in any of the seven schools also adds 0.5 % to a Shaman's spell damage and 0.25 % to
-        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell costs
-        and healing.
+        healing, and every 7 points across the seven schools count as 1 point of Ascension for spell damage,
+        healing and costs.
   seraphim:
     SpiritMagic:
       append: >-

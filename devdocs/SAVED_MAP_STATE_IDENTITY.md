@@ -63,6 +63,13 @@ map a floor check cannot tell the right room from the far side of a moved gate o
 is the one place the new build is authored to receive the party. A map reached by travel is entered at the move's
 destination as always.
 
+## Map instances
+
+A map may have a second state beside its own: an instance (`GameSession::mapInstanceId`, MAW's dimension rifts,
+[devdocs/maw/DIMENSION_INSTANCES_PLAN.md](maw/DIMENSION_INSTANCES_PLAN.md)). It lies under the map's key followed by
+`#` and the instance id, carries the same layout identity as the map and is judged and reset by the same rule, on its
+own: resetting the instance's state leaves the map's, and the other way round.
+
 ## Saves without identities
 
 States in saves before version 160 read identity 0, unknown. They are kept for the MM6, MM7 and MM8 worlds, whose

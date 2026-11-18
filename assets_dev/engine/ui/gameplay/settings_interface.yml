@@ -492,7 +492,7 @@ elements:
     - id: SettingsInterfaceGroup4
       anchor: top_left
       offset_x: 0.0
-      offset_y: 582.1955
+      offset_y: 632.6376
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -509,7 +509,7 @@ elements:
     - id: SettingsInterfaceGroup5
       anchor: top_left
       offset_x: 0.0
-      offset_y: 790.797
+      offset_y: 841.2391
       width: 525.3333
       height: 18.1333
       z_index: 10
@@ -1020,10 +1020,63 @@ elements:
         align_y: middle
         scale: 0.71529
         pad_x: 6.9333
-    - id: SettingsInterfaceContextActionPopupLabel
+    - id: SettingsInterfaceIndoorMinimapArrowLabel
       anchor: top_left
       offset_x: 1.6
       offset_y: 539.0035
+      width: 395.2
+      height: 14.0752
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: Indoor map arrow
+        font: menu_arrus
+        color: '#eadfc6'
+        align_x: left
+        align_y: middle
+        scale: 0.74105
+        pad_x: 0.0
+    - id: SettingsInterfaceIndoorMinimapArrowDescription
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 555.212
+      width: 395.2
+      height: 23.0336
+      z_index: 10
+      visible: true
+      interactive: false
+      text:
+        value: The colour of the party's arrow on the minimap indoors, where the walls are drawn in white.
+        font: menu_lucida
+        color: '#aeb5a5'
+        align_x: left
+        align_y: middle
+        scale: 0.60235
+        pad_x: 0.0
+    - id: SettingsInterfaceIndoorMinimapArrowControl
+      anchor: top_left
+      offset_x: 412.8
+      offset_y: 546.8912
+      width: 110.9333
+      height: 23.4667
+      z_index: 10
+      visible: true
+      interactive: true
+      asset:
+        default: hud_x2/menus/omenu_text_field.png
+      text:
+        value: '{indoor_minimap_arrow}'
+        font: menu_lucida
+        color: '#e9dcc0'
+        align_x: left
+        align_y: middle
+        scale: 0.71529
+        pad_x: 6.9333
+    - id: SettingsInterfaceContextActionPopupLabel
+      anchor: top_left
+      offset_x: 1.6
+      offset_y: 589.4456
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1040,7 +1093,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 555.212
+      offset_y: 605.6541
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1057,7 +1110,7 @@ elements:
     - id: SettingsInterfaceContextActionPopupControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 536.7872
+      offset_y: 587.2293
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1069,7 +1122,7 @@ elements:
     - id: SettingsInterfacePartyFrameLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 607.7955
+      offset_y: 658.2376
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1086,7 +1139,7 @@ elements:
     - id: SettingsInterfacePartyFrameDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 624.004
+      offset_y: 674.4461
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1103,7 +1156,7 @@ elements:
     - id: SettingsInterfacePartyFrameControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 605.5792
+      offset_y: 656.0213
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1115,7 +1168,7 @@ elements:
     - id: SettingsInterfaceItemButtonsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 646.7208
+      offset_y: 697.1629
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1132,7 +1185,7 @@ elements:
     - id: SettingsInterfaceItemButtonsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 662.9293
+      offset_y: 713.3714
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1149,7 +1202,7 @@ elements:
     - id: SettingsInterfaceItemButtonsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 650.2629
+      offset_y: 700.705
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1161,7 +1214,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 697.1629
+      offset_y: 747.605
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1178,7 +1231,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 713.3714
+      offset_y: 763.8135
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1195,7 +1248,7 @@ elements:
     - id: SettingsInterfaceQuickItemRingsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 700.705
+      offset_y: 751.1471
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1207,7 +1260,7 @@ elements:
     - id: SettingsInterfacePotionExpiryWarningsLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 747.605
+      offset_y: 798.0471
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1224,7 +1277,7 @@ elements:
     - id: SettingsInterfacePotionExpiryWarningsDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 763.8135
+      offset_y: 814.2556
       width: 435.7333
       height: 11.5168
       z_index: 10
@@ -1241,7 +1294,7 @@ elements:
     - id: SettingsInterfacePotionExpiryWarningsControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 745.3887
+      offset_y: 795.8308
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1253,7 +1306,7 @@ elements:
     - id: SettingsInterfaceRarityGlowLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 816.397
+      offset_y: 866.8391
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1270,7 +1323,7 @@ elements:
     - id: SettingsInterfaceRarityGlowDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 832.6055
+      offset_y: 883.0476
       width: 395.2
       height: 11.5168
       z_index: 10
@@ -1287,7 +1340,7 @@ elements:
     - id: SettingsInterfaceRarityGlowControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 818.5263
+      offset_y: 868.9684
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1306,7 +1359,7 @@ elements:
     - id: SettingsInterfaceCraftPreviewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 855.3223
+      offset_y: 905.7644
       width: 395.2
       height: 14.0752
       z_index: 10
@@ -1323,7 +1376,7 @@ elements:
     - id: SettingsInterfaceCraftPreviewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 871.5308
+      offset_y: 921.9729
       width: 395.2
       height: 23.0336
       z_index: 10
@@ -1341,7 +1394,7 @@ elements:
     - id: SettingsInterfaceCraftPreviewControl
       anchor: top_left
       offset_x: 412.8
-      offset_y: 863.21
+      offset_y: 913.6521
       width: 110.9333
       height: 23.4667
       z_index: 10
@@ -1360,7 +1413,7 @@ elements:
     - id: SettingsInterfaceLootSparkleLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 905.7644
+      offset_y: 956.2065
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1377,7 +1430,7 @@ elements:
     - id: SettingsInterfaceLootSparkleDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 921.9729
+      offset_y: 972.415
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1395,7 +1448,7 @@ elements:
     - id: SettingsInterfaceLootSparkleControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 909.3065
+      offset_y: 959.7486
       width: 70.4
       height: 32.158
       z_index: 10
@@ -1407,7 +1460,7 @@ elements:
     - id: SettingsInterfaceShopListViewLabel
       anchor: top_left
       offset_x: 1.6
-      offset_y: 956.2065
+      offset_y: 1006.6486
       width: 435.7333
       height: 14.0752
       z_index: 10
@@ -1424,7 +1477,7 @@ elements:
     - id: SettingsInterfaceShopListViewDescription
       anchor: top_left
       offset_x: 1.6
-      offset_y: 972.415
+      offset_y: 1022.8571
       width: 435.7333
       height: 23.0336
       z_index: 10
@@ -1442,7 +1495,7 @@ elements:
     - id: SettingsInterfaceShopListViewControl
       anchor: top_left
       offset_x: 453.3333
-      offset_y: 959.7486
+      offset_y: 1010.1907
       width: 70.4
       height: 32.158
       z_index: 10

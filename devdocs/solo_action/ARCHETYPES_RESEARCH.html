@@ -1,0 +1,860 @@
+<title>Solo Archetypes Research</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fondamento&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column (about 70 characters) with wider bands for tables, the path sketch and the calculators.
+   Carved stone and brass, after the game's Obsidian screens; Fondamento is the game's own button face. */
+:root {
+  --bg: #eceff0;
+  --surface: #f8f9f9;
+  --surface-2: #e2e6e8;
+  --ink: #14191c;
+  --ink-2: #47525a;
+  --ink-3: #6b767d;
+  --line: #cdd4d8;
+  --brass: #7d5f16;
+  --brass-soft: #e9dfc4;
+  --arms: #e34948;
+  --archery: #1baf7a;
+  --arcana: #6250d6;
+  --series-1: #2a78d6;
+  --series-2: #eb6834;
+  --display: "Fondamento", "Palatino Linotype", Palatino, Georgia, serif;
+  --body: "IBM Plex Sans", "Segoe UI", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0f1213; --surface: #171b1d; --surface-2: #20262a; --ink: #e9e5d9; --ink-2: #b4b9b6; --ink-3: #8a9294;
+    --line: #2c3337; --brass: #d3aa4e; --brass-soft: #3a3220; --arms: #e66767; --archery: #199e70;
+    --arcana: #9085e9; --series-1: #3987e5; --series-2: #d95926; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0f1213; --surface: #171b1d; --surface-2: #20262a; --ink: #e9e5d9; --ink-2: #b4b9b6; --ink-3: #8a9294;
+  --line: #2c3337; --brass: #d3aa4e; --brass-soft: #3a3220; --arms: #e66767; --archery: #199e70;
+  --arcana: #9085e9; --series-1: #3987e5; --series-2: #d95926; color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body { background: var(--bg); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.55; }
+.wrap { max-width: 1060px; margin: 0 auto; padding-block: 28px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.col { max-width: 720px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 400; text-wrap: balance; margin: 0; }
+h1 { font-size: clamp(2rem, 5vw, 3rem); line-height: 1.1; }
+h2 { font-size: 1.75rem; line-height: 1.2; padding-top: 12px; border-top: 1px solid var(--line); margin-top: 56px; }
+h3 { font-size: 1.25rem; margin-top: 30px; }
+p { margin: 12px 0 0; }
+ul, ol { margin: 12px 0 0; padding-left: 22px; }
+li { margin-top: 6px; }
+a { color: var(--brass); }
+a:focus-visible, button:focus-visible, input:focus-visible, summary:focus-visible { outline: 2px solid var(--brass); outline-offset: 2px; }
+code { font-family: var(--mono); font-size: 0.86em; background: var(--surface-2); padding: 1px 5px; border-radius: 3px; overflow-wrap: anywhere; }
+q { font-style: italic; color: var(--ink-2); }
+.lede { font-size: 1.1rem; color: var(--ink-2); margin-top: 14px; }
+.status { display: inline-flex; flex-wrap: wrap; gap: 4px 8px; align-items: center; font-family: var(--mono); font-size: 0.78rem;
+  letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); border: 1px solid var(--line); padding: 4px 10px; }
+.status b { color: var(--brass); font-weight: 500; }
+nav.toc { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 22px; font-size: 0.95rem; }
+nav.toc a { text-decoration: none; border-bottom: 1px solid var(--line); color: var(--ink); }
+nav.toc a:hover { border-color: var(--brass); }
+.src { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-3);
+  border: 1px solid var(--line); padding: 0 5px; white-space: nowrap; vertical-align: 1px; }
+.note { color: var(--ink-2); font-size: 0.92rem; }
+
+/* answers */
+.answers { display: grid; gap: 0; margin-top: 18px; border-top: 1px solid var(--line); }
+.answers > div { display: grid; grid-template-columns: minmax(0, 15rem) minmax(0, 1fr); gap: 4px 28px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+.answers dt { font-family: var(--display); font-size: 1.15rem; line-height: 1.3; }
+.answers dd { margin: 0; min-width: 0; }
+.answers dd strong { font-weight: 600; }
+@media (max-width: 640px) { .answers > div { grid-template-columns: minmax(0, 1fr); } }
+
+/* figures of the archer */
+.figures { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 0; margin-top: 18px; border: 1px solid var(--line); background: var(--surface); }
+.figures > div { padding: 14px 16px; border-right: 1px solid var(--line); min-width: 0; }
+.figures > div:last-child { border-right: 0; }
+.figures .n { font-family: var(--mono); font-weight: 500; font-size: 1.6rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.figures .l { font-size: 0.86rem; color: var(--ink-2); margin-top: 2px; }
+@media (max-width: 760px) { .figures { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .figures > div:nth-child(2) { border-right: 0; } .figures > div:nth-child(-n+2) { border-bottom: 1px solid var(--line); } }
+
+/* tables */
+.tw { overflow-x: auto; margin-top: 16px; border: 1px solid var(--line); background: var(--surface); }
+.tw.narrow { max-width: 720px; }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; vertical-align: top; padding: 9px 12px; border-bottom: 1px solid var(--line); }
+tr:last-child td { border-bottom: 0; }
+th { font-weight: 600; font-size: 0.78rem; letter-spacing: 0.05em; text-transform: uppercase; color: var(--ink-2); background: var(--surface-2); white-space: nowrap; }
+td.num, th.num { text-align: right; font-family: var(--mono); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.name { font-weight: 600; white-space: nowrap; }
+td.nw { white-space: nowrap; }
+tr.pick td { background: var(--brass-soft); }
+.tag { display: inline-block; font-family: var(--mono); font-size: 0.7rem; letter-spacing: 0.04em; text-transform: uppercase;
+  padding: 1px 6px; border: 1px solid var(--line); color: var(--ink-2); white-space: nowrap; }
+.tag.new { background: var(--ink); color: var(--bg); border-color: var(--ink); }
+.tag.chg { border-color: var(--brass); color: var(--brass); }
+.dot { display: inline-block; width: 9px; height: 9px; border-radius: 50%; margin-right: 7px; vertical-align: 1px; }
+.dot.arms { background: var(--arms); } .dot.archery { background: var(--archery); } .dot.arcana { background: var(--arcana); }
+.dot.any { background: var(--ink-3); }
+
+/* three verbs */
+.verbs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 16px; border: 1px solid var(--line); background: var(--surface); }
+.verbs > div { padding: 14px 16px; border-right: 1px solid var(--line); min-width: 0; }
+.verbs > div:last-child { border-right: 0; }
+.verbs h4 { font-family: var(--display); font-weight: 400; font-size: 1.3rem; margin: 0; color: var(--brass); }
+.verbs p { margin-top: 4px; font-size: 0.93rem; }
+@media (max-width: 640px) { .verbs { grid-template-columns: minmax(0, 1fr); } .verbs > div { border-right: 0; border-bottom: 1px solid var(--line); } .verbs > div:last-child { border-bottom: 0; } }
+
+/* path sketch */
+.sketch { margin-top: 18px; border: 1px solid var(--line); background: var(--surface); padding: 16px; }
+.sketch-head { display: flex; flex-wrap: wrap; gap: 8px 16px; align-items: baseline; justify-content: space-between; }
+.sketch-head .t { font-family: var(--display); font-size: 1.35rem; }
+.sketch-head .s { font-size: 0.9rem; color: var(--ink-2); }
+.btn { font: inherit; font-size: 0.88rem; color: var(--ink); background: var(--surface-2); border: 1px solid var(--line); padding: 5px 12px; cursor: pointer; }
+.btn:hover { border-color: var(--brass); }
+.paths { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+@media (max-width: 760px) { .paths { grid-template-columns: minmax(0, 1fr); } }
+.path { border: 1px solid var(--line); min-width: 0; transition: opacity 0.15s; }
+.path > button { all: unset; box-sizing: border-box; display: flex; width: 100%; align-items: center; justify-content: space-between; gap: 8px;
+  padding: 9px 12px; cursor: pointer; border-bottom: 1px solid var(--line); background: var(--surface-2); }
+.path > button:focus-visible { outline: 2px solid var(--brass); outline-offset: -2px; }
+.path > button .pn { font-family: var(--display); font-size: 1.2rem; }
+.path > button .pa { font-size: 0.78rem; color: var(--ink-2); }
+.path ul { list-style: none; margin: 0; padding: 4px 12px 10px; }
+.path li { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; padding: 5px 0; border-bottom: 1px dotted var(--line); margin: 0; font-size: 0.93rem; }
+.path li:last-child { border-bottom: 0; }
+.path .innate { padding: 7px 12px; border-bottom: 1px solid var(--line); color: var(--ink-2); font-size: 0.84rem; min-height: 2.6em; }
+.path.shut { opacity: 0.4; }
+.path.shut li .tag { visibility: hidden; }
+.path.open { border-color: var(--brass); }
+.path .lock { display: none; padding: 0 12px 10px; font-size: 0.82rem; color: var(--ink-2); }
+.path.shut .lock { display: block; }
+.anyrow { margin-top: 14px; border: 1px solid var(--line); padding: 9px 12px; display: flex; flex-wrap: wrap; gap: 6px 16px; align-items: baseline; font-size: 0.93rem; }
+.anyrow .pn { font-family: var(--display); font-size: 1.2rem; margin-right: 6px; }
+
+/* calculators */
+.calc { margin-top: 18px; border: 1px solid var(--line); background: var(--surface); display: grid; grid-template-columns: minmax(0, 300px) minmax(0, 1fr); }
+@media (max-width: 820px) { .calc { grid-template-columns: minmax(0, 1fr); } }
+.calc .ctl { padding: 16px; border-right: 1px solid var(--line); display: grid; gap: 14px; align-content: start; min-width: 0; }
+@media (max-width: 820px) { .calc .ctl { border-right: 0; border-bottom: 1px solid var(--line); } }
+.calc .out { padding: 16px; min-width: 0; }
+.fld label, .fld .lab { display: flex; justify-content: space-between; gap: 8px; font-size: 0.88rem; color: var(--ink-2); }
+.fld output { font-family: var(--mono); color: var(--ink); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.fld input[type=range] { width: 100%; margin: 4px 0 0; accent-color: var(--brass); }
+.seg { display: inline-flex; margin-top: 4px; border: 1px solid var(--line); }
+.seg button { font: inherit; font-family: var(--mono); font-size: 0.85rem; padding: 3px 11px; border: 0; border-right: 1px solid var(--line); background: var(--surface); color: var(--ink); cursor: pointer; }
+.seg button:last-child { border-right: 0; }
+.seg button[aria-pressed="true"] { background: var(--ink); color: var(--bg); }
+.chk { display: flex; gap: 8px; align-items: flex-start; font-size: 0.88rem; color: var(--ink-2); }
+.chk input { accent-color: var(--brass); margin-top: 4px; }
+.kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+.kpis.four { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+@media (max-width: 520px) { .kpis, .kpis.four { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+.kpis .n { font-family: var(--mono); font-weight: 500; font-size: 1.45rem; font-variant-numeric: tabular-nums; line-height: 1.2; }
+.kpis .l { font-size: 0.82rem; color: var(--ink-2); }
+.meter { margin-top: 16px; height: 14px; border: 1px solid var(--line); background: var(--surface-2); position: relative; }
+.meter i { position: absolute; left: 0; top: 0; bottom: 0; background: var(--arms); }
+.meter-l { display: flex; justify-content: space-between; font-family: var(--mono); font-size: 0.74rem; color: var(--ink-3); margin-top: 3px; }
+.chart-title { font-size: 0.92rem; font-weight: 600; margin-top: 18px; }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 0.84rem; color: var(--ink-2); margin-top: 4px; }
+.legend i { display: inline-block; width: 14px; height: 2px; vertical-align: middle; margin-right: 6px; }
+.chart { position: relative; margin-top: 6px; }
+.chart svg { display: block; width: 100%; height: auto; }
+.chart .gl { stroke: var(--line); stroke-width: 1; }
+.chart .ax { fill: var(--ink-3); font-family: var(--mono); font-size: 11px; }
+.chart .dl { fill: var(--ink-2); font-family: var(--body); font-size: 12px; }
+.chart .l1 { fill: none; stroke: var(--series-1); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .l2 { fill: none; stroke: var(--series-2); stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+.chart .m1 { fill: var(--series-1); stroke: var(--surface); stroke-width: 2; }
+.chart .m2 { fill: var(--series-2); stroke: var(--surface); stroke-width: 2; }
+.chart .ch { stroke: var(--ink-3); stroke-width: 1; stroke-dasharray: 3 3; }
+.tip { position: absolute; pointer-events: none; background: var(--bg); border: 1px solid var(--line); padding: 6px 9px; font-size: 0.82rem;
+  line-height: 1.4; white-space: nowrap; transform: translate(-50%, -100%); }
+.tip b { font-family: var(--mono); font-weight: 500; }
+details { margin-top: 12px; }
+summary { cursor: pointer; color: var(--ink-2); font-size: 0.9rem; }
+details.talent { border: 1px solid var(--line); background: var(--surface); margin-top: 10px; }
+details.talent > summary { padding: 10px 14px; color: var(--ink); font-size: 1rem; display: flex; flex-wrap: wrap; gap: 4px 12px; align-items: baseline; list-style-position: inside; }
+details.talent > summary .tn { font-family: var(--display); font-size: 1.2rem; }
+details.talent > summary .tr { color: var(--ink-2); font-size: 0.9rem; }
+details.talent > div { padding: 0 14px 14px; border-top: 1px solid var(--line); }
+.loop { display: flex; flex-wrap: wrap; gap: 6px 8px; margin-top: 14px; align-items: center; font-size: 0.93rem; }
+.loop span.st { border: 1px solid var(--line); background: var(--surface); padding: 5px 10px; }
+.loop span.ar { color: var(--ink-3); }
+ol.stages { list-style: none; padding: 0; margin-top: 16px; border-top: 1px solid var(--line); counter-reset: st -1; }
+ol.stages li { counter-increment: st; display: grid; grid-template-columns: 2.4rem minmax(0, 1fr) auto; gap: 4px 12px; padding: 11px 0; border-bottom: 1px solid var(--line); margin: 0; align-items: baseline; }
+ol.stages li::before { content: counter(st); font-family: var(--mono); color: var(--brass); font-size: 1.1rem; }
+ol.stages .sz { font-family: var(--mono); font-size: 0.78rem; color: var(--ink-2); text-transform: uppercase; letter-spacing: 0.04em; white-space: nowrap; }
+ol.decisions li { margin-top: 10px; }
+footer { margin-top: 56px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--ink-2); font-size: 0.88rem; }
+@media (prefers-reduced-motion: reduce) { .path { transition: none; } }
+</style>
+
+<div class="wrap">
+
+<header class="col">
+  <span class="status"><b>Built</b> 18 Nov 2026 · MAW solo run · uncommitted · four changes from your first play are in</span>
+  <h1 style="margin-top:14px">Solo archetypes</h1>
+  <p class="lede">One talent path per character, nine talents a path. A melee character that lives in the pack and fights on rage, a caster that is artillery where the archer is a skirmisher. The level-728 archer is the measure of power and fun.</p>
+  <nav class="toc" aria-label="Sections">
+    <a href="#decided">Decided</a><a href="#units">Distances</a><a href="#archer">The archer</a><a href="#paths">Paths</a><a href="#identities">Three identities</a>
+    <a href="#arms">Arms</a><a href="#rage">Rage</a><a href="#arcana">Arcana</a><a href="#archery">Archery</a><a href="#parity">Parity</a><a href="#order">Order of work</a><a href="#open">Still open</a>
+  </nav>
+  <p class="note">Tags say where a statement comes from: <span class="src">code</span> read in the source, <span class="src">save</span> your archer, <span class="src">sim</span> the solo simulation (a model), <span class="src">you</span> your decision, <span class="src">proposal</span> new here, with first numbers to tune in play. Distances are in game units.</p>
+</header>
+
+<section id="decided">
+  <h2>Decided on 18 November</h2>
+  <div class="tw"><table>
+    <tr><th>Point</th><th>Decision</th><th>Your words</th></tr>
+    <tr><td class="name">The lock</td><td>One path per character, a hard lock. The reset stays free</td><td><q>hard lock</q>; <q>talent reset stays free</q></td></tr>
+    <tr><td class="name">Onslaught</td><td>To the Any tree, five ranks of 6 %. It speeds every recovery, spell casts included</td><td><q>onslaught to any, yes, 5 points into it, 6% each. it should be global recovery i think so also for spellcasters</q></td></tr>
+    <tr><td class="name">Shield Wall</td><td>Removed entirely</td><td><q>shield wall - id remove it entirely</q></td></tr>
+    <tr><td class="name">Vanguard</td><td>20 / 40 / 60 % by rank (80 % at the last rank until you played it), on shots loosed from more than 800 units away. A monster's spells count as its missiles do</td><td><q>vanguard lets do 80 at first</q>; <q>vanguard radius 800, yes spells count as missiles</q>; then <q>vanguard - make it 20/40/60</q></td></tr>
+    <tr><td class="name">Challenge</td><td>In, on every hostile that has noticed you, not a radius. No Grapple, no Death Grip</td><td><q>challenge for now is good, no grapple, no death grip</q>; then <q>every hostile currently agroed</q></td></tr>
+    <tr><td class="name">Battle Frenzy</td><td>Counts the monsters nearby, and so does Outnumbered: within 768, their own count (512, MAW's count, until you played it)</td><td><q>only those nearby I think</q>; then <q>make it 768 range</q></td></tr>
+    <tr><td class="name">Rage</td><td>Arms gets its own bar, filled by damage dealt and taken, at most 20 a second. Its abilities are used on a full bar. Heroic Strike is 300 % at the last rank (I read the ranks as 200 / 250 / 300)</td><td><q>rage - on full bar instead now. otherwise rage your proposed ok I guess</q>; <q>300</q></td></tr>
+    <tr><td class="name">The rage bar's place</td><td>An arc round the right side of the portrait, not a third bar under SP</td><td><q>rage bar should be here if possible</q></td></tr>
+    <tr><td class="name">Arcane Ward</td><td>In, in place of Resolve</td><td><q>sure</q>; <q>yes</q></td></tr>
+    <tr><td class="name">Opening Volley</td><td>In, at 15 / 30 / 45 %</td><td><q>opening volley ok, but 15/30/45% instead I think</q></td></tr>
+    <tr><td class="name">Tree sizes</td><td>The three paths have the same number of talents: nine each</td><td><q>archer/arms/mage should have I guess same amount of talents</q></td></tr>
+    <tr><td class="name">Long Shot</td><td>Scales with distance: nothing under 1,536, rising to +3 / 6 / 9 % at the bow's full range (5 / 10 / 15 % until you played it)</td><td><q>scaling, +5/10/15% more dmg at max range, no bonus when less than 1536</q>; then <q>make it only 3/6/9%</q></td></tr>
+    <tr><td class="name">Hamstring</td><td>A critical strike slows the monster's movement, and only its movement, by 5 / 10 / 15 % for 3 s, not stacking</td><td><q>critical strikes slow by 5/10/15% (non-stacking) for 3s</q>; <q>movement only</q></td></tr>
+    <tr><td class="name">Expose Weakness</td><td>Replaces Hunter's Mark: a critical strike exposes the monster, which takes 3 / 6 / 9 % more damage for 5 s (5 / 10 / 15 % until you played it)</td><td><q>i dont like this, Expose Weakness - critical strike on the enemy exposes its weakness, increasing damage done to target by up to 5/10/15% for 5s</q></td></tr>
+    <tr><td class="name">Shatter, Breach</td><td>Shatter is out. Breach takes its place: spells ignore 5 / 10 / 15 % of a monster's resistance</td><td><q>arcana - something other than shatter, since that wouldnt have much effect</q>; <q>make the pen 5/10/15% instead</q></td></tr>
+  </table></div>
+  <dl class="answers">
+    <div><dt>Arms in one line</dt>
+      <dd><strong>The pack is your armour, and the fight is your fuel.</strong> Vanguard gets you in, Outnumbered and Battle Frenzy pay you for standing in the middle, Challenge brings the shooters to you, and a full rage bar is one Heroic Strike or one Demoralizing Shout.</dd></div>
+    <div><dt>Arcana in one line</dt>
+      <dd><strong>Artillery.</strong> It stands where the archer stands and pulls as carefully, but with few large casts where the archer has many small shots. The first volley decides the fight, and the SP bar is the health bar.</dd></div>
+    <div><dt>Built</dt>
+      <dd><strong>It is in the game.</strong> The table, the path lock, rage and its two abilities, the three new monster states, the spell changes, the Talents page and the HUD bar, save 197 with a migration. Tested by 52 unit cases and six new scenarios; your archer's save (a copy) comes through the migration with Archery kept and eight points returned. What is in the game and where it differs from this page: <code>devdocs/solo_action/ARCHETYPES_BUILD.md</code>.</dd></div>
+    <div><dt>Art and text</dt>
+      <dd><strong>Icons, sounds and translations are in.</strong> Fifteen painted icons, one for each talent that came with the paths (below). Challenge, Heroic Strike and Demoralizing Shout have their own sounds; the installed takes are the tool's automatic picks and nobody has listened to them yet. The new texts are drafted in all seven languages and marked for review.</dd></div>
+  </dl>
+  <figure style="margin: 1.25rem 0 0;">
+    <img src="talent_icons.png" alt="All talent icons by tree: nine each for Arms, Archery and Arcana, five for the Any tree and the two keystones" style="display:block; max-width:100%; height:auto; border:1px solid var(--line); border-radius:6px;">
+    <figcaption class="note" style="margin-top:0.5rem;">Every talent's icon as installed. New on 18 November: Challenge to Demoralizing Shout in Arms, Long Shot to Nimble in Archery, and Arcane Ward, Arc, Opening Volley, Breach and Phase in Arcana.</figcaption>
+  </figure>
+</section>
+
+<section id="units">
+  <h2>Distances, in game units</h2>
+  <div class="tw narrow"><table>
+    <tr><th class="num">Units</th><th>What it is in the game today</th></tr>
+    <tr><td class="num">307</td><td>Melee reach, yours and the monsters'</td></tr>
+    <tr><td class="num">353</td><td>Inside this a monster never shoots</td></tr>
+    <tr><td class="num">384 / 768</td><td>What you cover in one second strafing / running</td></tr>
+    <tr><td class="num">500</td><td>Binding Circle</td></tr>
+    <tr><td class="num">512</td><td>MAW's "nearby": the count legendaries 21 and 22 use</td></tr>
+    <tr class="pick"><td class="num">768</td><td>Outnumbered and Battle Frenzy count here</td></tr>
+    <tr><td class="num">800</td><td>Vanguard's line: shots loosed from farther are cut</td></tr>
+    <tr><td class="num">1,024</td><td>Chaining Arrows' leap. Proposed for Arc and Demoralizing Shout</td></tr>
+    <tr><td class="num">1,536</td><td>Where Long Shot starts to count</td></tr>
+    <tr><td class="num">1,600</td><td>Blink</td></tr>
+    <tr><td class="num">2,500</td><td>Charge's reach</td></tr>
+    <tr><td class="num">5,120</td><td>The farthest a monster shoots and your bow's full range; where the fight alert starts. Long Shot is at its full value here</td></tr>
+  </table></div>
+</section>
+
+<section id="archer">
+  <h2>The reference: your archer</h2>
+  <p class="col"><span class="src">save</span> <code>save154.oysav</code>, read on a copy with today's build. Dark Elf Patriarch, MAW on Nightmare, 21 dimension runs cleared.</p>
+  <div class="figures">
+    <div><div class="n">728</div><div class="l">level; 145 talent points, none unspent</div></div>
+    <div><div class="n">1,250</div><div class="l">kills an hour over 14.8 hours, almost all by missile</div></div>
+    <div><div class="n">9×</div><div class="l">HP regeneration (1,438 a second) against the damage it takes (160 a second)</div></div>
+    <div><div class="n">≈ 85 %</div><div class="l">of the HP bar in its largest single hit (21,550)</div></div>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Tree</th><th>Ranks it holds</th><th class="num">Points</th></tr>
+    <tr><td class="name"><span class="dot archery"></span>Archery</td><td>Multishot 3, Chaining Arrows 3, Power Shot 3, Steady Aim 3, Quickfoot 3: the whole tree</td><td class="num">15</td></tr>
+    <tr><td class="name"><span class="dot arms"></span>Arms</td><td>Onslaught 3, Shield Wall 3</td><td class="num">6</td></tr>
+    <tr><td class="name"><span class="dot arcana"></span>Arcana</td><td>Resolve 5</td><td class="num">5</td></tr>
+    <tr><td class="name"><span class="dot any"></span>Any</td><td>Conditioning 68, Spell Suppression 41, Bloodthirst 5, Manathirst 5</td><td class="num">119</td></tr>
+    <tr><td class="name">Keystones</td><td>Cheat Death, Unbroken</td><td class="num">free</td></tr>
+  </table></div>
+  <div class="col">
+    <ul>
+      <li><strong>Attrition cannot kill it.</strong> Regeneration alone is nine times the average damage, before leech and Mana Shield. The only threat is a spike, and it holds all three spike answers (Cheat Death, Unbroken, Spell Suppression).</li>
+      <li><strong>It kills at range with full uptime.</strong> Nothing it does needs it to stand in the pack.</li>
+      <li><strong>Most of its points are not in its tree.</strong> Archery took 15 of 145.</li>
+      <li><strong>Two of its tools come from Arms.</strong> Onslaught speeds every weapon attack, bows included. Shield Wall worked because the talent only checked that the off hand was not empty, and the archer holds a dagger there. <span class="src">code</span></li>
+    </ul>
+    <h3>The loop, as the trees are today</h3>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Path</th><th>Ordinary attack spreads</th><th>What feeds the actives</th><th>Active cooldowns, rank 3</th></tr>
+    <tr><td class="name"><span class="dot archery"></span>Archery</td><td>Chaining Arrows: each arrow leaps to 3 more at up to 50 %</td><td>Multishot: 1 s off per ordinary hit. Power Shot: 0.5 s off per crit</td><td class="num">6 s, 4 s</td></tr>
+    <tr><td class="name"><span class="dot arms"></span>Arms</td><td>Sweeping Blows: 3 more in the arc at up to 50 %</td><td>Charge: 1 s off per ordinary attack. Nothing for Cleave or Shield Wall</td><td class="num">6 s, 19 s, 40 s</td></tr>
+    <tr><td class="name"><span class="dot arcana"></span>Arcana</td><td>nothing</td><td>nothing</td><td class="num">11 s, 16 s, 35 s</td></tr>
+  </table></div>
+  <p class="col">Per action against a pack, Arms is level with Archery on paper: a swing with Sweeping Blows is 250 % of a blow over four monsters, as a shot with Chaining Arrows is 250 % per arrow. Arms lacks <strong>uptime</strong> (walking deals nothing), <strong>safety on the way in</strong> and <strong>a reason to stand in the pack</strong>. Arcana lacks the loop itself.</p>
+</section>
+
+<section id="paths">
+  <h2>Paths: a hard lock, nine talents each</h2>
+  <div class="col">
+    <p>The three path trees cost 47 points together today. A character has 10 points at level 50, 50 at level 250 and 145 at your archer's level. From about level 250 nothing stops a character from holding every path talent, so "60 % less damage from far missiles" would cost an archer or a sorcerer three points. With the lock, ranks in one of Arms, Archery or Arcana close the other two until a reset, which stays free; the Any tree stays open. <span class="src">you</span></p>
+  </div>
+
+  <div class="sketch" id="sketch">
+    <div class="sketch-head">
+      <div><div class="t">How the Talents page would behave</div><div class="s" id="sketch-status">Choose a path: click a column's header.</div></div>
+      <button class="btn" id="sketch-reset" type="button">Reset at a trainer</button>
+    </div>
+    <div class="paths">
+      <div class="path" data-path="arms">
+        <button type="button" aria-pressed="false"><span class="pn"><span class="dot arms"></span>Arms</span><span class="pa">melee weapons</span></button>
+        <div class="innate">The rage bar comes with the path.</div>
+        <ul>
+          <li><span>Cleave</span><span class="tag">built</span></li>
+          <li><span>Sweeping Blows</span><span class="tag">built</span></li>
+          <li><span>Charge</span><span class="tag chg">fed by kills</span></li>
+          <li><span>Vanguard</span><span class="tag new">new</span></li>
+          <li><span>Outnumbered</span><span class="tag new">new</span></li>
+          <li><span>Battle Frenzy</span><span class="tag new">new</span></li>
+          <li><span>Challenge</span><span class="tag new">new</span></li>
+          <li><span>Heroic Strike</span><span class="tag new">new, full bar</span></li>
+          <li><span>Demoralizing Shout</span><span class="tag new">new, full bar</span></li>
+        </ul>
+        <div class="lock">Another path. Reset at a trainer to choose again.</div>
+      </div>
+      <div class="path" data-path="archery">
+        <button type="button" aria-pressed="false"><span class="pn"><span class="dot archery"></span>Archery</span><span class="pa">bows</span></button>
+        <div class="innate">Hits and crits feed its cooldowns.</div>
+        <ul>
+          <li><span>Multishot</span><span class="tag">built</span></li>
+          <li><span>Chaining Arrows</span><span class="tag">built</span></li>
+          <li><span>Power Shot</span><span class="tag">built</span></li>
+          <li><span>Steady Aim</span><span class="tag">built</span></li>
+          <li><span>Quickfoot</span><span class="tag">built</span></li>
+          <li><span>Long Shot</span><span class="tag new">new</span></li>
+          <li><span>Expose Weakness</span><span class="tag new">new</span></li>
+          <li><span>Hamstring</span><span class="tag new">new</span></li>
+          <li><span>Nimble</span><span class="tag new">new, proposed</span></li>
+        </ul>
+        <div class="lock">Another path. Reset at a trainer to choose again.</div>
+      </div>
+      <div class="path" data-path="arcana">
+        <button type="button" aria-pressed="false"><span class="pn"><span class="dot arcana"></span>Arcana</span><span class="pa">spells</span></button>
+        <div class="innate">The SP bar is fuel and shield.</div>
+        <ul>
+          <li><span>Blink</span><span class="tag">built</span></li>
+          <li><span>Binding Circle</span><span class="tag">built</span></li>
+          <li><span>Overload</span><span class="tag chg">fixed</span></li>
+          <li><span>Spell Surge</span><span class="tag chg">fed by casts</span></li>
+          <li><span>Arc</span><span class="tag new">new</span></li>
+          <li><span>Arcane Ward</span><span class="tag new">replaces Resolve</span></li>
+          <li><span>Opening Volley</span><span class="tag new">new</span></li>
+          <li><span>Breach</span><span class="tag new">new, proposed</span></li>
+          <li><span>Phase</span><span class="tag new">new, proposed</span></li>
+        </ul>
+        <div class="lock">Another path. Reset at a trainer to choose again.</div>
+      </div>
+    </div>
+    <div class="anyrow"><span><span class="pn"><span class="dot any"></span>Any</span> always open:</span>
+      <span>Conditioning</span><span>Spell Suppression</span><span>Bloodthirst</span><span>Manathirst</span><span>Onslaught <span class="tag chg">from Arms, 5 ranks</span></span>
+      <span class="note">Keystones: Cheat Death, Unbroken</span></div>
+  </div>
+
+  <div class="col">
+    <h3>How it is represented <span class="src">proposal</span></h3>
+    <ul>
+      <li><strong>Rule.</strong> The path is the path tree that has ranks. Learning refuses a talent of another path tree while one has ranks. No new saved field: the saved ranks already say it.</li>
+      <li><strong>Data.</strong> One line in <code>talents.yml</code>: <code>paths: [arms, archery, arcana]</code>. A ruleset that replaces the table can list none and keep free mixing.</li>
+      <li><strong>Reset.</strong> As today: free, at any open trainer, clears everything. A player can change path between maps. <span class="src">you</span></li>
+      <li><strong>Old saves.</strong> A character with ranks in several path trees keeps the tree with the most; the other ranks, and Shield Wall's, come back as points, as removed talents' points already do.</li>
+      <li><strong>One condition stays on the Arms defences:</strong> the melee weapon is in the arms, so an Arms character shooting a bow does not carry them.</li>
+    </ul>
+    <h3>Onslaught in the Any tree <span class="src">you</span></h3>
+    <ul>
+      <li>Five ranks. Each kill gives 1 % speed, at most 6 / 12 / 18 / 24 / 30 stacks, lasting 60 s and refreshed by every kill, as built.</li>
+      <li>It shortens every recovery. Weapon attacks already read it; spell recovery does not yet and has to apply the same scale. A kill by a spell already adds a stack. <span class="src">code</span></li>
+      <li>Your archer keeps it through the lock. Its saved rank 3 becomes 18 % until two more points go in.</li>
+      <li>To check: the archer's sheet reads "Recovery time: 20". If that is a floor, more speed does nothing for it.</li>
+    </ul>
+    <h3>What else changes for your archer</h3>
+    <ul>
+      <li><strong>Resolve 5:</strong> no loss. Every resistance is at the cap already.</li>
+      <li><strong>Shield Wall 3:</strong> gone with the talent. It was the panic button in your battle orders at 40 % HP. Nimble, below, is the proposed Archery defence in its place.</li>
+    </ul>
+    <h3>Hybrids</h3>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Class line</th><th>Natural path</th><th>Note</th></tr>
+    <tr><td>Knight, Minotaur, Troll, Monk, Assassin, Vampire</td><td class="nw"><span class="dot arms"></span>Arms</td><td></td></tr>
+    <tr><td>Seraph, Shaman, Death Knight</td><td class="nw"><span class="dot arms"></span>Arms</td><td>They cast, but their spells run off melee and their defence is the Arms problem</td></tr>
+    <tr><td>Dragon</td><td class="nw"><span class="dot arms"></span>Arms or <span class="dot arcana"></span>Arcana</td><td>Claws or breath (Overload counts the breath). Today it takes both; choosing is a small cut to the strongest solo class</td></tr>
+    <tr><td>Archer line, any class with a trained bow</td><td class="nw"><span class="dot archery"></span>Archery</td><td></td></tr>
+    <tr><td>Sorcerer, Elementalist, Necromancer, Druid, Cleric lines</td><td class="nw"><span class="dot arcana"></span>Arcana</td><td>The Priest's low damage is a separate problem</td></tr>
+  </table></div>
+</section>
+
+<section id="identities">
+  <h2>Three identities</h2>
+  <p class="col">Your thought on the mage was that it is close to the archer, only with spells, perhaps with a bigger recovery and a harder hit. I would keep exactly that and make the tempo the difference: the archer is the skirmisher, the mage the artillery. The melee character is the opposite of both.</p>
+  <div class="tw"><table>
+    <tr><th></th><th><span class="dot archery"></span>Archery: the skirmisher</th><th><span class="dot arms"></span>Arms: the juggernaut</th><th><span class="dot arcana"></span>Arcana: the artillery</th></tr>
+    <tr><td class="name">Tempo</td><td>fast and steady</td><td>builds with the fight (rage, kills)</td><td>slow, front-loaded</td></tr>
+    <tr><td class="name">Area damage</td><td>every arrow chains</td><td>the arc in front; grows with the pack</td><td>area spells; bolts arc</td></tr>
+    <tr><td class="name">Defence</td><td>HP, regeneration, speed (Nimble)</td><td>the pack itself, Vanguard on the way in, the Shout</td><td>the SP bar through Mana Shield, distance, Phase</td></tr>
+    <tr><td class="name">Movement</td><td>Quickfoot: runs</td><td>Charge: dashes in</td><td>Blink: jumps out</td></tr>
+    <tr><td class="name">Fuel</td><td>none; hits and crits feed cooldowns</td><td>rage</td><td>SP, for spells and for the shield</td></tr>
+    <tr><td class="name">Rewarded for</td><td>staying far (Long Shot)</td><td>standing in the pack (Battle Frenzy)</td><td>the first hit (Opening Volley)</td></tr>
+    <tr><td class="name">Loses when</td><td>swarmed, or hit by one spike</td><td>few around it, or one hard hitter</td><td>the first volley fails, or SP run out</td></tr>
+  </table></div>
+</section>
+
+<section id="arms">
+  <h2>Arms: the pack is your armour</h2>
+  <div class="col">
+    <h3>What a melee solo faces</h3>
+    <ul>
+      <li><strong>Half the bestiary shoots.</strong> 318 of 655 monster types have a missile or a spell attack. On Hell and above MAW gives pure-melee monsters a missile outdoors as well.</li>
+      <li><strong>Monsters shoot from up to 5,120 units and never inside 353.</strong> Nothing makes a MAW monster hold its distance: they walk in and shoot on the way. <span class="src">code</span></li>
+      <li><strong>Missiles home.</strong> A strafe (384 a second) is hit; only a run straight across the flight (768) escapes. Walking at the shooters takes every missile.</li>
+      <li><strong>Armour and resistance are capped at 90 %.</strong> A late melee character sits on the cap, so only cuts applied after it count.</li>
+      <li><strong>The simulation says small pulls are fine and whole groups are not.</strong> Nightmare level 500, four at a time: every melee build wins at 2 s a monster. Beyond Madness whole groups: 31 to 53 %. The model has no shooters standing off and no walking, which is where play hurts. <span class="src">sim</span></li>
+      <li><strong>There is no play data for a late melee solo yet.</strong> The numbers below come from reasoning and MAW's own precedents.</li>
+    </ul>
+  </div>
+  <div class="verbs">
+    <div><h4>Close</h4><p>Getting to the pack under fire is survivable. Vanguard, Charge, Challenge.</p></div>
+    <div><h4>Hold</h4><p>Surrounded, you take less and hit harder. Outnumbered, Battle Frenzy.</p></div>
+    <div><h4>Build</h4><p>Blows and hits taken fill rage; a full bar buys the hard blow or the shout.</p></div>
+  </div>
+  <p class="col">The risk moves; it does not go away. A melee character is in danger <strong>between</strong> places, in the sliver from 768 to 800 units where a shooter is neither counted by the pack talents nor cut by Vanguard; with <strong>few</strong> monsters around it; and against <strong>one</strong> hard hitter, where the pack talents give nothing. That last case is what Heroic Strike and the Shout are for.</p>
+
+  <div class="tw"><table>
+    <tr><th>Talent</th><th>Kind</th><th>Effect</th><th>State</th></tr>
+    <tr><td class="name">Vanguard</td><td class="nw">passive 3</td><td>Missiles and spells a monster looses from more than 800 units away deal 20 / 40 / 60 % less</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Outnumbered</td><td class="nw">passive 3</td><td>2 / 3 / 4 % less damage for each hostile monster within 768, at most 10 monsters</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Battle Frenzy</td><td class="nw">passive 3</td><td>+2 / 3.5 / 5 % melee damage for each hostile monster within 768, at most 10</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Challenge</td><td class="nw">active 3</td><td>Every hostile that has noticed you, wherever it stands, cannot shoot or cast for 4 / 5 / 6 s and comes at you. Cooldown 30 / 26 / 22 s, 1 s off per ordinary hit. No rage: it is the opener</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Heroic Strike</td><td class="nw">active 3</td><td>On a full rage bar: one blow at 200 / 250 / 300 % on the target, in half a swing's recovery. No cooldown</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Demoralizing Shout</td><td class="nw">active 3</td><td>On a full rage bar: hostile monsters within 1,024 deal 30 % less damage for 6 / 8 / 10 s. Cooldown 45 / 40 / 35 s</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Charge</td><td class="nw">active 3</td><td>As built, and each kill takes 3 s off the cooldown</td><td><span class="tag chg">small code</span></td></tr>
+    <tr><td class="name">Cleave</td><td class="nw">active 3</td><td>As built</td><td><span class="tag">built</span></td></tr>
+    <tr><td class="name">Sweeping Blows</td><td class="nw">passive 3</td><td>As built</td><td><span class="tag">built</span></td></tr>
+  </table></div>
+  <p class="col note">Nine talents, 27 points; the rage bar comes with the path. The three passives need the melee weapon in the arms, not the bow. Shield Wall is removed and Onslaught is in the Any tree.</p>
+
+  <div class="col">
+    <details class="talent" open><summary><span class="tn">Vanguard</span><span class="tr">your first idea: far missiles hurt far less</span></summary><div>
+      <p><strong>The distance is taken when the monster fires,</strong> so a Charge during the flight does not turn a far shot into a full one.</p>
+      <p><strong>Why 800.</strong> Monsters stop shooting inside 353, and the two pack talents count within 768 (512 until you played it). That leaves only a sliver from 768 to 800 where a shooter fires at full strength and is not counted. I had proposed 512 for one radius; you kept 800. A monster's spells count as its missiles do. <span class="src">you</span></p>
+      <p><strong>With Spell Suppression</strong> the two multiply: 60 % becomes 68 %.</p>
+      <p><strong>Abuse.</strong> The lock keeps it from archers and casters; the melee-weapon condition keeps it from an Arms character shooting a bow. Left open: an Arms character casting with a sword out. If that shows up, the cut lapses for 3 s after the character deals spell damage.</p>
+      <p><strong>Build.</strong> The missile has to remember how far its shooter stood (one saved number on the projectile). The hit has to say it was a missile: today a fire missile from a monster's first attack arrives looking like a melee blow. The rules have to know which weapon is drawn. Small to medium; both world runtimes touched at one call each. <span class="src">code</span></p>
+    </div></details>
+    <details class="talent"><summary><span class="tn">Outnumbered</span><span class="tr">your third idea: less damage per monster close</span></summary><div>
+      <p><strong>MAW has this already.</strong> Legendary 22 is 3 % per monster within 512, compounding, at most 50 %, applied after the 90 % cap. Your archer wears it. The count is computed once a frame. The talent is that legendary in ranks; with both they multiply. <span class="src">code</span></p>
+      <p><strong>More monsters must never be safer than fewer.</strong> Ten monsters hurt like six, four like 3.4: the total still rises all the way to the cap of ten. Any retune has to keep that; the calculator below draws it.</p>
+      <p><strong>One monster gets 4 %.</strong> A boss fight is untouched on purpose.</p>
+    </div></details>
+    <details class="talent"><summary><span class="tn">Battle Frenzy</span><span class="tr">your second idea, counting the monsters nearby</span></summary><div>
+      <p><strong>MAW has this too.</strong> Legendary 21: +5 % melee damage per monster within 512, at most double. The talent counts as the legendary does, but within its own 768, and Outnumbered likewise. <span class="src">code</span></p>
+      <p><strong>Abuse: none by construction.</strong> Only a melee blow reads it, Heroic Strike's included.</p>
+      <p><strong>Parity.</strong> In a pack of ten a swing is 375 % of a blow against the archer's 250 % per arrow. That margin pays for the time a melee character spends walking.</p>
+    </div></details>
+    <details class="talent"><summary><span class="tn">Challenge</span><span class="tr">your "disable projectile and spell attacks to pull ranged mobs"</span></summary><div>
+      <p>A monster that cannot shoot does what the AI already does for a blinded one: it walks into melee. So Challenge turns a spread group of shooters into the pack that Cleave, Sweeping Blows, Outnumbered and Battle Frenzy all want. Bosses: half the time.</p>
+      <p><strong>Build.</strong> Blind and Dark Grasp already force a monster into melee. A third timer of the same kind in both runtimes, and spell rolls that respect it. Medium. <span class="src">code</span></p>
+    </div></details>
+  </div>
+
+  <h3 class="col">Pack calculator</h3>
+  <p class="col note">Every monster counts as one monster's damage. Change the pack and the ranks; the curve shows the total you take as the pack around you grows.</p>
+  <div class="calc" id="calc">
+    <div class="ctl">
+      <div class="fld"><label for="c-near">Monsters within 768 <output id="o-near">4</output></label><input type="range" id="c-near" min="0" max="20" step="1" value="4"></div>
+      <div class="fld"><label for="c-far">Shooters beyond 800 <output id="o-far">8</output></label><input type="range" id="c-far" min="0" max="20" step="1" value="8"></div>
+      <div class="fld"><div class="lab">Vanguard rank</div><div class="seg" data-key="van"><button type="button">0</button><button type="button">1</button><button type="button">2</button><button type="button">3</button></div></div>
+      <div class="fld"><div class="lab">Outnumbered rank</div><div class="seg" data-key="out"><button type="button">0</button><button type="button">1</button><button type="button">2</button><button type="button">3</button></div></div>
+      <div class="fld"><div class="lab">Battle Frenzy rank</div><div class="seg" data-key="fre"><button type="button">0</button><button type="button">1</button><button type="button">2</button><button type="button">3</button></div></div>
+      <label class="chk" for="c-shout"><input type="checkbox" id="c-shout"><span>Demoralizing Shout holds (30 % off the monsters near)</span></label>
+      <label class="chk" for="c-l22"><input type="checkbox" id="c-l22"><span>Legendary 22 worn (3 % per monster near, as on your archer's cloak)</span></label>
+      <label class="chk" for="c-floor"><input type="checkbox" id="c-floor" checked><span>Shared floor: the cuts never leave less than 20 % of a hit</span></label>
+    </div>
+    <div class="out">
+      <div class="kpis">
+        <div><div class="n" id="k-before">12.0</div><div class="l">damage taken today, in monsters</div></div>
+        <div><div class="n" id="k-after">5.0</div><div class="l" id="k-after-l">with the talents</div></div>
+        <div><div class="n" id="k-swing">300 %</div><div class="l">of one blow per swing, Sweeping Blows 3 included</div></div>
+      </div>
+      <div class="chart-title">Damage taken by the number of monsters within 768</div>
+      <div class="legend"><span><i style="background:var(--series-2)"></i>MAW as it is</span><span><i style="background:var(--series-1)"></i>With the Arms talents</span></div>
+      <div class="chart" id="chart"><svg viewBox="0 0 640 300" role="img" aria-label="Line chart of damage taken against pack size, without and with the Arms talents"></svg><div class="tip" id="tip" hidden></div></div>
+      <details><summary>The same as a table</summary><div class="tw"><table id="ctable"></table></div></details>
+    </div>
+  </div>
+  <p class="col note"><strong>The shared floor.</strong> Everything the solo run cuts (Vanguard, Outnumbered, the Shout, Spell Suppression, Unbroken's part, and Nimble and Phase on the other paths) should together never leave less than 20 % of a hit. With Shield Wall gone and Vanguard at 60 %, it takes Vanguard, Spell Suppression and ten monsters under Outnumbered together to reach it (19 %); the floor is there for what is added later.</p>
+  <p class="col note"><strong>Before any of it: Cleave has to be trustworthy.</strong> These talents multiply what Cleave and Sweeping Blows do, and the report in your thread says they sometimes strike one monster in a crowd with no sign why. They should say what they struck, and Cleave should never strike fewer monsters than an ordinary swing with Sweeping Blows would have.</p>
+</section>
+
+<section id="rage">
+  <h2>Rage</h2>
+  <div class="col">
+    <p>A bar from 0 to 100 on Arms characters only. It comes with the path. Its two abilities are talents; each can be used only when the bar is <strong>full</strong>, and using one empties it. <span class="src">you</span> The amounts that fill it are shares of a bar and not raw damage, so the formula means the same at level 20 and at level 700.</p>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Source</th><th>Rage</th></tr>
+    <tr><td class="name">A melee blow that hits</td><td>6 × the blow's recovery in seconds (about 3 for a half-second swing), plus 30 × the share of the monster's full HP the blow took</td></tr>
+    <tr><td class="name">An extra blow</td><td>Cleave's other monsters and Sweeping Blows give a third of that, as their other on-hit gains are a third</td></tr>
+    <tr><td class="name">A hit taken</td><td>60 × the share of your full HP it took, after every cut</td></tr>
+    <tr><td class="name">Limit</td><td>at most 20 a second in all <span class="src">you</span></td></tr>
+    <tr><td class="name">Out of combat</td><td>drains 5 a second</td></tr>
+  </table></div>
+  <div class="col">
+    <ul>
+      <li><strong>"The more hits and the harder, the faster."</strong> Each blow gives a fixed part and a part for how much of the monster's bar it took. The fixed part is scaled by the weapon's speed so that fast and slow weapons fill alike.</li>
+      <li><strong>Why the fixed part.</strong> Against a boss a blow takes a fraction of a percent of the bar. Without the fixed part rage would barely fill in exactly the fight where Heroic Strike is wanted.</li>
+      <li><strong>Why hits taken count.</strong> A character in trouble fills faster, so the Shout is there when it is needed.</li>
+    </ul>
+  </div>
+
+  <div class="calc" id="rcalc">
+    <div class="ctl">
+      <div class="fld"><label for="r-sw">Swings a second <output id="ro-sw">2.0</output></label><input type="range" id="r-sw" min="0" max="3" step="0.1" value="2"></div>
+      <div class="fld"><label for="r-share">Monster's bar taken per blow <output id="ro-share">20 %</output></label><input type="range" id="r-share" min="0" max="100" step="0.5" value="20"></div>
+      <div class="fld"><label for="r-swept">Monsters swept beside the target <output id="ro-swept">3</output></label><input type="range" id="r-swept" min="0" max="3" step="1" value="3"></div>
+      <div class="fld"><label for="r-hp">Your HP lost a second <output id="ro-hp">0 %</output></label><input type="range" id="r-hp" min="0" max="20" step="0.5" value="0"></div>
+      <div class="fld"><div class="lab">Try</div>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">
+          <button class="btn" type="button" data-preset="pack">A pack</button>
+          <button class="btn" type="button" data-preset="boss">A boss</button>
+          <button class="btn" type="button" data-preset="walk">Walking in</button>
+        </div></div>
+    </div>
+    <div class="out">
+      <div class="kpis four">
+        <div><div class="n" id="rk-rate">20.0</div><div class="l" id="rk-rate-l">rage a second</div></div>
+        <div><div class="n" id="rk-full">5.0 s</div><div class="l">for a full bar</div></div>
+        <div><div class="n" id="rk-min">12</div><div class="l">full bars a minute</div></div>
+        <div><div class="n" id="rk-add">+30 %</div><div class="l">damage on the target from Heroic Strike, rank 3</div></div>
+      </div>
+      <div class="meter" aria-hidden="true"><i id="r-fill" style="width:100%"></i></div>
+      <div class="meter-l"><span>0</span><span>share of the limit of 20 a second</span><span>20</span></div>
+      <p class="note" id="r-note" style="margin-top:14px"></p>
+    </div>
+  </div>
+
+  <div class="col">
+    <h3>What a full bar buys</h3>
+    <ul>
+      <li><strong>Heroic Strike, no cooldown.</strong> One blow at 200 / 250 / 300 % of a normal blow on the target, in half a swing's recovery, as Cleave and Power Shot are. You set 300; I read the lower ranks as 200 and 250. At rank 3 it adds about 30 % to the damage on its target in a pack (one every 5 s) and about 13 % on a boss (one every 11 s). It is the Arms answer to Power Shot (200 % every 4 s or less) and the single-target tool the pack talents do not give.</li>
+      <li><strong>Demoralizing Shout, cooldown 45 / 40 / 35 s.</strong> Hostile monsters within 1,024 deal 30 % less damage for 6 / 8 / 10 s. MAW already has this cut at this size: a monster under Shrinking Ray or Dark Grasp deals 30 % less, "together not more". The Shout sets the same flag, so it does not stack with those two. It acts on the monster's damage before your mitigation, so it counts in full for a character at the 90 % cap. <span class="src">code</span></li>
+      <li><strong>The choice at a full bar</strong> is damage or defence: the strike now, or the shout if it is off its cooldown.</li>
+    </ul>
+    <h3>Where it shows and where it hooks</h3>
+    <ul>
+      <li>An arc round the right side of the portrait in the solo unit frame, red while it fills and gold when full (your sketch; it was a third bar under SP at first). The two abilities' action-bar slots are veiled until then.</li>
+      <li>The rules already have every number at the right place: the party's hit on a monster carries the damage, the monster, whether it was melee, an extra blow or a kill, next to where Onslaught counts its kill; the damage a character takes is known where it is absorbed; the talents' update already knows "out of combat". <span class="src">code</span></li>
+      <li>Data: a <code>rage:</code> block in <code>talents.yml</code> with the five numbers above, and <code>rage_cost: 100</code> on the two talents. Heroic Strike is otherwise Power Shot's fields.</li>
+      <li>The Shout and Challenge each need one new monster state in both world runtimes, so they are best built together.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="arcana">
+  <h2>Arcana: artillery</h2>
+  <div class="tw"><table>
+    <tr><th>Talent today</th><th>Finding</th><th>From</th></tr>
+    <tr><td class="name">Overload</td><td>Counts monsters near the spell's <strong>named target</strong> (within 384). Ground-aimed spells (Meteor Shower, Starburst, Fire Spike, Sparks, Ice Blast, Rock Blast, Death Blossom, Shrapmetal) and untargeted ones (Inferno, Armageddon, Prismatic Light) never name one. Only Fireball, Dragon Breath and Flame Blast can trigger it</td><td><span class="src">code</span></td></tr>
+    <tr><td class="name">Overload</td><td>The simulation counted monsters <strong>hit</strong>, which is why it found Overload the caster's most valuable talent (15 to 26 points on Beyond Madness). The game's Overload is not the simulated one</td><td><span class="src">sim</span></td></tr>
+    <tr><td class="name">Resolve</td><td>Multiplies resistances. Characters at the 90 % cap get nothing; a caster far from the cap gets a little</td><td><span class="src">save</span></td></tr>
+    <tr><td class="name">Spell Surge</td><td>45 / 40 / 35 s cooldown, fed by nothing: once per two or three packs. Any spell spends it, a heal or a buff included</td><td><span class="src">code</span></td></tr>
+    <tr><td class="name">The tree</td><td>No talent changes the ordinary cast and none feeds a cooldown. Spell Surge, Overload and the passives were only unit-tested, never tried in play</td><td></td></tr>
+    <tr><td class="name">The arms</td><td>No cast clips for a staff; spells leave from the party's point, not from the hand</td><td></td></tr>
+  </table></div>
+  <div class="col">
+    <p>MAW already makes spells slow and heavy: a typical spell's recovery is 1.67 s before Speed and Haste, Meteor Shower's twice that, and Ascension multiplies a spell's damage while slowing the cast. The talents should reward that, and should not try to make the mage a fast archer. The Attack key already casts: a spell placed first in the battle orders is the caster's ordinary attack.</p>
+  </div>
+  <div class="tw"><table>
+    <tr><th>Talent</th><th>Kind</th><th>Effect</th><th>State</th></tr>
+    <tr><td class="name">Opening Volley</td><td class="nw">passive 3</td><td>+15 / 30 / 45 % spell damage to a monster at full health</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Spell Surge</td><td class="nw">active 3</td><td>The next damaging spell costs no SP and hits 50 % harder. Cooldown 20 / 16 / 12 s, 1 s off for each cast that hits a monster</td><td><span class="tag chg">rework</span></td></tr>
+    <tr><td class="name">Overload</td><td class="nw">passive 3</td><td>Counts the monsters each blast actually damages, for every area spell</td><td><span class="tag chg">fix</span></td></tr>
+    <tr><td class="name">Arc</td><td class="nw">passive 3</td><td>A single-target spell leaps from the monster it strikes to the nearest other within 1,024, up to 1 / 2 / 3 times, each at 30 % + 0.25 % per point of the spell's school (at most 50 %)</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Arcane Ward</td><td class="nw">passive 3</td><td>Mana Shield spends 10 / 20 / 30 % fewer SP for what it absorbs</td><td><span class="tag new">replaces Resolve</span></td></tr>
+    <tr><td class="name">Breach</td><td class="nw">passive 3</td><td>Your spells ignore 5 / 10 / 15 % of a monster's resistance</td><td><span class="tag new">new</span></td></tr>
+    <tr><td class="name">Phase</td><td class="nw">passive 3</td><td>For 3 s after a Blink you take 20 / 35 / 50 % less damage</td><td><span class="tag new">new, proposed</span></td></tr>
+    <tr><td class="name">Blink</td><td class="nw">active 3</td><td>As built (1,600 units)</td><td><span class="tag">built</span></td></tr>
+    <tr><td class="name">Binding Circle</td><td class="nw">active 3</td><td>As built (within 500)</td><td><span class="tag">built</span></td></tr>
+  </table></div>
+  <div class="col">
+    <p class="note">Nine talents, 27 points. From the Any tree a caster takes Manathirst, Spell Suppression, Conditioning, and now Onslaught, which speeds casts once kills chain.</p>
+    <h3>Breach, in Shatter's place</h3>
+    <p>You turned Shatter down: monsters are held or slowed for a few seconds in twenty, so it would not have much effect. Breach is always on and needs no set-up. MAW halves a spell's damage for every 100 points of the monster's resistance, so counting less of that resistance is worth: <span class="src">code</span></p>
+  </div>
+  <div class="tw narrow"><table>
+    <tr><th>The monster's resistance</th><th class="num">Rank 1</th><th class="num">Rank 2</th><th class="num">Rank 3</th></tr>
+    <tr><td>0</td><td class="num">nothing</td><td class="num">nothing</td><td class="num">nothing</td></tr>
+    <tr><td>50</td><td class="num">+2 %</td><td class="num">+4 %</td><td class="num">+5 %</td></tr>
+    <tr><td>100</td><td class="num">+4 %</td><td class="num">+7 %</td><td class="num">+11 %</td></tr>
+    <tr><td>200, the highest MAW gives</td><td class="num">+7 %</td><td class="num">+15 %</td><td class="num">+23 %</td></tr>
+  </table></div>
+  <div class="col">
+    <ul>
+      <li><strong>It is largest exactly where a caster is stuck:</strong> against the monsters it cannot hurt today, and nothing against the ones it already kills. Resistance is also why the Dragon, whose breath ignores it, is the strongest solo class.</li>
+      <li><strong>Small to build:</strong> one factor on the resistance where the monster's mitigation is computed. No state, no timer.</li>
+      <li><strong>If not this:</strong> a spell cast after standing still for a second hits 5 / 10 / 15 % harder (the artillery plants its feet; the mirror of Steady Aim), or your Expose Weakness for spell crits.</li>
+    </ul>
+    <p><strong>Phase</strong> makes the escape an escape: a Blink out of a pack is followed by whatever was already in flight. Small to build. You did not object, so I take it as in.</p>
+    <p><strong>The three damage talents add; they do not multiply.</strong> Spell Surge (+50 %), Overload (up to +90 %) and Opening Volley (+45 %) together are at most +185 %: a little under three times a plain cast, where multiplying would give 4.1 times. MAW's developer avoids multiplicative stacks. Breach is not in that sum: it acts on the monster's resistance, before them.</p>
+
+    <h3>Chaining</h3>
+    <ul>
+      <li><strong>Arc is Chaining Arrows for bolts,</strong> at the same 1,024. The cheap spell on the Attack key becomes an area attack, as the archer's ordinary shot is, and every hit feeds Spell Surge. MAW's Chain Lightning already hops, and the arrows' chain was modelled on it, so there is code on both sides to start from. <span class="src">code</span></li>
+      <li><strong>Overload, fixed,</strong> makes every area spell count the pack it hits. That is the talent the simulation valued most for casters and the game barely has.</li>
+    </ul>
+
+    <h3>Survivability</h3>
+    <p>Why a mage dies, in the simulation's numbers at level 500 (its gear was poor, so read the proportions): 8.1k HP, which is 40 % of what MAW expects, and 8,150 SP. Mana Shield at Grandmaster absorbs every hit at 5 HP for each SP, so the SP bar is worth about 41k HP, more than a Champion's 34k. But the mage takes 33 to 44 % of a magic hit where the Champion takes 10 %, nothing regenerates SP the way your archer regenerates HP, and the same bar pays for the spells. <span class="src">sim</span></p>
+    <ol>
+      <li><strong>Kill first.</strong> Opening Volley, a surged area spell and Overload: most of a pack should not survive to shoot back. This is the layer that fits the identity, and it is what "pull carefully" pays for.</li>
+      <li><strong>Do not be reached.</strong> Blink and Binding Circle, as built, and Phase for the seconds after the jump.</li>
+      <li><strong>Absorb what lands.</strong> Mana Shield with Arcane Ward (5 HP per SP becomes 7.1, the bar worth about 58k), Manathirst to refill it from hits, Spell Suppression, and the two keystones.</li>
+    </ol>
+    <p>Arcane Ward does not make the mage a tank: with its resistances it still has about half a Champion's staying power. It makes one mistake survivable.</p>
+    <p class="note"><strong>Not known:</strong> how a real late mage's sheet reads. There is no sorcerer save, and the simulation's kits were weak. Reading one at your archer's level is the first step.</p>
+
+    <h3>How a pull plays</h3>
+    <div class="loop" aria-label="The caster's pull">
+      <span class="st">Spell Surge ready</span><span class="ar">→</span>
+      <span class="st">The opener on a pack that has not moved: free, with Opening Volley, Surge and Overload</span><span class="ar">→</span>
+      <span class="st">Bolts on Attack; Arc spreads them, each hit a second off the next Surge</span><span class="ar">→</span>
+      <span class="st">Binding Circle when they arrive</span><span class="ar">→</span>
+      <span class="st">Blink out, Phase covering the jump</span>
+    </div>
+    <p class="note">Kills stack Onslaught, so the casts quicken through a long fight. By class: the Elementalist's stacks already reward casting without a pause; the Priest stays the weakest and needs its own answer; the fixed Overload makes the breath Dragon stronger, so check it first when simulating.</p>
+  </div>
+</section>
+
+<section id="archery">
+  <h2>Archery: four more, to even the count</h2>
+  <p class="col">Three are yours, as you wrote them; Nimble is my proposal, and you did not object. None adds area damage. The archer also loses Shield Wall, and its Onslaught is 18 % until two more points go in.</p>
+  <div class="tw"><table>
+    <tr><th>Talent</th><th>Kind</th><th>Effect</th><th>How it is built</th></tr>
+    <tr><td class="name">Long Shot <span class="src">you</span></td><td class="nw">passive 3</td><td>Bow damage grows with the distance to the monster: nothing under 1,536 units, rising evenly to +3 / 6 / 9 % at the bow's full range of 5,120. At rank 3: +2.25 % at 2,432, +4.5 % at 3,328, +6.75 % at 4,224</td><td>The arrow's flight, from where it left to where it struck, is already on the projectile. Small</td></tr>
+    <tr><td class="name">Expose Weakness <span class="src">you</span></td><td class="nw">passive 3</td><td>A critical strike exposes the monster: it takes 3 / 6 / 9 % more damage for 5 s. Not stacking; each critical strike renews it</td><td>MAW already keeps a "takes more damage" value on a monster, for the Grandmaster spear. This is a second one with an end time. Small</td></tr>
+    <tr><td class="name">Hamstring <span class="src">you</span></td><td class="nw">passive 3</td><td>A critical strike slows the monster's movement by 5 / 10 / 15 % for 3 s. Movement only; not stacking</td><td>The game's slow also slows attacks, so this needs a slow of movement alone: one more timed value on the monster in both world runtimes. Medium</td></tr>
+    <tr><td class="name">Nimble</td><td class="nw">passive 3</td><td>5 / 10 / 15 % less damage while moving</td><td>Reads the stillness Steady Aim already tracks. It pulls against Steady Aim (stand still for Luck) and takes the place Shield Wall had. Small</td></tr>
+  </table></div>
+  <div class="col">
+    <ul>
+      <li><strong>What the three do to your archer.</strong> Its crit chance against its monsters is 138.9 %, so every arrow is a critical strike. For it Expose Weakness and Hamstring are always up on everything it shoots: +9 % damage, and monsters that walk 15 % slower. Long Shot adds up to 9 % more at the far end of its range. Together roughly 9 to 19 % more damage at rank 3 (15 to 30 % at the first sizes), less for a character whose crits are not certain. <span class="src">save</span></li>
+      <li><strong>Movement only, as you chose.</strong> Every slow in the game today slows the monster's attacks as well as its movement, so Hamstring gets its own slow of movement alone. A side gain: Binding Circle, which today holds monsters with the ordinary slow and so also slows their attacks tenfold, can use it to become the root it was meant to be. <span class="src">code</span></li>
+      <li><strong>Expose Weakness, as I read it:</strong> the percent is by rank, and every hit on the exposed monster counts, the chained and Multishot arrows too.</li>
+      <li><strong>Parity moves with the reference.</strong> The melee and caster numbers on this page were sized against the archer as it is today. The parity checks below are where that gets settled.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="parity">
+  <h2>Parity: when are the three level?</h2>
+  <div class="col">
+    <p>At the same level and gear tier the three paths should clear the same map in about the same time and die about as often, with the danger in different places (the last row of the identities table).</p>
+    <h3>Three ways to measure, cheapest first</h3>
+    <ol>
+      <li><strong>MAW's own sheet.</strong> It already prints Power and Vitality. Your archer: Ranged Power 564K, Vitality 390K. Read a melee and a caster character of level 728 with gear of the same tier against those two numbers before tuning any talent. If a sheet is far below, talents are the wrong place to fix it.</li>
+      <li><strong>The simulation.</strong> Its talent model has range (groups start 1,200 units away, shooters stand off at 600). Add the Arms talents and rage, the fixed Overload, the fed Spell Surge, Arc and Opening Volley, and rerun whole groups on Nightmare 300 and 500 and Beyond Madness 500 beside the Archer.</li>
+      <li><strong>Play.</strong> One dimension map of your archer's tier (your quicksave sits in one: power 47, tier 490) with a melee and a caster test character made at its level.</li>
+    </ol>
+    <p><strong>First targets for play,</strong> against the archer on the same map: clear time within 25 %; no more deaths; a hand on an active every 3 to 6 s; the largest single hit below 90 % of the bar.</p>
+  </div>
+</section>
+
+<section id="order">
+  <h2>Order of work</h2>
+  <ol class="stages col">
+    <li><span>Read a melee and a mage sheet at the archer's level. Fix Overload's count. Make Cleave and Sweeping Blows say what they struck.</span><span class="sz">small</span></li>
+    <li><span>The path lock: rule, page, old saves. Shield Wall out. Onslaught to Any: five ranks, spell recovery.</span><span class="sz">small</span></li>
+    <li><span>Arms passives: Outnumbered and Battle Frenzy (both ride on MAW's count), then Vanguard. The shared floor. Charge's kill feed.</span><span class="sz">medium</span></li>
+    <li><span>Rage: the bar, its place in the unit frame, Heroic Strike.</span><span class="sz">medium</span></li>
+    <li><span>The new monster states together, in both runtimes: Challenge (cannot shoot or cast), Demoralizing Shout (30 % less damage), Hamstring's slow of movement alone.</span><span class="sz">medium</span></li>
+    <li><span>Arcana: Spell Surge rework, Arc, Arcane Ward in place of Resolve, Opening Volley, Breach, Phase.</span><span class="sz">medium</span></li>
+    <li><span>Archery: Long Shot, Expose Weakness, Nimble; Hamstring on the state of stage 4.</span><span class="sz">small</span></li>
+    <li><span>Play all three paths on one dimension map, then tune.</span><span class="sz">play</span></li>
+  </ol>
+  <p class="col note">Each stage is playable alone. Stages 2 to 4 (Arms), 5 (Arcana) and 6 (Archery) do not depend on each other.</p>
+</section>
+
+<section id="open">
+  <h2>Still open</h2>
+  <ol class="decisions col">
+    <li><strong>Two readings to confirm:</strong> Heroic Strike's "300" as the last rank, with 200 and 250 below it; and Expose Weakness's "up to" as the percent by rank.</li>
+    <li><strong>Left as it is, by your decision:</strong> Overload on the spells that strike everything in view at once (Inferno, Armageddon, Prismatic Light, Souldrinker).</li>
+    <li><strong>To listen to:</strong> the three new sounds, three takes each, in <code>level_generation/sounds/solo_archetypes_20261118/review/index.html</code>.</li>
+    <li><strong>Sizes.</strong> Every number here is a first value. Your archer rises by roughly 9 to 19 % with its three new talents, and no late melee or mage character has been played or read from a sheet yet.</li>
+  </ol>
+  <p class="col note">Dropped: Shield Wall, Grapple and the Death Grip, a price on each rage ability, Shatter, Hunter's Mark (your decisions); Cleave's per-hit feed (rage replaces it); Battle Frenzy counting every monster that noticed you.</p>
+</section>
+
+<footer class="col">
+  The full text with file and line references is <code>devdocs/solo_action/ARCHETYPES_RESEARCH.md</code>. The archer was read from a copy of <code>saves/save154.oysav</code>; the save was written by an older build than the one that read it (HP 27,521 stored, 24,151 today), and several of its sessions ran with debug help, so its death counts are not a clean measure.
+</footer>
+
+</div>
+
+<script>
+(function () {
+  // Path sketch.
+  var sketch = document.getElementById('sketch');
+  var paths = Array.prototype.slice.call(sketch.querySelectorAll('.path'));
+  var status = document.getElementById('sketch-status');
+  var names = { arms: 'Arms', archery: 'Archery', arcana: 'Arcana' };
+  function setPath(chosen) {
+    paths.forEach(function (p) {
+      var mine = p.dataset.path === chosen;
+      p.classList.toggle('open', mine);
+      p.classList.toggle('shut', !!chosen && !mine);
+      p.querySelector('button').setAttribute('aria-pressed', mine ? 'true' : 'false');
+    });
+    status.textContent = chosen
+      ? names[chosen] + ' chosen with its first rank. The other two paths are closed until a reset; Any stays open.'
+      : 'Choose a path: click a column’s header.';
+  }
+  paths.forEach(function (p) {
+    p.querySelector('button').addEventListener('click', function () {
+      if (!sketch.querySelector('.path.open')) { setPath(p.dataset.path); }
+    });
+  });
+  document.getElementById('sketch-reset').addEventListener('click', function () { setPath(null); });
+
+  // Pack calculator.
+  var VAN = [0, 0.2, 0.4, 0.6], OUT = [0, 0.02, 0.03, 0.04], FRE = [0, 0.02, 0.035, 0.05];
+  var st = { near: 4, far: 8, van: 3, out: 3, fre: 3, l22: false, shout: false, floor: true };
+  function mults(n) {
+    var o = 1 - OUT[st.out] * Math.min(n, 10);
+    var l = st.l22 ? Math.max(Math.pow(0.97, n), 0.5) : 1;
+    var far = o * l * (1 - VAN[st.van]);
+    var near = o * l * (st.shout ? 0.7 : 1);
+    var any = st.van || st.out || st.l22 || st.shout;
+    if (st.floor && any) { near = Math.max(near, 0.2); far = Math.max(far, 0.2); }
+    return { near: near, far: far };
+  }
+  function before(n) { return n + st.far; }
+  function after(n) { var m = mults(n); return n * m.near + st.far * m.far; }
+  function swing(n) {
+    var extra = Math.min(3, Math.max(0, n - 1)) * 0.5;
+    return (1 + extra) * (1 + FRE[st.fre] * Math.min(10, n));
+  }
+  var svg = document.querySelector('#chart svg'), tip = document.getElementById('tip');
+  var W = 640, H = 300, L = 40, R = 150, T = 14, B = 34, NS = 'http://www.w3.org/2000/svg';
+  function el(name, attrs, text) {
+    var e = document.createElementNS(NS, name);
+    for (var k in attrs) { e.setAttribute(k, attrs[k]); }
+    if (text !== undefined) { e.textContent = text; }
+    svg.appendChild(e); return e;
+  }
+  function f1(v) { return v.toFixed(1); }
+  var hoverN = null;
+  function draw() {
+    while (svg.firstChild) { svg.removeChild(svg.firstChild); }
+    var ymax = Math.max(10, Math.ceil((20 + st.far) / 10) * 10);
+    function x(n) { return L + (W - L - R) * n / 20; }
+    function y(v) { return H - B - (H - T - B) * v / ymax; }
+    for (var g = 0; g <= ymax; g += 10) {
+      el('line', { x1: L, x2: W - R, y1: y(g), y2: y(g), 'class': 'gl' });
+      el('text', { x: L - 8, y: y(g) + 4, 'text-anchor': 'end', 'class': 'ax' }, String(g));
+    }
+    for (var n = 0; n <= 20; n += 5) { el('text', { x: x(n), y: H - B + 16, 'text-anchor': 'middle', 'class': 'ax' }, String(n)); }
+    el('text', { x: (L + W - R) / 2, y: H - 2, 'text-anchor': 'middle', 'class': 'ax' }, 'monsters within 768');
+    var p1 = [], p2 = [];
+    for (var i = 0; i <= 20; i++) { p2.push(x(i) + ',' + y(before(i))); p1.push(x(i) + ',' + y(after(i))); }
+    el('polyline', { points: p2.join(' '), 'class': 'l2' });
+    el('polyline', { points: p1.join(' '), 'class': 'l1' });
+    var yb = y(before(20)), ya = y(after(20));
+    if (ya - yb < 16) { ya = yb + 16; }
+    el('text', { x: W - R + 8, y: yb + 4, 'class': 'dl' }, 'MAW as it is  ' + f1(before(20)));
+    el('text', { x: W - R + 8, y: ya + 4, 'class': 'dl' }, 'With talents  ' + f1(after(20)));
+    var at = hoverN === null ? st.near : hoverN;
+    if (hoverN !== null) { el('line', { x1: x(at), x2: x(at), y1: T, y2: H - B, 'class': 'ch' }); }
+    el('circle', { cx: x(at), cy: y(before(at)), r: 5, 'class': 'm2' });
+    el('circle', { cx: x(at), cy: y(after(at)), r: 5, 'class': 'm1' });
+    if (hoverN !== null) {
+      tip.hidden = false;
+      tip.innerHTML = at + ' near, ' + st.far + ' far<br>MAW as it is <b>' + f1(before(at)) + '</b><br>With talents <b>' + f1(after(at)) + '</b>';
+      var box = svg.getBoundingClientRect(), k = box.width / W;
+      tip.style.left = Math.min(Math.max(x(at) * k, 70), box.width - 70) + 'px';
+      tip.style.top = Math.max(y(before(at)) * k - 10, 62) + 'px';
+    } else { tip.hidden = true; }
+  }
+  function render() {
+    document.getElementById('o-near').textContent = st.near;
+    document.getElementById('o-far').textContent = st.far;
+    var b = before(st.near), a = after(st.near);
+    document.getElementById('k-before').textContent = f1(b);
+    document.getElementById('k-after').textContent = f1(a);
+    document.getElementById('k-after-l').textContent = 'with the talents' + (b > 0 ? ' (' + Math.round((1 - a / b) * 100) + ' % less)' : '');
+    document.getElementById('k-swing').textContent = Math.round(swing(st.near) * 100) + ' %';
+    var rows = '<tr><th class="num">Near</th><th class="num">MAW as it is</th><th class="num">With talents</th><th class="num">Per swing</th></tr>';
+    for (var n = 0; n <= 20; n += 2) {
+      rows += '<tr><td class="num">' + n + '</td><td class="num">' + f1(before(n)) + '</td><td class="num">' + f1(after(n)) +
+        '</td><td class="num">' + Math.round(swing(n) * 100) + ' %</td></tr>';
+    }
+    document.getElementById('ctable').innerHTML = rows;
+    draw();
+  }
+  document.getElementById('c-near').addEventListener('input', function (e) { st.near = +e.target.value; render(); });
+  document.getElementById('c-far').addEventListener('input', function (e) { st.far = +e.target.value; render(); });
+  [['c-l22', 'l22'], ['c-shout', 'shout'], ['c-floor', 'floor']].forEach(function (p) {
+    document.getElementById(p[0]).addEventListener('change', function (e) { st[p[1]] = e.target.checked; render(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('.seg'), function (seg) {
+    var key = seg.dataset.key, btns = seg.querySelectorAll('button');
+    function mark() { Array.prototype.forEach.call(btns, function (b, i) { b.setAttribute('aria-pressed', i === st[key] ? 'true' : 'false'); }); }
+    Array.prototype.forEach.call(btns, function (b, i) {
+      b.setAttribute('aria-label', key + ' rank ' + i);
+      b.addEventListener('click', function () { st[key] = i; mark(); render(); });
+    });
+    mark();
+  });
+  function move(e) {
+    var box = svg.getBoundingClientRect(), px = (e.clientX - box.left) * W / box.width;
+    var n = Math.round((px - L) / (W - L - R) * 20);
+    hoverN = Math.min(20, Math.max(0, n)); draw();
+  }
+  svg.addEventListener('pointermove', move);
+  svg.addEventListener('pointerdown', move);
+  svg.addEventListener('pointerleave', function () { hoverN = null; draw(); });
+  render();
+
+  // Rage calculator: the bar fills to 100, one ability empties it.
+  var rg = { sw: 2, share: 20, swept: 3, hp: 0 };
+  var presets = { pack: { sw: 2, share: 20, swept: 3, hp: 1 }, boss: { sw: 2, share: 0.5, swept: 0, hp: 4 }, walk: { sw: 0, share: 0, swept: 0, hp: 5 } };
+  function rageRender() {
+    var rec = rg.sw > 0 ? 1 / rg.sw : 0, share = rg.share / 100;
+    var main = 6 * rec + 30 * share;
+    var extra = rg.swept * (6 * rec + 30 * share * 0.5) / 3;
+    var blows = rg.sw * (main + extra);
+    var taken = 60 * rg.hp / 100;
+    var raw = blows + taken, rate = Math.min(20, raw);
+    var full = rate > 0 ? 100 / rate : 0;
+    document.getElementById('ro-sw').textContent = rg.sw.toFixed(1);
+    document.getElementById('ro-share').textContent = rg.share + ' %';
+    document.getElementById('ro-swept').textContent = rg.swept;
+    document.getElementById('ro-hp').textContent = rg.hp + ' %';
+    document.getElementById('rk-rate').textContent = rate.toFixed(1);
+    document.getElementById('rk-rate-l').textContent = raw > 20 ? 'rage a second (at the limit)' : 'rage a second';
+    document.getElementById('rk-full').textContent = rate > 0 ? full.toFixed(1) + ' s' : 'never';
+    document.getElementById('rk-min').textContent = rate > 0 ? (60 / full).toFixed(1) : '0';
+    document.getElementById('rk-add').textContent = rate > 0 && rg.sw > 0 ? '+' + Math.round(300 / (rg.sw * full)) + ' %' : 'none';
+    document.getElementById('r-fill').style.width = (rate / 20 * 100) + '%';
+    document.getElementById('r-note').textContent = 'From blows ' + blows.toFixed(1) + ' a second, from hits taken ' + taken.toFixed(1) +
+      (raw > 20 ? '; the limit of 20 cuts ' + (raw - 20).toFixed(1) + '.' : '.');
+    ['sw', 'share', 'swept', 'hp'].forEach(function (k) { document.getElementById('r-' + k).value = rg[k]; });
+  }
+  ['sw', 'share', 'swept', 'hp'].forEach(function (k) {
+    document.getElementById('r-' + k).addEventListener('input', function (e) { rg[k] = +e.target.value; rageRender(); });
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('#rcalc [data-preset]'), function (b) {
+    b.addEventListener('click', function () { var p = presets[b.dataset.preset]; rg = { sw: p.sw, share: p.share, swept: p.swept, hp: p.hp }; rageRender(); });
+  });
+  rageRender();
+})();
+</script>

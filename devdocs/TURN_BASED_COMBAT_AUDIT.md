@@ -4,7 +4,7 @@ Started 2026-11-06 from player reports on the 1.21 release. This is the referenc
 how the original turn engine works, what OpenYAMM matches, and each defect that gave the party an advantage or a
 disadvantage. Every reproducible defect has a headless scenario under `tests/scenarios/turn_based/` that asserts the
 original's behaviour; it failed before its fix and now guards it from `tests/scenarios/release/scenarios.txt`. TB-1 to
-TB-8 and TB-10 were fixed on 2026-11-06, TB-11 on 2026-11-16; TB-9 turned out not to be a defect. A new finding gets a scenario that fails
+TB-8 and TB-10 were fixed on 2026-11-06, TB-11 on 2026-11-16, TB-17 on 2026-11-17; TB-9 turned out not to be a defect. A new finding gets a scenario that fails
 first.
 
 ```bash
@@ -91,6 +91,7 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 | TB-14 | medium | fixed | indoors, floor triggers (pressure plates) and MM9 exits did not fire during TB | none (code path) |
 | TB-15 | medium | fixed | outdoors, walking or falling in TB advanced the clock, timers and the monsters' shields | none (code path) |
 | TB-16 | medium | fixed | MAW's timers (poison, monster regeneration and auras, solo talents) ran on actor AI time | `maw_poison_per_turn.yml` |
+| TB-17 | medium | fixed | travelling to another map ended turn-based mode (user decision 2026-11-17: it carries over) | `kept_across_map_change.yml` |
 
 ### TB-1: one press acts for two members
 
@@ -208,8 +209,9 @@ is what most of the "3 attacks" and "party turn, enemy turn" reports describe.
 
 ### TB-11: monsters walk less at a high game speed
 
-- **Cause.** Fast mode (F2: 1x to 4x) and the turn-based speed settings (1x to 4x) multiply each frame's time
-  (`GameApplication::gameplaySpeed`). The turn engine counts the whole multiplied time against the monsters' 64-tick
+- **Cause.** Fast mode (F2: the fast mode speed setting, 1.5x to 4x) and the turn-based speed settings (1x to 4x)
+  multiply each frame's time (`GameApplication::gameplaySpeed`). The turn engine counts the whole multiplied time
+  against the monsters' 64-tick
   wait stage, but the world let actors catch up at most 0.1 s per frame (`MaxAccumulatedActorUpdateSeconds`) and
   missiles four 1/60 s steps. Once the multiplied frame passed 0.1 s (above 6x at 60 frames a second, above 3x at
   30), the wait ended before the monsters had walked its 64 ticks. At 16x and 30 frames a second a monster walked
@@ -277,6 +279,15 @@ completed turn with 213 ticks, and only physics, doors and animation use frame t
   TB passes in the wait stage and the monsters' actions; the shields' design says so (they pause while the party
   acts). Fly and Water Walk drain no mana in OpenYAMM in real time either (the original drains the caster's SP while
   flying); that is not a turn-based question.
+
+### TB-17: a map change ends turn-based mode
+
+Every map load first unbinds the old world (`GameApplication::shutdownRenderer`, `GameSession::bindActiveWorldRuntime`
+with no world), and that ended TB, so the party arrived on the next map in real time. By the user's decision
+(2026-11-17) TB carries over: `TurnBasedCombatRuntime::leaveMap` keeps the mode, its stage and the members' places
+in the queue, and drops the old map's monsters and the actions in flight there; the new map's monsters join as
+arrivals at the next attack stage. A new game and a loaded save still reset TB, and a party defeat ends it
+(`applyPartyDefeatConsequences`), since the woken party is not in a fight.
 
 ## Scenario support
 

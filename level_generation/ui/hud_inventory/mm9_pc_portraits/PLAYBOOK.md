@@ -142,6 +142,10 @@ that slot. Statuses: `pass`; `check` (defining features present, plus extra move
 `no-face` (slot 36, nearly out of frame, is expected). `verification_1..4.png` show each slot beside six
 families, the template and the new frame, with what the engine uses it for.
 
+The measure compares expressions, not identity: a slot that took the template character's whole face passes. Look at
+the state slots (02–12, 37–39, 54) beside frame 01 for the character's own hair, face shape and marks; PC12's
+diseased slot 09 shipped with 7pc08's face and was found by a player (repaired 2026-11-17, `pc12/repair_09/`).
+
 Gate: look at every `mismatch` and the `check`s on the sheets and decide whether the slot is really wrong. The
 measure is noisy (closed lids, beards, stone); for scale, original families score 5–12 mismatches each and the
 PC03 pilot ended with 1. Shake (25–29) and nod (30–33) directions differ between original families; follow the

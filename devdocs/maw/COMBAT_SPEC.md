@@ -1,6 +1,6 @@
 # MAW combat calculation spec
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12) and `7ddb228c` (2026-11-18) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) and [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) list a change.
 
 Status: specification for implementation and tests (2026-10-22). Built since (2026-10-24): the MAW ruleset in
 `game/rules/maw/` and `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
@@ -1720,7 +1720,7 @@ AC(L)       = worn·(1 + 0.5·ramp + row(skillItemAC[Chain], skill, m)·skill/10
 res(L)      = worn·row(skillItemRes[Chain], skill, m)·skill/100 + buffFlat(Fire Resistance 3, skill, m, L) + E(stat)
 enchRes(L)  = maxEnchant(L)·0.5·(1 + 0.5·ramp)
 phys(L)     = max(1/(AC/(200 + L) + 1), 0.1)
-magic(L)    = max(1/(res/(100 + L) + 1)·max(1 − buffMult(Shield 17), 0.7)·1/(enchRes/100 + 1), 0.1)
+magic(L)    = max(1/(res/(100 + 2·L) + 1)·max(1 − buffMult(Shield 17), 0.7)·1/(enchRes/100 + 1), 0.1)
 toHit(L)    = 1/(1 + stat/(100 + stat)·0.5)
 legTaken(L) = (1 − 0.1·ramp)·(1 − (1 − 0.97^5)·ramp)
 cover(L)    = 1 if row({0,1}, skill, m) ≤ 0, else 1/((1 − p) + p/ratio):

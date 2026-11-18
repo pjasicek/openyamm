@@ -1,6 +1,6 @@
 # MAW classes, spells, buffs and potions: implementation spec
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12) and `7ddb228c` (2026-11-18) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) and [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) list a change.
 
 Status: specification draft (2026-10-22). Built since (2026-10-24): the MAW ruleset in `game/rules/maw/` and
 `assets_dev/engine/rulesets/maw/`; what is left is in [GAPS.md](GAPS.md), the deliberate differences in
@@ -300,7 +300,8 @@ Row-by-row field changes are in `data/spells.yml` (`change:` on each spell).
 | Death Knight, Assassin | none: `ascension()` returns early | – | SP:2549-2557 |
 
 `Class Skillz.txt` gives Shamans no Learning (§5.4), so Shaman spell damage, cast time and CC duration never
-ascend while their costs and heals do. The Learning skill no longer gives experience (`GetLearningTotalSkill`
+ascend while their costs and heals do. OpenYAMM ascends the Shaman's damage too
+([DEVIATIONS](DEVIATIONS.md) 199). The Learning skill no longer gives experience (`GetLearningTotalSkill`
 returns 0) and old Learning points were refunded once (S:1537-1560). Its mastery texts read "mana cost reduced by
 12.5/25/37.5/50 %".
 

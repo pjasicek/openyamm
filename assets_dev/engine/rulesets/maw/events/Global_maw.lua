@@ -503,8 +503,51 @@ end)
 -- Dimensional Maps (Global/zzMaw_DimensionalMapsQuest.lua): the Oracle, Judge Grey and the Seer give a dimension map
 -- for each tier of party level and reward it once cleared; from the level 500 tier on, monsters drop maps. The rules
 -- keep the quest (evt.RulesTopic).
-RegisterGlobalEvent(10040, "Dimensional Maps", function()
-    evt.SetMessage(evt.RulesTopic("dimensional_maps") or "")
+--
+-- Ours: asked while the given map's rift stands uncleared, the topic gives way to "Repeat the map"; asking that, or
+-- loading a map, brings it back. A party that slew most of the rift's monsters, cannot finish it and has left it has
+-- the rift closed there for the same map again, after typing "yes"; the rules decide and say why not.
+local DimensionMapsTopic = 10040
+local RepeatMapTopic = 10041
+local RepeatMapYesStep = 1
+local RepeatMapDeclinedStep = 2
+-- The slot Dimensional Maps takes on each of them (content/npc_respec_patch.txt); their six slots are all in use.
+local DimensionMapsSlots = {[314] = 4, [413] = 5, [794] = 5}
+
+local function setDimensionMapsSlots(topic)
+    for npc, slot in pairs(DimensionMapsSlots) do
+        evt.SetNPCTopic(npc, slot, topic)
+    end
+end
+
+RegisterGlobalEvent(DimensionMapsTopic, "Dimensional Maps", function()
+    local text, offered = evt.RulesTopic("dimensional_maps")
+    evt.SetMessage(text or "")
+    if offered == "dimensional_maps_repeat" then
+        setDimensionMapsSlots(RepeatMapTopic)
+    end
+end)
+
+RegisterGlobalOnLoadEvent(65402, "MAW Dimensional Maps topic", function()
+    setDimensionMapsSlots(DimensionMapsTopic)
+end)
+
+RegisterGlobalEvent(RepeatMapTopic, "Repeat the map", function(continueStep)
+    if continueStep == RepeatMapYesStep then
+        evt.SetMessage(evt.RulesTopic("dimensional_maps_repeat_confirmed") or "")
+        return
+    end
+    if continueStep ~= nil then
+        evt.SetMessage("Then the rift stands.")
+        return
+    end
+    setDimensionMapsSlots(DimensionMapsTopic)
+    local text, _, confirm = evt.RulesTopic("dimensional_maps_repeat")
+    if confirm == nil then
+        evt.SetMessage(text or "")
+        return
+    end
+    AskQuestionWithAnswerSteps(RepeatMapTopic, RepeatMapDeclinedStep, text, {{Answer = "yes", Step = RepeatMapYesStep}})
 end)
 
 -- Doom and the modes after it: the circus traders of the keg and pyramid trades are gone (GLOBAL.lua:799-803).

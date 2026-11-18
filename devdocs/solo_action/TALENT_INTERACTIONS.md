@@ -5,6 +5,13 @@ combat rules: leech, the classes' on-hit gains, item and artifact effects, kills
 Regular MAW, party games and Standard never make a talent blow, so none of this reaches them. The rules also check
 `options().soloRun` before cutting anything.
 
+**Since the archetypes (2026-11-18, [ARCHETYPES_BUILD.md](ARCHETYPES_BUILD.md)):** Heroic Strike is a paying blow
+like Charge's (200 / 250 / 300 %, half a swing's recovery), and it gives rage like any melee blow. Rage comes from
+paying blows in full and from extra blows at a third, as the other on-hit gains. A spell's Arc leap is a chained
+monster as an arrow's is: never critical, no flinch, full leech at the spell rate. Expose Weakness and Hamstring come
+only from a critical hit of an arrow's own target (a leap is never critical), and Expose Weakness then raises every
+hit on that monster, the leaps' and Multishot's too.
+
 ## Blow kinds
 
 A talent strikes through `executePartyAttack` (`GameplayInteractionController.cpp`) with a `TalentBlow`, so every hit
@@ -20,12 +27,30 @@ Ordinary attacks are not talent blows. An ordinary bow shot's arrows can chain (
 Arrows): each arrow leaps on from the monster it strikes to the nearest other within 1024, and each monster after the
 first is struck at the talent's share (30 % + per weapon skill) and is an ordinary missile hit.
 
+**Who Cleave, Sweeping Blows and Charge strike** (bug report, 2026-11-18; `collectTalentTargets`): every actor of the
+map in reach and in the arc, indoors too in sectors the party has not stood in yet (the activated sectors gate the
+monsters' AI, not who a blow reaches). A monster is in sight when the attack's own line reaches it
+(`partyAttackActorFacts`' `lineOfSightToParty`: from the party's chest at several heights of the monster, not from
+its feet, which a slope hid), or, with its middle hidden by a door frame, a corner or a stair's edge, a line to
+either side of it (three quarters of its radius out). The talent's blow then takes the monster it was given without
+testing the middle's line again (`resolveUsableActorTarget`). Sweeping Blows sweeps around the monster the Attack
+strikes (`GameplayActionController::partyAttackActorTarget`: the one under the crosshair, else the nearest hostile),
+not only one under the crosshair. `tests/scenarios/rulesets/maw_solo_talent_targets.yml` (outdoors) and
+`maw_solo_talent_targets_indoor.yml` (6d01: a room beyond a doorway, a monster round a corner).
+
 **No flinch** (user, 2026-11-16): Sweeping Blows' extra blows and an arrow's Chaining Arrows leaps make the monster
 neither play its hit reaction (the GotHit flinch, the stagger rules' wince) nor take the knockback; the main blow or
 the arrow's first monster still do. `IGameplayWorldRuntime::applyPartyAttackMeleeDamage(..., hitReaction)`:
 `TalentBlow::noHitReaction` for Sweeping Blows, and a projectile that has struck a monster before
 (`ProjectileState::chainStruckActorIds`) for the leaps. Cleave's other monsters still flinch. Checked headless at
 0.05 s steps: the swept and chained Mercenary Captains are hurt but never in GotHit.
+
+**Multishot with a Carnage bow** (user, 2026-11-17, from a Discord report): Carnage explodes every arrow, so a volley
+(up to eight arrows at rank 3 with a Master bow) blasted a group once per arrow, and each blast restarted every
+monster's flinch and knockback: the group stood locked. Multishot's arrows carry `ProjectileState::quietBlast`
+(`PartyAttackConfig::talentFanArrows > 1`): their blasts still deal their damage to every monster they reach, but
+start no hit reaction and no knockback; the monster an arrow strikes still flinches. An ordinary Carnage shot's blast
+flinches as before. Scenario: `rulesets/maw_solo_multishot_carnage_no_flinch.yml` (fails with the flag off).
 
 ## Per hit, by kind
 

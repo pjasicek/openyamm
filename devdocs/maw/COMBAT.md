@@ -1,6 +1,6 @@
 # MAW mod: combat math, stats, monsters, difficulty, bolster, progression
 
-> Formulas updated to MAW `8fbb48d1` (2026-11-05) and `8967ae88` (2026-11-12) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md) and [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) list a change.
+> Formulas updated to MAW `8fbb48d1` (2026-11-05), `8967ae88` (2026-11-12) and `7ddb228c` (2026-11-18) where [UPSTREAM_SYNC_8fbb48d1.md](UPSTREAM_SYNC_8fbb48d1.md), [UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md) and [UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md) list a change.
 
 First-pass overview. Corrected on 2026-10-22 against the verified specs listed in [README.md](README.md); where they
 differ, the spec documents win.
@@ -131,7 +131,7 @@ Player resistances are **level-dependent and hyperbolic**. The README's 2^(res/1
 *monster* side (section 2.6). From `Formulas.lua:65-74`:
 
 ```
-taken = 1/(res/(100 + L) + 1) × 1/(itemRes/100 + 1)
+taken = 1/(res/(100 + 2·L) + 1) × 1/(itemRes/100 + 1)      (100 + L before 7ddb228c)
 ```
 
 - `itemRes` is the "normal enchant resistance" from items, stored separately in
@@ -677,8 +677,9 @@ steeper above level 100, a monster of base level 30 on top of a bolster of 200 g
   progression (MM6 54, MM7 52, MM8 58 steps). The Breach is 1100. Within-map spread is ±2× the
   Low/Mid/High offsets and ±2× the tier offset, via `bolsteredLevel`. Non-native families use `Xslot = 0`, i.e. an
   offset of −2 × mean, and land far below the map level.
-- **Arena (d42):** `6·base − 4.8·(base−LevelB) + 2·adjust`, plus `600 + 3.5·overflow` beyond the
-  table.
+- **Arena (d42)**, since 7ddb228c: a B row at `step + A·step` (A the Endless Arena's level, step 6, 8 in Beyond
+  Madness), +2 and +4 for the families of the level's second and third wave, the other tiers at
+  `+ 1.2·(base−LevelB)`. Before: `6·base − 4.8·(base−LevelB) + 2·adjust`, plus `600 + 3.5·overflow` beyond the table.
 - **Bounty:** `base + mapvars.mawBounty`.
 
 **Unique monsters** (NameId 1..219), stored once per map in `mapvars.oldUniqueMonsterTable`:

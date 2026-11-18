@@ -70,10 +70,10 @@ In order. GAPS.md and DEVIATIONS.md hold the details of each row.
    dividers; 1-4 buttons and the Bag 1-4 keys zoom one. Save 121 fits older saves' five or 25 bags into four.
 5. **Pouches** (H.10, DEVIATIONS 196; user, 2026-11-17, replacing the bag tags of DEVIATIONS 178): the hammer,
    potion and key buttons open the party's Crafting, Alchemy and Quest pouches, each an endless scrolling tab in the
-   bags' place (one grid of 28 columns without dividers). Workbench materials (1041-1070), potions, bottles and
-   reagents, and quest items (Value 0 and no gear, `MawItemRules::pouch`) lie only there, shared by every member;
-   quest checks, the Workbench, quick-slots, upkeep and shops reach them. Saves 192 and 193 (the Quest pouch) move
-   an older save's items there (`Party::gatherPouchItems`). `Party::pouchItems`, `InventoryBags::pouchBag`,
+   bags' place (one grid of 28 columns without dividers). Workbench materials (1041-1070) and dimension maps, potions,
+   bottles and reagents, and quest items (Value 0 and no gear, `MawItemRules::pouch`) lie only there, shared by every
+   member; quest checks, the Workbench, quick-slots, upkeep and shops reach them. Saves 192 and 193 (the Quest pouch)
+   move an older save's items there (`Party::gatherPouchItems`). `Party::pouchItems`, `InventoryBags::pouchBag`,
    `InventoryBagOverview::pouchSlot`; tests in `MawContentUiTests.cpp` ("pouch").
 6. **Bounty presentation** (H.11, session B): a map note on the target, the boss named in the texts, and the bounty
    cancelled when someone other than the party kills the target.
@@ -288,6 +288,9 @@ reports in play come first.
 | 154 | `SaveVersionBowDisabled` | the Bow preference, MAW's disableBow (dev 137, 2026-11-05) |
 | 192 | `SaveVersionMawPouches` | the party's Crafting and Alchemy pouches (dev 196, 2026-11-17); older saves' items move there, the bag tags are dropped |
 | 193 | `SaveVersionMawQuestPouch` | the party's Quest pouch (dev 196, 2026-11-17); older saves' quest items move there |
+| 194 | `SaveVersionMawPendingRefills` | the maps whose next load refills them (a dungeon reset at its entrance) |
+| 195 | `SaveVersionMapInstances` | the map instance the party stands in, and a rift's origin, progress and dropped maps (dev 198, 2026-11-17); an older save's open dimension run moves from its map's state into the rift's |
+| 196 | `SaveVersionMawMapsInCraftingPouch` | no new data: dimension maps lie in the Crafting pouch (2026-11-17); an older save's move there from the Quest pouch, where the Workbench did not list them |
 
 `RulesetTests.cpp` carries the round trips and the legacy-save tests. A new version needs a round trip test and,
 for a reader change, a test of the older layout.
@@ -300,8 +303,8 @@ for a reader change, a test of the older layout.
   (`level_generation/ui/maw_*_2026102x/`, each with a README, `index.html`, previews and later a `native/` folder of
   game captures). Build natively only after approval, then add native captures to the README. Text must stay
   readable at 1600x900; the user asks for stronger fonts (Alegreya SemiBold for small text, Fondamento for titles).
-- MAW is the truth at `/home/pjasicek/github/Maw-Mod-MMMerge`: ported from `ef23ee17`, synced to `8fbb48d1` and
-  `8967ae88` (UPSTREAM_SYNC_*.md list what each sync changed). `reference/Maw-Mod-MMMerge` is an
+- MAW is the truth at `/home/pjasicek/github/Maw-Mod-MMMerge`: ported from `ef23ee17`, synced to `8fbb48d1`,
+  `8967ae88` and `7ddb228c` (UPSTREAM_SYNC_*.md list what each sync changed). `reference/Maw-Mod-MMMerge` is an
   older clone with other formulas: never audit against it. Follow MAW's code over its README and texts. Each
   deliberate difference gets a DEVIATIONS row; never copy MAW Lua.
 - MAW behaviour goes behind a rules hook (`game/rules/*Rules.h`, MAW in `game/rules/maw/`) whose Standard default
@@ -351,7 +354,7 @@ for a reader change, a test of the older layout.
 | Where the choice lives | **Continent screen plus a Rules panel**: a Standard/MAW switch above the three continent cards; "Rules…" opens one panel with difficulty, progression, challenge mode, randomizer and preferences ([README.md](README.md) §4.1) |
 | Difficulty changes | **Like MAW**: changeable during play from an in-game "Current game" page, except that Nightmare and the challenge modes lock. A change must invalidate cached per-actor monster stats |
 | First target | **A playable MAW: phases 1–7** ([README.md](README.md) §4.6). Phases 8 (content) and 9 (challenge modes, randomizer) come after |
-| MAW version | Port the behaviour of MAW commit `ef23ee17` (`/home/pjasicek/github/Maw-Mod-MMMerge`), since synced to `8967ae88` ([UPSTREAM_SYNC_8967ae88.md](UPSTREAM_SYNC_8967ae88.md)). Follow the code, not MAW's README |
+| MAW version | Port the behaviour of MAW commit `ef23ee17` (`/home/pjasicek/github/Maw-Mod-MMMerge`), since synced to `7ddb228c` ([UPSTREAM_SYNC_7ddb228c.md](UPSTREAM_SYNC_7ddb228c.md)). Follow the code, not MAW's README |
 | MAW bugs | Default: fix each bug listed in [README.md](README.md) §6 and in the specs, and record it as a deviation (§4). Ask the user only where a fix changes balance noticeably |
 | Crafting (2026-10-23) | The Mirror copies no artifacts; the Emerald of Power sells; every magic shop may stock crafting items (alchemists too until 2026-11-13, when the user took them out: alchemists sell potions and reagents only); dimension-map drops get 4/3/2 affixes at 10/20/70 %; Doom's caps use exact arithmetic (138); the Workbench opens from the inventory only; crafting is instant and Apply ×N runs the whole batch; our own crafting item icons through the icon pipeline |
 

@@ -245,7 +245,7 @@ Talent points stay one per 10 levels; points beyond the table's 61 turn into Leg
 
 **Numbers.** Together ≈ ×1.1 HP, ×1.1 damage, ×0.9 magic taken for a full melee or caster tree: still the feel layer.
 
-**Time, parties.** As now. **Cost.** Small: `MawSoloTalents::applyPassives` and the table. **Risks.** None.
+**Time, parties.** As now. **Cost.** Small: `MawSoloTalents::applyStatPassives` and the table. **Risks.** None.
 
 ---------------------------------------------------------------------------------------------------------------------
 

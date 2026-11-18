@@ -4,6 +4,10 @@
 format: 1
 # The dimension map (renamed "Dimension Map"): its target, affixes and power live in the item's ruleset fields.
 map_item: 290
+# Ours (devdocs/maw/DIMENSION_INSTANCES_PLAN.md): a map opens a rift, an instance of its map that leaves the map itself
+# as it was. The party holds this quest item while a rift is open: used outside it leads into the rift, used inside
+# back to where the party came from. It carries the map's fields, so it reads like the map.
+portal_item: 1071
 # Kill drops once the Dimensional Maps quest is done (MonsterKilled, zzMaw-Maps.lua:826-939): chance x completed share
 # of the dungeons, with bad-luck protection, x monster level / 100 / (maps dropped on the map + 1), x10 from bosses,
 # from monsters of this level.
@@ -11,11 +15,14 @@ drop: {chance: 0.001, level_required: 100, boss_multiplier: 10}
 # Global/zzMaw_DimensionalMapsQuest.lua (MAW aef88884): the first map at this party level; the next tier adds
 # first_step, each later step one less down to last_step (80, 110, 139, 167, ... 490, 500); rewarding a tier of
 # unlock_tier or more unlocks the kill drops. %d and %s as in MAW.
+# Ours: a party that slew repeat_share of the given map's rift and cannot finish it may have the quest's giver close
+# the rift for the same map again (the "Repeat the map" topic); a rift never entered closes without that share.
 quest:
   first_tier: 80
   unlock_tier: 500
   first_step: 30
   last_step: 10
+  repeat_share: 0.8
   text_too_low: >-
     The rifts between worlds open only for those who have walked far enough. Return to me when one of you has reached
     level %d.
