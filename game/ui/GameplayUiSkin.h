@@ -51,7 +51,10 @@ enum class ArcMaterial
     // The personal energy shield's thin outer rim over the HP arc: charge, empty track, the flash as it breaks.
     Shield,
     ShieldDown,
-    ShieldFlash
+    ShieldFlash,
+    // The solo run's rage arc (Arms path): filling, and full.
+    Rage,
+    RageFull
 };
 
 inline HealthBand healthBand(float fraction)

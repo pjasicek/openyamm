@@ -1,0 +1,55 @@
+id: rulesets.maw_solo_rage_heroic_strike
+title: "Ruleset - solo run: melee blows fill the Arms path's rage, and Heroic Strike needs the full bar and empties it"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Rage (talents.yml `rage`; devdocs/solo_action/ARCHETYPES_RESEARCH.md §3.5): a melee blow that hits gives for
+        its recovery and for the share of the monster's bar it took. Heroic Strike (rage_cost 100) is refused on a bar
+        that is not full, strikes on a full one and empties it. Three immobile Mercenary Captains stand in reach; the
+        Knight is immortal, so the fight does not end.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            accuracy: 900
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent cleave 1", expect_contains: "cleave"}
+  - console: {line: "talent heroic_strike 3", expect_contains: "heroic_strike"}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: oute3.odm, x: -4128, y: -9919, z: 1500, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 195, x: -3898, y: -9919, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 2}
+  # An empty bar: Heroic Strike does nothing.
+  - console: {line: "talent rage 0", expect_contains: "rage 0"}
+  - console: {line: "talent use heroic_strike", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.5}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, max: 0}
+  # An ordinary blow that hits fills some of it.
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 0.3}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1}
+  - console: {line: "talent list", expect_contains: "(not full)", expect_not_contains: "rage 0 ("}
+  # A full bar: the strike lands and the bar is spent.
+  - advance_runtime: {seconds: 3}
+  - console: {line: "talent rage 100", expect_contains: "rage 100"}
+  - console: {line: "talent list", expect_contains: "rage 100 (full)"}
+  - console: {line: "talent use heroic_strike", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.2}
+  - console: {line: "talent list", expect_contains: "(not full)", expect_not_contains: "rage 100"}

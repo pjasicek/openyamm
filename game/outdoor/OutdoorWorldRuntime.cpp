@@ -3655,6 +3655,10 @@ GameplayActorSpellEffectState buildGameplayActorSpellEffectState(const OutdoorWo
     state.shrinkArmorClassMultiplier = actor.shrinkArmorClassMultiplier;
     state.armorClassHalvedRemainingSeconds = actor.armorClassHalvedRemainingSeconds;
     state.darkGraspRemainingSeconds = actor.darkGraspRemainingSeconds;
+    state.silenceRemainingSeconds = actor.silenceRemainingSeconds;
+    state.moveSlowRemainingSeconds = actor.moveSlowRemainingSeconds;
+    state.moveSlowMultiplier = actor.moveSlowMultiplier;
+    state.demoralizeRemainingSeconds = actor.demoralizeRemainingSeconds;
     state.dayOfProtectionRemainingSeconds = actor.dayOfProtectionRemainingSeconds;
     state.dayOfProtectionPower = actor.dayOfProtectionPower;
     state.hourOfPowerRemainingSeconds = actor.hourOfPowerRemainingSeconds;
@@ -3718,6 +3722,10 @@ void applyGameplayActorSpellEffectState(
     actor.shrinkArmorClassMultiplier = state.shrinkArmorClassMultiplier;
     actor.armorClassHalvedRemainingSeconds = state.armorClassHalvedRemainingSeconds;
     actor.darkGraspRemainingSeconds = state.darkGraspRemainingSeconds;
+    actor.silenceRemainingSeconds = state.silenceRemainingSeconds;
+    actor.moveSlowRemainingSeconds = state.moveSlowRemainingSeconds;
+    actor.moveSlowMultiplier = state.moveSlowMultiplier;
+    actor.demoralizeRemainingSeconds = state.demoralizeRemainingSeconds;
     actor.dayOfProtectionRemainingSeconds = state.dayOfProtectionRemainingSeconds;
     actor.dayOfProtectionPower = state.dayOfProtectionPower;
     actor.hourOfPowerRemainingSeconds = state.hourOfPowerRemainingSeconds;
@@ -10645,6 +10653,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     facts.stats.attack2MissileTypeOverride = actor.generatedAttack2MissileType;
     facts.stats.attackConstraints.blindActive = actor.blindRemainingSeconds > 0.0f;
     facts.stats.attackConstraints.darkGraspActive = actor.darkGraspRemainingSeconds > 0.0f;
+    facts.stats.attackConstraints.silenced = actor.silenceRemainingSeconds > 0.0f;
     facts.stats.attackConstraints.rangedCommitAllowed = combatTarget.attackLineOfSight;
 
     facts.runtime.motionState = actorAiMotionStateFromOutdoor(actor.aiState);
@@ -10848,7 +10857,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
             pActorService->effectiveActorMoveSpeed(
                 facts.stats.moveSpeed,
                 pStats->speed,
-                actor.slowMoveMultiplier,
+                actor.slowMoveMultiplier * actor.moveSlowMultiplier,
                 actor.darkGraspRemainingSeconds > 0.0f);
     }
     facts.movement.distanceToParty = length2d(partyX - actor.preciseX, partyY - actor.preciseY);
@@ -13825,6 +13834,9 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     spawnRequest.skillMastery = request.skillMastery;
     spawnRequest.damage = request.damage;
     spawnRequest.critical = request.critical;
+    spawnRequest.chainCount = request.chainCount;
+    spawnRequest.chainShare = request.chainShare;
+    spawnRequest.chainRadius = request.chainRadius;
     spawnRequest.attackBonus = request.attackBonus;
     spawnRequest.useActorHitChance = request.useActorHitChance;
     spawnRequest.damageType = request.damageType;
@@ -15829,7 +15841,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                 projectile.spellId,
                 false,
                 projectile.damageType,
-                gameplayAttackAbilityFromOutdoor(projectile.ability));
+                gameplayAttackAbilityFromOutdoor(projectile.ability),
+                projectile.firedDistance);
         }
     }
 
@@ -16020,7 +16033,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                     projectile.spellId,
                     true,
                     projectile.damageType,
-                    gameplayAttackAbilityFromOutdoor(projectile.ability));
+                    gameplayAttackAbilityFromOutdoor(projectile.ability),
+                    projectile.firedDistance);
             }
 
             if (areaImpact.logHits)
@@ -16059,6 +16073,10 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         projectile.projectileId
                         ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
                         ^ static_cast<uint32_t>(std::max(0, blastDamage)));
+                    // The blast knows how many monsters it damages (a solo run's Overload).
+                    PartyMissileSource blastSource = GameplayProjectileService::partyMissileSource(
+                        projectile, m_pParty, m_pItemTable, *pStats, m_mapActors[actorHit.actorIndex].currentHp);
+                    blastSource.blastMonsters = int(areaImpact.impact.actorHits.size());
                     appliedDamage = resolveDamageToMonster(
                         gameRulesFor(m_pParty).combat,
                         blastDamage,
@@ -16068,12 +16086,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         rng,
                         m_mapActors[actorHit.actorIndex].rulesetFacts,
                         {},
-                        GameplayProjectileService::partyMissileSource(
-                            projectile,
-                            m_pParty,
-                            m_pItemTable,
-                            *pStats,
-                            m_mapActors[actorHit.actorIndex].currentHp));
+                        blastSource);
                 }
 
                 const int beforeHp = m_mapActors[actorHit.actorIndex].currentHp;
@@ -16087,7 +16100,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
                         GameplayProjectileService::projectileShieldTier(projectile),
                         GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
                         projectile.critical,
-                        projectile.chainStruckActorIds.empty()))
+                        projectile.chainStruckActorIds.empty() && !projectile.quietBlast))
                 {
                     appliedDamage = 0;
                 }
@@ -17690,6 +17703,9 @@ bool OutdoorWorldRuntime::actorInspectState(
     state.fearRemainingSeconds = pActor->fearRemainingSeconds;
     state.shrinkRemainingSeconds = pActor->shrinkRemainingSeconds;
     state.darkGraspRemainingSeconds = pActor->darkGraspRemainingSeconds;
+    state.silenceRemainingSeconds = pActor->silenceRemainingSeconds;
+    state.moveSlowRemainingSeconds = pActor->moveSlowRemainingSeconds;
+    state.demoralizeRemainingSeconds = pActor->demoralizeRemainingSeconds;
     state.controlRemainingSeconds = pActor->controlRemainingSeconds;
     state.dayOfProtectionRemainingSeconds = pActor->dayOfProtectionRemainingSeconds;
     state.hourOfPowerRemainingSeconds = pActor->hourOfPowerRemainingSeconds;
@@ -17806,7 +17822,8 @@ std::optional<GameplayCombatActorInfo> OutdoorWorldRuntime::combatActorInfoById(
         info.currentHp = actor.currentHp;
         info.maxHp = actor.maxHp;
         info.displayName = actor.displayName;
-        info.damageDebuffed = actor.shrinkRemainingSeconds > 0.0f || actor.darkGraspRemainingSeconds > 0.0f;
+        info.damageDebuffed = actor.shrinkRemainingSeconds > 0.0f || actor.darkGraspRemainingSeconds > 0.0f
+            || actor.demoralizeRemainingSeconds > 0.0f;
         if (m_pGameplayActorService != nullptr)
         {
             info.attackBonus = m_pGameplayActorService->effectiveAttackHitBonus(
@@ -19417,6 +19434,19 @@ bool OutdoorWorldRuntime::debuffActor(size_t actorIndex, GameplayActorHitDebuff 
     {
         actor.darkGraspRemainingSeconds = std::max(actor.darkGraspRemainingSeconds, seconds);
     }
+    else if (debuff == GameplayActorHitDebuff::Silence)
+    {
+        actor.silenceRemainingSeconds = std::max(actor.silenceRemainingSeconds, seconds);
+    }
+    else if (debuff == GameplayActorHitDebuff::MoveSlow)
+    {
+        actor.moveSlowRemainingSeconds = std::max(actor.moveSlowRemainingSeconds, seconds);
+        actor.moveSlowMultiplier = std::min(actor.moveSlowMultiplier, 1.0f / std::max(1.0f, power));
+    }
+    else if (debuff == GameplayActorHitDebuff::Demoralize)
+    {
+        actor.demoralizeRemainingSeconds = std::max(actor.demoralizeRemainingSeconds, seconds);
+    }
     else
     {
         actor.slowRemainingSeconds = std::max(actor.slowRemainingSeconds, seconds);
@@ -19521,6 +19551,7 @@ bool OutdoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPr
     worldRequest.chainShare = request.chainShare;
     worldRequest.chainRadius = request.chainRadius;
     worldRequest.hitCredit = request.hitCredit;
+    worldRequest.quietBlast = request.quietBlast;
     worldRequest.sourceX = request.source.x;
     worldRequest.sourceY = request.source.y;
     worldRequest.sourceZ = request.source.z;
@@ -23138,6 +23169,9 @@ bool OutdoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProje
     worldRequest.impactSoundIdOverride = request.impactSoundIdOverride;
     worldRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     worldRequest.critical = request.critical;
+    worldRequest.chainCount = request.chainCount;
+    worldRequest.chainShare = request.chainShare;
+    worldRequest.chainRadius = request.chainRadius;
     const uint32_t firstProjectileId = projectileService().nextProjectileId();
     const bool cast = castPartySpell(worldRequest);
 
@@ -23187,6 +23221,7 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.chainShare = request.chainShare;
     spawnRequest.chainRadius = request.chainRadius;
     spawnRequest.hitCredit = request.hitCredit;
+    spawnRequest.quietBlast = request.quietBlast;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.sourceX;
@@ -24018,5 +24053,16 @@ const EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState() const
     }
 
     return &*m_eventRuntimeState;
+}
+
+bool OutdoorWorldRuntime::scriptedChestOpens(uint32_t chestId) const
+{
+    if (chestId >= m_chests.size() || m_pParty == nullptr)
+    {
+        return true;
+    }
+
+    const uint16_t flags = chestFlagsWithEventBits(m_chests[chestId].flags, eventRuntimeState(), chestId);
+    return chestOpensForParty(*m_pParty, m_map, flags);
 }
 }

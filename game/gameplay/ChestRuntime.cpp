@@ -1,5 +1,6 @@
 #include "game/gameplay/ChestRuntime.h"
 
+#include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayLootFilter.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -394,6 +395,11 @@ int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std
 {
     const auto [minimumLevel, maximumLevel] = remapTreasureLevelRange(itemTreasureLevel, mapTreasureLevel);
     return std::uniform_int_distribution<int>(minimumLevel, maximumLevel)(rng);
+}
+
+bool partyDisarmsChestTrap(const Party &party, const MapStatsEntry &map)
+{
+    return party.bestPartyWideUtilitySkillValue("DisarmTraps") >= map.disarmDifficulty * 2;
 }
 }
 
@@ -965,9 +971,7 @@ ChestTrapOpenResult resolveChestTrapOpen(
 
     result.trapWasPresent = true;
 
-    const int disarmValue = party.bestPartyWideUtilitySkillValue("DisarmTraps");
-
-    if (disarmValue >= map.disarmDifficulty * 2)
+    if (partyDisarmsChestTrap(party, map))
     {
         result.trapDisarmed = true;
         return result;
@@ -1035,6 +1039,40 @@ ChestTrapOpenResult resolveChestTrapOpen(
     }
 
     return result;
+}
+
+bool chestOpensForParty(const Party &party, const MapStatsEntry &map, uint16_t chestFlags)
+{
+    if (party.rules().items.chestOpenRefusal(party, map.disarmDifficulty))
+    {
+        return false;
+    }
+
+    return (chestFlags & ChestTrapFlag) == 0 || partyDisarmsChestTrap(party, map);
+}
+
+uint16_t chestFlagsWithEventBits(uint16_t chestFlags, const EventRuntimeState *pEventRuntimeState, uint32_t chestId)
+{
+    if (pEventRuntimeState == nullptr)
+    {
+        return chestFlags;
+    }
+
+    const auto setIterator = pEventRuntimeState->chestSetMasks.find(chestId);
+
+    if (setIterator != pEventRuntimeState->chestSetMasks.end())
+    {
+        chestFlags |= static_cast<uint16_t>(setIterator->second);
+    }
+
+    const auto clearIterator = pEventRuntimeState->chestClearMasks.find(chestId);
+
+    if (clearIterator != pEventRuntimeState->chestClearMasks.end())
+    {
+        chestFlags &= ~static_cast<uint16_t>(clearIterator->second);
+    }
+
+    return chestFlags;
 }
 
 void applyChestTrapOpenResultToParty(Party &party, const ChestTrapOpenResult &result)

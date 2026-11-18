@@ -367,6 +367,10 @@ struct GameplayActorInspectState
     float fearRemainingSeconds = 0.0f;
     float shrinkRemainingSeconds = 0.0f;
     float darkGraspRemainingSeconds = 0.0f;
+    // A solo run's talents (GameplayActorSpellEffectState): cannot shoot or cast, movement alone slowed, deals less.
+    float silenceRemainingSeconds = 0.0f;
+    float moveSlowRemainingSeconds = 0.0f;
+    float demoralizeRemainingSeconds = 0.0f;
     // How long the actor's charm, berserk or enslavement (controlMode) still holds.
     float controlRemainingSeconds = 0.0f;
     float dayOfProtectionRemainingSeconds = 0.0f;
@@ -401,6 +405,13 @@ struct GameplayActorSpellEffectState
     float shrinkArmorClassMultiplier = 1.0f;
     float armorClassHalvedRemainingSeconds = 0.0f;
     float darkGraspRemainingSeconds = 0.0f;
+    // A solo run's talents (devdocs/solo_action/ARCHETYPES_BUILD.md): the actor cannot shoot or cast (Challenge), walks
+    // slower while its attacks keep their pace (Hamstring), and deals less as under Shrinking Ray or Dark Grasp
+    // (Demoralizing Shout).
+    float silenceRemainingSeconds = 0.0f;
+    float moveSlowRemainingSeconds = 0.0f;
+    float moveSlowMultiplier = 1.0f;
+    float demoralizeRemainingSeconds = 0.0f;
     float dayOfProtectionRemainingSeconds = 0.0f;
     int dayOfProtectionPower = 0;
     float hourOfPowerRemainingSeconds = 0.0f;
@@ -455,6 +466,8 @@ struct GameplayActorAttackConstraintState
     bool attack2IsRanged = false;
     bool blindActive = false;
     bool darkGraspActive = false;
+    // A solo run's Challenge talent: the actor may not shoot or cast.
+    bool silenced = false;
     bool rangedCommitAllowed = true;
 };
 
@@ -479,6 +492,11 @@ struct GameplayPartySpellProjectileRequest
     std::optional<size_t> targetActorIndex;
     // Its damage was a critical hit (the status line and combat log say so where it lands).
     bool critical = false;
+    // A solo run's Arc talent: the missile leaps on from the monster it strikes to this many more, each within
+    // chainRadius of the one before and struck at chainShare of its damage (ProjectileState::chainLeft).
+    uint8_t chainCount = 0;
+    float chainShare = 0.0f;
+    float chainRadius = 0.0f;
 };
 
 enum class GameplayProjectileVisualMode
@@ -608,6 +626,12 @@ enum class GameplayActorHitDebuff : uint8_t
 {
     DarkGrasp,
     Slow,
+    // A solo run's talents: no missile or spell attacks (Challenge); movement divided by the power while attacks keep
+    // their pace (Hamstring); damage dealt cut as under Shrinking Ray (Demoralizing Shout). The stronger, longer one
+    // holds: none stacks.
+    Silence,
+    MoveSlow,
+    Demoralize,
 };
 
 struct GameplayCombatActorInfo
@@ -686,6 +710,8 @@ struct GameplayPartyAttackProjectileRequest
     // A solo run's ordinary bow attack: one credit its arrows share, spent by the first of them to hit a monster
     // (ProjectileState::hitCredit).
     std::shared_ptr<bool> hitCredit;
+    // ProjectileState::quietBlast (Multishot's arrows).
+    bool quietBlast = false;
 };
 
 struct GameplayPartyAttackFallbackQuery

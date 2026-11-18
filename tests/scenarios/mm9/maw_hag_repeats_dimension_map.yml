@@ -1,0 +1,53 @@
+# MAW in MM9: Hjordisa the Hag (RUDE 132, Guberland) repeats an unfinished Dimensional Maps quest map, as the Oracle,
+# Judge Grey and the Seer do (devdocs/maw/DEVIATIONS.md 197). The party has left the rift's map here, so the Hag goes
+# by what it last saw there; rulesets/maw_dimension_map_repeat.yml asks on the rift's own map.
+#   ./build/game/openyamm --headless-run-scenario tests/scenarios/mm9/maw_hag_repeats_dimension_map.yml
+id: mm9.maw_hag_repeats_dimension_map
+title: "MAW in MM9: the Hag repeats an unfinished Dimensional Maps quest map"
+world: mm9
+mode: faithful
+tags: [mm9, rulesets, maw]
+steps:
+  - new_game_flow:
+      start_map: guberland.blv
+      ruleset: {id: maw, difficulty: maw, progression: free}
+      party:
+        members:
+          - name: Seer
+            class: Knight
+            level: 120
+            skills:
+              - {name: Sword, level: 4, mastery: 1}
+            equipment: {main_hand: 1}
+  - setup_shortcut: {kind: immortal}
+  - ruleset_banks: {mm6: 0, completed_maps: [6d01.blv]}
+  - set_pose: {map: guberland.blv, x: 13500, y: -21027, z: 103, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 40}
+  # Her rows are fixed, so she lists both topics. The map given, its rift not opened: nothing to repeat.
+  - select_topic: {match_label: "Dimensional Maps"}
+  - select_topic: {match_label: "Repeat the map"}
+  - assert:
+      dialog: {text_contains: "The rift is not open"}
+      inventory_any_member: [{item_id: 290, count: 1}]
+  - press_action: {action: cancel_dialog}
+  # The rift left with ten of its monsters alive: back at the Hag, "yes" closes it for the same map again.
+  - use_item: {item_id: 290}
+  - advance_runtime: {seconds: 1}
+  - assert:
+      ruleset: {id: maw, dimension_quest: {tier: 80, given: true, cleared: false}}
+  - damage_actor: {all: true, spare: 10, amount: 100000000}
+  - advance_runtime: {seconds: 2}
+  - load_map: {map: guberland.blv}
+  - set_pose: {map: guberland.blv, x: 13500, y: -21027, z: 103, yaw: 0, pitch: 0}
+  - advance_runtime: {seconds: 0.5}
+  - interact_actor: {actor_index: 40}
+  - select_topic: {match_label: "Repeat the map"}
+  - answer_input:
+      text: "yes"
+      expect_before:
+        input_prompt: {event_id: 10041}
+  - assert:
+      dialog: {text_contains: "is closed"}
+      inventory_any_member: [{item_id: 290, count: 1}]
+      ruleset: {id: maw, dimension_run: {map: 6d01.blv, none: true}}

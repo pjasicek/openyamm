@@ -1202,7 +1202,8 @@ GameplayActorAttackAbility resolveAttackAbilityConstraints(
         return chosenAbility;
     }
 
-    if (constraints.blindActive || constraints.darkGraspActive || !constraints.rangedCommitAllowed)
+    if (constraints.blindActive || constraints.darkGraspActive || constraints.silenced
+        || !constraints.rangedCommitAllowed)
     {
         return fallbackMeleeAttackAbility(chosenAbility, constraints, attack2Chance);
     }
@@ -1320,6 +1321,7 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
     const bool hardRangedAbilityBlocked =
         input.constraintState.darkGraspActive
         || input.constraintState.blindActive
+        || input.constraintState.silenced
         || !input.constraintState.rangedCommitAllowed
         || (!input.forceRangedCommit && input.targetEdgeDistance >= input.rangedAttackReach);
 

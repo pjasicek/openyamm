@@ -22,7 +22,9 @@ using GameplayObsidianColors::abgr;
 // scaled to fit and centred, over a dark backdrop. Layout A of the talent tree v2 mockups
 // (level_generation/ui/solo_talents_v2_20261114/): the points header, the keystone strip, the three trees, the Any-tree
 // line, and the detail card at the right. Lone Discipline (innate) is not shown (user, 2026-11-14). Only learned
-// talents wear a rim; a talent not yet learned shows none, and a locked one is greyed.
+// talents wear a rim; a talent not yet learned shows none, and a locked one is greyed. Since the archetypes
+// (2026-11-18, devdocs/solo_action/ARCHETYPES_BUILD.md) a path has nine talents, in compact rows, and the first rank in
+// a path closes the other two: their headers and rows grey out.
 constexpr float CanvasWidth = 800;
 constexpr float CanvasHeight = 450;
 constexpr float ColumnLeft = 24;
@@ -31,13 +33,16 @@ constexpr float KeystoneTop = 80;
 constexpr float KeystoneLeft = 150;
 constexpr float KeystoneWidth = 200;
 constexpr float TreeHeaderTop = 126;
-constexpr float RowTop = 152;
-constexpr float RowHeight = 36;
+constexpr float RowTop = 154;
+constexpr float RowHeight = 22;
+// The keystones' rows keep the larger size the talents' had.
+constexpr float KeystoneRowHeight = 36;
+constexpr float KeystoneIconSize = 30;
 // The Any tree: a header like the trees' and its talents in the trees' three columns, a second row past three.
-constexpr float AnyHeaderTop = 340;
-constexpr float AnyTop = 366;
+constexpr float AnyHeaderTop = 358;
+constexpr float AnyTop = 382;
 constexpr float RowWidth = ColumnWidth - 8;
-constexpr float IconSize = 30;
+constexpr float IconSize = 19;
 constexpr float CardLeft = 594;
 constexpr float CardTop = 78;
 constexpr float CardWidth = 184;
@@ -68,10 +73,7 @@ const std::array<TalentTree, 3> Trees = {TalentTree::Arms, TalentTree::Archery, 
 
 std::string treeName(TalentTree tree)
 {
-    return tree == TalentTree::Arms  ? Engine::tr("Arms")
-        : tree == TalentTree::Archery ? Engine::tr("Archery")
-        : tree == TalentTree::Arcana  ? Engine::tr("Arcana")
-                                      : Engine::tr("Any tree");
+    return talentTreeName(tree);
 }
 
 // What a hover index names: the table's talents first, then its keystones.
@@ -108,6 +110,7 @@ struct TalentRow
     size_t index = 0;
     float x = 0;
     float y = 0;
+    float height = RowHeight;
 };
 
 std::vector<TalentRow> layoutRows()
@@ -142,7 +145,8 @@ std::vector<TalentRow> layoutRows()
     // The keystones' strip.
     for (size_t keystone = 0; keystone < table.keystones().size(); ++keystone)
     {
-        rows.push_back({talents.size() + keystone, KeystoneLeft + float(keystone) * KeystoneWidth, KeystoneTop});
+        rows.push_back({talents.size() + keystone, KeystoneLeft + float(keystone) * KeystoneWidth, KeystoneTop,
+            KeystoneRowHeight});
     }
     return rows;
 }
@@ -308,10 +312,20 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
         KeystoneTop + 22);
     painter.fill(painter.rect(24, TreeHeaderTop - 8, CardLeft - 40, 0.8f), Rule);
 
+    // One path a character: the chosen path's header says so, the other two grey out.
+    const std::optional<TalentTree> path = talentPath(table, *pMember);
     for (size_t column = 0; column < Trees.size(); ++column)
     {
-        painter.text("Fondamento", 17, Gold, treeName(Trees[column]), ColumnLeft + float(column) * ColumnWidth + 2,
-            TreeHeaderTop);
+        const float headerX = ColumnLeft + float(column) * ColumnWidth + 2;
+        const bool closed = path && table.isPath(Trees[column]) && Trees[column] != *path;
+        const std::string name = treeName(Trees[column]);
+        painter.text("Fondamento", 17, closed ? Grey : Gold, name, headerX, TreeHeaderTop);
+        if (path && table.isPath(Trees[column]))
+        {
+            painter.text("Lucida", 9, closed ? Grey : Ivory,
+                closed ? Engine::tr("another path") : Engine::tr("your path"),
+                headerX + painter.width("Fondamento", 17, name) + 8, TreeHeaderTop + 7);
+        }
     }
     painter.text("Fondamento", 17, Gold, treeName(TalentTree::Any), ColumnLeft + 2, AnyHeaderTop);
 
@@ -321,12 +335,13 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
         const bool hovered = screen.talentHover && *screen.talentHover == row.index;
         if (hovered)
         {
-            painter.fill(painter.rect(row.x - 3, row.y - 2, RowWidth, RowHeight - 2), HoverFill);
+            painter.fill(painter.rect(row.x - 3, row.y - 2, RowWidth, row.height - 2), HoverFill);
         }
-        const GameplayObsidianRect icon = painter.rect(row.x, row.y, IconSize, IconSize);
+        const float iconSize = entry.kind == EntryKind::Keystone ? KeystoneIconSize : IconSize;
+        const GameplayObsidianRect icon = painter.rect(row.x, row.y, iconSize, iconSize);
         const TalentDefinition &talent = *entry.pDefinition;
-        const float textX = row.x + IconSize + 8;
-        const float textWidth = RowWidth - IconSize - 12;
+        const float textX = row.x + iconSize + 8;
+        const float textWidth = RowWidth - iconSize - 12;
         if (entry.kind == EntryKind::Keystone)
         {
             const bool bound = hasKeystone(*pMember, talent.id);
@@ -335,7 +350,7 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
             if (bound)
             {
                 painter.frame(icon, Gold);
-                painter.frame(painter.rect(row.x - 2, row.y - 2, IconSize + 4, IconSize + 4), Gold);
+                painter.frame(painter.rect(row.x - 2, row.y - 2, iconSize + 4, iconSize + 4), Gold);
             }
             painter.text("Fondamento", 15, bound ? Ivory : open ? Body : Grey,
                 painter.fitted("Fondamento", 15, Engine::tr(talent.name), textWidth), textX, row.y);
@@ -360,25 +375,31 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
         // A talent without a last rank shows its rank alone, and no pips.
         const std::string rankText = std::to_string(rank)
             + (talent.unlimitedRanks ? std::string() : "/" + std::to_string(talent.maxRank));
-        const float rankWidth = painter.width("Lucida", 11, rankText) + 4;
-        painter.text("Fondamento", 14, locked ? Grey : rank > 0 ? Ivory : Body,
-            painter.fitted("Fondamento", 14, Engine::tr(talent.name), textWidth - rankWidth), textX, row.y);
-        painter.text("Lucida", 11, rank > 0 ? Gold : Grey, rankText, row.x + RowWidth - 4, row.y + 2, 2);
+        const float rankWidth = painter.width("Lucida", 10, rankText) + 4;
+        painter.text("Fondamento", 13, locked ? Grey : rank > 0 ? Ivory : Body,
+            painter.fitted("Fondamento", 13, Engine::tr(talent.name), textWidth - rankWidth), textX, row.y - 2);
+        painter.text("Lucida", 10, rank > 0 ? Gold : Grey, rankText, row.x + RowWidth - 4, row.y, 2);
         // Up to ten ranks a pip each; more (Spell Suppression's 41) one bar as wide as ten pips, filled by the share.
+        constexpr float PipTop = 14.5f;
+        constexpr float PipStep = 8;
+        constexpr float PipWidth = 6;
+        constexpr float PipHeight = 3.5f;
         if (!talent.unlimitedRanks && talent.maxRank <= MaxRankPips)
         {
             for (int pip = 0; pip < talent.maxRank; ++pip)
             {
-                painter.fill(painter.rect(textX + float(pip) * 11, row.y + 21, 7, 7), pip < rank ? Gold : PipOff);
+                painter.fill(painter.rect(textX + float(pip) * PipStep, row.y + PipTop, PipWidth, PipHeight),
+                    pip < rank ? Gold : PipOff);
             }
         }
         else if (!talent.unlimitedRanks)
         {
-            constexpr float BarWidth = MaxRankPips * 11 - 4;
-            painter.fill(painter.rect(textX, row.y + 21, BarWidth, 7), PipOff);
+            constexpr float BarWidth = MaxRankPips * PipStep - 2;
+            painter.fill(painter.rect(textX, row.y + PipTop, BarWidth, PipHeight), PipOff);
             if (rank > 0)
             {
-                painter.fill(painter.rect(textX, row.y + 21, BarWidth * float(rank) / float(talent.maxRank), 7), Gold);
+                painter.fill(painter.rect(textX, row.y + PipTop, BarWidth * float(rank) / float(talent.maxRank),
+                    PipHeight), Gold);
             }
         }
     }
@@ -448,6 +469,15 @@ void GameplaySoloTalentsPage::render(GameplayScreenRuntime &context, int width, 
         y = paragraph(painter, "Lucida", 12, Body, Engine::tr("One point every {levels} levels. Forget them for free "
             "at any training hall.", {{"levels", int64_t(table.levelsPerPoint())}}), CardLeft, y, CardWidth, Line)
             + 8;
+        if (!table.paths().empty())
+        {
+            y = paragraph(painter, "Lucida", 12, path ? Body : Gold,
+                path ? Engine::tr("Your path is {path}. The other two stay closed until you forget your talents.",
+                           {{"path", treeName(*path)}})
+                     : Engine::tr("Choose a path: your first rank in Arms, Archery or Arcana closes the other two "
+                                  "until you forget your talents. The Any tree is open to every path."),
+                CardLeft, y, CardWidth, Line) + 8;
+        }
         y = paragraph(painter, "Lucida", 12, Body, nextSlot > 0
                 ? Engine::tr("Keystone slots: {slots} open; the next opens at level {level}.",
                       {{"slots", int64_t(slots)}, {"level", int64_t(nextSlot)}})
@@ -524,7 +554,7 @@ bool GameplaySoloTalentsPage::handleInput(GameplayScreenRuntime &context, const 
     for (const TalentRow &row : layoutRows())
     {
         if (localX >= row.x - 3 && localX <= row.x + RowWidth - 3 && localY >= row.y - 2
-            && localY <= row.y + RowHeight - 4)
+            && localY <= row.y + row.height - 4)
         {
             screen.talentHover = row.index;
         }

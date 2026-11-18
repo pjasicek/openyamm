@@ -250,7 +250,13 @@ void ItemRules::adjustShopStock(
 {
 }
 
-std::optional<std::string> ItemRules::useTravelItem(Party &, const InventoryItem &) const
+std::optional<TravelItemUse> ItemRules::planTravelItem(
+    const Party &, const InventoryItem &, const TravelItemOrigin &) const
+{
+    return std::nullopt;
+}
+
+std::optional<TravelItemUse> ItemRules::useTravelItem(Party &, const InventoryItem &, const TravelItemOrigin &) const
 {
     return std::nullopt;
 }

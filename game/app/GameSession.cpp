@@ -14,6 +14,7 @@
 #include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/PartyHostileAlert.h"
 #include "game/items/InventoryBags.h"
+#include "game/items/ItemGenerator.h"
 #include "game/maps/MapIdentity.h"
 #include "game/party/WorldSpells.h"
 #include "game/rules/RandomStreams.h"
@@ -32,6 +33,7 @@
 #include <limits>
 #include <random>
 #include <string>
+#include <unordered_set>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -258,6 +260,7 @@ void GameSession::clear()
     m_partyState.reset();
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName.clear();
+    setMapInstanceId({});
     m_gameplayScreenState.clear();
     m_gameplayCombatController.clear();
     m_gameplayProjectileService.clear();
@@ -371,6 +374,21 @@ void GameSession::setCurrentMapFileName(std::string &&mapFileName)
     ++m_mm9QuestMarkerMapRevision;
 }
 
+const std::string &GameSession::mapInstanceId() const
+{
+    return m_mapInstanceId;
+}
+
+void GameSession::setMapInstanceId(const std::string &instanceId)
+{
+    m_mapInstanceId = instanceId;
+
+    if (m_pMawRules)
+    {
+        m_pMawRules->setMapInstanceId(instanceId);
+    }
+}
+
 float GameSession::gameMinutes() const
 {
     return m_gameMinutes;
@@ -406,6 +424,7 @@ void GameSession::setRuleset(const RulesetSelection &ruleset)
 
             m_pMawRules->setRandomRootSeed(m_randomRootSeed);
             m_pMawRules->setCurrentMap(m_currentMapFileName);
+            m_pMawRules->setMapInstanceId(m_mapInstanceId);
         }
     }
 
@@ -628,11 +647,12 @@ void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
     // A map change ends auto-walk.
     m_autoWalkActive = false;
 
+    // A map change unbinds the old world, then binds the new one. Turn-based mode carries over to the new map; a new
+    // game and a loaded save reset it (clear, restoreFromSaveData), a party defeat ends it.
     if (m_pActiveWorldRuntime != pWorldRuntime)
     {
-        m_turnBasedCombatRuntime.end(
-            m_pActiveWorldRuntime != nullptr ? m_pActiveWorldRuntime->party() : nullptr,
-            m_pActiveWorldRuntime);
+        m_turnBasedCombatRuntime.leaveMap();
+        m_turnBasedPendingWorldActions = 0;
         m_turnBasedFrameTraceState = {};
     }
 
@@ -2010,6 +2030,80 @@ std::string GameSession::mapStateKey(const std::string &mapFileName) const
     return pMap != nullptr && !pMap->canonicalId.empty() ? pMap->canonicalId : mapFileName;
 }
 
+std::string GameSession::mapStateKey(const std::string &mapFileName, const std::string &instanceId) const
+{
+    const std::string key = mapStateKey(mapFileName);
+    return instanceId.empty() ? key : key + MapInstanceKeySeparator + instanceId;
+}
+
+std::string GameSession::currentMapStateKey(const std::string &mapFileName) const
+{
+    return mapStateKey(mapFileName, m_mapInstanceId);
+}
+
+void GameSession::migrateDimensionRunsToInstances()
+{
+    const std::string kept =
+        m_pMawRules ? m_pMawRules->state().keepOneRift(toLowerCopy(m_currentMapFileName)) : std::string();
+
+    if (kept.empty())
+    {
+        return;
+    }
+
+    // The kept run's map state is the rift's from now on.
+    const auto moveState = [this, &kept](auto &states)
+    {
+        auto node = states.extract(mapStateKey(kept));
+
+        if (!node.empty())
+        {
+            node.key() = mapStateKey(kept, MawRiftInstanceId);
+            states.erase(node.key());
+            states.insert(std::move(node));
+        }
+    };
+    moveState(m_outdoorWorldStates);
+    moveState(m_indoorSceneStates);
+
+    if (kept == toLowerCopy(m_currentMapFileName))
+    {
+        setMapInstanceId(MawRiftInstanceId);
+    }
+
+    const uint32_t portalItemId = m_pMawRules->dimensionData().portalItemId();
+
+    if (m_partyState && portalItemId != 0 && data().itemTable().get(portalItemId) != nullptr
+        && m_partyState->inventoryItemCount(portalItemId) <= 0)
+    {
+        m_partyState->tryGrantInventoryItem(
+            ItemGenerator::makeInventoryItem(portalItemId, data().itemTable(), ItemGenerationMode::Generic));
+    }
+}
+
+void GameSession::discardEndedMapInstances()
+{
+    std::unordered_set<std::string> liveKeys;
+    const GameRules *pRules = rulesetGameRules();
+
+    // Standard rules keep no instances.
+    for (const auto &[mapFileName, instanceId] :
+         pRules != nullptr ? pRules->monsters.liveMapInstances() : std::vector<std::pair<std::string, std::string>>{})
+    {
+        liveKeys.insert(mapStateKey(mapFileName, instanceId));
+    }
+
+    const auto discard = [&liveKeys](auto &states)
+    {
+        std::erase_if(states, [&liveKeys](const auto &entry)
+        {
+            return entry.first.find(MapInstanceKeySeparator) != std::string::npos && !liveKeys.contains(entry.first);
+        });
+    };
+    discard(m_outdoorWorldStates);
+    discard(m_indoorSceneStates);
+}
+
 const std::optional<IndoorSceneRuntime::Snapshot> &GameSession::currentIndoorSceneState() const
 {
     return m_currentIndoorSceneState;
@@ -2232,7 +2326,7 @@ void GameSession::captureOutdoorRuntimeState(
         applyNamedGlobalVarsToRuntime(*normalizedWorldSnapshot.eventRuntimeState);
     }
     m_currentOutdoorWorldState = normalizedWorldSnapshot;
-    m_outdoorWorldStates[mapStateKey(mapFileName)] = normalizedWorldSnapshot;
+    m_outdoorWorldStates[currentMapStateKey(mapFileName)] = normalizedWorldSnapshot;
     setCameraAngles(yawRadians, pitchRadians);
 }
 
@@ -2256,7 +2350,7 @@ void GameSession::captureIndoorRuntimeState(
         applyNamedGlobalVarsToRuntime(*normalizedSnapshot.eventRuntimeState);
     }
     m_currentIndoorSceneState = normalizedSnapshot;
-    m_indoorSceneStates[mapStateKey(mapFileName)] = normalizedSnapshot;
+    m_indoorSceneStates[currentMapStateKey(mapFileName)] = normalizedSnapshot;
 }
 
 void GameSession::setCurrentMapLayoutIdentity(uint64_t identity)
@@ -2266,11 +2360,20 @@ void GameSession::setCurrentMapLayoutIdentity(uint64_t identity)
 
 void GameSession::discardMapState(const std::string &mapFileName, bool partyInside)
 {
-    const std::string key = mapStateKey(mapFileName);
-    m_outdoorWorldStates.erase(key);
-    m_outdoorWorldStates.erase(mapFileName);
-    m_indoorSceneStates.erase(key);
-    m_indoorSceneStates.erase(mapFileName);
+    if (!m_mapInstanceId.empty() && toLowerCopy(mapFileName) == toLowerCopy(m_currentMapFileName))
+    {
+        const std::string instanceKey = currentMapStateKey(mapFileName);
+        m_outdoorWorldStates.erase(instanceKey);
+        m_indoorSceneStates.erase(instanceKey);
+    }
+    else
+    {
+        const std::string key = mapStateKey(mapFileName);
+        m_outdoorWorldStates.erase(key);
+        m_outdoorWorldStates.erase(mapFileName);
+        m_indoorSceneStates.erase(key);
+        m_indoorSceneStates.erase(mapFileName);
+    }
 
     if (!partyInside)
     {
@@ -2310,6 +2413,7 @@ std::optional<GameSaveData> GameSession::buildSaveData() const
     GameSaveData saveData = {};
     saveData.currentSceneKind = m_currentSceneKind;
     saveData.mapFileName = m_currentMapFileName;
+    saveData.mapInstanceId = m_mapInstanceId;
     saveData.party = m_partyState->snapshot();
     saveData.namedGlobalVars = m_namedGlobalVars;
     saveData.savedGameMinutes = m_gameMinutes;
@@ -2386,6 +2490,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     m_turnBasedCombatRuntime.reset();
     m_currentSceneKind = saveData.currentSceneKind;
     m_currentMapFileName = saveData.mapFileName;
+    m_mapInstanceId = saveData.mapInstanceId;
     m_gameMinutes = std::max(0.0f, saveData.savedGameMinutes);
     // The ruleset and its state come before the party: restoring the party works out the members' maximum hit and
     // spell points under them and clamps the saved ones to those (under Standard's they would lose what MAW adds).
@@ -2428,6 +2533,12 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionMawQuestPouch)
     {
         m_partyState->gatherPouchItems();
+    }
+
+    // A save from when dimension maps lay with the quest items: they move to the crafting pouch.
+    if (m_partyState && saveData.sourceSaveVersion < SaveVersionMawMapsInCraftingPouch)
+    {
+        m_partyState->movePouchItemsToTheirPouches();
     }
 
     if (m_partyState && saveData.sourceSaveVersion < SaveVersionClassChangeMasteries)
@@ -2497,7 +2608,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 
     if (saveData.hasOutdoorRuntimeState && m_currentSceneKind == SceneKind::Outdoor)
     {
-        m_outdoorWorldStates[mapStateKey(m_currentMapFileName)] = *m_currentOutdoorWorldState;
+        m_outdoorWorldStates[currentMapStateKey(m_currentMapFileName)] = *m_currentOutdoorWorldState;
     }
 
     m_currentIndoorSceneState = saveData.hasIndoorSceneState
@@ -2532,7 +2643,7 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
 
     if (saveData.hasIndoorSceneState && m_currentSceneKind == SceneKind::Indoor)
     {
-        m_indoorSceneStates[mapStateKey(m_currentMapFileName)] = *m_currentIndoorSceneState;
+        m_indoorSceneStates[currentMapStateKey(m_currentMapFileName)] = *m_currentIndoorSceneState;
     }
 
     for (const auto &[legacyCanonicalId, canonicalId] : data().mapStats().legacyCanonicalIdRenames())
@@ -2565,6 +2676,11 @@ void GameSession::restoreFromSaveData(const GameSaveData &saveData)
     };
     keyByCanonicalId(m_outdoorWorldStates);
     keyByCanonicalId(m_indoorSceneStates);
+
+    if (saveData.sourceSaveVersion < SaveVersionMapInstances)
+    {
+        migrateDimensionRunsToInstances();
+    }
 
     m_cameraYawRadians = saveData.cameraYawRadians;
     m_cameraPitchRadians = saveData.cameraPitchRadians;

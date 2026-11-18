@@ -100,6 +100,9 @@ public:
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
+        // How far the target stood from the source when it was loosed (a monster's missile at the party: a solo run's
+        // Vanguard talent).
+        float firedDistance = 0.0f;
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
@@ -138,6 +141,10 @@ public:
         // cooldown_per_hit off their cooldowns (GameplayCombatController); the attack's arrows share it, so the attack
         // counts once. An arrow that leaps on (chainArrow) drops it: its chained hits count nothing. Not saved.
         std::shared_ptr<bool> hitCredit;
+        // Its blast (Carnage) hurts the monsters it reaches without their hit reaction (no flinch, no knockback); the
+        // monster it strikes still flinches. A solo run's Multishot arrows, so a volley's blasts do not lock a group
+        // down (user, 2026-11-17). Not saved.
+        bool quietBlast = false;
         // An event's missile (evt.FireMissile): it passes the party, whose damage the event deals itself, and bursts
         // at its target when its flight time ends unless it strikes something first; saved.
         bool eventMissile = false;
@@ -232,11 +239,12 @@ public:
         int blastMaximumDamage = 0;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
-        // ProjectileState::chainLeft, chainShare, chainRadius and hitCredit.
+        // ProjectileState::chainLeft, chainShare, chainRadius, hitCredit and quietBlast.
         uint8_t chainCount = 0;
         float chainShare = 0.0f;
         float chainRadius = 0.0f;
         std::shared_ptr<bool> hitCredit;
+        bool quietBlast = false;
         // An event's missile (ProjectileState::eventMissile), reaching its target in flightSeconds (0: at the
         // object's speed).
         bool eventMissile = false;

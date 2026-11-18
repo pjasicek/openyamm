@@ -410,8 +410,8 @@ private:
     std::vector<uint64_t> m_portalDebugGpuSums;
     std::vector<std::string> m_portalDebugGpuNames;
     uint64_t m_portalDebugWindowStartTicks = 0;
-    // Fast mode's factor, 1 (normal) to 4: the Double Speed key cycles it.
-    int m_gameSpeedFactor = 1;
+    // Fast mode, which the Fast Mode key turns on and off: the game runs at the settings' fast mode speed.
+    bool m_fastMode = false;
     bool m_advanceTimeLatch = false;
     bool m_traceSnapshotStartLatch = false;
     bool m_traceSnapshotEndLatch = false;

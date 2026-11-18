@@ -126,6 +126,8 @@ public:
     const std::optional<MapAssetInfo> &getSelectedMap() const;
     size_t releaseSelectedMapRenderSourcePixels();
     bool selectedMapRenderSourcePixelsReleased() const;
+    // What MonsterRules::mapAssetVariant said of the selected map when it was loaded for play.
+    uint64_t selectedMapRulesVariant() const;
     size_t lastReleasedMapRenderSourcePixelBytes() const;
     const MapStats &getMapStats() const;
     const MonsterTable &getMonsterTable() const;
@@ -407,6 +409,7 @@ private:
     MapAssetLoadSharedCache m_mapAssetLoadSharedCache;
     std::optional<MapAssetInfo> m_selectedMap;
     bool m_selectedMapRenderSourcePixelsReleased = false;
+    uint64_t m_selectedMapRulesVariant = 0;
     size_t m_lastReleasedMapRenderSourcePixelBytes = 0;
 };
 }

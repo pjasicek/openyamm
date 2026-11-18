@@ -319,10 +319,47 @@ void MawRules::setTrainerHints(MawTrainerHints hints)
     m_trainerHints = std::move(hints);
 }
 
+void MawRules::setMapInstanceId(const std::string &instanceId)
+{
+    m_mapInstanceId = instanceId;
+}
+
+const std::pair<const std::string, MawDimensionRun> *MawRules::rift() const
+{
+    return m_state.dimensionRuns.empty() ? nullptr : &*m_state.dimensionRuns.begin();
+}
+
+std::pair<const std::string, MawDimensionRun> *MawRules::rift()
+{
+    return m_state.dimensionRuns.empty() ? nullptr : &*m_state.dimensionRuns.begin();
+}
+
+bool MawRules::inMapInstance() const
+{
+    return !m_mapInstanceId.empty();
+}
+
+bool MawRules::inRift() const
+{
+    return m_mapInstanceId == MawRiftInstanceId && rift() != nullptr;
+}
+
 const MawDimensionRun *MawRules::dimensionRun(const std::string &mapFileName) const
 {
-    const auto it = m_state.dimensionRuns.find(lowercase(mapFileName));
-    return it != m_state.dimensionRuns.end() ? &it->second : nullptr;
+    const std::pair<const std::string, MawDimensionRun> *pRift = inRift() ? rift() : nullptr;
+    return pRift != nullptr && pRift->first == lowercase(mapFileName) ? &pRift->second : nullptr;
+}
+
+MawDimensionRun *MawRules::dimensionRun(const std::string &mapFileName)
+{
+    std::pair<const std::string, MawDimensionRun> *pRift = inRift() ? rift() : nullptr;
+    return pRift != nullptr && pRift->first == lowercase(mapFileName) ? &pRift->second : nullptr;
+}
+
+bool MawRules::clearedSinceRefill(const std::string &mapFileName) const
+{
+    const MawDimensionRun *pRun = dimensionRun(mapFileName);
+    return pRun != nullptr ? pRun->completed : m_state.clearedSinceRefill.contains(lowercase(mapFileName));
 }
 
 std::optional<double> MawRules::mapAffix(MawMapAffix affix) const
@@ -564,6 +601,22 @@ void MawRules::setNearbyMonsters(int count)
     m_nearbyMonsters = count;
 }
 
+int MawRules::outnumberedMonsters() const
+{
+    return m_outnumberedMonsters;
+}
+
+int MawRules::battleFrenzyMonsters() const
+{
+    return m_battleFrenzyMonsters;
+}
+
+void MawRules::setSoloPackMonsters(int outnumbered, int battleFrenzy)
+{
+    m_outnumberedMonsters = outnumbered;
+    m_battleFrenzyMonsters = battleFrenzy;
+}
+
 bool MawRules::shadowBossNearby() const
 {
     return m_shadowBossNearby;
@@ -582,6 +635,16 @@ std::optional<int> MawRules::bountyLevel() const
 void MawRules::setBountyLevel(std::optional<int> levels)
 {
     m_bountyLevel = levels;
+}
+
+int MawRules::arenaLevel() const
+{
+    return m_arenaLevel;
+}
+
+void MawRules::setArenaLevel(int level)
+{
+    m_arenaLevel = level;
 }
 
 bool MawRules::madnessRewardlessMap(const std::string &mapFileName) const
@@ -761,6 +824,7 @@ MawMonsterLevelInputs MawRules::monsterLevelInputs(const MapStatsEntry &map) con
         inputs.bountyLevel = *m_bountyLevel;
     }
 
+    inputs.arenaLevel = m_arenaLevel;
     return inputs;
 }
 
@@ -942,7 +1006,8 @@ const std::unordered_map<int, int> &MawRules::monsterLevels(
         || m_monsterLevels.partyLevel != partyLevel
         || m_monsterLevels.resetCount != resetCount
         || m_monsterLevels.dimensionPower != dimensionPower
-        || m_monsterLevels.bountyLevel != (mapFileName == m_currentMap ? m_bountyLevel : std::nullopt))
+        || m_monsterLevels.bountyLevel != (mapFileName == m_currentMap ? m_bountyLevel : std::nullopt)
+        || m_monsterLevels.arenaLevel != m_arenaLevel)
     {
         const MawMonsterLevelInputs inputs = monsterLevelInputs(map);
         m_monsterLevels.mapFileName = mapFileName;
@@ -950,6 +1015,7 @@ const std::unordered_map<int, int> &MawRules::monsterLevels(
         m_monsterLevels.resetCount = resetCount;
         m_monsterLevels.dimensionPower = dimensionPower;
         m_monsterLevels.bountyLevel = inputs.bountyLevel ? std::optional<int>(int(*inputs.bountyLevel)) : std::nullopt;
+        m_monsterLevels.arenaLevel = m_arenaLevel;
         m_monsterLevels.levels = resolveMawMonsterLevels(monsterTable, m_mapLevels, inputs);
         m_monsterLevels.bolster = mawMapBolster(m_mapLevels, inputs);
         m_monsterLevels.nativeLevels.clear();

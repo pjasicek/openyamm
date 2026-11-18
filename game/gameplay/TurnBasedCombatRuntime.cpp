@@ -350,6 +350,30 @@ void TurnBasedCombatRuntime::reset()
     }
 }
 
+void TurnBasedCombatRuntime::leaveMap()
+{
+    if (!m_active)
+    {
+        return;
+    }
+
+    m_queue.erase(
+        std::remove_if(
+            m_queue.begin(),
+            m_queue.end(),
+            [](const QueueEntry &entry)
+            {
+                return entry.kind == QueueEntry::Kind::Actor;
+            }),
+        m_queue.end());
+    m_pendingActions = 0;
+    m_actorActionTimerTicks = 0.0f;
+    m_waitingForActorActionResolution = false;
+    m_resolvingActorActions = false;
+    GAMEPLAY_DEBUG_TRACE(
+        "turn_based_leave_map stage=" + std::string(turnStageName(m_stage)) + " " + queueSummary(m_queue));
+}
+
 bool TurnBasedCombatRuntime::canToggleOff(const Party &party) const
 {
     if (!m_active)

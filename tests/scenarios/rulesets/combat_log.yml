@@ -14,7 +14,7 @@ steps:
       combat_log: {dealt_min: 1, with_stages_min: 1}
   - new_game_flow:
       start_map: oute3.odm
-      ruleset: {id: maw}
+      ruleset: {id: maw, difficulty: hell}
   # A Skeleton Bowman's arrows hit the party (MAW's Speed roll dodges some).
   - spawn_actor: {monster_id: 172, near_party: true}
   - fire_actor_projectile: {actor_index: last, damage: 5}
@@ -29,7 +29,8 @@ steps:
   - advance_runtime: {seconds: 0.7}
   - fire_actor_projectile: {actor_index: last, damage: 5}
   - advance_runtime: {seconds: 0.7}
-  # Monsters scale with the party in MAW: a Swift boss survives a blow.
+  # Monsters scale with the party in MAW: a Swift boss on Hell survives a blow (on Normal it no longer does since the
+  # 7ddb228c balance model, whose low-level monsters have less health).
   - spawn_actor: {monster_id: 198, near_party: true, boss_affix: 13}
   - party_attack: {actor_index: last, count: 1}
   - assert:

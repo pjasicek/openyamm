@@ -94,6 +94,8 @@ struct MawDimensionQuestRules
     // The ladder's steps: the first tier plus firstStep, each later step one smaller, never below lastStep.
     int firstStep = 30;
     int lastStep = 10;
+    // The share of the given map's monsters the party must have slain to give the run up for the same map again.
+    double repeatShare = 0.8;
     std::string textTooLow;
     std::string textGive;
     std::string textNotCleared;
@@ -108,6 +110,8 @@ public:
     bool loadFromYaml(const std::string &text, std::string &errorMessage);
 
     uint32_t mapItemId() const;
+    // The dimensional portal: the quest item the party holds while a rift is open.
+    uint32_t portalItemId() const;
     const std::vector<uint16_t> &dungeons() const;
     const std::vector<int16_t> &families(bool indoor) const;
     const MawDimensionAffix *affix(int affixId) const;
@@ -128,6 +132,7 @@ public:
 
 private:
     uint32_t m_mapItemId = 0;
+    uint32_t m_portalItemId = 0;
     std::vector<uint16_t> m_dungeons;
     std::vector<int16_t> m_indoorFamilies;
     std::vector<int16_t> m_outdoorFamilies;

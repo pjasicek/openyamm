@@ -6,6 +6,7 @@
 #include "game/rules/maw/MawClassRules.h"
 #include "game/rules/maw/MawClassSpells.h"
 #include "game/rules/maw/MawCombatFormulas.h"
+#include "game/rules/maw/MawCombatRules.h"
 #include "game/rules/maw/MawPromotions.h"
 #include "game/rules/maw/MawRules.h"
 #include "game/tables/ClassMultiplierTable.h"
@@ -18,6 +19,7 @@
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -209,7 +211,24 @@ TEST_CASE("MAW class perks feed the combat numbers")
     const MawAscension shamanCost = mawAscension(shaman, MawAscensionUse::Cost);
     CHECK(shamanCost.skill == doctest::Approx(60.0 / 7));
     CHECK_EQ(shamanCost.mastery, SkillMastery::Grandmaster);
-    CHECK(mawAscension(shaman, MawAscensionUse::Damage).skill == doctest::Approx(0));
+    CHECK(mawAscension(shaman, MawAscensionUse::Damage).skill == doctest::Approx(60.0 / 7));
+    CHECK(mawAscension(shaman, MawAscensionUse::CastTime).skill == doctest::Approx(0));
+    CHECK(mawAscension(shaman, MawAscensionUse::CrowdControl).skill == doctest::Approx(0));
+
+    // The spell book and the roll read the same dice: a Shaman's grow with the seven schools (DEVIATIONS 199).
+    SpellEntry fireBolt;
+    fireBolt.id = 2;
+    fireBolt.damageDiceMin = 1;
+    fireBolt.damageDiceSides = 30;
+    fireBolt.damageBase = 100;
+    const std::optional<MawSpellDice> shamanDice = mawCasterSpellDice(rules, shaman, fireBolt);
+    REQUIRE(shamanDice);
+    const MawSpellDice ascended = mawAscendedSpellDice({1, 30, 100}, 60.0 / 7);
+    const MawSpellDice plain = mawAscendedSpellDice({1, 30, 100}, 0);
+    CHECK_EQ(shamanDice->diceMax, ascended.diceMax);
+    CHECK_EQ(shamanDice->add, ascended.add);
+    CHECK_GT(shamanDice->diceMax, plain.diceMax);
+    CHECK_GT(shamanDice->add, plain.add);
 
     Character elementalist = member("Elementalist", 20);
     elementalist.skills["FireMagic"] = {"FireMagic", 9, SkillMastery::Expert};

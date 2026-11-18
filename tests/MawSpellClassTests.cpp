@@ -1056,7 +1056,7 @@ TEST_CASE("MAW class spells crit against their target and lose the Assassination
     CHECK(average(1, 1) > average(100000, 1) * 1.2);
 }
 
-TEST_CASE("MAW Assassins' Mass Distortion takes Earth twice; the vampires' drains leech a tenth (L6.3, A1.15)")
+TEST_CASE("MAW Assassins' Mass Distortion takes Earth once; the vampires' drains leech a tenth (L6.3, A1.15)")
 {
     MawRules rules(RulesetOptions{}, MawMapLevels{});
     Character assassin = member("Ariel", "Assassin", 20);
@@ -1074,8 +1074,8 @@ TEST_CASE("MAW Assassins' Mass Distortion takes Earth twice; the vampires' drain
         hit.pRng = &rng;
         return rules.gameRules().combat.damageToMonster(hit);
     };
-    const int once = landed(mage);
-    CHECK(double(landed(assassin)) == doctest::Approx(once / mawMonsterResistanceDivisor(100)).epsilon(0.02));
+    // As any spell of the school does (MAW 21275f61; the Assassin's took the resistance twice before).
+    CHECK_EQ(landed(assassin), landed(mage));
     // An Assassin's Mass Distortion is its blow, not a share of the target's hit points.
     CharacterSpellCast cast;
     SpellEntry massDistortion;

@@ -524,8 +524,8 @@ void MawSpellRules::afterCast(
 {
     Character *pCaster = party.member(casterIndex);
 
-    // A solo run's Spell Surge is spent by the cast it made free.
-    if (pCaster != nullptr && m_rules.options().soloRun)
+    // A solo run's Spell Surge is spent by the damaging cast it made free; a heal or a buff leaves it armed.
+    if (pCaster != nullptr && m_rules.options().soloRun && mawSpellCategory(spellId) == MawSpellCategory::Damage)
     {
         MawSoloTalents::spendSurge(*pCaster);
     }
@@ -556,8 +556,9 @@ void MawSpellRules::afterCast(
 
 int MawSpellRules::manaCost(const CharacterSpellCast &cast, int tableCost) const
 {
-    // A solo run's Spell Surge: the next spell is free.
-    if (m_rules.options().soloRun && cast.pCaster != nullptr && MawSoloTalents::nextSpellFree(*cast.pCaster))
+    // A solo run's Spell Surge: the next damaging spell is free.
+    if (m_rules.options().soloRun && cast.pCaster != nullptr && MawSoloTalents::nextSpellFree(*cast.pCaster)
+        && mawSpellCategory(uint32_t(cast.pSpell->id)) == MawSpellCategory::Damage)
     {
         return 0;
     }
@@ -641,7 +642,11 @@ int MawSpellRules::recoveryTicks(const CharacterSpellCast &cast, int tableTicks)
     const bool normalPath = line != "death_knight" && line != "assassin" && spellId != DragonFear
         && mawSpellCategory(spellId) != MawSpellCategory::CrowdControl;
     const std::optional<double> slower = m_rules.mapAffix(MawMapAffix::PlayerSpellRecovery);
-    return slower && normalPath ? int(mawRound(ticks / (1 - *slower / 100))) : ticks;
+    const int slowed = slower && normalPath ? int(mawRound(ticks / (1 - *slower / 100))) : ticks;
+    // A solo run's Onslaught speeds every recovery, a cast's as a weapon attack's (user, 2026-11-18).
+    return m_rules.options().soloRun
+        ? int(std::lround(slowed * MawSoloTalents::attackRecoveryScale(*cast.pCaster)))
+        : slowed;
 }
 
 int MawSpellRules::baseRecoveryTicks(const CharacterSpellCast &cast, int tableTicks) const

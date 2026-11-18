@@ -770,15 +770,17 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
             m_actionQueue.emplace_back(*second, WhirlwindRate);
         }
     }
-    else if (talent == "charge")
+    else if (talent == "charge" || talent == "heroic_strike")
     {
         first = setClip("attackforwardpower");
+        // A dragon's forelegs have no power attacks: Heroic Strike is a claw swipe.
+        first = first || talent == "charge" ? first : setClip("attackleft");
     }
     else if (talent == "volley")
     {
         first = shoots(kit.set) ? setClip("attack") : std::nullopt;
     }
-    else if (talent != "shield_wall")
+    else
     {
         first = castClip(false, kit);
     }
@@ -787,7 +789,7 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
         // Cleave's strike and the bow talents' shot wait for this clip's blow or release (gameplay's talentAtBlow), as
         // an ordinary attack does, and play fitted to the member's recovery like it: the talent costs the time of an
         // attack and quickens with attack speed.
-        const bool waited = talent == "cleave" || talent == "volley";
+        const bool waited = talent == "cleave" || talent == "heroic_strike" || talent == "volley";
         float rate = talent == "whirlwind" ? WhirlwindRate : TalentRate;
         if (waited && recoverySeconds > 0.0f)
         {
@@ -796,8 +798,9 @@ void FirstPersonViewModel::startTalent(const std::string &talent, const Kit &kit
             rate = std::clamp(span / recoverySeconds, 1.0f, 3.5f);
         }
         startAction(*first, waited, rate);
-        m_actionTrails = talent == "cleave" || talent == "whirlwind" || talent == "charge";
-        if (talent != "cleave" && talent != "whirlwind" && talent != "charge" && talent != "volley")
+        m_actionTrails =
+            talent == "cleave" || talent == "whirlwind" || talent == "charge" || talent == "heroic_strike";
+        if (!m_actionTrails && talent != "volley")
         {
             // Blink, Spell Surge, Purify ...: a cast with the hand's arcane glow.
             m_actionIsCast = true;
@@ -1043,14 +1046,6 @@ void FirstPersonViewModel::updateTalentEffects(const Input &input, float delta)
             {
                 m_fx.sparkle(point, point, 2.5f, GlintColor, delta);
             }
-        }
-    }
-    if (input.talentBlock)
-    {
-        // Shield Wall: the guarding hands glint (no shield is shown).
-        for (const std::array<float, 3> &point : handPoints())
-        {
-            m_fx.sparkle(point, point, 5.0f, GlintColor, delta * 0.4f);
         }
     }
 }
@@ -1421,10 +1416,6 @@ FirstPersonViewModel::Output FirstPersonViewModel::update(const Input &input)
     if (clipIndex == UINT32_MAX)
     {
         std::optional<ClipInfo> loop;
-        if (input.talentBlock)
-        {
-            loop = setClip("blockidle");
-        }
         const float speed = std::hypot(m_moveVelocity[0], m_moveVelocity[1]);
         if (!loop && speed > WalkSpeedThreshold)
         {

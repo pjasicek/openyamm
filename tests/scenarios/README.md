@@ -43,8 +43,11 @@ ruleset fields).
 For MAW's content (phase 8): `execute_event: {id}` runs a map or global event; `assert: {actor_count: {name, monster_id,
 boss, min, max}}` counts living actors; `grant_item: {..., dimension_map: {map_id, affixes, active, power}}` gives a
 dimension map; `ruleset_banks: {..., completed_maps: [file names], dimension_quest_done}` sets MAW state; and
-`assert: {ruleset: {dimension_run: {map, power, affix_count, completed, min_family_actors} | {map, none: true},
-dimension_quest: {tier, given, cleared, done}}}` checks dimension maps. `use_item` follows a travelling item's move.
+`assert: {ruleset: {dimension_run: {map, power, affix_count, completed, inside, min_family_actors} | {map, none: true},
+dimension_quest: {tier, given, cleared, done}}}` checks dimension maps: the open rift wherever the party is, and
+`inside` whether the party stands in it (the same map file is then the rift, not the map itself). `use_item` follows a
+travelling item's move, also for an item that is kept (the Dimensional Portal, 1071); `load_map` leads to the map
+itself.
 `console: {line, expect_contains}` runs a debug console line in the game as typed and fails on a console error or
 when the output lacks the text (`rulesets/maw_test_parties.yml` loads every MAW test party with `testparty apply`).
 
@@ -54,7 +57,8 @@ max_average, attack_spell, min_weapon_attacks, max_weapon_attacks, report}` runs
 healed after each blow, and compares the average damage and recovery with a recorded run (`attack_spell` sets the
 member's attack spell for the run and lets the attack cast it; the weapon-attack bounds count swings and shots, which a
 spell cast is not: `maw_assassin_attack_spell.yml`); `spawn_actor: {monster_id, near_party: true}` summons beside the party;
-`damage_actor: {..., expect: refused}` passes when the hit does nothing; and a scenario's ruleset takes
+`damage_actor: {..., expect: refused}` passes when the hit does nothing (`all: true, spare: N` kills every actor but
+the first N, for a map left almost cleared: `maw_dimension_map_repeat.yml`); and a scenario's ruleset takes
 `friendly_fire: true` (or the option id `friendlyfire`) so hits on townsfolk count. A ruleset also takes `bow_disabled: true`
 (or the option ids `nobow` and `bow`, also for `set_ruleset`), MAW's Bow preference, which `assert: {ruleset: {...,
 bow_disabled}}` checks; `assert: {projectiles: {source: party, ...}}` counts the party's live missiles instead of

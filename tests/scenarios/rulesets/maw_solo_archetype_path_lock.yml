@@ -1,0 +1,49 @@
+id: rulesets.maw_solo_archetype_path_lock
+title: "Ruleset - solo run: the first talent rank in a path closes the other two until the talents are forgotten"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, save]
+steps:
+  - note:
+      text: >-
+        The solo archetypes (devdocs/solo_action/ARCHETYPES_BUILD.md; user, 2026-11-18): one of Arms, Archery and
+        Arcana a character. `talent learn` learns as the Talents page does (points, masteries, the lock) and answers
+        "refused: ..." when it may not. The Any tree never chooses a path; a reset is free and frees the choice. Only
+        an Arms character has the rage bar, and the bar is kept by a save.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Archer
+            level: 100
+            skills:
+              - {name: Sword, level: 10, mastery: 2}
+              - {name: Bow, level: 10, mastery: 2}
+              - {name: FireMagic, level: 10, mastery: 2}
+            equipment: {}
+  # Before a choice every path is open.
+  - console: {line: "talent learn onslaught", expect_contains: "learned onslaught rank 1"}
+  - console: {line: "talent rage 50", expect_contains: "no rage bar"}
+  - console: {line: "talent learn cleave", expect_contains: "learned cleave rank 1"}
+  - console: {line: "talent learn multishot", expect_contains: "refused: Your path is Arms"}
+  - console: {line: "talent learn blink", expect_contains: "refused: Your path is Arms"}
+  - console: {line: "talent learn nimble", expect_contains: "refused: Your path is Arms"}
+  - console: {line: "talent learn vanguard", expect_contains: "learned vanguard rank 1"}
+  - console: {line: "talent learn bloodthirst", expect_contains: "learned bloodthirst rank 1"}
+  # The Arms path has the rage bar, and a save keeps it.
+  - console: {line: "talent rage 60", expect_contains: "rage 60"}
+  - save_game: {name: archetype_path}
+  - console: {line: "talent rage 0", expect_contains: "rage 0"}
+  - load_game: {name: archetype_path}
+  - console: {line: "talent list", expect_contains: "rage 60 (not full)"}
+  - console: {line: "talent learn multishot", expect_contains: "refused: Your path is Arms"}
+  # Forgetting the talents frees the choice.
+  - console: {line: "talent reset", expect_contains: "forgotten"}
+  - console: {line: "talent learn multishot", expect_contains: "learned multishot rank 1"}
+  - console: {line: "talent learn cleave", expect_contains: "refused: Your path is Archery"}
+  - console: {line: "talent learn arc", expect_contains: "refused: Your path is Archery"}
+  - console: {line: "talent learn long_shot", expect_contains: "learned long_shot rank 1"}

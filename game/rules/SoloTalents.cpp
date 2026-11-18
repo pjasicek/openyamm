@@ -116,6 +116,46 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             m_earlyMonsterCut.emplace_back(point[0].as<double>(), point[1].as<double>());
         }
         std::sort(m_earlyMonsterCut.begin(), m_earlyMonsterCut.end());
+        m_earlyRegeneration.clear();
+        for (const YAML::Node &point : root["early_regeneration"])
+        {
+            if (!point.IsSequence() || point.size() != 2 || point[1].as<double>() <= 0.0
+                || point[1].as<double>() > 1.0)
+            {
+                error = "early_regeneration takes [level, share] pairs with a share above 0 and at most 1";
+                return false;
+            }
+            m_earlyRegeneration.emplace_back(point[0].as<double>(), point[1].as<double>());
+        }
+        std::sort(m_earlyRegeneration.begin(), m_earlyRegeneration.end());
+        m_paths.clear();
+        for (const YAML::Node &path : root["paths"])
+        {
+            const std::optional<TalentTree> tree = parseTree(path.as<std::string>(""));
+            if (!tree || *tree == TalentTree::Any)
+            {
+                error = "paths takes arms, archery and arcana";
+                return false;
+            }
+            m_paths.push_back(*tree);
+        }
+        m_rage = {};
+        if (const YAML::Node rage = root["rage"])
+        {
+            m_rage.maximum = rage["maximum"].as<float>(100.0f);
+            m_rage.perRecoverySecond = rage["per_recovery_second"].as<float>(0.0f);
+            m_rage.perMonsterBar = rage["per_monster_bar"].as<float>(0.0f);
+            m_rage.extraBlowShare = rage["extra_blow_share"].as<float>(1.0f);
+            m_rage.perOwnBar = rage["per_own_bar"].as<float>(0.0f);
+            m_rage.limitPerSecond = rage["limit_per_second"].as<float>(0.0f);
+            m_rage.drainPerSecond = rage["drain_per_second"].as<float>(0.0f);
+            if (m_rage.maximum <= 0.0f)
+            {
+                error = "rage: maximum must be above 0";
+                return false;
+            }
+        }
+        m_damageFloor = std::clamp(root["damage_floor"].as<double>(0.0), 0.0, 1.0);
         m_experienceSurcharge.reset();
         if (root["experience_surcharge"])
         {
@@ -204,6 +244,10 @@ bool SoloTalentTable::loadFromYaml(const std::string &text, std::string &error)
             talent.distance = node["distance"].as<float>(0.0f);
             talent.arc = node["arc"].as<float>(0.0f);
             talent.recovery = node["recovery"].as<float>(100.0f);
+            talent.cooldownPerKill = node["cooldown_per_kill"].as<float>(0.0f);
+            talent.cooldownPerCast = node["cooldown_per_cast"].as<float>(0.0f);
+            talent.rageCost = node["rage_cost"].as<float>(0.0f);
+            talent.fullDistance = node["full_distance"].as<float>(0.0f);
             if (talent.recovery <= 0.0f)
             {
                 error = "talent " + talent.id + ": recovery must be above 0";
@@ -272,22 +316,46 @@ std::optional<double> SoloTalentTable::experienceSurcharge() const
     return m_experienceSurcharge;
 }
 
-double SoloTalentTable::earlyMonsterCut(double level) const
+const std::vector<TalentTree> &SoloTalentTable::paths() const
 {
-    if (m_earlyMonsterCut.empty())
+    return m_paths;
+}
+
+bool SoloTalentTable::isPath(TalentTree tree) const
+{
+    return std::find(m_paths.begin(), m_paths.end(), tree) != m_paths.end();
+}
+
+const SoloRageRules &SoloTalentTable::rage() const
+{
+    return m_rage;
+}
+
+double SoloTalentTable::damageFloor() const
+{
+    return m_damageFloor;
+}
+
+namespace
+{
+// A level table of an early rule: the first value below its points, linear between them, and 1 (the rule is over)
+// past the last, whatever its value; 1 without points.
+double earlyRuleValue(const std::vector<std::pair<double, double>> &points, double level)
+{
+    if (points.empty())
     {
         return 1.0;
     }
 
-    if (level <= m_earlyMonsterCut.front().first)
+    if (level <= points.front().first)
     {
-        return m_earlyMonsterCut.front().second;
+        return points.front().second;
     }
 
-    for (size_t index = 1; index < m_earlyMonsterCut.size(); ++index)
+    for (size_t index = 1; index < points.size(); ++index)
     {
-        const std::pair<double, double> &from = m_earlyMonsterCut[index - 1];
-        const std::pair<double, double> &to = m_earlyMonsterCut[index];
+        const std::pair<double, double> &from = points[index - 1];
+        const std::pair<double, double> &to = points[index];
 
         if (level <= to.first)
         {
@@ -295,8 +363,18 @@ double SoloTalentTable::earlyMonsterCut(double level) const
         }
     }
 
-    // Past the table the cut is over, whatever its last value.
     return 1.0;
+}
+}
+
+double SoloTalentTable::earlyMonsterCut(double level) const
+{
+    return earlyRuleValue(m_earlyMonsterCut, level);
+}
+
+double SoloTalentTable::earlyRegeneration(double level) const
+{
+    return earlyRuleValue(m_earlyRegeneration, level);
 }
 
 const SoloTalentTable &soloTalentTable()
@@ -366,11 +444,42 @@ int talentTreeMastery(const Character &character, TalentTree tree)
     return 0;
 }
 
+std::optional<TalentTree> talentPath(const SoloTalentTable &table, const Character &character)
+{
+    for (const TalentDefinition &talent : table.talents())
+    {
+        if (table.isPath(talent.tree) && talentRank(character, talent.id) > 0)
+        {
+            return talent.tree;
+        }
+    }
+    return std::nullopt;
+}
+
+bool hasRageBar(const SoloTalentTable &table, const Character &character)
+{
+    return table.rage().maximum > 0.0f && talentPath(table, character) == TalentTree::Arms;
+}
+
+std::string talentTreeName(TalentTree tree)
+{
+    return tree == TalentTree::Arms  ? Engine::tr("Arms")
+        : tree == TalentTree::Archery ? Engine::tr("Archery")
+        : tree == TalentTree::Arcana  ? Engine::tr("Arcana")
+                                      : Engine::tr("Any tree");
+}
+
 std::string talentLearnRefusal(const SoloTalentTable &table, const Character &character, const TalentDefinition &talent)
 {
     if (talentRank(character, talent.id) >= talent.maxRank)
     {
         return Engine::tr("Fully learned");
+    }
+    if (const std::optional<TalentTree> path = talentPath(table, character);
+        path && table.isPath(talent.tree) && talent.tree != *path)
+    {
+        return Engine::tr("Your path is {path}: forget your talents at a training hall to choose another",
+            {{"path", talentTreeName(*path)}});
     }
     const int needed = talent.requirement == TalentRequirement::Master ? int(SkillMastery::Master)
         : talent.requirement == TalentRequirement::Expert              ? int(SkillMastery::Expert)
@@ -523,6 +632,13 @@ float talentCooldownRemaining(const Character &character, std::string_view id)
     return found != character.talentState.cooldownSeconds.end() ? std::max(0.0f, found->second) : 0.0f;
 }
 
+bool talentReady(const SoloTalentTable &table, const Character &character, std::string_view id)
+{
+    const TalentDefinition *pTalent = table.find(id);
+    return pTalent != nullptr && talentRank(character, id) > 0 && talentCooldownRemaining(character, id) <= 0.0f
+        && character.talentState.rage >= pTalent->rageCost;
+}
+
 void shortenTalentCooldowns(const SoloTalentTable &table, Character &character, bool hit)
 {
     for (const TalentDefinition &talent : table.talents())
@@ -548,6 +664,35 @@ void shortenTalentCooldownsOnCritical(const SoloTalentTable &table, Character &c
             found->second = std::max(0.0f, found->second - talent.cooldownPerCritical);
         }
     }
+}
+
+namespace
+{
+template <typename Seconds>
+void shortenRunningCooldowns(const SoloTalentTable &table, Character &character, Seconds seconds)
+{
+    for (const TalentDefinition &talent : table.talents())
+    {
+        const auto found = character.talentState.cooldownSeconds.find(talent.id);
+
+        if (seconds(talent) > 0.0f && found != character.talentState.cooldownSeconds.end())
+        {
+            found->second = std::max(0.0f, found->second - seconds(talent));
+        }
+    }
+}
+}
+
+void shortenTalentCooldownsOnKill(const SoloTalentTable &table, Character &character)
+{
+    shortenRunningCooldowns(table, character,
+        [](const TalentDefinition &talent) { return talent.cooldownPerKill; });
+}
+
+void shortenTalentCooldownsOnCast(const SoloTalentTable &table, Character &character)
+{
+    shortenRunningCooldowns(table, character,
+        [](const TalentDefinition &talent) { return talent.cooldownPerCast; });
 }
 
 float talentDurationSeconds(const TalentDefinition &talent, int rank)

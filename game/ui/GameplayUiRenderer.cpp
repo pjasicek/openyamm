@@ -181,6 +181,20 @@ bool isOverlayHudState(GameplayHudScreenState hudScreenState)
         || hudScreenState == GameplayHudScreenState::QuickReference;
 }
 
+// The tint multiplied onto the white MAPDIR arrow on an indoor minimap (GameSettings::indoorMinimapArrow).
+uint32_t indoorMinimapArrowTintAbgr(const std::string &arrowColor)
+{
+    if (arrowColor == "green")
+    {
+        return 0xff40ff40u;
+    }
+    if (arrowColor == "cyan")
+    {
+        return 0xffffff40u;
+    }
+    return 0xffffffffu;
+}
+
 int outdoorMinimapArrowIndex(float yawRadians)
 {
     float normalizedYaw = std::fmod(yawRadians, Pi * 2.0f);
@@ -300,7 +314,8 @@ void submitQuadClipped(
     uint16_t scissorX,
     uint16_t scissorY,
     uint16_t scissorWidth,
-    uint16_t scissorHeight)
+    uint16_t scissorHeight,
+    uint32_t tintAbgr = 0xffffffffu)
 {
     if (!bgfx::isValid(texture.textureHandle) || quadWidth <= 0.0f || quadHeight <= 0.0f)
     {
@@ -313,6 +328,7 @@ void submitQuadClipped(
     quad.y = y;
     quad.width = quadWidth;
     quad.height = quadHeight;
+    quad.tintAbgr = tintAbgr;
     quad.clipped = true;
     quad.scissorX = scissorX;
     quad.scissorY = scissorY;
@@ -1413,6 +1429,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
 
         if (arrowTexture)
         {
+            const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+            const uint32_t arrowTintAbgr = pWorldRuntime != nullptr && pWorldRuntime->isIndoorMap()
+                ? indoorMinimapArrowTintAbgr(context.settingsSnapshot().indoorMinimapArrow)
+                : 0xffffffffu;
             const float arrowWidth = static_cast<float>(arrowTexture->width) * minimapOverlay.scale;
             const float arrowHeight = static_cast<float>(arrowTexture->height) * minimapOverlay.scale;
             submitQuadClipped(
@@ -1425,7 +1445,8 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorX,
                 minimapScissorY,
                 minimapScissorWidth,
-                minimapScissorHeight);
+                minimapScissorHeight,
+                arrowTintAbgr);
         }
     }
 

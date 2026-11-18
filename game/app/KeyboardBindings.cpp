@@ -93,7 +93,7 @@ const std::array<KeyboardBindingDefinition, KeyboardActionCount> KeyboardBinding
         {InputBindingKind::Keyboard, SDL_SCANCODE_K, 0}, true},
     {KeyboardAction::Land, "land", Engine::trNoop("Land"), KeyboardBindingPage::Page2, KeyboardBindingColumn::Right, 6,
         {InputBindingKind::Keyboard, SDL_SCANCODE_HOME, 0}, true},
-    {KeyboardAction::DoubleSpeed, "double_speed", Engine::trNoop("Double Speed"), KeyboardBindingPage::Hidden,
+    {KeyboardAction::DoubleSpeed, "double_speed", Engine::trNoop("Fast Mode"), KeyboardBindingPage::Hidden,
         KeyboardBindingColumn::Left, 0, {InputBindingKind::Keyboard, SDL_SCANCODE_F2, 0}, true},
     {KeyboardAction::Unstuck, "unstuck", Engine::trNoop("Unstuck"),
         KeyboardBindingPage::Hidden, KeyboardBindingColumn::Left, 0,

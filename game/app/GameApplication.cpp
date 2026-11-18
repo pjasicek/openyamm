@@ -1380,12 +1380,27 @@ bool timedMapRespawnDue(
         && currentLocationDay - locationInfo.lastRespawnDay >= respawnDays;
 }
 
+// The map being loaded is the session's current map and the party is in an instance of it
+// (GameSession::mapInstanceId).
+bool loadsMapInstance(const GameSession &session, const MapAssetInfo &mapAssetInfo)
+{
+    return !session.mapInstanceId().empty()
+        && sameMapFileName(session.currentMapFileName(), mapAssetInfo.map.fileName);
+}
+
 const OutdoorWorldRuntime::Snapshot *findSavedOutdoorWorldState(
     const GameSession &session,
     const MapAssetInfo &mapAssetInfo)
 {
     const std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> &states = session.outdoorWorldStates();
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot>::const_iterator stateIt = states.end();
+
+    // In a map instance the current map's state is the instance's, never the map's own.
+    if (loadsMapInstance(session, mapAssetInfo))
+    {
+        stateIt = states.find(session.mapStateKey(mapAssetInfo.map.fileName, session.mapInstanceId()));
+        return stateIt != states.end() ? &stateIt->second : nullptr;
+    }
 
     if (!mapAssetInfo.map.canonicalId.empty())
     {
@@ -1406,6 +1421,12 @@ const IndoorSceneRuntime::Snapshot *findSavedIndoorSceneState(
 {
     const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot> &states = session.indoorSceneStates();
     std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator stateIt = states.end();
+
+    if (loadsMapInstance(session, mapAssetInfo))
+    {
+        stateIt = states.find(session.mapStateKey(mapAssetInfo.map.fileName, session.mapInstanceId()));
+        return stateIt != states.end() ? &stateIt->second : nullptr;
+    }
 
     if (!mapAssetInfo.map.canonicalId.empty())
     {
@@ -1590,7 +1611,8 @@ bool savedSelectedMapStateNeedsFreshAssets(
         const OutdoorWorldRuntime::Snapshot *pSnapshot = findSavedOutdoorWorldState(session, mapAssetInfo);
         return pSnapshot != nullptr
             && (boundGameRules().monsters.mapRefillForced(mapAssetInfo.map.fileName)
-                || timedMapRespawnDue(mapAssetInfo.map, pSnapshot->locationInfo, currentLocationDay));
+                || (!loadsMapInstance(session, mapAssetInfo)
+                    && timedMapRespawnDue(mapAssetInfo.map, pSnapshot->locationInfo, currentLocationDay)));
     }
 
     if (mapAssetInfo.indoorMapData)
@@ -1599,10 +1621,11 @@ bool savedSelectedMapStateNeedsFreshAssets(
         return pSnapshot != nullptr
             && pSnapshot->mapDeltaData
             && (boundGameRules().monsters.mapRefillForced(mapAssetInfo.map.fileName)
-                || timedMapRespawnDue(
-                mapAssetInfo.map,
-                pSnapshot->mapDeltaData->locationInfo,
-                currentLocationDay));
+                || (!loadsMapInstance(session, mapAssetInfo)
+                    && timedMapRespawnDue(
+                        mapAssetInfo.map,
+                        pSnapshot->mapDeltaData->locationInfo,
+                        currentLocationDay)));
     }
 
     return false;
@@ -5598,8 +5621,8 @@ void GameApplication::registerDebugConsoleCommands()
     m_debugConsole.registerCommand({
         .name = "talent",
         .description = "A MAW solo run's talents (devdocs/solo_action/TALENTS.md): set a rank, forget them, list them.",
-        .usage = "talent <id> <rank> | talent reset | talent list | talent page | talent use <id> | talent clearbar"
-                 " | talent stacks <onslaught stacks>",
+        .usage = "talent <id> <rank> | talent learn <id> | talent reset | talent list | talent page | talent use <id>"
+                 " | talent clearbar | talent stacks <onslaught stacks> | talent rage <amount>",
         .callback = [this, commandResult, activeParty](const DebugConsole::CommandContext &context)
         {
             const std::vector<std::string> &args = context.args;
@@ -5633,6 +5656,36 @@ void GameApplication::registerDebugConsoleCommands()
                     ? pOnslaught->duration
                     : 0.0f;
                 return commandResult(true, "onslaught stacks " + std::to_string(pMember->talentState.onslaughtStacks));
+            }
+            if (args.size() == 2 && args[0] == "rage")
+            {
+                // The Arms path's rage, set for review and tests (only a character on that path has the bar).
+                if (!hasRageBar(soloTalentTable(), *pMember))
+                {
+                    // An answer, not a console error.
+                    return commandResult(true, "no rage bar: the character is not on the Arms path");
+                }
+                pMember->talentState.rage =
+                    std::clamp(float(std::atof(args[1].c_str())), 0.0f, soloTalentTable().rage().maximum);
+                return commandResult(true, "rage " + std::to_string(int(pMember->talentState.rage)));
+            }
+            if (args.size() == 2 && args[0] == "learn")
+            {
+                // Learned as the Talents page learns it: points, masteries, the path lock.
+                const TalentDefinition *pLearn = soloTalentTable().find(args[1]);
+                if (pLearn == nullptr)
+                {
+                    return commandResult(false, "no talent " + args[1]);
+                }
+                const std::string refusal = talentLearnRefusal(soloTalentTable(), *pMember, *pLearn);
+                if (!learnTalent(soloTalentTable(), *pMember, pLearn->id))
+                {
+                    // A refusal is an answer, not a console error.
+                    return commandResult(true, "refused: " + refusal);
+                }
+                pParty->refreshDerivedState();
+                return commandResult(true,
+                    "learned " + pLearn->id + " rank " + std::to_string(talentRank(*pMember, pLearn->id)));
             }
             if (args.size() == 1 && args[0] == "reset")
             {
@@ -5673,9 +5726,17 @@ void GameApplication::registerDebugConsoleCommands()
                     }
                     out << ' ';
                 }
-                out << "| shield wall " << state.shieldWallSeconds << " s, onslaught " << state.onslaughtStacks
+                const bool rageFull = state.rage >= soloTalentTable().rage().maximum;
+                out << "| rage " << int(state.rage) << (rageFull ? " (full)" : " (not full)") << ", phase "
+                    << state.phaseSeconds << " s, onslaught " << state.onslaughtStacks
                     << " for " << state.onslaughtSeconds << " s, cheat death " << state.cheatDeathSeconds
                     << " s (cooldown " << state.cheatDeathCooldown << " s)";
+                // What the two pack talents count now, each within its own reach.
+                if (const MawRules *pMawRules = m_gameSession.mawRules())
+                {
+                    out << ", outnumbered counts " << pMawRules->outnumberedMonsters() << ", battle frenzy counts "
+                        << pMawRules->battleFrenzyMonsters();
+                }
                 return commandResult(true, out.str());
             }
             // A keystone is bound (1) or unbound (0) directly, whatever the level's slots.
@@ -7287,8 +7348,9 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "skill",
-        .description = "Grant a skill, skill points or tech points to the active character.",
-        .usage = "skill set <skill-name> <level> [B|E|M|G] | skill points <amount> | skill techpoints <amount>",
+        .description = "Read or grant a skill, or grant skill points or tech points, of the active character.",
+        .usage = "skill get <skill-name> | skill set <skill-name> <level> [B|E|M|G] | skill points <amount>"
+            " | skill techpoints <amount>",
         .callback = [activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
             Party *pParty = activeParty();
@@ -7315,10 +7377,27 @@ void GameApplication::registerDebugConsoleCommands()
                 return commandResult(true, pMember->name + " " + action + "=" + std::to_string(points));
             }
 
+            if (action == "get" && context.args.size() == 2)
+            {
+                const std::optional<uint32_t> readId = skillIdForSkillName(context.args[1]);
+
+                if (!readId)
+                {
+                    return commandResult(false, "Unknown skill.");
+                }
+
+                const std::string readName = *skillNameForSkillId(*readId);
+                const auto known = pMember->skills.find(readName);
+                return commandResult(true, known == pMember->skills.end()
+                    ? pMember->name + " has no " + displaySkillName(readName)
+                    : pMember->name + " " + displaySkillName(readName) + " " + std::to_string(known->second.level)
+                        + " " + masteryDisplayName(known->second.mastery));
+            }
+
             if (action != "set" || context.args.size() < 3)
             {
-                return commandResult(false,
-                    "Usage: skill set <skill-name> <level> [B|E|M|G] | skill points <n> | skill techpoints <n>");
+                return commandResult(false, "Usage: skill get <skill-name> | skill set <skill-name> <level> [B|E|M|G]"
+                    " | skill points <n> | skill techpoints <n>");
             }
 
             const std::optional<uint32_t> skillId = skillIdForSkillName(context.args[1]);
@@ -7354,7 +7433,8 @@ void GameApplication::registerDebugConsoleCommands()
                 true,
                 pMember->name + " " + displaySkillName(skillName) + " " + std::to_string(*level) + " "
                     + masteryDisplayName(mastery));
-        }});
+        },
+        .readOnlyWith = readOnlyConsoleActions(false, {"get"})});
 
     m_debugConsole.registerCommand({
         .name = "food",
@@ -7405,15 +7485,16 @@ void GameApplication::registerDebugConsoleCommands()
 
     m_debugConsole.registerCommand({
         .name = "hp",
-        .description = "Heal the party, or list each member's hit and spell points.",
-        .usage = "hp full | hp show",
+        .description = "Heal the party, list each member's hit and spell points, or check the active member's.",
+        .usage = "hp full | hp show | hp atleast <percent> | hp atmost <percent>",
         .callback = [activeParty, commandResult](const DebugConsole::CommandContext &context)
         {
             const std::string action = context.args.empty() ? std::string() : toLowerCopy(context.args[0]);
+            const bool check = (action == "atleast" || action == "atmost") && context.args.size() == 2;
 
-            if (action != "full" && action != "show")
+            if (action != "full" && action != "show" && !check)
             {
-                return commandResult(false, "Usage: hp full | hp show");
+                return commandResult(false, "Usage: hp full | hp show | hp atleast <percent> | hp atmost <percent>");
             }
 
             Party *pParty = activeParty();
@@ -7421,6 +7502,25 @@ void GameApplication::registerDebugConsoleCommands()
             if (pParty == nullptr)
             {
                 return commandResult(false, "No active party.");
+            }
+
+            if (check)
+            {
+                // For scenarios: an error when the active member's HP is not within the bound.
+                const Character *pMember = pParty->activeMember();
+
+                if (pMember == nullptr)
+                {
+                    return commandResult(false, "No active member.");
+                }
+
+                const double percent = 100.0 * pMember->health / std::max(1, Party::effectiveMaximumHealth(*pMember));
+                const double bound = std::atof(context.args[1].c_str());
+                const bool holds = action == "atleast" ? percent >= bound : percent <= bound;
+                std::ostringstream text;
+                text << pMember->name << " HP " << pMember->health << " (" << percent << " %), " << action << ' '
+                     << bound;
+                return commandResult(holds, text.str());
             }
 
             if (action == "show")
@@ -7441,7 +7541,7 @@ void GameApplication::registerDebugConsoleCommands()
             pParty->reviveAndRestoreAll();
             return commandResult(true, "Party restored.");
         },
-        .readOnlyWith = readOnlyConsoleActions(false, {"show"})});
+        .readOnlyWith = readOnlyConsoleActions(false, {"show", "atleast", "atmost"})});
 
     m_debugConsole.registerCommand({
         .name = "player",
@@ -8920,6 +9020,8 @@ bool GameApplication::processPendingDebugMapJump()
     }
 
     captureCurrentSceneState();
+    // A jump leads to the map itself, out of any instance.
+    m_gameSession.setMapInstanceId({});
 
     if (!activateWorldForMap(*pTargetMap))
     {
@@ -9780,7 +9882,6 @@ void GameApplication::renderFirstPersonViewModel(IGameplayWorldRuntime &world, i
         .memberRecoverySeconds = pMember != nullptr ? pMember->recoverySecondsRemaining : 0.0f,
         .talentSerial = link.talentSerial,
         .talentClip = link.talentClip,
-        .talentBlock = pMember != nullptr && pMember->talentState.shieldWallSeconds > 0.0f,
         .swingIsCast = link.waitIsCast,
         .castSelf = link.castSelf,
         .castColor = FirstPersonViewModel::schoolColor(link.castSchool),
@@ -10625,7 +10726,8 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
         const bool outdoorTimedRespawn =
             pSavedOutdoorState != nullptr
                 && (boundGameRules().monsters.mapRefillForced(selectedMap->map.fileName)
-                    || timedMapRespawnDue(selectedMap->map, pSavedOutdoorState->locationInfo, currentMapDay));
+                    || (!loadsMapInstance(m_gameSession, *selectedMap)
+                        && timedMapRespawnDue(selectedMap->map, pSavedOutdoorState->locationInfo, currentMapDay)));
         boundGameRules().monsters.mapLoaded(selectedMap->map.fileName, outdoorTimedRespawn);
         // Leaving a map ends Onslaught; a loaded save resumes the talent state it saved.
         for (size_t index = 0;
@@ -10888,10 +10990,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             pSavedIndoorState != nullptr
             && pSavedIndoorState->mapDeltaData
             && (forcedIndoorRefill
-                || timedMapRespawnDue(
-                    selectedMap->map,
-                    pSavedIndoorState->mapDeltaData->locationInfo,
-                    currentMapDay));
+                || (!loadsMapInstance(m_gameSession, *selectedMap)
+                    && timedMapRespawnDue(
+                        selectedMap->map,
+                        pSavedIndoorState->mapDeltaData->locationInfo,
+                        currentMapDay)));
         boundGameRules().monsters.mapLoaded(selectedMap->map.fileName, indoorTimedRespawn);
         // Leaving a map ends Onslaught; a loaded save resumes the talent state it saved.
         for (size_t index = 0; !m_loadingSavedGameRuntime && index < party.members().size(); ++index)
@@ -11401,8 +11504,11 @@ bool GameApplication::loadCurrentSessionMap(
     timingLogger.stage("world activated");
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+    // The same file set up another way by the rules (MAW: the map itself against its rift) is another map to load.
     const bool selectedMapMatchesSession =
-        selectedMap.has_value() && sameMapFileName(selectedMap->map.fileName, m_gameSession.currentMapFileName());
+        selectedMap.has_value() && sameMapFileName(selectedMap->map.fileName, m_gameSession.currentMapFileName())
+        && m_gameDataLoader.selectedMapRulesVariant()
+            == boundGameRules().monsters.mapAssetVariant(m_gameSession.currentMapFileName());
     const bool forceReloadSelectedMapForRespawn =
         selectedMapMatchesSession
         && savedSelectedMapStateNeedsFreshAssets(
@@ -12435,30 +12541,14 @@ void GameApplication::updateDoubleSpeedInput()
         return;
     }
 
-    // 1x, 2x, 3x, 4x and back to 1x.
-    m_gameSpeedFactor = m_gameSpeedFactor % 4 + 1;
-    std::string status;
-
-    switch (m_gameSpeedFactor)
-    {
-        case 2:
-            status = Engine::tr("Fast mode (2x)");
-            break;
-
-        case 3:
-            status = Engine::tr("Fast mode (3x)");
-            break;
-
-        case 4:
-            status = Engine::tr("Fast mode (4x)");
-            break;
-
-        default:
-            status = Engine::tr("Normal mode (1x)");
-            break;
-    }
-
-    m_gameSession.gameplayScreenRuntime().setStatusBarEvent(status);
+    m_fastMode = !m_fastMode;
+    const std::string status = m_fastMode
+        ? Engine::tr("Fast mode ({speed}x)", {{"speed", fastModeSpeedValue(m_settings.fastModeSpeed)}})
+        : Engine::tr("Normal mode (1x)");
+    // The status line counts game time, which now runs faster: the message stays its two seconds of real time.
+    constexpr float StatusSeconds = 2.0f;
+    m_gameSession.gameplayScreenRuntime().setStatusBarEvent(
+        status, StatusSeconds * (m_fastMode ? m_settings.fastModeSpeed : 1.0f));
 }
 
 float GameApplication::gameplaySpeed() const
@@ -12470,7 +12560,7 @@ float GameApplication::gameplaySpeed() const
         return 1.0f;
     }
 
-    float speed = static_cast<float>(m_gameSpeedFactor);
+    float speed = m_fastMode ? m_settings.fastModeSpeed : 1.0f;
 
     switch (m_gameSession.turnBasedCombatRuntime().speedPhase())
     {
@@ -15325,12 +15415,55 @@ bool GameApplication::processPendingMapMove()
 
     synchronizeSessionFromRuntime();
 
-    const bool isSameMapTeleport =
+    const bool namesNoMap =
         !pendingMapMove->mapName
         || pendingMapMove->mapName->empty()
         || *pendingMapMove->mapName == "0"
-        || *pendingMapMove->mapName == "0."
+        || *pendingMapMove->mapName == "0.";
+    const std::string previousMapInstanceId = m_gameSession.mapInstanceId();
+
+    // From inside a map instance, a move that names a map but no instance goes where the rules say (MAW's rifts: back
+    // to where the party came from, or nowhere).
+    if (!namesNoMap && !previousMapInstanceId.empty() && !pendingMapMove->instanceId)
+    {
+        const bool sameMap = sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName());
+        const MapInstanceExit exit = boundGameRules().monsters.mapInstanceExit(
+            *pendingMapMove->mapName, sameMap, pendingMapMove->traceSourceKind);
+
+        switch (exit.kind)
+        {
+            case MapInstanceExit::Kind::Stay:
+                pendingMapMove->instanceId = previousMapInstanceId;
+                break;
+
+            case MapInstanceExit::Kind::Leave:
+                pendingMapMove->instanceId = std::string();
+                break;
+
+            case MapInstanceExit::Kind::Redirect:
+                pendingMapMove->mapName = exit.mapFileName;
+                pendingMapMove->instanceId = std::string();
+                pendingMapMove->x = exit.x;
+                pendingMapMove->y = exit.y;
+                pendingMapMove->z = exit.z;
+                pendingMapMove->directionDegrees.reset();
+                pendingMapMove->useMapStartPosition = false;
+                pendingMapMove->startPointName.clear();
+                pendingMapMove->keepHeight = false;
+                break;
+
+            case MapInstanceExit::Kind::Refuse:
+                m_gameSession.gameplayScreenRuntime().setStatusBarEvent(exit.text, 4.0f);
+                return false;
+        }
+    }
+
+    // An ordinary move from a map itself leads to maps themselves.
+    const std::string targetMapInstanceId = pendingMapMove->instanceId.value_or(std::string());
+    const bool isSameMapTeleport =
+        namesNoMap
         || (!pendingMapMove->useMapStartPosition
+            && targetMapInstanceId == previousMapInstanceId
             && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
 
     // Like the original, autosave on the map being left, before its leave events run. Travel that already spent
@@ -15344,6 +15477,20 @@ bool GameApplication::processPendingMapMove()
     {
         m_mapMoveAwaitingAutosave = std::move(pendingMapMove);
         return false;
+    }
+
+    // The item that leads there is used only now, after the autosave of the map being left, which so holds it unused
+    // (a MAW dimension map still a map, its rift not open). The rules may still refuse: the party stays.
+    if (pendingMapMove->travelItem)
+    {
+        if (!m_gameSession.gameplayItemService().useTravelItemForMove(
+                m_gameSession.gameplayScreenRuntime(), *pendingMapMove->travelItem))
+        {
+            return false;
+        }
+
+        // What the rules gave or took (the rift's portal) is the session's too.
+        synchronizeSessionFromRuntime();
     }
 
     const auto applyMapMoveDirection = [this, &pendingMapMove]()
@@ -15423,6 +15570,7 @@ bool GameApplication::processPendingMapMove()
     captureCurrentSceneState();
 
     m_gameSession.setCurrentMapFileName(targetMapName);
+    m_gameSession.setMapInstanceId(targetMapInstanceId);
     renderLoadingOverlayProgress(15);
 
     if (!loadCurrentSessionMapKeepingHeldItem(
@@ -15433,6 +15581,7 @@ bool GameApplication::processPendingMapMove()
             }))
     {
         m_gameSession.setCurrentMapFileName(previousMapFileName);
+        m_gameSession.setMapInstanceId(previousMapInstanceId);
         const bool previousMapRestored = loadCurrentSessionMapKeepingHeldItem(
             true,
             [this](int localProgress)
@@ -15502,6 +15651,9 @@ bool GameApplication::processPendingMapMove()
     GAMEPLAY_DEBUG_TRACE_BLOCK(
         logMapArrived(previousMapFileName, targetMapName, *pendingMapMove, false, arrivedGameMinutes);
     );
+
+    // The states of instances the rules have ended are of no more use.
+    m_gameSession.discardEndedMapInstances();
 
     if (isDungeonMapFileName(targetMapName) && !sameMapFileName(previousMapFileName, targetMapName))
     {
@@ -16270,6 +16422,8 @@ void GameApplication::applyPartyDefeatConsequences()
     }
 
     Party &party = m_pMapSceneRuntime->party();
+    // The lost fight ends turn-based mode, which the respawn's map change would otherwise carry over.
+    m_gameSession.turnBasedCombatRuntime().end(&party, m_gameSession.activeWorldRuntime(), false);
     // world.yml partyDeath keepGold: MM9's wake takes no gold (cshell.dll 0x100a4e50 only heals the party).
     const bool keepGold = worldPartyDeathApplies() && m_activeWorldManifest.partyDeath.keepGold;
     const int carriedGold = keepGold ? 0 : party.gold();
@@ -16301,7 +16455,10 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     }
 
     captureCurrentSceneState();
+    const std::string previousMapInstanceId = m_gameSession.mapInstanceId();
+    // The party wakes on the map itself, out of any instance.
     m_gameSession.setCurrentMapFileName(*m_pendingPartyDefeatRespawnMapFileName);
+    m_gameSession.setMapInstanceId({});
     beginLoadingOverlay();
     renderLoadingOverlayProgress(15);
 
@@ -16314,6 +16471,7 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     {
         cancelLoadingOverlay();
         m_gameSession.setCurrentMapFileName(previousMapFileName);
+        m_gameSession.setMapInstanceId(previousMapInstanceId);
         return false;
     }
 

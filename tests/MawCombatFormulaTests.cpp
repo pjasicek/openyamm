@@ -56,12 +56,14 @@ TEST_CASE("MAW hit chances match the Champion example at MAW and Hell")
     MawBalanceModel hell(difficultyConfig(HellDifficulty));
 
     // MAW 8fbb48d1: the model's melee skill lost its x1.5 and its stat share fell to 0.2, so the expected attack and
-    // stat are lower than in COMBAT_SPEC's ef23ee17 example.
-    CHECK(mawPartyHitChance(114, 50, std::nullopt, maw) == doctest::Approx(0.6817).epsilon(2e-4));
-    CHECK(mawPartyHitChance(111, 50, std::nullopt, maw) == doctest::Approx(0.6711).epsilon(2e-4));
-    CHECK(mawPartyHitChance(114, 50, std::nullopt, hell) == doctest::Approx(0.6787).epsilon(2e-4));
-    CHECK(mawPartyHitChance(279, 150, std::nullopt, maw) == doctest::Approx(0.6862).epsilon(2e-4));
-    CHECK(mawPartyHitChance(274, 150, std::nullopt, hell) == doctest::Approx(0.6734).epsilon(2e-4));
+    // stat are lower than in COMBAT_SPEC's ef23ee17 example. MAW f1ffd3b1: the expected weapon is the Primordial one
+    // by the geared share, on a base rung that tops out at level 100, so the expected attack fell again (116.69 at
+    // level 50, 304.20 at 150, MAW difficulty).
+    CHECK(mawPartyHitChance(114, 50, std::nullopt, maw) == doctest::Approx(0.7295).epsilon(2e-4));
+    CHECK(mawPartyHitChance(111, 50, std::nullopt, maw) == doctest::Approx(0.7177).epsilon(2e-4));
+    CHECK(mawPartyHitChance(114, 50, std::nullopt, hell) == doctest::Approx(0.7240).epsilon(2e-4));
+    CHECK(mawPartyHitChance(279, 150, std::nullopt, maw) == doctest::Approx(0.7059).epsilon(2e-4));
+    CHECK(mawPartyHitChance(274, 150, std::nullopt, hell) == doctest::Approx(0.6901).epsilon(2e-4));
 
     CHECK(mawChanceToBeHit(89, 50, maw) == doctest::Approx(0.7992).epsilon(2e-4));
     CHECK(mawChanceToBeHit(89, 50, hell) == doctest::Approx(0.8041).epsilon(2e-4));
@@ -161,16 +163,17 @@ TEST_CASE("MAW monster hits on the Champion match the worked examples")
     };
     const double fireball = mawMonsterSpellMultiplier(6);
 
-    // MAW 8fbb48d1: per-kind monster damage (MAW's Lua: 186.23 physical, 254.57 fire at level 50, MAW difficulty)
-    // and the gentler armour and resistance divisors 200 + L and 100 + L.
-    CHECK(monsterHit(MawDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 149);
-    CHECK(monsterHit(MawDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 104);
-    CHECK(monsterHit(MawDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1447);
-    CHECK(monsterHit(MawDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1067);
-    CHECK(monsterHit(HellDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 184);
-    CHECK(monsterHit(HellDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 127);
-    CHECK(monsterHit(HellDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1823);
-    CHECK(monsterHit(HellDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1335);
+    // MAW 8fbb48d1: per-kind monster damage and the gentler armour divisor 200 + L. MAW f1ffd3b1: resistances are
+    // divided by 100 + 2 L, and the expected character wears more armour and resists less (MAW's Lua: 217.15
+    // physical, 231.68 fire at level 50, MAW difficulty; 186.23 and 254.57 before).
+    CHECK(monsterHit(MawDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 173);
+    CHECK(monsterHit(MawDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 99);
+    CHECK(monsterHit(MawDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 1758);
+    CHECK(monsterHit(MawDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 969);
+    CHECK(monsterHit(HellDifficulty, 50, 1, CombatDamageType::Physical, 63, 34) == 211);
+    CHECK(monsterHit(HellDifficulty, 50, fireball, CombatDamageType::Fire, 63, 34) == 121);
+    CHECK(monsterHit(HellDifficulty, 150, 1, CombatDamageType::Physical, 136, 110) == 2166);
+    CHECK(monsterHit(HellDifficulty, 150, fireball, CombatDamageType::Fire, 136, 110) == 1203);
 }
 
 TEST_CASE("MAW mitigation keeps a tenth of the hit and honours immunities")

@@ -27,7 +27,7 @@ struct MawModelConfig
 MawModelConfig mawModelConfig(const RulesetOptions &options, int partyCount);
 
 // What a character's armour class and resistances are divided by against an attacker of the given level
-// (Formulas.armorDamageTaken / resistanceDamageTaken: AC / (200 + L), resistance / (100 + L)).
+// (Formulas.armorDamageTaken / resistanceDamageTaken: AC / (200 + L), resistance / (100 + 2 L)).
 inline double mawArmorDivisor(double attackerLevel)
 {
     return 200 + attackerLevel;
@@ -35,7 +35,7 @@ inline double mawArmorDivisor(double attackerLevel)
 
 inline double mawResistanceDivisor(double attackerLevel)
 {
-    return 100 + attackerLevel;
+    return 100 + 2 * attackerLevel;
 }
 
 // Which of the expected character's defences a monster's damage is sized against (getPlayerEstimatedVitality's
@@ -68,7 +68,7 @@ public:
     double mana(double level);
     double armorClass(double level);
     double resistance(double level);
-    double enchantResistance(double level) const;
+    double enchantResistance(double level);
     double physicalDamageTaken(double level);
     double magicDamageTaken(double level);
     double chanceToBeHit(double level);
@@ -95,7 +95,7 @@ public:
     // GetGradualMasteryValue (zzMaw-Stats.lua:1480-1495): a rank's value ramps up from the previous rank's between the
     // mastery thresholds, Grandmaster's to 1.4 x its threshold. `perMastery` holds Novice to Grandmaster.
     double gradualSkillValue(const std::array<double, 4> &perMastery, double skill, int mastery) const;
-    // getWeaponLevelDamage (Estimates.lua:145-158): the average damage a weapon of this level adds, with the expected
+    // getWeaponLevelDamage (Estimates.lua:150-163): the average damage a weapon of this level adds, with the expected
     // Armsmaster, weapon skill and might of its level; what damage enchantments and Fire Aura scale with.
     double weaponLevelDamage(double itemLevel, bool twoHanded, double weaponFlat);
 
@@ -112,6 +112,15 @@ private:
     double enchantStrengthCurve(double tier) const;
     double expectedEnchantFraction(double lootTier, double drops, int difficulty) const;
     double wornArmor(double level);
+
+    struct ExpectedWeapon
+    {
+        double dice = 0;
+        double flat = 0;
+    };
+
+    ExpectedWeapon expectedWeapon(double level);
+    double expectedWeaponLevelDamage(double level);
 
     MawModelConfig m_config;
     std::unordered_map<double, double> m_gearedCache;

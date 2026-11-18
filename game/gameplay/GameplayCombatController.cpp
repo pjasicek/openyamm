@@ -653,6 +653,8 @@ int adjustedIncomingDamageForMember(
         context.pRuntime != nullptr ? context.pRuntime->specialItemEnchantTable() : nullptr;
     hit.monsterAttack = true;
     hit.physicalProjectile = isPhysicalProjectile;
+    hit.missile = event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact;
+    hit.firedFromDistance = event.firedDistance;
     hit.attackerLevel = sourceActor ? sourceActor->monsterLevel : 0;
     hit.attackerFacts = sourceActor ? sourceActor->rulesetFacts : ActorRulesetFacts{};
     hit.attackerCurrentHp = sourceActor ? sourceActor->currentHp : 0;
@@ -1873,6 +1875,7 @@ void GameplayCombatController::handlePendingCombatEvents(
                 hit.type = event.damageType;
                 hit.spellId = uint32_t(std::max(0, event.spellId));
                 hit.killed = event.killed;
+                hit.critical = event.critical;
                 hit.pWorld = context.pWorldRuntime;
 
                 for (size_t actorIndex = 0; context.pWorldRuntime != nullptr
@@ -2462,10 +2465,12 @@ void GameplayCombatController::recordPartyProjectileImpact(
     int spellId,
     bool affectsAllParty,
     CombatDamageType damageType,
-    GameplayActorAttackAbility ability)
+    GameplayActorAttackAbility ability,
+    float firedDistance)
 {
     m_pendingCombatEvents.push_back(
         buildPartyProjectileImpactEvent(sourceId, damage, attackBonus, spellId, affectsAllParty, damageType, ability));
+    m_pendingCombatEvents.back().firedDistance = firedDistance;
 }
 
 void GameplayCombatController::recordPartyProjectileActorImpact(

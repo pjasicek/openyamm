@@ -67,6 +67,10 @@ public:
         const std::vector<float> &attackRecoverySeconds = {});
     void end(Party *pParty, IGameplayWorldRuntime *pWorldRuntime, bool preserveRecovery = true);
     void reset();
+    // The party leaves its map for another: turn-based mode, its stage and the members' places in the queue stay;
+    // the old map's monsters and the actions still in flight there are left behind. The new map's monsters join as
+    // arrivals at the next attack stage.
+    void leaveMap();
 
     bool canToggleOff(const Party &party) const;
     bool toggle(

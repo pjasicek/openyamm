@@ -4708,6 +4708,8 @@ struct LuaExecutionContext
     bool preserveRuntimeOutputsOnBegin = false;
     bool allowStandaloneMapEventDialogueContext = true;
     bool executingGlobalHandler = false;
+    // evt.OpenChest of a chest that stays shut ended the handler, as the original's interpreter does: not an error.
+    bool handlerEndedByScript = false;
 };
 
 }
@@ -9406,24 +9408,40 @@ int luaArenaMonster(lua_State *pLuaState)
     return 1;
 }
 
-// evt.RulesTopic(topic): what the NPC says for a topic the party's rules run (MAW's Dimensional Maps), or nil.
+// evt.RulesTopic(topic): what the NPC says for a topic the party's rules run (MAW's Dimensional Maps), or nil; then
+// the further rules topic the NPC offers after it, and the rules topic that carries the answer out once the party
+// typed "yes" (each nil when there is none).
 int luaRulesTopic(lua_State *pLuaState)
 {
     Party *pParty = writableParty(pLuaState);
-    const std::optional<std::string> text = pParty != nullptr
-        ? gameRulesFor(pParty).monsters.rulesTopic(luaL_checkstring(pLuaState, 1), *pParty)
+    const IGameplayWorldRuntime *pWorld =
+        dynamic_cast<const IGameplayWorldRuntime *>(readonlySceneEventContext(executionContextFromLua(pLuaState)));
+    const std::optional<RulesTopicReply> reply = pParty != nullptr
+        ? gameRulesFor(pParty).monsters.rulesTopic(luaL_checkstring(pLuaState, 1), *pParty, pWorld)
         : std::nullopt;
 
-    if (text)
-    {
-        lua_pushstring(pLuaState, text->c_str());
-    }
-    else
+    if (!reply)
     {
         lua_pushnil(pLuaState);
+        return 1;
     }
 
-    return 1;
+    const auto pushTopic = [&](const std::string &topic)
+    {
+        if (topic.empty())
+        {
+            lua_pushnil(pLuaState);
+        }
+        else
+        {
+            lua_pushstring(pLuaState, topic.c_str());
+        }
+    };
+
+    lua_pushstring(pLuaState, reply->text.c_str());
+    pushTopic(reply->offeredTopic);
+    pushTopic(reply->confirmTopic);
+    return 3;
 }
 
 // evt.SetUnscaledExperience(on): AddValue(Experience) gives exact amounts until switched off.
@@ -9467,6 +9485,20 @@ int luaOpenChest(lua_State *pLuaState)
             .openedByTelekinesis = pRuntimeState->activeEventOpenedByTelekinesis,
             .decorationKey = pRuntimeState->activeEventDecorationKey,
         });
+
+    // The world still opens the chest after the event (a trap goes off, a refusal is shown), but a chest that stays
+    // shut ends the event here, as in the original: a quest chest that sets its one-time bit after OpenChest
+    // (7d20's Heart of the Wood) must open again on the next click.
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr
+        && pExecutionContext->pSceneEventContext != nullptr
+        && !pExecutionContext->pSceneEventContext->scriptedChestOpens(chestId))
+    {
+        pExecutionContext->handlerEndedByScript = true;
+        return luaL_error(pLuaState, "chest %d stays shut", static_cast<int>(chestId));
+    }
+
     return 0;
 }
 
@@ -10806,9 +10838,16 @@ bool invokeLuaHandler(
     }
 
     std::optional<std::string> errorMessage;
+    executionContext.handlerEndedByScript = false;
     const bool ok = session.lua.call(continueStep ? 1 : 0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
     session.pExecutionContext = pOuterExecutionContext;
     finishExperienceAward();
+
+    if (!ok && executionContext.handlerEndedByScript)
+    {
+        executionContext.handlerEndedByScript = false;
+        return true;
+    }
 
     if (!ok)
     {

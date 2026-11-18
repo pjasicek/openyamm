@@ -32,6 +32,8 @@ public:
     // Death Knights and Dragons take no SP from items; the Assassin line takes 10 per Assassination (Earth) mastery
     // instead (MCC:838-840, SP:3628-3634). Races add +3 (+1 per 10 levels of the skill) to a few skills, even
     // unlearned (S:2348-2400), and their resistances and immunities (ST:1349-1383).
+    // A solo run's stat talents (Conditioning, Steady Aim), early enough for HP and SP to count them.
+    void applyPrimaryStatBonuses(Character &member) const override;
     void applyClassBonuses(Character &member) const override;
     // Death Knights, Elementalists and Assassins learn their spells their own way (MCC:482-493, 589-593).
     bool learnsSpellsFromBooks(const Character &character) const override;
@@ -163,8 +165,8 @@ struct MawAscension
 
 // The caster's Ascension (CLASSES_SPELLS_SPEC.md §2.1): the Learning skill; Elementalists a quarter of their four
 // elements (floored for cast time) at Grandmaster for spells and their cast time; Shamans a seventh of their seven
-// schools at Grandmaster for costs and heals only (their damage and cast time read Learning, which they cannot
-// learn); Death Knights and Assassins none.
+// schools at Grandmaster for costs, heals and damage (their cast time and crowd control read Learning, which they
+// cannot learn); Death Knights and Assassins none.
 MawAscension mawAscension(const Character &caster, MawAscensionUse use);
 // The Shaman's sum of the seven elemental and self schools (spell damage x (1 + sum/200), heals x (1 + sum/400));
 // 0 for every other class.

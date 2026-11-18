@@ -202,15 +202,27 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
 {
     MawGameState &state = m_rules.state();
     const std::string mapFileName = lowercase(progress.mapFileName);
-    const auto run = state.dimensionRuns.find(mapFileName);
-    const bool openRun = run != state.dimensionRuns.end() && !run->second.completed;
     const RulesetOptions &options = m_rules.options();
+
+    // A rift is cleared for itself: it counts for the quest and, once the quest is done, gives the next map
+    // (zzMaw-Monsters.lua:2646-2700). Its map's own completion, reward and records are not touched.
+    if (MawDimensionRun *pRun = m_rules.dimensionRun(mapFileName))
+    {
+        pRun->slain = progress.slainMonsters;
+        pRun->counted = progress.countedMonsters;
+        const bool insanityRules = options.challengeMode == RulesetChallengeMode::RoadToInsanity
+            || options.challengeMode == RulesetChallengeMode::BeyondMadness;
+        return pRun->completed || !mawMapCompletion(progress, insanityRules).complete
+            ? std::string()
+            : completeDimensionRun(party, *pRun);
+    }
+
     const bool insanity = options.challengeMode == RulesetChallengeMode::RoadToInsanity
         || options.challengeMode == RulesetChallengeMode::BeyondMadness;
     const bool madness = options.challengeMode == RulesetChallengeMode::BeyondMadness;
     const bool doom = insanity || options.challengeMode == RulesetChallengeMode::Doom;
 
-    if ((state.completedMaps.contains(mapFileName) && !openRun && state.clearedSinceRefill.contains(mapFileName))
+    if ((state.completedMaps.contains(mapFileName) && state.clearedSinceRefill.contains(mapFileName))
         || !mawMapCompletion(progress, insanity).complete)
     {
         return {};
@@ -219,17 +231,9 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
     // Cleared since the last refill (MAW's mapvars.completed): every clear, a re-clear after a refill or a reset too.
     state.clearedSinceRefill.insert(mapFileName);
 
-    if (state.completedMaps.contains(mapFileName) && !openRun)
+    if (state.completedMaps.contains(mapFileName))
     {
         return {};
-    }
-
-    // A dimension map's map was completed before: no second reward, but the quest counts it and, once the quest is
-    // done, the next map drops (zzMaw-Monsters.lua:2646-2700). Beyond Madness never takes this branch: its runs pay
-    // the full reward below and drop no next map.
-    if (state.completedMaps.contains(mapFileName) && !madness)
-    {
-        return completeDimensionRun(party, run->second);
     }
 
     const std::array<double, 3> band = m_rules.mapLevels().band(mapFileName);
@@ -241,17 +245,11 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
         bolster = m_rules.mapLevels().madnessLevel(mapFileName);
     }
 
-    // A dimension run's level is its power x 10 (zzMaw-Monsters.lua:2713-2715).
-    if (openRun)
-    {
-        bolster = run->second.power * 10.0;
-    }
-
     // A plain map pays by the level of its monsters: its own B rows' middle level, else the average level of the
     // monsters it counts (mapClearLevel, zzMaw-Monsters.lua:2586-2603, MAW 8967ae88).
     std::optional<double> clearLevel;
 
-    if (!madness && !openRun)
+    if (!madness)
     {
         clearLevel = m_rules.mapMonsterLevel();
 
@@ -278,20 +276,13 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
 
     if (madness)
     {
-        // Twice on a plain map, half on a dimension run (zzMaw-Monsters.lua:2730-2736).
-        experience = std::ceil(std::pow(slain, 0.7) * (bolster * 20 + std::pow(bolster, 1.8)) / 3 / 1000) * 1000
-            * (openRun ? 0.5 : 2);
+        // Twice what the formula gives (zzMaw-Monsters.lua:2730-2736; its half for a dimension run never applies:
+        // Beyond Madness has no dimension maps, and a rift is cleared for itself above).
+        experience = std::ceil(std::pow(slain, 0.7) * (bolster * 20 + std::pow(bolster, 1.8)) / 3 / 1000) * 1000 * 2;
         gold = mawRound(experience / 3 / 1000) * 1000;
     }
 
     state.completedMaps.insert(mapFileName);
-
-    if (openRun)
-    {
-        run->second.completed = true;
-        ++state.dimensionRunsCleared;
-    }
-
     state.addBankedExperience(experience, progress.continentId);
     party.addGold(int(gold), GoldReason::Event);
     const size_t memberCount = std::max<size_t>(1, party.members().size());
@@ -318,22 +309,6 @@ std::string MawExperienceRules::rewardMapProgress(Party &party, const MapKillPro
 
     if (party.itemTable() == nullptr)
     {
-        return rewardText;
-    }
-
-    // A dimension run gives one crafting item by its affix count, in every mode (zzMaw-Monsters.lua:2743-2751).
-    if (openRun)
-    {
-        static constexpr std::array<uint32_t, 5> RunRewards = {0, 1070, 1061, 1062, 1065};
-        const uint32_t itemId = RunRewards[std::min<size_t>(run->second.affixCount(), RunRewards.size() - 1)];
-
-        if (itemId != 0 && party.itemTable()->get(itemId) != nullptr)
-        {
-            party.tryGrantInventoryItem(
-                ItemGenerator::makeInventoryItem(itemId, *party.itemTable(), ItemGenerationMode::Generic));
-            return reward(true);
-        }
-
         return rewardText;
     }
 
@@ -394,7 +369,7 @@ std::string MawExperienceRules::completeDimensionRun(Party &party, MawDimensionR
     // active, one power more.
     const std::string mapFileName = pMap != nullptr ? lowercase(pMap->fileName) : m_rules.currentMap();
     RandomStream stream(randomStreamKey(m_rules.randomRootSeed(), RandomDomain::DimensionCompletion,
-        randomNameKey(mapFileName), uint64_t(state.mapsDropped[mapFileName]), run.power));
+        randomNameKey(mapFileName), uint64_t(run.mapsDropped), run.power));
     const std::array<bool, 4> slots = {
         unitDraw(stream) < 0.4, true, unitDraw(stream) < 0.6, unitDraw(stream) < 0.5};
     const MawDimensionMap map =
@@ -405,7 +380,7 @@ std::string MawExperienceRules::completeDimensionRun(Party &party, MawDimensionR
 
     if (map.mapId != 0 && party.tryGrantInventoryItem(item))
     {
-        ++state.mapsDropped[mapFileName];
+        ++run.mapsDropped;
         text += " " + Engine::tr("You find a new Dimension Map.");
     }
 

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/rules/ClassRules.h"
 #include "game/ui/GameplayOverlayTypes.h"
 #include "game/ui/SoloHudLayout.h"
 
@@ -44,14 +45,15 @@ void renderCrosshairBrackets(GameplayScreenRuntime &context, float centerX, floa
 std::optional<GameplayHudPointerTarget> buffTargetAt(GameplayScreenRuntime &context, int width, int height, float x,
     float y);
 // A tile of the buff and condition rows under a point (screen pixels), for its own popup: which buff (a PartyBuffId,
-// a CharacterBuffId, the member's timed potion effect in gameplayPotionEffectLines order, or a CharacterCondition)
-// and where it is drawn.
+// a CharacterBuffId, the member's timed potion effect in gameplayPotionEffectLines order, a CharacterCondition, or a
+// solo talent's state: 0 Onslaught, 1 Cheat Death) and where it is drawn.
 enum class BuffTileKind
 {
     Party,
     Character,
     Potion,
-    Condition
+    Condition,
+    Talent
 };
 
 struct BuffTileHit
@@ -63,6 +65,15 @@ struct BuffTileHit
 };
 
 std::optional<BuffTileHit> buffTileAt(GameplayScreenRuntime &context, int width, int height, float x, float y);
+// The class counter's gems over the unit frame's bars (MAW's combo points and Elementalist stacks) under a point
+// (screen pixels): the counter, for its popup, and where its gems are drawn.
+struct CounterHit
+{
+    PortraitCounter counter;
+    GameplayResolvedHudLayoutElement rect;
+};
+
+std::optional<CounterHit> counterAt(GameplayScreenRuntime &context, int width, int height, float x, float y);
 // The bar slot (Character::actionBar index, 0-9) whose key (KeyboardAction::ActionBar1-10, the number keys 1-0 by
 // default) is held, Shift and Ctrl up; the first held wins.
 std::optional<size_t> heldBarSlot(const GameplayInputFrame &input);

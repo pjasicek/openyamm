@@ -3,6 +3,7 @@
 #include "game/FaceEnums.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/gameplay/TravelRuntime.h"
+#include "game/rules/GameRules.h"
 
 #include <SDL3/SDL.h>
 
@@ -511,7 +512,8 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
             && pTransition->has_value()
             && !(*pTransition)->destinationMapFileName.empty()
             && canOfferMapTransition(*m_pPartyRuntime, moveState, **pTransition)
-            && transitionQuestRequirementsMet(m_pPartyRuntime->party(), **pTransition))
+            && transitionQuestRequirementsMet(m_pPartyRuntime->party(), **pTransition)
+            && !m_pPartyRuntime->party().rules().monsters.mapTravelRefusal())
         {
             const MapBoundaryEdge edge = *m_pPartyRuntime->movementEvents().blockedBoundaryEdge;
             EventRuntimeState::PendingDialogueContext context = {};

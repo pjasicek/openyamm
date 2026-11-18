@@ -24,7 +24,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 193;
+constexpr uint32_t SaveVersion = 197;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -339,6 +339,11 @@ constexpr uint32_t SaveVersionWideTalentRanks = 190;
 // An upkeep order may be a potion (BattleOrder::potionItemId, bottleRule, stockDrinks, brewPower); older saves have
 // spells only.
 constexpr uint32_t SaveVersionPotionUpkeep = 191;
+// The solo archetypes (devdocs/solo_action/ARCHETYPES_BUILD.md): one talent path a character (migrateTalentPaths),
+// Shield Wall and Resolve gone, the Arms path's rage in the talent state (where Shield Wall's seconds were), Expose
+// Weakness on a monster's ruleset facts, a monster missile's firing distance (Vanguard) and the monsters' "cannot shoot or cast"
+// and "movement slowed" timers.
+constexpr uint32_t SaveVersionSoloArchetypes = 197;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -831,7 +836,7 @@ bool readValue(BinaryReader &reader, ActionBarSlot &value)
 void writeValue(BinaryWriter &writer, const SoloTalentState &value)
 {
     writeValue(writer, value.cooldownSeconds);
-    writeValue(writer, value.shieldWallSeconds);
+    writeValue(writer, value.rage);
     writeValue(writer, value.spellSurgeArmed);
     writeValue(writer, value.surgeDamageSeconds);
     writeValue(writer, value.onslaughtStacks);
@@ -847,8 +852,10 @@ void writeValue(BinaryWriter &writer, const SoloTalentState &value)
 
 bool readValue(BinaryReader &reader, SoloTalentState &value)
 {
+    // Before the archetypes the state held Shield Wall's seconds where rage is now.
+    float shieldWallSeconds = 0.0f;
     return readValue(reader, value.cooldownSeconds)
-        && readValue(reader, value.shieldWallSeconds)
+        && readValue(reader, reader.version() < SaveVersionSoloArchetypes ? shieldWallSeconds : value.rage)
         && readValue(reader, value.spellSurgeArmed)
         && readValue(reader, value.surgeDamageSeconds)
         && readValue(reader, value.onslaughtStacks)
@@ -1097,6 +1104,8 @@ void writeValue(BinaryWriter &writer, const ActorRulesetFacts &value)
     writeValue(writer, value.doomSpecialAttack);
     writeValue(writer, value.regeneratingHits);
     writeValue(writer, value.crypticAffix);
+    writeValue(writer, value.exposedPercent);
+    writeValue(writer, value.exposedUntilGameMinutes);
 }
 
 bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
@@ -1127,7 +1136,9 @@ bool readValue(BinaryReader &reader, ActorRulesetFacts &value)
             && (reader.version() < SaveVersionUniqueMonsters || readValue(reader, value.unique))
             && (reader.version() < SaveVersionMawChallengeModes || readValue(reader, value.doomSpecialAttack))
             && (reader.version() < SaveVersionRegeneratingHits || readValue(reader, value.regeneratingHits))
-            && (reader.version() < SaveVersionCrypticBossAffix || readValue(reader, value.crypticAffix)));
+            && (reader.version() < SaveVersionCrypticBossAffix || readValue(reader, value.crypticAffix))
+            && (reader.version() < SaveVersionSoloArchetypes
+                || (readValue(reader, value.exposedPercent) && readValue(reader, value.exposedUntilGameMinutes))));
 }
 
 void writeValue(BinaryWriter &writer, const MawDimensionRun &value)
@@ -1138,6 +1149,13 @@ void writeValue(BinaryWriter &writer, const MawDimensionRun &value)
     writeValue(writer, value.entering);
     writeValue(writer, value.completed);
     writeValue(writer, value.questTier);
+    writeValue(writer, value.originMapFileName);
+    writeValue(writer, value.originX);
+    writeValue(writer, value.originY);
+    writeValue(writer, value.originZ);
+    writeValue(writer, value.slain);
+    writeValue(writer, value.counted);
+    writeValue(writer, value.mapsDropped);
 }
 
 bool readValue(BinaryReader &reader, MawDimensionRun &value)
@@ -1147,7 +1165,15 @@ bool readValue(BinaryReader &reader, MawDimensionRun &value)
         && readValue(reader, value.families)
         && readValue(reader, value.entering)
         && readValue(reader, value.completed)
-        && readValue(reader, value.questTier);
+        && readValue(reader, value.questTier)
+        && (reader.version() < SaveVersionMapInstances
+            || (readValue(reader, value.originMapFileName)
+                && readValue(reader, value.originX)
+                && readValue(reader, value.originY)
+                && readValue(reader, value.originZ)
+                && readValue(reader, value.slain)
+                && readValue(reader, value.counted)
+                && readValue(reader, value.mapsDropped)));
 }
 
 void writeValue(BinaryWriter &writer, const MawGameState &value)
@@ -1186,6 +1212,7 @@ void writeValue(BinaryWriter &writer, const MawGameState &value)
     writeValue(writer, value.usedStatDecorations);
     writeValue(writer, value.madnessDeaths);
     writeValue(writer, value.fixedAuraEndMinutes);
+    writeValue(writer, value.pendingRefills);
 }
 
 void writeValue(BinaryWriter &writer, const MawMapVisit &value)
@@ -1243,7 +1270,8 @@ bool readValue(BinaryReader &reader, MawGameState &value)
                 && readValue(reader, value.bountiesClaimed)))
         && (reader.version() < SaveVersionMawUsedStatDecorations || readValue(reader, value.usedStatDecorations))
         && (reader.version() < SaveVersionMawMadnessDeaths || readValue(reader, value.madnessDeaths))
-        && (reader.version() < SaveVersionMawScrollAuraEnds || readValue(reader, value.fixedAuraEndMinutes));
+        && (reader.version() < SaveVersionMawScrollAuraEnds || readValue(reader, value.fixedAuraEndMinutes))
+        && (reader.version() < SaveVersionMawPendingRefills || readValue(reader, value.pendingRefills));
 }
 
 // Before the tier was saved apart: a drop's rarity tells its tier (crafted changes before then cannot be told).
@@ -1775,6 +1803,58 @@ void migrateRemovedTalents(Character &value)
     }
 }
 
+// The solo archetypes (2026-11-18): one path a character. Shield Wall and Resolve are gone (their points return), and a
+// character with ranks in two or three of Arms, Archery and Arcana keeps the path with the most ranks (the first of
+// them on a tie); the other paths' ranks return as points. Onslaught moved to the Any tree and keeps its ranks. The
+// action bar keeps talents by their place in the table: a key on a talent the character no longer has is emptied
+// (Shield Wall's place is Challenge's now, Resolve's Arcane Ward's; the other places kept their talents).
+void migrateTalentPaths(Character &value)
+{
+    struct OldTalent
+    {
+        const char *pId;
+        // 0 Arms, 1 Archery, 2 Arcana; -1 the Any tree, -2 removed.
+        int path;
+    };
+    // The table as it shipped up to save 196, by place.
+    constexpr std::array<OldTalent, 19> OldTable = {{{"cleave", 0}, {"sweeping_blows", 0}, {"onslaught", -1},
+        {"charge", 0}, {"shield_wall", -2}, {"multishot", 1}, {"piercing_arrows", 1}, {"power_shot", 1},
+        {"steady_aim", 1}, {"quickfoot", 1}, {"blink", 2}, {"spell_surge", 2}, {"resolve", -2}, {"overload", 2},
+        {"binding_circle", 2}, {"bloodthirst", -1}, {"conditioning", -1}, {"spell_suppression", -1},
+        {"manathirst", -1}}};
+    std::array<int, 3> pathRanks = {};
+
+    for (const OldTalent &talent : OldTable)
+    {
+        const auto rank = value.talentRanks.find(talent.pId);
+
+        if (talent.path >= 0 && rank != value.talentRanks.end())
+        {
+            pathRanks[size_t(talent.path)] += rank->second;
+        }
+    }
+
+    const int kept = int(std::max_element(pathRanks.begin(), pathRanks.end()) - pathRanks.begin());
+
+    for (const OldTalent &talent : OldTable)
+    {
+        if (talent.path == -2 || (talent.path >= 0 && talent.path != kept))
+        {
+            value.talentRanks.erase(talent.pId);
+            value.talentState.cooldownSeconds.erase(talent.pId);
+        }
+    }
+
+    for (ActionBarSlot &slot : value.actionBar)
+    {
+        if (slot.kind == ActionBarSlotKind::Talent
+            && (slot.id >= OldTable.size() || !value.talentRanks.contains(OldTable[slot.id].pId)))
+        {
+            slot = {};
+        }
+    }
+}
+
 // Talent ranks before SaveVersionWideTalentRanks: one byte each.
 bool readNarrowTalentRanks(BinaryReader &reader, std::unordered_map<std::string, uint16_t> &ranks)
 {
@@ -1892,6 +1972,11 @@ bool readValue(BinaryReader &reader, Character &value)
     if (read && reader.version() < SaveVersionWideTalentRanks)
     {
         migrateRemovedTalents(value);
+    }
+
+    if (read && reader.version() < SaveVersionSoloArchetypes)
+    {
+        migrateTalentPaths(value);
     }
 
     return read;
@@ -2394,6 +2479,10 @@ void writeValue(BinaryWriter &writer, const GameplayActorSpellEffectState &value
     writeValue(writer, value.shrinkArmorClassMultiplier);
     writeValue(writer, value.armorClassHalvedRemainingSeconds);
     writeValue(writer, value.darkGraspRemainingSeconds);
+    writeValue(writer, value.silenceRemainingSeconds);
+    writeValue(writer, value.moveSlowRemainingSeconds);
+    writeValue(writer, value.moveSlowMultiplier);
+    writeValue(writer, value.demoralizeRemainingSeconds);
     writeValue(writer, value.hostileToParty);
     writeValue(writer, value.hasDetectedParty);
     writeValue(writer, value.dayOfProtectionRemainingSeconds);
@@ -2432,6 +2521,11 @@ bool readValue(BinaryReader &reader, GameplayActorSpellEffectState &value)
         && (reader.version() < SaveVersionCombatEffectState
             || readValue(reader, value.armorClassHalvedRemainingSeconds))
         && readValue(reader, value.darkGraspRemainingSeconds)
+        && (reader.version() < SaveVersionSoloArchetypes
+            || (readValue(reader, value.silenceRemainingSeconds)
+                && readValue(reader, value.moveSlowRemainingSeconds)
+                && readValue(reader, value.moveSlowMultiplier)
+                && readValue(reader, value.demoralizeRemainingSeconds)))
         && readValue(reader, value.hostileToParty)
         && readValue(reader, value.hasDetectedParty)
         && (reader.version() < SaveVersionOutdoorRuntimeSaveParity
@@ -4418,6 +4512,10 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.shrinkArmorClassMultiplier);
     writeValue(writer, value.armorClassHalvedRemainingSeconds);
     writeValue(writer, value.darkGraspRemainingSeconds);
+    writeValue(writer, value.silenceRemainingSeconds);
+    writeValue(writer, value.moveSlowRemainingSeconds);
+    writeValue(writer, value.moveSlowMultiplier);
+    writeValue(writer, value.demoralizeRemainingSeconds);
     writeValue(writer, value.idleDecisionCount);
     writeValue(writer, value.pursueDecisionCount);
     writeValue(writer, value.attackDecisionCount);
@@ -4589,6 +4687,11 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && (reader.version() < SaveVersionCombatEffectState
             || readValue(reader, value.armorClassHalvedRemainingSeconds))
         && readValue(reader, value.darkGraspRemainingSeconds)
+        && (reader.version() < SaveVersionSoloArchetypes
+            || (readValue(reader, value.silenceRemainingSeconds)
+                && readValue(reader, value.moveSlowRemainingSeconds)
+                && readValue(reader, value.moveSlowMultiplier)
+                && readValue(reader, value.demoralizeRemainingSeconds)))
         && readValue(reader, value.idleDecisionCount)
         && readValue(reader, value.pursueDecisionCount)
         && readValue(reader, value.attackDecisionCount)
@@ -4863,6 +4966,7 @@ void writeValue(BinaryWriter &writer, const GameplayProjectileService::Projectil
     writeValue(writer, value.sourceX);
     writeValue(writer, value.sourceY);
     writeValue(writer, value.sourceZ);
+    writeValue(writer, value.firedDistance);
     writeValue(writer, value.x);
     writeValue(writer, value.y);
     writeValue(writer, value.z);
@@ -4975,6 +5079,7 @@ bool readValue(BinaryReader &reader, GameplayProjectileService::ProjectileState 
         && readValue(reader, value.sourceX)
         && readValue(reader, value.sourceY)
         && readValue(reader, value.sourceZ)
+        && (reader.version() < SaveVersionSoloArchetypes || readValue(reader, value.firedDistance))
         && readValue(reader, value.x)
         && readValue(reader, value.y)
         && readValue(reader, value.z)
@@ -5493,6 +5598,7 @@ void writeValue(BinaryWriter &writer, const GameSaveData &value)
     writeValue(writer, value.randomRootSeed);
     writeValue(writer, value.mawState);
     writeValue(writer, value.playthroughTimeline);
+    writeValue(writer, value.mapInstanceId);
 }
 
 bool readValue(BinaryReader &reader, GameSaveData &value)
@@ -5556,7 +5662,8 @@ bool readValue(BinaryReader &reader, GameSaveData &value)
             || readValue(reader, value.playthroughId))
         && (reader.version() < SaveVersionPlaythroughStatistics || readValue(reader, value.playthroughTimeline))
         && (summaryFirst || readValue(reader, value.saveName))
-        && (summaryFirst || readValue(reader, value.previewBmp));
+        && (summaryFirst || readValue(reader, value.previewBmp))
+        && (reader.version() < SaveVersionMapInstances || readValue(reader, value.mapInstanceId));
     value.cameraAnglesValid = reader.version() >= SaveVersionIndoorCamera || value.currentSceneKind == SceneKind::Outdoor;
     return read;
 }

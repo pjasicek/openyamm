@@ -1266,9 +1266,23 @@ const std::vector<std::pair<uint32_t, uint32_t>> &mawSellOnceItems()
 }
 }
 
+bool MawItemRules::riftBound(const InventoryItem &item) const
+{
+    const MawDimensionData &data = m_rules.dimensionData();
+    const uint32_t itemId = item.objectDescriptionId;
+    return itemId != 0
+        && (itemId == data.portalItemId()
+            || (itemId == data.mapItemId() && !m_rules.state().dimensionQuest.done));
+}
+
 std::optional<std::string> MawItemRules::sellRefusal(const Party &party, const InventoryItem &item) const
 {
     const uint32_t itemId = item.objectDescriptionId;
+
+    if (riftBound(item))
+    {
+        return Engine::tr("That is bound to you: I cannot take it.");
+    }
     const auto once = std::find_if(mawSellOnceItems().begin(), mawSellOnceItems().end(),
         [itemId](const std::pair<uint32_t, uint32_t> &entry) { return entry.first == itemId; });
 
@@ -2229,6 +2243,12 @@ std::string MawItemRules::displayName(
         return Engine::tr("{map} Map", {{"map", Engine::localize(pMap->name)}});
     }
 
+    // The dimensional portal is named after the rift's map.
+    if (const MapStatsEntry *pMap = openRiftMap(itemId))
+    {
+        return Engine::tr("Portal to the rift in {map}", {{"map", Engine::localize(pMap->name)}});
+    }
+
     if (m_rules.itemData().baseItem(itemDefinition.itemId) == nullptr)
     {
         return ItemRules::displayName(item, itemDefinition, pStandardTable, pSpecialTable);
@@ -2431,6 +2451,32 @@ std::vector<ItemInspectLine> MawItemRules::inspectLines(
             {
                 lines.push_back({"- " + dimension.affixLine(map.affixes[slot], map.power),
                     active[slot] != 0 ? 0xffff99u : 0x646464u});
+            }
+        }
+
+        return lines;
+    }
+
+    // The dimensional portal: the open rift's level, how far the party is, and the affixes in force.
+    if (const MapStatsEntry *pMap = openRiftMap(itemDefinition.itemId))
+    {
+        const MawDimensionRun &run = m_rules.rift()->second;
+        const MawDimensionData &dimension = m_rules.dimensionData();
+        lines.push_back({Engine::tr("Map Level: {level}",
+                             {{"level", mawDimensionMapLevel(run.power, m_rules.mapLevels().band(pMap->fileName))}}),
+            0xffffff});
+        lines.push_back({run.completed ? Engine::tr("Cleared")
+                             : run.counted > 0 ? Engine::tr("Slain {slain} of {counted}",
+                                                     {{"slain", run.slain}, {"counted", run.counted}})
+                             : run.entering ? Engine::tr("The rift is open; you have not entered it yet")
+                             : Engine::tr("Nothing slain yet"),
+            run.completed ? 0x00ff00u : 0xffffffu});
+
+        for (uint8_t affix : run.affixes)
+        {
+            if (affix != 0)
+            {
+                lines.push_back({"- " + dimension.affixLine(affix, run.power), 0xffff99u});
             }
         }
 
@@ -2958,8 +3004,86 @@ const MapStatsEntry *MawItemRules::dimensionMapTarget(const InventoryItem &item)
     return m_rules.mapTable()->findById(item.rulesetFields.dimensionMapId);
 }
 
-std::optional<std::string> MawItemRules::useTravelItem(Party &, const InventoryItem &item) const
+const MapStatsEntry *MawItemRules::openRiftMap(uint32_t itemId) const
 {
+    const uint32_t portalItemId = m_rules.dimensionData().portalItemId();
+    const std::pair<const std::string, MawDimensionRun> *pRift = m_rules.rift();
+    return portalItemId != 0 && itemId == portalItemId && pRift != nullptr && m_rules.mapTable() != nullptr
+        ? m_rules.mapTable()->findByFileName(pRift->first)
+        : nullptr;
+}
+
+std::optional<TravelItemUse> MawItemRules::planTravelItem(
+    const Party &, const InventoryItem &item, const TravelItemOrigin &from) const
+{
+    return travelItemUse(nullptr, item, from);
+}
+
+std::optional<TravelItemUse> MawItemRules::useTravelItem(
+    Party &party, const InventoryItem &item, const TravelItemOrigin &from) const
+{
+    return travelItemUse(&party, item, from);
+}
+
+std::optional<TravelItemUse> MawItemRules::travelItemUse(
+    Party *pParty, const InventoryItem &item, const TravelItemOrigin &from) const
+{
+    // Without a party this is the plan: where the item would lead, and nothing changes.
+    const bool forGood = pParty != nullptr;
+    const MawDimensionData &data = m_rules.dimensionData();
+    MawGameState &state = m_rules.state();
+    std::pair<const std::string, MawDimensionRun> *pRift = m_rules.rift();
+    const auto riftMap = [this](const std::string &fileName)
+    {
+        return m_rules.mapTable() != nullptr ? m_rules.mapTable()->findByFileName(fileName) : nullptr;
+    };
+
+    // The dimensional portal: into the open rift, or out of it to where the party came from.
+    if (data.portalItemId() != 0 && item.objectDescriptionId == data.portalItemId())
+    {
+        TravelItemUse use;
+        use.consumed = false;
+        const MapStatsEntry *pRiftMap = pRift != nullptr ? riftMap(pRift->first) : nullptr;
+
+        if (pRiftMap == nullptr)
+        {
+            // Nothing to lead to: the item goes.
+            use.consumed = true;
+            use.refusal = Engine::tr("The rift it led to is gone.");
+            return use;
+        }
+
+        MawDimensionRun &run = pRift->second;
+
+        if (!m_rules.inRift())
+        {
+            if (forGood)
+            {
+                run.originMapFileName = m_rules.currentMap();
+                run.originX = from.x;
+                run.originY = from.y;
+                run.originZ = from.z;
+            }
+
+            use.mapFileName = pRiftMap->fileName;
+            use.instanceId = MawRiftInstanceId;
+            return use;
+        }
+
+        if (run.originMapFileName.empty())
+        {
+            use.refusal = Engine::tr("The portal does not know the way back: leave the rift by its own way out.");
+            return use;
+        }
+
+        use.mapFileName = run.originMapFileName;
+        use.useMapStartPosition = false;
+        use.x = run.originX;
+        use.y = run.originY;
+        use.z = run.originZ;
+        return use;
+    }
+
     const MapStatsEntry *pMap = dimensionMapTarget(item);
 
     if (pMap == nullptr)
@@ -2967,8 +3091,28 @@ std::optional<std::string> MawItemRules::useTravelItem(Party &, const InventoryI
         return std::nullopt;
     }
 
+    TravelItemUse use;
+
+    // One rift at a time. While the Dimensional Maps quest runs, only its giver closes an unfinished rift; after
+    // it, opening the next map gives the open rift up (the user, 2026-11-17). A cleared rift simply gives way.
+    if (pRift != nullptr && !pRift->second.completed && !state.dimensionQuest.done)
+    {
+        const MapStatsEntry *pOpen = riftMap(pRift->first);
+        use.refusal = Engine::tr("The rift in {map} is still open. Clear it, or ask the one who gave you its map to "
+                                 "close it.",
+            {{"map", pOpen != nullptr ? Engine::localize(pOpen->name) : pRift->first}});
+        return use;
+    }
+
+    use.mapFileName = pMap->fileName;
+    use.instanceId = MawRiftInstanceId;
+
+    if (!forGood)
+    {
+        return use;
+    }
+
     // Seeded by the map's own fields, so the same map always brings the same families (UseMouseItem).
-    const MawDimensionData &data = m_rules.dimensionData();
     const MawDimensionMap map = MawDimensionMap::fromFields(item.rulesetFields);
     const ItemRulesetFields &fields = item.rulesetFields;
     RandomStream stream(randomStreamKey(m_rules.randomRootSeed(), RandomDomain::Dimension, map.mapId,
@@ -2983,21 +3127,47 @@ std::optional<std::string> MawItemRules::useTravelItem(Party &, const InventoryI
     run.affixes = map.activeAffixes();
     run.power = map.power;
     run.entering = true;
+    run.originMapFileName = m_rules.currentMap();
+    run.originX = from.x;
+    run.originY = from.y;
+    run.originZ = from.z;
+
+    // Opened from inside the rift it replaces: the way out of the new one is the old one's.
+    if (m_rules.inRift())
+    {
+        run.originMapFileName = pRift->second.originMapFileName;
+        run.originX = pRift->second.originX;
+        run.originY = pRift->second.originY;
+        run.originZ = pRift->second.originZ;
+    }
 
     for (int16_t &family : run.families)
     {
         family = families[stream.uniform(0, uint32_t(families.size() - 1))];
     }
 
-    const MawDimensionQuest &quest = m_rules.state().dimensionQuest;
+    const MawDimensionQuest &quest = state.dimensionQuest;
 
     if (quest.mapGiven && !quest.cleared)
     {
         run.questTier = quest.tierLevel;
     }
 
-    m_rules.state().dimensionRuns[mapFileName] = run;
-    return pMap->fileName;
+    state.dimensionRuns.clear();
+    state.dimensionRuns[mapFileName] = run;
+
+    // The portal: one, whichever rift is open (it reads the rift, not a copy of the map).
+    const uint32_t portalItemId = data.portalItemId();
+    const ItemTable *pItemTable = pParty->itemTable();
+
+    if (portalItemId != 0 && pItemTable != nullptr && pItemTable->get(portalItemId) != nullptr
+        && pParty->inventoryItemCount(portalItemId) <= 0)
+    {
+        pParty->tryGrantInventoryItem(
+            ItemGenerator::makeInventoryItem(portalItemId, *pItemTable, ItemGenerationMode::Generic));
+    }
+
+    return use;
 }
 
 const RulesetLootFilter *MawItemRules::lootFilter() const
@@ -3150,7 +3320,12 @@ bool MawItemRules::hasPouches() const
 
 std::optional<ItemPouch> MawItemRules::pouch(const ItemDefinition &definition) const
 {
-    if (definition.itemId >= 1041 && definition.itemId <= 1070)
+    // A dimension map is a Workbench target (the Eye, the Hourglass, the Emerald and the Cube work on it): with the
+    // materials, not with the quest items its worthless row would put it among (the Workbench does not look there).
+    const uint32_t mapItemId = m_rules.dimensionData().mapItemId();
+
+    if ((definition.itemId >= 1041 && definition.itemId <= 1070)
+        || (mapItemId != 0 && definition.itemId == mapItemId))
     {
         return ItemPouch::Crafting;
     }
@@ -3415,6 +3590,11 @@ bool MawItemRules::canDropToWorld(const InventoryItem &item, const ItemDefinitio
 {
     if (m_rules.options().challengeMode == RulesetChallengeMode::BeyondMadness
         && m_rules.dimensionData().mapItemId() != 0 && item.objectDescriptionId == m_rules.dimensionData().mapItemId())
+    {
+        return false;
+    }
+
+    if (riftBound(item))
     {
         return false;
     }

@@ -11,7 +11,7 @@ namespace OpenYAMM::Game::MawSoloTalents
 {
 namespace
 {
-// Shield Wall's cut and Spell Surge's damage come from the table (per_rank: percent).
+// Spell Surge's damage comes from the table (per_rank: percent).
 float tablePercent(std::string_view id, float fallback)
 {
     const TalentDefinition *pTalent = soloTalentTable().find(id);
@@ -26,14 +26,19 @@ float passivePercent(const Character &member, std::string_view id)
     return pTalent != nullptr ? talentValue(*pTalent, rank) : 0.0f;
 }
 
-// A share of a base stat, rounded; Conditioning's and Steady Aim's percent reads the character's own base stat (what
-// training and potions raised), not items or buffs, so the passives do not compound with each other.
-int share(uint32_t base, float percent)
+// A share of a whole stat, rounded: Conditioning's and Steady Aim's percent reads the stat as the sheet shows it
+// without them (base, permanent bonuses, items and buffs). Both read the same value, so they do not compound with
+// each other.
+int share(uint32_t base, int bonuses, float percent)
 {
-    return int(std::lround(double(base) * percent / 100.0));
+    return int(std::lround(double(std::max<int64_t>(0, int64_t(base) + bonuses)) * percent / 100.0));
 }
 
 constexpr float StillSecondsForAim = 1.0f;
+// Nimble: the party counts as moving this long after its last step.
+constexpr float MovingGraceSeconds = 0.2f;
+// Spell Surge's cooldown_per_cast: the hits of one cast land within this of its first.
+constexpr float CastCreditWindowSeconds = 0.75f;
 // Onslaught: each stack is 1 % attack speed.
 constexpr float OnslaughtPercentPerStack = 1.0f;
 // Unbroken halves the part of a hit above this share of the maximum HP.
@@ -54,7 +59,7 @@ double thirstFloorDivisor(int rank)
 }
 }
 
-void applyPassives(Character &member)
+void applyStatPassives(Character &member)
 {
     if (member.talentRanks.empty())
     {
@@ -62,41 +67,17 @@ void applyPassives(Character &member)
     }
 
     CharacterStatBonuses &bonus = member.magicalBonuses;
+    const CharacterStatBonuses &permanent = member.permanentBonuses;
     const float conditioning = passivePercent(member, "conditioning");
     const float aim = member.talentState.steadyAimOn ? passivePercent(member, "steady_aim") : 0.0f;
 
-    bonus.might += share(member.might, conditioning);
-    bonus.intellect += share(member.intellect, conditioning);
-    bonus.personality += share(member.personality, conditioning);
-    bonus.endurance += share(member.endurance, conditioning);
-    bonus.accuracy += share(member.accuracy, conditioning);
-    bonus.speed += share(member.speed, conditioning);
-    bonus.luck += share(member.luck, conditioning + aim);
-
-    if (talentRank(member, "resolve") > 0)
-    {
-        CharacterResistanceSet &res = bonus.resistances;
-        const CharacterResistanceSet &base = member.baseResistances;
-        const CharacterResistanceSet &permanent = member.permanentBonuses.resistances;
-        const auto raise = [&member](int &value, int baseValue, int permanentValue)
-        {
-            value += resolveShare(member, value + baseValue + permanentValue);
-        };
-        raise(res.fire, base.fire, permanent.fire);
-        raise(res.air, base.air, permanent.air);
-        raise(res.water, base.water, permanent.water);
-        raise(res.earth, base.earth, permanent.earth);
-        raise(res.mind, base.mind, permanent.mind);
-        raise(res.body, base.body, permanent.body);
-        raise(res.spirit, base.spirit, permanent.spirit);
-        raise(res.light, base.light, permanent.light);
-        raise(res.dark, base.dark, permanent.dark);
-    }
-}
-
-int resolveShare(const Character &member, int resistance)
-{
-    return int(std::lround(double(std::max(0, resistance)) * passivePercent(member, "resolve") / 100.0));
+    bonus.might += share(member.might, permanent.might + bonus.might, conditioning);
+    bonus.intellect += share(member.intellect, permanent.intellect + bonus.intellect, conditioning);
+    bonus.personality += share(member.personality, permanent.personality + bonus.personality, conditioning);
+    bonus.endurance += share(member.endurance, permanent.endurance + bonus.endurance, conditioning);
+    bonus.accuracy += share(member.accuracy, permanent.accuracy + bonus.accuracy, conditioning);
+    bonus.speed += share(member.speed, permanent.speed + bonus.speed, conditioning);
+    bonus.luck += share(member.luck, permanent.luck + bonus.luck, conditioning + aim);
 }
 
 void update(Party &party, float partyX, float partyY, bool calm, float deltaSeconds)
@@ -120,7 +101,8 @@ void update(Party &party, float partyX, float partyY, bool calm, float deltaSeco
             seconds = std::max(0.0f, seconds - deltaSeconds);
         }
 
-        state.shieldWallSeconds = std::max(0.0f, state.shieldWallSeconds - deltaSeconds);
+        state.phaseSeconds = std::max(0.0f, state.phaseSeconds - deltaSeconds);
+        state.castCreditSeconds = std::max(0.0f, state.castCreditSeconds - deltaSeconds);
         state.surgeDamageSeconds = std::max(0.0f, state.surgeDamageSeconds - deltaSeconds);
         state.cheatDeathSeconds = std::max(0.0f, state.cheatDeathSeconds - deltaSeconds);
         state.cheatDeathCooldown = std::max(0.0f, state.cheatDeathCooldown - deltaSeconds);
@@ -130,6 +112,20 @@ void update(Party &party, float partyX, float partyY, bool calm, float deltaSeco
         if (state.onslaughtSeconds <= 0.0f)
         {
             state.onslaughtStacks = 0;
+        }
+
+        // Rage: its limit counts a second at a time, and the bar drains while nothing fights the character.
+        state.rageSecondLeft -= deltaSeconds;
+
+        if (state.rageSecondLeft <= 0.0f)
+        {
+            state.rageSecondLeft = 1.0f;
+            state.rageSecondGained = 0.0f;
+        }
+
+        if (calm && state.rage > 0.0f)
+        {
+            state.rage = std::max(0.0f, state.rage - soloTalentTable().rage().drainPerSecond * deltaSeconds);
         }
 
         // Quickfoot: the solo's movement, faster out of combat.
@@ -143,15 +139,18 @@ void update(Party &party, float partyX, float partyY, bool calm, float deltaSeco
             }
         }
 
-        // Steady Aim: the party has not moved for a second.
-        if (talentRank(member, "steady_aim") > 0)
+        // Steady Aim (the party has not moved for a second) and Nimble (it is moving) read the same stillness.
+        if (talentRank(member, "steady_aim") > 0 || talentRank(member, "nimble") > 0)
         {
             const bool moved = state.hasLastPosition && std::hypot(partyX - state.lastX, partyY - state.lastY) > 1.0f;
-            state.stillSeconds = moved ? 0.0f : state.stillSeconds + deltaSeconds;
+            // Before its first step the party stands: Nimble must not count the moments after a load as movement.
+            state.stillSeconds = moved          ? 0.0f
+                : !state.hasLastPosition ? StillSecondsForAim
+                                         : state.stillSeconds + deltaSeconds;
             state.lastX = partyX;
             state.lastY = partyY;
             state.hasLastPosition = true;
-            const bool aiming = state.stillSeconds >= StillSecondsForAim;
+            const bool aiming = talentRank(member, "steady_aim") > 0 && state.stillSeconds >= StillSecondsForAim;
 
             if (aiming != state.steadyAimOn)
             {
@@ -171,6 +170,7 @@ void update(Party &party, float partyX, float partyY, bool calm, float deltaSeco
 
 void noteKill(Character &member)
 {
+    shortenTalentCooldownsOnKill(soloTalentTable(), member);
     const int rank = talentRank(member, "onslaught");
     const TalentDefinition *pTalent = rank > 0 ? soloTalentTable().find("onslaught") : nullptr;
 
@@ -206,11 +206,6 @@ int absorbDamage(const Character &member, int damage, int maximumHealth)
 
     const SoloTalentState &state = member.talentState;
     double amount = damage;
-
-    if (state.shieldWallSeconds > 0.0f && member.equipment.offHand != 0)
-    {
-        amount *= 1.0 - tablePercent("shield_wall", 50.0f) / 100.0;
-    }
 
     // Unbroken: the part of one hit above 30 % of the maximum HP is halved.
     if (hasKeystone(member, "unbroken") && maximumHealth > 0)
@@ -248,25 +243,177 @@ int cheatDeath(Character &member, int damage, int currentHealth, int maximumHeal
     return std::max(0, currentHealth - left);
 }
 
-double spellDamageScale(const Character &caster)
+double incomingDamageScale(const Character &member, const IncomingHit &hit)
 {
-    return caster.talentState.spellSurgeArmed || caster.talentState.surgeDamageSeconds > 0.0f
-        ? 1.0 + tablePercent("spell_surge", 50.0f) / 100.0
-        : 1.0;
-}
-
-double overloadScale(const Character &caster, int monstersNearTarget)
-{
-    const int rank = talentRank(caster, "overload");
-    const TalentDefinition *pTalent = rank > 0 ? soloTalentTable().find("overload") : nullptr;
-
-    if (pTalent == nullptr || monstersNearTarget <= 1)
+    if (member.talentRanks.empty())
     {
         return 1.0;
     }
 
-    const int extra = std::min(monstersNearTarget - 1, std::max(1, pTalent->targets));
-    return 1.0 + double(pTalent->perRank) * rank * extra / 100.0;
+    const SoloTalentTable &table = soloTalentTable();
+    const SoloTalentState &state = member.talentState;
+    double scale = 1.0;
+    const auto cut = [&scale](double percent) { scale *= std::clamp(1.0 - percent / 100.0, 0.0, 1.0); };
+
+    if (!hit.physical)
+    {
+        cut(passivePercent(member, "spell_suppression"));
+    }
+
+    if (hit.monsterAttack && state.meleeDrawn)
+    {
+        const TalentDefinition *pVanguard = table.find("vanguard");
+
+        if (hit.missile && pVanguard != nullptr && hit.firedFromDistance > pVanguard->distance)
+        {
+            cut(passivePercent(member, "vanguard"));
+        }
+
+        if (const TalentDefinition *pOutnumbered = table.find("outnumbered"))
+        {
+            const int counted = std::min(hit.nearbyMonsters, std::max(1, pOutnumbered->targets));
+            cut(passivePercent(member, "outnumbered") * std::max(0, counted));
+        }
+    }
+
+    if (state.hasLastPosition && state.stillSeconds < MovingGraceSeconds)
+    {
+        cut(passivePercent(member, "nimble"));
+    }
+
+    if (state.phaseSeconds > 0.0f)
+    {
+        cut(passivePercent(member, "phase"));
+    }
+
+    return scale < 1.0 ? std::max(scale, table.damageFloor()) : 1.0;
+}
+
+double battleFrenzyScale(const Character &attacker, int nearbyMonsters)
+{
+    const TalentDefinition *pTalent = soloTalentTable().find("battle_frenzy");
+    const int counted = pTalent != nullptr ? std::min(nearbyMonsters, std::max(1, pTalent->targets)) : 0;
+    return 1.0 + passivePercent(attacker, "battle_frenzy") * std::max(0, counted) / 100.0;
+}
+
+float packReach(std::string_view talentId)
+{
+    const TalentDefinition *pTalent = soloTalentTable().find(talentId);
+    return pTalent != nullptr ? pTalent->distance : 0.0f;
+}
+
+double longShotScale(const Character &shooter, float flightDistance)
+{
+    const TalentDefinition *pTalent = soloTalentTable().find("long_shot");
+
+    if (pTalent == nullptr || pTalent->fullDistance <= pTalent->distance)
+    {
+        return 1.0;
+    }
+
+    const double share =
+        std::clamp((flightDistance - pTalent->distance) / (pTalent->fullDistance - pTalent->distance), 0.0f, 1.0f);
+    return 1.0 + passivePercent(shooter, "long_shot") * share / 100.0;
+}
+
+double spellDamageBonus(const Character &caster, bool areaSpell, int blastMonsters, bool targetAtFullHealth)
+{
+    double bonus = caster.talentState.spellSurgeArmed || caster.talentState.surgeDamageSeconds > 0.0f
+        ? tablePercent("spell_surge", 50.0f) / 100.0
+        : 0.0;
+    const int overload = talentRank(caster, "overload");
+    const TalentDefinition *pOverload = overload > 0 && areaSpell ? soloTalentTable().find("overload") : nullptr;
+
+    if (pOverload != nullptr && blastMonsters > 1)
+    {
+        const int extra = std::min(blastMonsters - 1, std::max(1, pOverload->targets));
+        bonus += double(pOverload->perRank) * overload * extra / 100.0;
+    }
+
+    if (targetAtFullHealth)
+    {
+        bonus += passivePercent(caster, "opening_volley") / 100.0;
+    }
+
+    return bonus;
+}
+
+double breachShare(const Character &caster)
+{
+    return std::clamp(passivePercent(caster, "breach") / 100.0, 0.0, 1.0);
+}
+
+double manaShieldCostScale(const Character &member)
+{
+    return std::clamp(1.0 - passivePercent(member, "arcane_ward") / 100.0, 0.1, 1.0);
+}
+
+float exposeWeaknessPercent(const Character &shooter)
+{
+    return passivePercent(shooter, "expose_weakness");
+}
+
+float exposeWeaknessSeconds()
+{
+    const TalentDefinition *pTalent = soloTalentTable().find("expose_weakness");
+    return pTalent != nullptr ? pTalent->duration : 0.0f;
+}
+
+float hamstringPercent(const Character &shooter)
+{
+    return passivePercent(shooter, "hamstring");
+}
+
+float hamstringSeconds()
+{
+    const TalentDefinition *pTalent = soloTalentTable().find("hamstring");
+    return pTalent != nullptr ? pTalent->duration : 0.0f;
+}
+
+namespace
+{
+void gainRage(Character &member, double amount)
+{
+    const SoloRageRules &rules = soloTalentTable().rage();
+    SoloTalentState &state = member.talentState;
+
+    if (amount <= 0.0 || !hasRageBar(soloTalentTable(), member))
+    {
+        return;
+    }
+
+    const double room = rules.limitPerSecond > 0.0f
+        ? std::max(0.0, double(rules.limitPerSecond) - state.rageSecondGained)
+        : amount;
+    const double gained = std::min(amount, room);
+    state.rageSecondGained += float(gained);
+    state.rage = std::min(rules.maximum, state.rage + float(gained));
+}
+}
+
+void gainRageFromBlow(Character &member, double monsterBarShare, float recoverySeconds, bool extraBlow)
+{
+    const SoloRageRules &rules = soloTalentTable().rage();
+    const double blow = rules.perRecoverySecond * std::max(0.0f, recoverySeconds)
+        + rules.perMonsterBar * std::clamp(monsterBarShare, 0.0, 1.0);
+    gainRage(member, extraBlow ? blow * rules.extraBlowShare : blow);
+}
+
+void gainRageFromHit(Character &member, double ownBarShare)
+{
+    gainRage(member, soloTalentTable().rage().perOwnBar * std::clamp(ownBarShare, 0.0, 1.0));
+}
+
+void noteSpellHit(Character &caster)
+{
+    SoloTalentState &state = caster.talentState;
+
+    if (state.castCreditSeconds <= 0.0f)
+    {
+        shortenTalentCooldownsOnCast(soloTalentTable(), caster);
+    }
+
+    state.castCreditSeconds = CastCreditWindowSeconds;
 }
 
 double leechBonus(const Character &member)
@@ -308,11 +455,6 @@ bool takeAreaManaLeech(Character &member)
     return true;
 }
 
-double nonPhysicalDamageScale(const Character &member)
-{
-    return std::clamp(1.0 - passivePercent(member, "spell_suppression") / 100.0, 0.0, 1.0);
-}
-
 bool nextSpellFree(const Character &caster)
 {
     return caster.talentState.spellSurgeArmed;
@@ -328,10 +470,24 @@ void spendSurge(Character &caster)
     }
 }
 
+namespace
+{
+// The level the early rules read: the trained one, or the one the experience has earned when that is higher.
+double earlyRuleLevel(const Character &member)
+{
+    // MAW's curve: a solo's own surcharge only starts at level 100, after the early rules have ended.
+    const double earnedLevel = std::floor(mawLevelForExperience(double(member.experience)));
+    return std::max(double(member.level), earnedLevel);
+}
+}
+
 double earlyMonsterCut(const Character &member)
 {
-    // MAW's curve: a solo's own surcharge only starts at level 100, after the cut has ended.
-    const double earnedLevel = std::floor(mawLevelForExperience(double(member.experience)));
-    return soloTalentTable().earlyMonsterCut(std::max(double(member.level), earnedLevel));
+    return soloTalentTable().earlyMonsterCut(earlyRuleLevel(member));
+}
+
+double earlyRegeneration(const Character &member)
+{
+    return soloTalentTable().earlyRegeneration(earlyRuleLevel(member));
 }
 }

@@ -61,7 +61,7 @@ std::optional<GameplayHudTextureHandle> healthMeterTexture(const GameplayScreenR
 void renderArc(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutElement &rect,
     float strokeWidth, float startDegrees, float sweepDegrees, ArcMaterial material, float begin, float end)
 {
-    constexpr std::array<std::array<uint32_t, 3>, 12> Colors = {{
+    constexpr std::array<std::array<uint32_t, 3>, 14> Colors = {{
         HealthColors[0], HealthColors[1], HealthColors[2],
         {{0xabcfd8, 0x73a4b7, 0x2d596a}},
         {{0xb6a47b, 0x938666, 0x544d3d}},
@@ -71,7 +71,9 @@ void renderArc(GameplayScreenRuntime &context, const GameplayResolvedHudLayoutEl
         {{0xf2d8ad, 0xe4c793, 0xa88651}},
         {{0xa8f3ff, 0x4ad2f0, 0x166a8a}},
         {{0x243a4a, 0x1a2934, 0x101a22}},
-        {{0xffffff, 0xd8f8ff, 0x90dcf0}}
+        {{0xffffff, 0xd8f8ff, 0x90dcf0}},
+        {{0xf07a66, 0xc23a2e, 0x6a1a16}},
+        {{0xffe7a8, 0xf2a23c, 0xa5651a}}
     }};
     GameplayUiRuntime &runtime = context.gameplayUiRuntime();
     const std::string name = "__obsidian_arc_" + std::to_string(int(material));

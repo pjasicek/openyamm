@@ -19,6 +19,7 @@
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayMapProgressBar.h"
 #include "game/ui/GameplayObsidianPainter.h"
+#include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/GameplayUiSkin.h"
 #include "game/ui/SoloHudLayout.h"
@@ -54,6 +55,14 @@ constexpr uint32_t RecoveryShade = abgr(0x040608, 0x9c);
 constexpr uint32_t CooldownShade = abgr(0x040608, 0xbc);
 constexpr uint32_t TalentGold = abgr(0xf2d27a);
 constexpr uint32_t NoManaVeil = abgr(0x2050c0, 0x60);
+// The Arms path's rage: the veil on an ability it cannot pay yet.
+constexpr uint32_t NoRageVeil = abgr(0xb5392f, 0x60);
+// The rage arc round the medallion's right side: how far outside the ring it runs, its stroke, and its sweep from
+// the foot up to the crown (degrees as the party frame's arcs: 90 is down, negative sweeps run up the right side).
+constexpr float RageArcOut = 3.8f;
+constexpr float RageArcStroke = 3.4f;
+constexpr float RageArcStart = 85.0f;
+constexpr float RageArcSweep = -165.0f;
 constexpr uint32_t DebuffEdge = abgr(0xc6473a);
 constexpr uint32_t TileEdge = abgr(0xa58f5f);
 constexpr uint32_t TrailFill = abgr(0xe4c793);
@@ -367,7 +376,7 @@ std::pair<std::vector<BuffTile>, std::vector<BuffTile>> buffTiles(const Party &p
     if (talents.onslaughtStacks > 0 && talents.onslaughtSeconds > 0.0f)
     {
         BuffTile tile;
-        tile.key = 300;
+        tile.key = 400;
         tile.itemIcon = "talent_onslaught";
         tile.remainingSeconds = talents.onslaughtSeconds;
         tile.corner = std::to_string(talents.onslaughtStacks);
@@ -377,7 +386,7 @@ std::pair<std::vector<BuffTile>, std::vector<BuffTile>> buffTiles(const Party &p
     if (hasKeystone(member, "cheat_death"))
     {
         BuffTile tile;
-        tile.key = 301;
+        tile.key = 401;
         tile.itemIcon = "talent_cheat_death";
         tile.remainingSeconds = talents.cheatDeathSeconds;
         tile.cooldownSeconds = talents.cheatDeathSeconds > 0.0f ? 0.0f : talents.cheatDeathCooldown;
@@ -595,6 +604,10 @@ void renderUnitFrame(GameplayScreenRuntime &context, const Party &party, size_t 
             std::to_string(member.spellPoints) + " / " + std::to_string(maximumMana));
     }
 
+    // The class counter's gems on the box's top edge (MAW's combo points and Elementalist stacks).
+    renderCounterGemRow(context, party.rules().classes.portraitCounter(member), frame.x + layout.counterX * scale,
+        frame.y + layout.counterY * scale, scale, "ObsidianPc1Counter");
+
     // The medallion: a dark oval, the whole head, one brass ring.
     const GameplayObsidianRect medallion = painter.at(layout.medallion);
     painter.oval(Backing, medallion);
@@ -616,6 +629,26 @@ void renderUnitFrame(GameplayScreenRuntime &context, const Party &party, size_t 
         context.renderPortraitFx(memberIndex, face.x, face.y, face.width, face.height);
     }
     ring(context, medallion, scale, 2.2f);
+
+    // The Arms path's rage (devdocs/solo_action/ARCHETYPES_BUILD.md): an arc round the medallion's right side that
+    // fills upward, as the party frame's SP arcs do (the user, 2026-11-18); gold when full, which is when its
+    // abilities can be used. The weapon socket sits over it.
+    if (context.soloTalents() && hasRageBar(soloTalentTable(), member))
+    {
+        using GameplayUiSkin::ArcMaterial;
+        const float out = RageArcOut * scale;
+        const GameplayResolvedHudLayoutElement arc = {medallion.x - out, medallion.y - out, medallion.width + 2 * out,
+            medallion.height + 2 * out, scale};
+        const float rage = std::clamp(member.talentState.rage / soloTalentTable().rage().maximum, 0.0f, 1.0f);
+        GameplayUiSkin::renderArc(context, arc, RageArcStroke + 1.7f, RageArcStart, RageArcSweep,
+            ArcMaterial::TrackEdge);
+        GameplayUiSkin::renderArc(context, arc, RageArcStroke + 0.5f, RageArcStart, RageArcSweep, ArcMaterial::Track);
+        if (rage > 0)
+        {
+            GameplayUiSkin::renderArc(context, arc, RageArcStroke, RageArcStart, RageArcSweep,
+                rage >= 1.0f ? ArcMaterial::RageFull : ArcMaterial::Rage, 0, rage);
+        }
+    }
 
     // The level on a brass coin at the medallion's foot.
     const GameplayObsidianRect coin = painter.at(layout.coin);
@@ -865,6 +898,8 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
         const GameplayObsidianRect icon = painter.rect(area.x + inset, area.y + inset, area.width - 2 * inset,
             area.height - 2 * inset);
         bool noMana = false;
+        // An Arms ability whose rage the bar cannot pay yet.
+        bool noRage = false;
         std::optional<uint32_t> cost;
         std::optional<size_t> count;
         // A talent's cooldown: the share still to run (0: ready) and its seconds.
@@ -886,8 +921,8 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
             const float total = talentCooldownSeconds(talent, std::max(1, talentRank(member, talent.id)));
             cooldownShare = cooldownLeft > 0.0f ? std::clamp(cooldownLeft / total, 0.0f, 1.0f) : 0.0f;
             const SoloTalentState &state = member.talentState;
-            talentEffectOn = (talent.id == "shield_wall" && state.shieldWallSeconds > 0.0f)
-                || (talent.id == "spell_surge" && state.spellSurgeArmed);
+            talentEffectOn = talent.id == "spell_surge" && state.spellSurgeArmed;
+            noRage = talent.rageCost > 0.0f && state.rage < talent.rageCost;
         }
         else if ((slot.kind == ActionBarSlotKind::Item || slot.kind == ActionBarSlotKind::Weapon)
             && context.itemTable() != nullptr)
@@ -915,6 +950,10 @@ void renderSlot(GameplayScreenRuntime &context, const SoloPainter &painter, cons
         if (noMana)
         {
             painter.fill(icon, NoManaVeil);
+        }
+        if (noRage)
+        {
+            painter.fill(icon, NoRageVeil);
         }
         // The member's recovery: the slots that need a ready member darken from the top until it runs out.
         if (recoveryProgress < 1)
@@ -1138,8 +1177,8 @@ std::optional<GameplaySoloHud::BuffTileHit> GameplaySoloHud::buffTileAt(Gameplay
         {
             const uint32_t key = placed.pTile->key;
             BuffTileHit hit;
-            hit.kind = key >= 300 ? BuffTileKind::Condition : key >= 200 ? BuffTileKind::Potion
-                : key >= 100 ? BuffTileKind::Character : BuffTileKind::Party;
+            hit.kind = key >= 400 ? BuffTileKind::Talent : key >= 300 ? BuffTileKind::Condition
+                : key >= 200 ? BuffTileKind::Potion : key >= 100 ? BuffTileKind::Character : BuffTileKind::Party;
             hit.index = key % 100;
             hit.remainingSeconds = placed.pTile->remainingSeconds;
             hit.rect = {frame->x + placed.x * frame->scale, frame->y + placed.y * frame->scale,
@@ -1148,6 +1187,29 @@ std::optional<GameplaySoloHud::BuffTileHit> GameplaySoloHud::buffTileAt(Gameplay
         }
     }
     return std::nullopt;
+}
+
+std::optional<GameplaySoloHud::CounterHit> GameplaySoloHud::counterAt(GameplayScreenRuntime &context, int width,
+    int height, float x, float y)
+{
+    const Party *pParty = context.partyReadOnly();
+    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const std::optional<GameplayResolvedHudLayoutElement> frame = pMember != nullptr && context.soloHud()
+        ? context.resolveHudLayoutElement("SoloUnitFrame", width, height, 0, 0)
+        : std::nullopt;
+    if (!frame)
+    {
+        return std::nullopt;
+    }
+    const SoloUnitFrameLayout layout = soloUnitFrameLayout();
+    PortraitCounter counter = pParty->rules().classes.portraitCounter(*pMember);
+    const std::optional<GameplayResolvedHudLayoutElement> bounds = counterGemRowBounds(counter,
+        frame->x + layout.counterX * frame->scale, frame->y + layout.counterY * frame->scale, frame->scale);
+    if (!bounds || !GameplayHudCommon::isPointerInsideResolvedElement(*bounds, x, y))
+    {
+        return std::nullopt;
+    }
+    return CounterHit{std::move(counter), *bounds};
 }
 
 std::optional<size_t> GameplaySoloHud::heldBarSlot(const GameplayInputFrame &input)

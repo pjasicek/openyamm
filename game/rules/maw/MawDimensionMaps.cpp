@@ -101,6 +101,7 @@ bool MawDimensionData::loadFromYaml(const std::string &text, std::string &errorM
     {
         const YAML::Node root = YAML::Load(text);
         m_mapItemId = root["map_item"].as<uint32_t>();
+        m_portalItemId = root["portal_item"].as<uint32_t>();
         m_dungeons = root["dungeons"].as<std::vector<uint16_t>>();
         m_indoorFamilies = root["families_indoor"].as<std::vector<int16_t>>();
         m_outdoorFamilies = root["families_outdoor"].as<std::vector<int16_t>>();
@@ -116,6 +117,7 @@ bool MawDimensionData::loadFromYaml(const std::string &text, std::string &errorM
 
         m_quest.firstStep = quest["first_step"].as<int>();
         m_quest.lastStep = quest["last_step"].as<int>();
+        m_quest.repeatShare = quest["repeat_share"].as<double>();
 
         m_quest.textTooLow = quest["text_too_low"].as<std::string>();
         m_quest.textGive = quest["text_give"].as<std::string>();
@@ -158,6 +160,11 @@ bool MawDimensionData::loadFromYaml(const std::string &text, std::string &errorM
 uint32_t MawDimensionData::mapItemId() const
 {
     return m_mapItemId;
+}
+
+uint32_t MawDimensionData::portalItemId() const
+{
+    return m_portalItemId;
 }
 
 const std::vector<uint16_t> &MawDimensionData::dungeons() const

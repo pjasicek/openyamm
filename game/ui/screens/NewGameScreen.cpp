@@ -1011,6 +1011,28 @@ void NewGameScreen::refreshSkillChoices(bool applyCandidateDefaults)
                 m_state.optionalSkills.push_back(pSkillName);
             }
         }
+
+        // A solo run starts with SoloRunStartSkill (makeSoloRunParty) where its rules let the class learn it: a
+        // fixed starting skill here, never one of the picks.
+        if (m_soloRun && m_partySize == 1)
+        {
+            Character character = {};
+            character.className = selectedClassName();
+            character.raceId = candidate.raceId;
+            const SkillMastery classCap = m_pGameData->classSkillTable().getEffectiveCap(
+                character.className, character.raceId, SoloRunStartSkill);
+
+            if (creationRules().skills.masteryCap(character, SoloRunStartSkill, classCap) != SkillMastery::None)
+            {
+                std::erase(m_state.optionalSkills, SoloRunStartSkill);
+
+                if (std::find(m_state.defaultSkills.begin(), m_state.defaultSkills.end(), SoloRunStartSkill)
+                    == m_state.defaultSkills.end())
+                {
+                    m_state.defaultSkills.push_back(SoloRunStartSkill);
+                }
+            }
+        }
     }
 
     if (applyCandidateDefaults && candidate.hasCustomDefaultStats)
@@ -1034,6 +1056,29 @@ void NewGameScreen::refreshSkillChoices(bool applyCandidateDefaults)
             {
                 m_state.selectedOptionalSkills.push_back(skillName);
             }
+        }
+    }
+}
+
+void NewGameScreen::setSoloRun(bool soloRun)
+{
+    if (m_soloRun == soloRun)
+    {
+        return;
+    }
+
+    m_soloRun = soloRun;
+    // The fixed skill of a solo run comes or goes; the picks that still stand are kept.
+    const std::vector<std::string> picks = m_state.selectedOptionalSkills;
+    refreshSkillChoices(false);
+
+    for (const std::string &pick : picks)
+    {
+        if (m_state.selectedOptionalSkills.size() < m_state.skillPickCount
+            && std::find(m_state.optionalSkills.begin(), m_state.optionalSkills.end(), pick)
+                != m_state.optionalSkills.end())
+        {
+            m_state.selectedOptionalSkills.push_back(pick);
         }
     }
 }
@@ -1524,13 +1569,31 @@ const GameRules &NewGameScreen::creationRules()
         return standardGameRules();
     }
 
-    if (!m_pCreationRules || m_creationRulesSelection != m_ruleset)
+    // The rules of the game this party would start: a solo run's have its option on (Lone Discipline, the solo
+    // numbers in the skill texts).
+    RulesetSelection selection = m_ruleset;
+    selection.options.soloRun = m_soloRun && m_partySize == 1;
+
+    if (!m_pCreationRules || m_creationRulesSelection != selection)
     {
-        m_pCreationRules = createMawRules(*m_pGameData, m_ruleset.options);
-        m_creationRulesSelection = m_ruleset;
+        m_pCreationRules = createMawRules(*m_pGameData, selection.options);
+        m_creationRulesSelection = selection;
     }
 
     return m_pCreationRules ? m_pCreationRules->gameRules() : standardGameRules();
+}
+
+CreationSkillReach NewGameScreen::ruledSkillReach(
+    const std::string &className, uint32_t raceId, const std::string &skill)
+{
+    CreationSkillReach reach = creationSkillReach(m_pGameData->classSkillTable(), className, raceId, skill);
+    Character character = {};
+    character.className = className;
+    character.raceId = raceId;
+    const SkillRules &skills = creationRules().skills;
+    reach.now = skills.masteryCap(character, skill, reach.now);
+    reach.best = std::max(reach.now, skills.promotedMasteryCap(character, skill, reach.best));
+    return reach;
 }
 
 std::vector<std::pair<std::string, uint32_t>> NewGameScreen::creationSkillMatrixLines(const Character &character) const
@@ -2331,7 +2394,9 @@ void NewGameScreen::drawRulesPanel()
     if (!choices.challengeModes.empty())
     {
         const bool modes = choices.challengeModes.size() > 1;
-        y = section(Engine::tr("Challenge"),
+        // With a context: the solo run has a talent of the same English name (a taunt), which reads differently
+        // in some languages.
+        y = section(Engine::trc("rules section", "Challenge"),
                     modes || choices.randomizer ? Engine::tr("Chosen once · fixed for the adventure")
                                                 : Engine::tr("Coming in a later update"),
                     y);

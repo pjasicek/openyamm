@@ -1892,6 +1892,9 @@ bool hasActiveActorSpellEffectOverride(const GameplayActorSpellEffectState &stat
         || state.shrinkRemainingSeconds > 0.0f
         || state.armorClassHalvedRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
+        || state.silenceRemainingSeconds > 0.0f
+        || state.moveSlowRemainingSeconds > 0.0f
+        || state.demoralizeRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
         || state.painReflectionRemainingSeconds > 0.0f
@@ -8853,7 +8856,8 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                 projectile.spellId,
                 false,
                 projectile.damageType,
-                actorAbilityFromProjectileAbility(projectile.ability));
+                actorAbilityFromProjectileAbility(projectile.ability),
+                projectile.firedDistance);
         }
         else if (m_pParty != nullptr)
         {
@@ -9065,7 +9069,8 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                         projectile.spellId,
                         true,
                         projectile.damageType,
-                        actorAbilityFromProjectileAbility(projectile.ability));
+                        actorAbilityFromProjectileAbility(projectile.ability),
+                        projectile.firedDistance);
                 }
                 else if (m_pParty != nullptr)
                 {
@@ -9134,6 +9139,10 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 projectile.projectileId
                                 ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
                                 ^ static_cast<uint32_t>(std::max(0, blastDamage)));
+                            // The blast knows how many monsters it damages (a solo run's Overload).
+                            PartyMissileSource blastSource = GameplayProjectileService::partyMissileSource(
+                                projectile, m_pParty, m_pItemTable, *pStats, targetActor.hp);
+                            blastSource.blastMonsters = int(areaImpact.impact.actorHits.size());
                             appliedDamage = resolveDamageToMonster(
                                 gameRulesFor(m_pParty).combat,
                                 blastDamage,
@@ -9144,8 +9153,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 rng,
                                 actorRulesetFacts(actorHit.actorIndex),
                                 {},
-                                GameplayProjectileService::partyMissileSource(
-                                    projectile, m_pParty, m_pItemTable, *pStats, targetActor.hp));
+                                blastSource);
                         }
 
                         const int previousHp = targetActor.hp;
@@ -9158,7 +9166,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 GameplayProjectileService::projectileShieldTier(projectile),
                                 GameplayProjectileService::partyShieldModifiers(projectile, m_pParty),
                                 projectile.critical,
-                                projectile.chainStruckActorIds.empty()))
+                                projectile.chainStruckActorIds.empty() && !projectile.quietBlast))
                         {
                             appliedDamage = 0;
                         }
@@ -10618,7 +10626,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
         pActorService->effectiveActorMoveSpeed(
             moveSpeed,
             pStats->speed,
-            aiState.spellEffects.slowMoveMultiplier,
+            aiState.spellEffects.slowMoveMultiplier * aiState.spellEffects.moveSlowMultiplier,
             aiState.spellEffects.darkGraspRemainingSeconds > 0.0f)
         * m_actorModifiers.moveSpeedMultiplier(actorIndex, aiState.actorId)
         * m_actorBehaviors.speedMultiplier(actorIndex, aiState.actorId);
@@ -11986,6 +11994,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.stats.attack2MissileTypeOverride = bolster.generatedAttack2MissileType;
     facts.stats.attackConstraints.blindActive = aiState.spellEffects.blindRemainingSeconds > 0.0f;
     facts.stats.attackConstraints.darkGraspActive = aiState.spellEffects.darkGraspRemainingSeconds > 0.0f;
+    facts.stats.attackConstraints.silenced = aiState.spellEffects.silenceRemainingSeconds > 0.0f;
     facts.stats.attackConstraints.rangedCommitAllowed = true;
 
     facts.runtime.motionState = aiState.motionState;
@@ -12351,7 +12360,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
         pActorService->effectiveActorMoveSpeed(
             facts.stats.moveSpeed,
             pStats->speed,
-            aiState.spellEffects.slowMoveMultiplier,
+            aiState.spellEffects.slowMoveMultiplier * aiState.spellEffects.moveSlowMultiplier,
             aiState.spellEffects.darkGraspRemainingSeconds > 0.0f);
     facts.movement.distanceToParty =
         length2d(partyFacts.position.x - aiState.preciseX, partyFacts.position.y - aiState.preciseY);
@@ -16635,6 +16644,9 @@ bool IndoorWorldRuntime::actorInspectState(
         state.fearRemainingSeconds = pEffectState->fearRemainingSeconds;
         state.shrinkRemainingSeconds = pEffectState->shrinkRemainingSeconds;
         state.darkGraspRemainingSeconds = pEffectState->darkGraspRemainingSeconds;
+        state.silenceRemainingSeconds = pEffectState->silenceRemainingSeconds;
+        state.moveSlowRemainingSeconds = pEffectState->moveSlowRemainingSeconds;
+        state.demoralizeRemainingSeconds = pEffectState->demoralizeRemainingSeconds;
         state.controlRemainingSeconds = pEffectState->controlRemainingSeconds;
         state.dayOfProtectionRemainingSeconds = pEffectState->dayOfProtectionRemainingSeconds;
         state.hourOfPowerRemainingSeconds = pEffectState->hourOfPowerRemainingSeconds;
@@ -16747,7 +16759,8 @@ std::optional<GameplayCombatActorInfo> IndoorWorldRuntime::combatActorInfoById(u
     {
         const GameplayActorSpellEffectState &effects = m_mapActorAiStates[actorIndex].spellEffects;
         info.attackBonus = m_pGameplayActorService->effectiveAttackHitBonus(effects);
-        info.damageDebuffed = effects.shrinkRemainingSeconds > 0.0f || effects.darkGraspRemainingSeconds > 0.0f;
+        info.damageDebuffed = effects.shrinkRemainingSeconds > 0.0f || effects.darkGraspRemainingSeconds > 0.0f
+            || effects.demoralizeRemainingSeconds > 0.0f;
     }
 
     if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(inspectState.monsterId))
@@ -16922,6 +16935,9 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
     spawnRequest.skillMastery = static_cast<uint32_t>(request.skillMastery);
     spawnRequest.damage = request.damage;
     spawnRequest.critical = request.critical;
+    spawnRequest.chainCount = request.chainCount;
+    spawnRequest.chainShare = request.chainShare;
+    spawnRequest.chainRadius = request.chainRadius;
     spawnRequest.attackBonus = 0;
     spawnRequest.useActorHitChance = false;
     spawnRequest.damageType = request.damageType;
@@ -20551,6 +20567,19 @@ bool IndoorWorldRuntime::debuffActor(size_t actorIndex, GameplayActorHitDebuff d
     {
         spellEffects.darkGraspRemainingSeconds = std::max(spellEffects.darkGraspRemainingSeconds, seconds);
     }
+    else if (debuff == GameplayActorHitDebuff::Silence)
+    {
+        spellEffects.silenceRemainingSeconds = std::max(spellEffects.silenceRemainingSeconds, seconds);
+    }
+    else if (debuff == GameplayActorHitDebuff::MoveSlow)
+    {
+        spellEffects.moveSlowRemainingSeconds = std::max(spellEffects.moveSlowRemainingSeconds, seconds);
+        spellEffects.moveSlowMultiplier = std::min(spellEffects.moveSlowMultiplier, 1.0f / std::max(1.0f, power));
+    }
+    else if (debuff == GameplayActorHitDebuff::Demoralize)
+    {
+        spellEffects.demoralizeRemainingSeconds = std::max(spellEffects.demoralizeRemainingSeconds, seconds);
+    }
     else
     {
         spellEffects.slowRemainingSeconds = std::max(spellEffects.slowRemainingSeconds, seconds);
@@ -20686,6 +20715,7 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
     spawnRequest.chainShare = request.chainShare;
     spawnRequest.chainRadius = request.chainRadius;
     spawnRequest.hitCredit = request.hitCredit;
+    spawnRequest.quietBlast = request.quietBlast;
     spawnRequest.impactSoundIdOverride = request.impactSoundId;
     spawnRequest.turnBasedPendingAction = request.turnBasedPendingAction;
     spawnRequest.sourceX = request.source.x;
@@ -24172,6 +24202,19 @@ const EventRuntimeState *IndoorWorldRuntime::eventRuntimeState() const
     }
 
     return &**m_pEventRuntimeState;
+}
+
+bool IndoorWorldRuntime::scriptedChestOpens(uint32_t chestId) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || chestId >= pMapDeltaData->chests.size() || m_pParty == nullptr || !m_map)
+    {
+        return true;
+    }
+
+    const uint16_t flags = chestFlagsWithEventBits(pMapDeltaData->chests[chestId].flags, eventRuntimeState(), chestId);
+    return chestOpensForParty(*m_pParty, *m_map, flags);
 }
 
 IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const

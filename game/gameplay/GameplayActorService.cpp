@@ -657,6 +657,9 @@ bool GameplayActorService::hasRunningSpellEffectTimer(const GameplayActorSpellEf
         || state.controlRemainingSeconds > 0.0f
         || state.shrinkRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
+        || state.silenceRemainingSeconds > 0.0f
+        || state.moveSlowRemainingSeconds > 0.0f
+        || state.demoralizeRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
         || state.painReflectionRemainingSeconds > 0.0f
@@ -689,6 +692,9 @@ void GameplayActorService::updateSpellEffectTimers(
     state.armorClassHalvedRemainingSeconds =
         std::max(0.0f, state.armorClassHalvedRemainingSeconds - deltaSeconds);
     state.darkGraspRemainingSeconds = std::max(0.0f, state.darkGraspRemainingSeconds - deltaSeconds);
+    state.silenceRemainingSeconds = std::max(0.0f, state.silenceRemainingSeconds - deltaSeconds);
+    state.moveSlowRemainingSeconds = std::max(0.0f, state.moveSlowRemainingSeconds - deltaSeconds);
+    state.demoralizeRemainingSeconds = std::max(0.0f, state.demoralizeRemainingSeconds - deltaSeconds);
     state.dayOfProtectionRemainingSeconds = std::max(0.0f, state.dayOfProtectionRemainingSeconds - deltaSeconds);
     state.hourOfPowerRemainingSeconds = std::max(0.0f, state.hourOfPowerRemainingSeconds - deltaSeconds);
     state.painReflectionRemainingSeconds = std::max(0.0f, state.painReflectionRemainingSeconds - deltaSeconds);
@@ -704,6 +710,11 @@ void GameplayActorService::updateSpellEffectTimers(
     {
         state.slowMoveMultiplier = 1.0f;
         state.slowRecoveryMultiplier = 1.0f;
+    }
+
+    if (state.moveSlowRemainingSeconds <= 0.0f)
+    {
+        state.moveSlowMultiplier = 1.0f;
     }
 
     if (state.controlRemainingSeconds <= 0.0f && state.controlMode != GameplayActorControlMode::None)
@@ -1168,6 +1179,9 @@ bool GameplayActorService::clearSpellEffects(
         || state.shrinkRemainingSeconds > 0.0f
         || state.armorClassHalvedRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
+        || state.silenceRemainingSeconds > 0.0f
+        || state.moveSlowRemainingSeconds > 0.0f
+        || state.demoralizeRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
         || state.painReflectionRemainingSeconds > 0.0f
@@ -1197,6 +1211,10 @@ bool GameplayActorService::clearSpellEffects(
     state.shrinkArmorClassMultiplier = 1.0f;
     state.armorClassHalvedRemainingSeconds = 0.0f;
     state.darkGraspRemainingSeconds = 0.0f;
+    state.silenceRemainingSeconds = 0.0f;
+    state.moveSlowRemainingSeconds = 0.0f;
+    state.moveSlowMultiplier = 1.0f;
+    state.demoralizeRemainingSeconds = 0.0f;
     state.dayOfProtectionRemainingSeconds = 0.0f;
     state.dayOfProtectionPower = 0;
     state.hourOfPowerRemainingSeconds = 0.0f;

@@ -63,6 +63,59 @@ double MawGameState::levelOutside(uint32_t continentId) const
     return totalLevel() - levelOn(continentId);
 }
 
+std::string MawGameState::keepOneRift(const std::string &currentMap)
+{
+    if (dimensionRuns.empty())
+    {
+        return {};
+    }
+
+    std::string kept = dimensionRuns.begin()->first;
+
+    for (const auto &[fileName, run] : dimensionRuns)
+    {
+        if (fileName == currentMap)
+        {
+            kept = fileName;
+            break;
+        }
+
+        if (!run.completed && dimensionRuns.at(kept).completed)
+        {
+            kept = fileName;
+        }
+    }
+
+    for (const auto &[fileName, run] : dimensionRuns)
+    {
+        if (fileName != kept)
+        {
+            pendingRefills.insert(fileName);
+        }
+    }
+
+    MawDimensionRun run = dimensionRuns.at(kept);
+    dimensionRuns.clear();
+
+    if (const auto visit = mapVisits.find(kept); visit != mapVisits.end())
+    {
+        run.slain = visit->second.slain;
+        run.counted = visit->second.counted;
+        mapVisits.erase(visit);
+    }
+
+    if (const auto dropped = mapsDropped.find(kept); dropped != mapsDropped.end())
+    {
+        run.mapsDropped = dropped->second;
+        mapsDropped.erase(dropped);
+    }
+
+    // The map itself starts from its own beginning once its state has gone to the rift.
+    clearedSinceRefill.erase(kept);
+    dimensionRuns[kept] = run;
+    return kept;
+}
+
 int MawGameState::resetCount(const std::string &mapFileName) const
 {
     const auto it = mapResetCounts.find(mapFileName);

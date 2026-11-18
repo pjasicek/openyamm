@@ -243,6 +243,14 @@ bool mawIsDragon(const Character &character)
     return character.raceId == Dragon;
 }
 
+void MawClassRules::applyPrimaryStatBonuses(Character &member) const
+{
+    if (m_rules.options().soloRun)
+    {
+        MawSoloTalents::applyStatPassives(member);
+    }
+}
+
 void MawClassRules::applyClassBonuses(Character &member) const
 {
     ClassRules::applyClassBonuses(member);
@@ -319,10 +327,9 @@ void MawClassRules::applyClassBonuses(Character &member) const
         member.magicalBonuses.maxSpellPoints = 10 * (pAssassination != nullptr ? int(pAssassination->mastery) : 0);
     }
 
-    // A solo run's passive talents (devdocs/solo_action/TALENTS.md), after the class's own bonuses.
+    // A solo run's early monster cut (devdocs/solo_action/POWER_CURVE_DIRECTION.md §8).
     if (m_rules.options().soloRun)
     {
-        MawSoloTalents::applyPassives(member);
         m_rules.setSoloMonsterCut(MawSoloTalents::earlyMonsterCut(member));
     }
 }
@@ -422,7 +429,7 @@ void MawClassRules::update(Party &party, const IGameplayWorldRuntime &world, flo
     m_pendingSeconds = 0;
     updatePromotions(party);
 
-    // A solo run's talents: cooldowns, timed effects, Onslaught, Cheat Death, Steady Aim, Quickfoot.
+    // A solo run's talents: cooldowns, timed effects, Onslaught, Cheat Death, Steady Aim, Quickfoot, rage.
     if (m_rules.options().soloRun)
     {
         MawSoloTalents::update(party, world.partyX(), world.partyY(), !partyHasYellowAlert(world), deltaSeconds);
@@ -953,7 +960,9 @@ MawAscension mawAscension(const Character &caster, MawAscensionUse use)
         return {floored ? std::floor(sum) : sum, SkillMastery::Grandmaster};
     }
 
-    if (line == "shaman" && (use == MawAscensionUse::Cost || use == MawAscensionUse::Heal))
+    // MAW's damage roll forgets the Shaman though its texts and spell book promise it (DEVIATIONS 199).
+    if (line == "shaman"
+        && (use == MawAscensionUse::Cost || use == MawAscensionUse::Heal || use == MawAscensionUse::Damage))
     {
         const double sum = baseSum({"FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "SpiritMagic", "MindMagic",
                                "BodyMagic"})

@@ -808,6 +808,9 @@ void moveSummaryToLegacyPlaces(
         piece(rulesetOffset, summary.size() - rulesetOffset - nameAndPreviewSize - 2 * sizeof(bool));
     const std::vector<uint8_t> nameAndPreview = piece(summary.size() - nameAndPreviewSize, nameAndPreviewSize);
 
+    // The save ends with the map instance id of version 195 (empty here: its length alone), which no summary-less
+    // save has.
+    eraseBytes(bytes, bytes.size() - sizeof(uint64_t), sizeof(uint64_t));
     bytes.insert(bytes.end(), nameAndPreview.begin(), nameAndPreview.end());
     const size_t seedOffset = findValue(bytes, seedMarker);
     bytes.insert(bytes.begin() + static_cast<std::ptrdiff_t>(seedOffset), ruleset.begin(), ruleset.end());
@@ -1284,7 +1287,21 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     mawState.bountiesClaimed = 5;
     mawState.usedStatDecorations["d10.blv"] = {{3, 0}, {7, 0}};
     mawState.madnessDeaths = 4;
+    mawState.pendingRefills.insert("d11.blv");
+    // A rift (version 195): where the party entered it from, how far it got, and the party standing in it.
+    OpenYAMM::Game::MawDimensionRun rift;
+    rift.power = 12;
+    rift.questTier = 110;
+    rift.originMapFileName = "out02.odm";
+    rift.originX = -1200;
+    rift.originY = 3400;
+    rift.originZ = 96;
+    rift.slain = 41;
+    rift.counted = 180;
+    rift.mapsDropped = 1;
+    mawState.dimensionRuns["d08.blv"] = rift;
     save.mawState = mawState;
+    save.mapInstanceId = "rift";
 
     OpenYAMM::Game::ActorRulesetFacts facts;
     facts.level = 412;
@@ -1313,6 +1330,7 @@ TEST_CASE("saves keep the MAW level banks, loot counters and each actor's rulese
     REQUIRE_MESSAGE(restored.has_value(), error);
     REQUIRE(restored->mawState.has_value());
     CHECK(*restored->mawState == mawState);
+    CHECK_EQ(restored->mapInstanceId, "rift");
     REQUIRE_EQ(restored->outdoorWorld.mapActors.size(), 1u);
     CHECK(restored->outdoorWorld.mapActors[0].rulesetFacts == facts);
     REQUIRE(restored->indoorScene.mapDeltaData.has_value());

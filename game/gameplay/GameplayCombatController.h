@@ -46,6 +46,9 @@ public:
         bool critical = false;
         // A solo run's ordinary bow attack's shared credit (ProjectileState::hitCredit).
         std::shared_ptr<bool> hitCredit;
+        // A monster's missile at the party: how far it stood when it loosed it (ProjectileState::firedDistance);
+        // negative when unknown.
+        float firedDistance = -1.0f;
     };
 
     struct PendingCombatEventContext
@@ -128,7 +131,8 @@ public:
         int spellId,
         bool affectsAllParty,
         CombatDamageType damageType,
-        GameplayActorAttackAbility ability);
+        GameplayActorAttackAbility ability,
+        float firedDistance = -1.0f);
     void recordPartyProjectileActorImpact(
         uint32_t sourceId,
         uint32_t sourcePartyMemberIndex,

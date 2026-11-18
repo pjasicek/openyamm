@@ -28,7 +28,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 ENGINE_TABLES = ROOT / "assets_dev/engine/data_tables"
 OUTPUT = ROOT / "assets_dev/engine/rulesets/maw"
-MAW_COMMIT = "8967ae88"
+MAW_COMMIT = "7ddb228c"
 
 
 @dataclass

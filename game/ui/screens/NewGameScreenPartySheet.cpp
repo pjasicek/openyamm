@@ -541,7 +541,7 @@ void NewGameScreen::drawCreationRoster(bool input)
     // The solo run (devdocs/solo_action/README.md): one adventurer played in first person with the solo HUD. It is
     // offered for a party of one and keeps the party at one.
     const bool soloOffered = m_partySize == 1 && !godLich;
-    m_soloRun = m_soloRun && soloOffered;
+    setSoloRun(m_soloRun && soloOffered);
 
     if (soloOffered)
     {
@@ -565,7 +565,7 @@ void NewGameScreen::drawCreationRoster(bool input)
 
         if (soloInput.activated)
         {
-            m_soloRun = !m_soloRun;
+            setSoloRun(!m_soloRun);
             return;
         }
     }
@@ -960,7 +960,7 @@ void NewGameScreen::drawCreationSkills(bool input, float deltaSeconds)
 
         for (const std::string &skill : group.skills)
         {
-            const CreationSkillReach reach = creationSkillReach(table, className, raceId, skill);
+            const CreationSkillReach reach = ruledSkillReach(className, raceId, skill);
             const CreationSkillState state = creationSkillState(
                 m_state.defaultSkills, m_state.optionalSkills, m_state.selectedOptionalSkills, reach, skill);
 
@@ -1320,7 +1320,7 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
     const ClassSkillTable &table = m_pGameData->classSkillTable();
     const std::string className = classNameForState(state);
     const uint32_t raceId = candidateForState(state).raceId;
-    const CreationSkillReach reach = creationSkillReach(table, className, raceId, skill);
+    const CreationSkillReach reach = ruledSkillReach(className, raceId, skill);
     const CreationSkillState skillState = creationSkillState(
         state.defaultSkills, state.optionalSkills, state.selectedOptionalSkills, reach, skill);
     const float u = sheetPx(1);
@@ -1374,6 +1374,16 @@ void NewGameScreen::drawCreationSkillCard(size_t slotIndex, const std::string &s
         row.mastery = SkillMastery(level);
         row.description = text.masteryLines[size_t(level - 1)];
         row.availability = creationMasteryAvailability(table, className, raceId, skill, row.mastery);
+
+        // Where the rules lift the class's reach, the level comes sooner than the class table says.
+        if (reach.now >= row.mastery)
+        {
+            row.availability = 0;
+        }
+        else if (row.availability == 2 && reach.best >= row.mastery)
+        {
+            row.availability = 1;
+        }
 
         if (row.availability == 0)
         {

@@ -32,6 +32,9 @@ struct ActorRulesetFacts
     float spearDamageTaken = 0.0f;
     // Percent more damage of every kind the actor takes from the blows of a legendary 29 wearer.
     float legendaryDamageTaken = 0.0f;
+    // A solo run's Expose Weakness talent: percent more damage of every kind the actor takes until the game minute.
+    float exposedPercent = 0.0f;
+    float exposedUntilGameMinutes = 0.0f;
     // One of the map's unique monsters (place_mon names 1-219): MAW levels it with the party, not the map.
     bool unique = false;
     // The special attack (a MonsterSpecialAttackKind, 0 for none) the Doom modes gave it on the map's fill, in place of

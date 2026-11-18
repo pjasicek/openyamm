@@ -70,6 +70,9 @@ struct GameplayUiFramePerformanceDiagnostics
     GameplayUiOverlayFramePerformanceDiagnostics overlays = {};
 };
 
+// Joins a map's state key and the id of an instance of it (GameSession::mapStateKey).
+constexpr char MapInstanceKeySeparator = '#';
+
 class GameSession
 {
 public:
@@ -100,6 +103,16 @@ public:
     const std::string &currentMapFileName() const;
     void setCurrentMapFileName(const std::string &mapFileName);
     void setCurrentMapFileName(std::string &&mapFileName);
+    // The instance of the current map the party is in: a second state of the same map file that leaves the map's own
+    // state alone (MAW's dimension rifts). Empty on the map itself. It belongs to the current map: set it together
+    // with the map's file name when the party moves.
+    const std::string &mapInstanceId() const;
+    void setMapInstanceId(const std::string &instanceId);
+    // The key a state of the map goes under in outdoorWorldStates() and indoorSceneStates(): the map's own, or its
+    // instance's.
+    std::string mapStateKey(const std::string &mapFileName, const std::string &instanceId) const;
+    // Drops the states of map instances the rules no longer keep (MonsterRules::liveMapInstances).
+    void discardEndedMapInstances();
     float gameMinutes() const;
     void setGameMinutes(float gameMinutes);
     // The rules this game is played by; the loaded tables must match (GameApplication::activateRuleset).
@@ -324,6 +337,7 @@ public:
     // variables, timers): the map starts from its initial state when it is next built. With partyInside (a save made
     // in that map is being loaded) the party's saved place and camera there go too, so the party starts at the map's
     // start point. Party state (members, inventory, gold, QBits, journal, hirelings, global variables) stays.
+    // In a map instance (mapInstanceId) the current map's state is the instance's: only that one goes.
     void discardMapState(const std::string &mapFileName, bool partyInside);
 
     // The playthrough's statistics (devdocs/PLAYTHROUGH_STATISTICS_PLAN.md); they outlive clear(), since a load of the
@@ -337,6 +351,11 @@ public:
 private:
     // The one key a map's stored state goes under: its canonical id, or the file name of a map MapStats does not list.
     std::string mapStateKey(const std::string &mapFileName) const;
+    // The key of the current map's state: its instance's when the party is in one.
+    std::string currentMapStateKey(const std::string &mapFileName) const;
+    // A save from before rifts were map instances (SaveVersionMapInstances): the open dimension run moves out of its
+    // map's state into the rift's, and the party gets the dimensional portal.
+    void migrateDimensionRunsToInstances();
 
     struct GameplayUpdatePerformanceDiagnostics
     {
@@ -401,6 +420,7 @@ private:
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
+    std::string m_mapInstanceId;
     GameplayScreenState m_gameplayScreenState;
     GameplayUiController m_gameplayUiController;
     GameplayUiRuntime m_gameplayUiRuntime;

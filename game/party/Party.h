@@ -302,8 +302,12 @@ struct Character
 // 2-0 (devdocs/solo_action/HUD.md). Slots already set stay.
 void prefillSoloActionBar(Character &member);
 class Party;
-// A new solo run's party: the first member alone (with the first's character buffs), its action bar filled. Every new
-// game path with RulesetOptions::soloRun calls it once (New Game, the debug start, scenarios).
+// The skill a new solo run's character starts with (the user, 2026-11-19), where its ruleset lets its class learn it
+// (MAW's Lone Discipline lets every class; Standard only the classes that have the skill).
+inline constexpr const char *SoloRunStartSkill = "Regeneration";
+// A new solo run's party: the first member alone (with the first's character buffs), its action bar filled, and
+// SoloRunStartSkill learned. Every new game path with RulesetOptions::soloRun calls it once (New Game, the debug
+// start, scenarios), with the party on the run's rules.
 void makeSoloRunParty(Party &party);
 // A new solo run's travel scrolls, one each of Water Walk, Jump, Town Portal, Fly and Lloyd's Beacon (user,
 // 2026-11-15). Every new game path that starts a solo run gives them once; turning an existing game solo does not.
@@ -863,6 +867,9 @@ public:
     // Moves every item with a pouch out of the members' bags into its pouch: a save from before the pouches, a party
     // just made, a member who joined. Returns how many moved; what a full pouch cannot take stays where it lies.
     size_t gatherPouchItems();
+    // Moves every pouch item whose pouch is now another one there: a save from before the rules moved a kind of item
+    // (dimension maps, from quest to crafting). Returns how many moved; what a full pouch cannot take stays.
+    size_t movePouchItemsToTheirPouches();
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     static int effectiveMaximumHealth(const Character &member);

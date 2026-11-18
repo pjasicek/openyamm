@@ -82,6 +82,31 @@ struct WorldItemSpotting
     float indoorRadius = 0.0f;
 };
 
+// Where on the current map the party stands when it uses a travel item (ItemRules::useTravelItem).
+struct TravelItemOrigin
+{
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+};
+
+// What using a travel item does (ItemRules::useTravelItem).
+struct TravelItemUse
+{
+    // The rules refuse and say why: the party stays and keeps the item.
+    std::string refusal;
+    // The map to go to and the instance of it (GameSession::mapInstanceId; empty: the map itself), at the map's start
+    // point or at the given place.
+    std::string mapFileName;
+    std::string instanceId;
+    bool useMapStartPosition = true;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    // The item is used up.
+    bool consumed = true;
+};
+
 // How random items are rolled, what they give and what they are worth (devdocs/maw/HANDOFF.md §3.5). This class is the
 // Standard MMMerge rules; a ruleset that handles items differently derives from it.
 class ItemRules
@@ -207,9 +232,15 @@ public:
         const ItemTable &itemTable,
         std::mt19937 &rng) const;
 
-    // Where using the item takes the party (MAW: a dimension map, to the map it opens), once the rules set the visit
-    // up; the item is used up. Nothing for an item that does not travel (Standard: every item).
-    virtual std::optional<std::string> useTravelItem(Party &party, const InventoryItem &item) const;
+    // Where using the item takes the party (MAW: a dimension map into the rift it opens, the dimensional portal into
+    // the open rift and back out). `from` is where the party stands. Nothing for an item that does not travel
+    // (Standard: every item). Two steps, so that the autosave of the map being left holds the item unused:
+    // planTravelItem when the player uses the item changes nothing (the item stays in hand, the move is queued);
+    // useTravelItem as the party sets off, after that autosave, sets the visit up for good and may still refuse.
+    virtual std::optional<TravelItemUse> planTravelItem(
+        const Party &party, const InventoryItem &item, const TravelItemOrigin &from) const;
+    virtual std::optional<TravelItemUse> useTravelItem(
+        Party &party, const InventoryItem &item, const TravelItemOrigin &from) const;
     // The loot filter in force (MAW's, a player preference; it also reads items placed in chests). Standard: none.
     virtual const RulesetLootFilter *lootFilter() const;
     // What the loot filter needs to know of a drop (LootFilter.h); none for an item it never takes.

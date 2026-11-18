@@ -321,6 +321,34 @@ TEST_CASE("the quicksaves kept setting defaults to three, validates one to twent
     std::filesystem::remove(path);
 }
 
+TEST_CASE("fast mode speed defaults to 2x, validates its steps and persists")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm-fast-mode-settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(settings.fastModeSpeed == 2.0f);
+    CHECK(menuSettingValue(settings, "fast_mode_speed") == "2");
+
+    for (const std::string value : {"1.5", "3", "4", "2"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "fast_mode_speed", value));
+        CHECK(menuSettingValue(settings, "fast_mode_speed") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(menuSettingValue(*loaded, "fast_mode_speed") == value);
+    }
+
+    // 1x would make the Fast Mode key do nothing.
+    for (const std::string value : {"1", "5", "2.5", "fast", ""})
+    {
+        CHECK_FALSE(setMenuSettingValue(settings, "fast_mode_speed", value));
+    }
+
+    CHECK(settings.fastModeSpeed == 2.0f);
+    std::filesystem::remove(path);
+}
+
 TEST_CASE("sharpening defaults to the desktop profile and its strength validates and persists")
 {
     GameSettings settings = GameSettings::createDefault();
@@ -467,6 +495,27 @@ TEST_CASE("party portrait frame defaults on and persists menu changes")
     const std::vector<SettingsEntry> paintedEntries = settingsEntriesToSave(settings);
     CHECK(std::find(paintedEntries.begin(), paintedEntries.end(), SettingsEntry{"gameplay", "map_style", "painted"})
         != paintedEntries.end());
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("The indoor minimap arrow colour defaults to white, saves and rejects unknown colours")
+{
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_indoor_arrow_settings.ini";
+    std::string error;
+    GameSettings settings = GameSettings::createDefault();
+    CHECK(menuSettingValue(settings, "indoor_minimap_arrow") == "white");
+
+    for (const std::string value : {"green", "cyan", "white"})
+    {
+        REQUIRE(setMenuSettingValue(settings, "indoor_minimap_arrow", value));
+        CHECK_FALSE(setMenuSettingValue(settings, "indoor_minimap_arrow", "purple"));
+        CHECK(menuSettingValue(settings, "indoor_minimap_arrow") == value);
+        REQUIRE(saveGameSettings(path, settings, error));
+        const std::optional<GameSettings> loaded = loadGameSettings(path, error);
+        REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+        CHECK(loaded->indoorMinimapArrow == value);
+    }
+
     std::filesystem::remove(path);
 }
 

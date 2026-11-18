@@ -143,6 +143,10 @@ private:
     // A combatant's HP and SP per second from skills, auras and potions, before the out-of-combat multipliers. An MM9
     // hireling (a combatant index past the members) has no skills, items or potions: only the Regeneration aura.
     std::pair<double, double> regenerationPerSecond(const Party &party, size_t index) const;
+    // The share of the Regeneration skill's own healing the member gets: a solo run's early Regeneration
+    // (early_regeneration in talents.yml) for a character whose class and race cannot learn the skill in MAW and has
+    // it by Lone Discipline; 1 for a class with the skill of its own, and in a party.
+    double soloRegenerationShare(const Party &party, const Character &member) const;
     // A mastery a respec took comes back, one rank per raise, once the skill reaches that rank's requirement.
     std::string restoreRememberedMastery(
         Character &character,

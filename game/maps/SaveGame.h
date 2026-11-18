@@ -25,6 +25,8 @@ struct GameSaveData
 {
     SceneKind currentSceneKind = SceneKind::Outdoor;
     std::string mapFileName;
+    // The instance of that map the party stands in (GameSession::mapInstanceId); empty on the map itself.
+    std::string mapInstanceId;
     Party::Snapshot party;
     std::unordered_map<std::string, int32_t> namedGlobalVars;
     bool hasOutdoorRuntimeState = false;
@@ -105,6 +107,21 @@ constexpr uint32_t SaveVersionMawPouches = 192;
 // The quest pouch joins the crafting and alchemy pouches from this version on (quest items: what is worth nothing
 // and is no gear); an older save's quest items move there when loaded (Party::gatherPouchItems).
 constexpr uint32_t SaveVersionMawQuestPouch = 193;
+
+// MAW keeps the maps whose next load refills them (MawGameState::pendingRefills: a reset dungeon, the map of a
+// dimension run the party gave up); older saves have none.
+constexpr uint32_t SaveVersionMawPendingRefills = 194;
+
+// A map may have instances, states of their own beside the map's (GameSaveData::mapInstanceId; the states' keys end
+// in '#' and the instance id), and a MAW dimension map opens one, its rift (MawDimensionRun's origin, progress and
+// dropped maps): an older save's open run moves from its map's state into the rift's when loaded
+// (GameSession::migrateDimensionRunsToInstances).
+constexpr uint32_t SaveVersionMapInstances = 195;
+
+// MAW's dimension maps lie in the crafting pouch from this version on (they are Workbench targets); an older save's
+// lie in the quest pouch, as their worthless item row put them since version 193 and where the Workbench did not
+// list them, and move over when loaded (Party::movePouchItemsToTheirPouches). The format is unchanged.
+constexpr uint32_t SaveVersionMawMapsInCraftingPouch = 196;
 
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);

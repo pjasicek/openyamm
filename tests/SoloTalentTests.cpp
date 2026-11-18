@@ -6,10 +6,13 @@
 #include "game/rules/maw/MawRules.h"
 #include "game/rules/maw/MawSoloTalents.h"
 #include "game/tables/ItemTable.h"
+#include "tests/PartySpellTestHarness.h"
 
 #include <doctest/doctest.h>
 
+#include <algorithm>
 #include <chrono>
+#include <cmath>
 #include <filesystem>
 #include <fstream>
 #include <optional>
@@ -28,20 +31,20 @@ talents:
      cooldown_per_rank: -2, targets: 64, share: 150, arc: 60, duration: 1}
   - {id: sweeping_blows, name: Sweeping Blows, tree: arms, kind: passive, max_rank: 3, requires: expert, needs: cleave,
      per_rank: 1, share: 30, share_per_skill: 0.25, share_cap: 50, arc: 60}
-  - {id: onslaught, name: Onslaught, tree: arms, kind: passive, max_rank: 3, per_rank: 10, duration: 30}
-  - {id: shield_wall, name: Shield Wall, tree: arms, kind: active, max_rank: 3, requires: expert, cooldown: 60,
-     duration: 6, per_rank: 50}
+  - {id: onslaught, name: Onslaught, tree: any, kind: passive, max_rank: 5, per_rank: 6, duration: 30}
+  - {id: challenge, name: Challenge, tree: arms, kind: active, max_rank: 3, requires: expert, cooldown: 30,
+     cooldown_per_rank: -4, duration: 4, duration_per_rank: 1, distance: 2048}
   - {id: quickfoot, name: Quickfoot, tree: archery, kind: passive, max_rank: 3, per_rank: 3, per_rank_calm: 15}
   - {id: steady_aim, name: Steady Aim, tree: archery, kind: passive, max_rank: 3, per_rank: 10}
-  - {id: resolve, name: Resolve, tree: arcana, kind: passive, max_rank: 5, per_rank: 2}
+  - {id: arcane_ward, name: Arcane Ward, tree: arcana, kind: passive, max_rank: 5, per_rank: 6}
   - {id: spell_surge, name: Spell Surge, tree: arcana, kind: active, max_rank: 3, requires: master, cooldown: 45,
      per_rank: 50}
   - {id: overload, name: Overload, tree: arcana, kind: passive, max_rank: 3, requires: expert, per_rank: 10, targets: 3}
   - {id: bloodthirst, name: Bloodthirst, tree: any, kind: passive, max_rank: 5, per_rank: 2}
   - {id: conditioning, name: Conditioning, tree: any, kind: passive, max_rank: unlimited, first_rank: 10,
      per_rank: 1, text: "+{value} %"}
-  - {id: spell_suppression, name: Spell Suppression, tree: any, kind: passive, max_rank: 41, first_rank: 8,
-     per_rank: 0.8}
+  - {id: spell_suppression, name: Spell Suppression, tree: any, kind: passive, max_rank: 41, first_rank: 4,
+     per_rank: 0.4}
   - {id: manathirst, name: Manathirst, tree: any, kind: passive, max_rank: 5, per_rank: 2}
 keystones:
   - {id: cheat_death, name: Cheat Death, cooldown: 180, duration: 2}
@@ -77,7 +80,7 @@ Character fighter(uint32_t level)
 }
 }
 
-TEST_CASE("solo talents: the shipped table loads (tree v2)")
+TEST_CASE("solo talents: the shipped table loads (tree v2 and the archetypes)")
 {
     std::filesystem::path path = "assets_dev/engine/data_tables/talents.yml";
     for (int up = 0; up < 4 && !std::filesystem::exists(path); ++up)
@@ -91,7 +94,66 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     SoloTalentTable table;
     std::string error;
     REQUIRE_MESSAGE(table.loadFromYaml(text.str(), error), error);
-    CHECK(table.talents().size() == 19);
+    // The archetypes of 2026-11-18: nine talents a path, the 19 old places kept (the action bar keeps talents by
+    // place).
+    CHECK(table.talents().size() == 32);
+    for (const TalentTree path : {TalentTree::Arms, TalentTree::Archery, TalentTree::Arcana})
+    {
+        CHECK(std::count_if(table.talents().begin(), table.talents().end(),
+                  [path](const TalentDefinition &talent) { return talent.tree == path; })
+            == 9);
+        CHECK(table.isPath(path));
+    }
+    CHECK_FALSE(table.isPath(TalentTree::Any));
+    const std::vector<std::string> oldPlaces = {"cleave", "sweeping_blows", "onslaught", "charge", "challenge",
+        "multishot", "piercing_arrows", "power_shot", "steady_aim", "quickfoot", "blink", "spell_surge", "arcane_ward",
+        "overload", "binding_circle", "bloodthirst", "conditioning", "spell_suppression", "manathirst"};
+    for (size_t place = 0; place < oldPlaces.size(); ++place)
+    {
+        CHECK(table.talents()[place].id == oldPlaces[place]);
+    }
+    CHECK(table.find("shield_wall") == nullptr);
+    CHECK(table.find("resolve") == nullptr);
+    // Onslaught: the Any tree, five ranks of 6 stacks.
+    REQUIRE(table.find("onslaught") != nullptr);
+    CHECK(table.find("onslaught")->tree == TalentTree::Any);
+    CHECK(table.find("onslaught")->maxRank == 5);
+    CHECK(talentValue(*table.find("onslaught"), 5) == doctest::Approx(30.0f));
+    // Rage and its two abilities; the shared floor of the solo cuts.
+    CHECK(table.rage().maximum == doctest::Approx(100.0f));
+    CHECK(table.rage().limitPerSecond == doctest::Approx(20.0f));
+    CHECK(table.damageFloor() == doctest::Approx(0.2));
+    REQUIRE(table.find("heroic_strike") != nullptr);
+    CHECK(table.find("heroic_strike")->rageCost == doctest::Approx(100.0f));
+    CHECK(talentShareAtRank(*table.find("heroic_strike"), 1) == doctest::Approx(2.0f));
+    CHECK(talentShareAtRank(*table.find("heroic_strike"), 3) == doctest::Approx(3.0f));
+    REQUIRE(table.find("demoralizing_shout") != nullptr);
+    CHECK(table.find("demoralizing_shout")->rageCost == doctest::Approx(100.0f));
+    CHECK(talentDurationSeconds(*table.find("demoralizing_shout"), 3) == doctest::Approx(10.0f));
+    CHECK(talentCooldownSeconds(*table.find("demoralizing_shout"), 3) == doctest::Approx(35.0f));
+    REQUIRE(table.find("challenge") != nullptr);
+    CHECK(talentDurationSeconds(*table.find("challenge"), 3) == doctest::Approx(6.0f));
+    CHECK(talentCooldownSeconds(*table.find("challenge"), 3) == doctest::Approx(22.0f));
+    // The user's numbers (2026-11-18).
+    CHECK(talentValue(*table.find("vanguard"), 1) == doctest::Approx(20.0f));
+    CHECK(talentValue(*table.find("vanguard"), 3) == doctest::Approx(60.0f));
+    CHECK(table.find("vanguard")->distance == doctest::Approx(800.0f));
+    // The pack talents count within 768, wider than MAW's 512 (user, 2026-11-18).
+    CHECK(table.find("outnumbered")->distance == doctest::Approx(768.0f));
+    CHECK(table.find("battle_frenzy")->distance == doctest::Approx(768.0f));
+    CHECK(talentValue(*table.find("outnumbered"), 3) == doctest::Approx(4.0f));
+    CHECK(talentValue(*table.find("battle_frenzy"), 2) == doctest::Approx(3.5f));
+    CHECK(talentValue(*table.find("opening_volley"), 3) == doctest::Approx(45.0f));
+    CHECK(talentValue(*table.find("breach"), 3) == doctest::Approx(15.0f));
+    CHECK(talentValue(*table.find("phase"), 3) == doctest::Approx(50.0f));
+    CHECK(talentValue(*table.find("arcane_ward"), 3) == doctest::Approx(30.0f));
+    CHECK(table.find("long_shot")->distance == doctest::Approx(1536.0f));
+    CHECK(table.find("long_shot")->fullDistance == doctest::Approx(5120.0f));
+    CHECK(table.find("expose_weakness")->duration == doctest::Approx(5.0f));
+    CHECK(table.find("hamstring")->duration == doctest::Approx(3.0f));
+    CHECK(table.find("charge")->cooldownPerKill == doctest::Approx(3.0f));
+    CHECK(talentCooldownSeconds(*table.find("spell_surge"), 3) == doctest::Approx(12.0f));
+    CHECK(table.find("spell_surge")->cooldownPerCast == doctest::Approx(1.0f));
     CHECK(table.levelsPerPoint() == 5);
     CHECK(table.keystones().size() == 2);
     CHECK(table.keystoneLevels() == std::vector<uint32_t>{150, 300});
@@ -137,19 +199,20 @@ TEST_CASE("solo talents: the shipped table loads (tree v2)")
     CHECK(talentValue(*table.find("bloodthirst"), 5) == doctest::Approx(10.0f));
     REQUIRE(table.find("steady_aim") != nullptr);
     CHECK(talentValue(*table.find("steady_aim"), 3) == doctest::Approx(30.0f));
-    // Spell Suppression: 8 % at rank 1, 0.8 % a rank after, 40 % at its last rank 41. Conditioning: 10 % at rank 1,
+    // Spell Suppression: 4 % at rank 1, 0.4 % a rank after, 20 % at its last rank 41. Conditioning: 10 % at rank 1,
     // 1 % a rank after. Manathirst, the newest, is last in the table so the action bar's indexes keep.
     const TalentDefinition *pSuppression = table.find("spell_suppression");
     REQUIRE(pSuppression != nullptr);
     CHECK(pSuppression->tree == TalentTree::Any);
     CHECK(pSuppression->maxRank == 41);
-    CHECK(talentValue(*pSuppression, 1) == doctest::Approx(8.0f));
-    CHECK(talentValue(*pSuppression, 2) == doctest::Approx(8.8f));
-    CHECK(talentValue(*pSuppression, 41) == doctest::Approx(40.0f));
+    CHECK(talentValue(*pSuppression, 1) == doctest::Approx(4.0f));
+    CHECK(talentValue(*pSuppression, 2) == doctest::Approx(4.4f));
+    CHECK(talentValue(*pSuppression, 41) == doctest::Approx(20.0f));
     CHECK(talentValue(*pConditioning, 1) == doctest::Approx(10.0f));
-    CHECK(table.talents().back().id == "manathirst");
-    CHECK(table.talents().back().maxRank == 5);
-    CHECK(talentValue(table.talents().back(), 5) == doctest::Approx(10.0f));
+    CHECK(table.talents()[18].id == "manathirst");
+    CHECK(table.talents()[18].maxRank == 5);
+    CHECK(talentValue(table.talents()[18], 5) == doctest::Approx(10.0f));
+    CHECK(table.talents().back().id == "phase");
 }
 
 TEST_CASE("solo talents: an unlimited talent takes every point the character has")
@@ -215,6 +278,14 @@ TEST_CASE("solo run: the early monster cut is read from the table, fades between
     CHECK(shipped.earlyMonsterCut(60) == doctest::Approx(1.24));
     CHECK(shipped.earlyMonsterCut(75) == doctest::Approx(1.0));
     CHECK(shipped.earlyMonsterCut(500) == doctest::Approx(1.0));
+    // The shipped early Regeneration: half until level 15, the whole from 75, an S-curve between.
+    CHECK(shipped.earlyRegeneration(1) == doctest::Approx(0.5));
+    CHECK(shipped.earlyRegeneration(15) == doctest::Approx(0.5));
+    CHECK(shipped.earlyRegeneration(30) == doctest::Approx(0.585));
+    CHECK(shipped.earlyRegeneration(45) == doctest::Approx(0.75));
+    CHECK(shipped.earlyRegeneration(60) == doctest::Approx(0.915));
+    CHECK(shipped.earlyRegeneration(75) == doctest::Approx(1.0));
+    CHECK(shipped.earlyRegeneration(500) == doctest::Approx(1.0));
     // The shipped experience surcharge, half of MAW's.
     REQUIRE(shipped.experienceSurcharge().has_value());
     CHECK(*shipped.experienceSurcharge() == doctest::Approx(0.0025));
@@ -223,9 +294,12 @@ TEST_CASE("solo run: the early monster cut is read from the table, fades between
     SoloTalentTable none;
     REQUIRE(none.loadFromYaml("talents: []", error));
     CHECK(none.earlyMonsterCut(1) == doctest::Approx(1.0));
+    CHECK(none.earlyRegeneration(1) == doctest::Approx(1.0));
     CHECK_FALSE(none.experienceSurcharge().has_value());
     SoloTalentTable bad;
     CHECK_FALSE(bad.loadFromYaml("early_monster_cut: [[1, 0.5]]\ntalents: []", error));
+    CHECK_FALSE(bad.loadFromYaml("early_regeneration: [[1, 1.5]]\ntalents: []", error));
+    CHECK_FALSE(bad.loadFromYaml("early_regeneration: [[1, 0]]\ntalents: []", error));
     SoloTalentTable shortList;
     REQUIRE(shortList.loadFromYaml("early_monster_cut: [[1, 3], [20, 2]]\ntalents: []", error));
     CHECK(shortList.earlyMonsterCut(20) == doctest::Approx(2.0));
@@ -244,6 +318,57 @@ TEST_CASE("solo run: the early monster cut is read from the table, fades between
     bindSoloTalentTable(nullptr);
 }
 
+TEST_CASE("solo run: the Regeneration skill of a class without it heals less at low character levels, the whole "
+          "again later")
+{
+    SoloTalentTable table;
+    std::string error;
+    REQUIRE_MESSAGE(table.loadFromYaml("early_regeneration: [[15, 0.5], [75, 1.0]]\ntalents: []", error), error);
+    bindSoloTalentTable(&table);
+    // A Knight has Regeneration only by Lone Discipline; a Troll learns it in MAW.
+    ClassSkillTable classes;
+    REQUIRE(classes.loadCapsFromRows({{"", "Knight", "Troll"}, {"Regeneration", "-", "M"}}));
+    // The hit points 30 seconds of Expert Regeneration give a wounded character of 50,000.
+    const auto healed = [&classes](bool soloRun, uint32_t level, const char *pClassName = "Knight")
+    {
+        RulesetOptions options;
+        options.soloRun = soloRun;
+        MawRules rules(options, MawMapLevels{});
+        PartySeed seed;
+        seed.members.resize(1);
+        seed.members[0].className = pClassName;
+        seed.members[0].level = level;
+        seed.members[0].skills["Regeneration"] = {"Regeneration", 10, SkillMastery::Expert};
+        Party party;
+        party.seed(seed);
+        party.setClassSkillTable(&classes);
+        party.setRules(&rules.gameRules());
+        Character &member = *party.member(0);
+        member.maxHealth = 50000;
+        member.health = 100;
+        OpenYAMM::Tests::PartySpellTestWorldRuntime world;
+
+        for (int tick = 0; tick < 300; ++tick)
+        {
+            rules.gameRules().skills.updateRegeneration(party, world, 0.1f);
+        }
+
+        return member.health - 100;
+    };
+    const int whole = healed(false, 10);
+    REQUIRE_GT(whole, 1000);
+    // Half until level 15, three quarters half way to 75, the whole from there; a party's Regeneration is untouched.
+    CHECK(healed(true, 10) == doctest::Approx(whole * 0.5).epsilon(0.01));
+    CHECK(healed(true, 15) == doctest::Approx(whole * 0.5).epsilon(0.01));
+    CHECK(healed(true, 45) == doctest::Approx(whole * 0.75).epsilon(0.01));
+    CHECK(healed(true, 75) == doctest::Approx(whole).epsilon(0.01));
+    CHECK(healed(false, 45) == doctest::Approx(whole).epsilon(0.01));
+    // A class with Regeneration of its own keeps the whole at every level.
+    CHECK(healed(true, 10, "Troll") == doctest::Approx(whole).epsilon(0.01));
+    CHECK(healed(true, 45, "Troll") == doctest::Approx(whole).epsilon(0.01));
+    bindSoloTalentTable(nullptr);
+}
+
 TEST_CASE("solo talents: one point every fifteen levels; keystones and removed talents cost nothing")
 {
     BoundTable bound;
@@ -253,7 +378,7 @@ TEST_CASE("solo talents: one point every fifteen levels; keystones and removed t
     character.level = 47;
     CHECK(talentPointsTotal(bound.table, character) == 3);
     CHECK(nextTalentPointLevel(bound.table, character) == 60);
-    character.talentRanks["resolve"] = 2;
+    character.talentRanks["arcane_ward"] = 2;
     character.talentRanks["unbroken"] = 1;
     // A talent the table no longer has (an older save's Whirlwind) gives its points back.
     character.talentRanks["whirlwind"] = 3;
@@ -318,7 +443,7 @@ TEST_CASE("solo talents: mastery locks and talents that need another first")
 {
     BoundTable bound;
     Character character = fighter(200);
-    const TalentDefinition &training = *bound.table.find("resolve");
+    const TalentDefinition &training = *bound.table.find("arcane_ward");
     const TalentDefinition &cleave = *bound.table.find("cleave");
     const TalentDefinition &sweeping = *bound.table.find("sweeping_blows");
     const TalentDefinition &bloodthirst = *bound.table.find("bloodthirst");
@@ -335,10 +460,10 @@ TEST_CASE("solo talents: mastery locks and talents that need another first")
 
     // No points left, and the last rank.
     Character spent = fighter(15);
-    spent.talentRanks["resolve"] = 1;
+    spent.talentRanks["arcane_ward"] = 1;
     CHECK_FALSE(talentLearnRefusal(bound.table, spent, training).empty());
     Character full = fighter(200);
-    full.talentRanks["resolve"] = 5;
+    full.talentRanks["arcane_ward"] = 5;
     CHECK_FALSE(talentLearnRefusal(bound.table, full, training).empty());
 }
 
@@ -416,19 +541,15 @@ TEST_CASE("solo talents: a save keeps the learned ranks and keystones")
     CHECK(loaded->party.members[0].talentRanks.at("cheat_death") == 1);
 }
 
-TEST_CASE("solo talents: passives add their share of the base stats")
+TEST_CASE("solo talents: passives add their share of the whole stats")
 {
     BoundTable bound;
     Character character = fighter(60);
     character.accuracy = 60;
     character.luck = 80;
     character.talentRanks["conditioning"] = 1;
-    character.talentRanks["resolve"] = 5;
-    character.baseResistances.fire = 40;
-    character.permanentBonuses.resistances.fire = 30;
-    character.magicalBonuses.resistances.fire = 10;
-    MawSoloTalents::applyPassives(character);
-    // Conditioning's first rank: 10 % of each of the seven base stats.
+    MawSoloTalents::applyStatPassives(character);
+    // Conditioning's first rank: 10 % of each of the seven stats.
     CHECK(character.magicalBonuses.might == 10);
     CHECK(character.magicalBonuses.intellect == 3);
     CHECK(character.magicalBonuses.personality == 2);
@@ -439,24 +560,54 @@ TEST_CASE("solo talents: passives add their share of the base stats")
     // Rank 11: 10 % and ten ranks of 1 %, 20 %.
     Character eleven = fighter(60);
     eleven.talentRanks["conditioning"] = 11;
-    MawSoloTalents::applyPassives(eleven);
+    MawSoloTalents::applyStatPassives(eleven);
     CHECK(eleven.magicalBonuses.might == 20);
-    // Resolve: 10 % of the 80 base, permanent and magical fire resistance.
-    CHECK(character.magicalBonuses.resistances.fire == 18);
-    // Spells no longer take a passive's share.
-    CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.0));
+    // The percent reads the whole stat: 100 base, 300 from potions, 500 from items and buffs; the 20 % is 180.
+    Character geared = fighter(60);
+    geared.talentRanks["conditioning"] = 11;
+    geared.permanentBonuses.might = 300;
+    geared.magicalBonuses.might = 500;
+    geared.magicalBonuses.speed = -100;
+    MawSoloTalents::applyStatPassives(geared);
+    CHECK(geared.magicalBonuses.might == 680);
+    // A stat below zero gives nothing.
+    CHECK(geared.magicalBonuses.speed == -100);
+    // Spells take no passive's share.
+    CHECK(MawSoloTalents::spellDamageBonus(character, true, 4, false) == doctest::Approx(0.0));
 
-    // Steady Aim while still adds its Luck to Conditioning's.
+    // Steady Aim while still adds its Luck to Conditioning's: 40 % of the same 280, not of each other's share.
     Character still = fighter(60);
     still.luck = 80;
+    still.magicalBonuses.luck = 200;
     still.talentRanks["conditioning"] = 1;
     still.talentRanks["steady_aim"] = 3;
     still.talentState.steadyAimOn = true;
-    MawSoloTalents::applyPassives(still);
-    CHECK(still.magicalBonuses.luck == 32);
+    MawSoloTalents::applyStatPassives(still);
+    CHECK(still.magicalBonuses.luck == 312);
 }
 
-TEST_CASE("solo talents: Onslaught stacks on kills, up to ten per rank, and runs out")
+TEST_CASE("solo talents: MAW adds the stat passives before HP and SP, only in a solo run")
+{
+    BoundTable bound;
+    RulesetOptions options;
+    options.soloRun = true;
+    MawRules solo(options, MawMapLevels{});
+    Character member = fighter(60);
+    member.talentRanks["conditioning"] = 11;
+    solo.classRules().applyPrimaryStatBonuses(member);
+    CHECK(member.magicalBonuses.endurance == 10);
+    // The class bonuses that follow do not add the share again.
+    solo.classRules().applyClassBonuses(member);
+    CHECK(member.magicalBonuses.endurance == 10);
+
+    Character other = fighter(60);
+    other.talentRanks["conditioning"] = 11;
+    MawRules party(RulesetOptions{}, MawMapLevels{});
+    party.classRules().applyPrimaryStatBonuses(other);
+    CHECK(other.magicalBonuses.endurance == 0);
+}
+
+TEST_CASE("solo talents: Onslaught stacks on kills, up to six per rank, and runs out")
 {
     BoundTable bound;
     Character character = fighter(60);
@@ -469,9 +620,15 @@ TEST_CASE("solo talents: Onslaught stacks on kills, up to ten per rank, and runs
     {
         MawSoloTalents::noteKill(character);
     }
-    CHECK(character.talentState.onslaughtStacks == 10);
+    CHECK(character.talentState.onslaughtStacks == 6);
     CHECK(character.talentState.onslaughtSeconds == doctest::Approx(30));
-    CHECK(MawSoloTalents::attackRecoveryScale(character) == doctest::Approx(1.0 / 1.1));
+    CHECK(MawSoloTalents::attackRecoveryScale(character) == doctest::Approx(1.0 / 1.06));
+    character.talentRanks["onslaught"] = 5;
+    for (int kill = 0; kill < 40; ++kill)
+    {
+        MawSoloTalents::noteKill(character);
+    }
+    CHECK(character.talentState.onslaughtStacks == 30);
 
     Party party;
     party.seed(Party::createDefaultSeed());
@@ -484,17 +641,12 @@ TEST_CASE("solo talents: Onslaught stacks on kills, up to ten per rank, and runs
     CHECK(MawSoloTalents::attackRecoveryScale(member) == doctest::Approx(1.0));
 }
 
-TEST_CASE("solo talents: Shield Wall, Unbroken and Cheat Death")
+TEST_CASE("solo talents: Unbroken and Cheat Death")
 {
     BoundTable bound;
     Character character = fighter(300);
     character.talentRanks["conditioning"] = 1;
-    // Shield Wall needs a shield in hand.
-    character.talentState.shieldWallSeconds = 3;
     CHECK(MawSoloTalents::absorbDamage(character, 100, 1000) == 100);
-    character.equipment.offHand = 1;
-    CHECK(MawSoloTalents::absorbDamage(character, 100, 1000) == 50);
-    character.talentState.shieldWallSeconds = 0;
 
     // Unbroken: the part above 30 % of 1000 HP is halved.
     CHECK(MawSoloTalents::absorbDamage(character, 500, 1000) == 500);
@@ -512,29 +664,6 @@ TEST_CASE("solo talents: Shield Wall, Unbroken and Cheat Death")
     CHECK(MawSoloTalents::absorbDamage(character, 200, 1000) == 10);
     // On cooldown it does not save again.
     CHECK(MawSoloTalents::cheatDeath(character, 800, 50, 1000) == 800);
-}
-
-TEST_CASE("solo talents: Resolve raises MAW's sheet resistances (armour skills, staves, Luck) in a solo run")
-{
-    BoundTable bound;
-    RulesetOptions options;
-    options.soloRun = true;
-    MawRules rules(options, MawMapLevels{});
-    ItemTable items;
-    Character member = fighter(300);
-    member.talentRanks["resolve"] = 5;
-    // Luck 1000: 200 to every resistance row, and 10 % more at five ranks.
-    const CharacterCombatRows solo = mawCombatRows(rules, member, items, {100, 100, 1000});
-    CHECK(solo.resistances.fire == 220);
-    CHECK(solo.resistances.mind == 220);
-
-    member.talentRanks.erase("resolve");
-    CHECK(mawCombatRows(rules, member, items, {100, 100, 1000}).resistances.fire == 200);
-
-    // Outside a solo run the talent does nothing.
-    member.talentRanks["resolve"] = 5;
-    MawRules party(RulesetOptions{}, MawMapLevels{});
-    CHECK(mawCombatRows(party, member, items, {100, 100, 1000}).resistances.fire == 200);
 }
 
 TEST_CASE("solo talents: Spell Suppression is the last cut of a hit that is not physical")
@@ -570,13 +699,14 @@ TEST_CASE("solo talents: Spell Suppression is the last cut of a hit that is not 
     REQUIRE(plainPhysical > 100);
 
     member.talentRanks["spell_suppression"] = 41;
-    CHECK(MawSoloTalents::nonPhysicalDamageScale(member) == doctest::Approx(0.6));
+    CHECK(MawSoloTalents::incomingDamageScale(member, {.physical = false}) == doctest::Approx(0.8));
+    CHECK(MawSoloTalents::incomingDamageScale(member, {.physical = true}) == doctest::Approx(1.0));
     const int suppressed = run(CombatDamageType::Fire, records);
-    // The last stage, after the mitigation and its floor: what the hit would have been, less 40 %.
+    // The last stage, after the mitigation and its floor: what the hit would have been, less 20 %.
     REQUIRE_FALSE(records.empty());
-    CHECK(records.back().stage == "solo-spell-suppression");
+    CHECK(records.back().stage == "solo-talent-cuts");
     CHECK(records.back().before == plainFire);
-    CHECK(suppressed == doctest::Approx(plainFire * 0.6).epsilon(0.001));
+    CHECK(suppressed == doctest::Approx(plainFire * 0.8).epsilon(0.001));
     // A physical hit keeps all of it.
     CHECK(run(CombatDamageType::Physical, records) == plainPhysical);
 
@@ -605,17 +735,20 @@ TEST_CASE("solo talents: Spell Surge, Overload and Bloodthirst")
     Character character = fighter(60);
     character.talentState.spellSurgeArmed = true;
     CHECK(MawSoloTalents::nextSpellFree(character));
-    CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.5));
+    CHECK(MawSoloTalents::spellDamageBonus(character, false, 0, false) == doctest::Approx(0.5));
     MawSoloTalents::spendSurge(character);
     CHECK_FALSE(MawSoloTalents::nextSpellFree(character));
-    CHECK(MawSoloTalents::spellDamageScale(character) == doctest::Approx(1.5));
+    // The surging spell's damage is rolled where it lands, within the window the cast opened.
+    CHECK(MawSoloTalents::spellDamageBonus(character, false, 0, false) == doctest::Approx(0.5));
+    character.talentState.surgeDamageSeconds = 0;
 
-    CHECK(MawSoloTalents::overloadScale(character, 4) == doctest::Approx(1.0));
+    // Overload: an area spell's blast, for the monsters it struck beyond the first, at most three more.
+    CHECK(MawSoloTalents::spellDamageBonus(character, true, 4, false) == doctest::Approx(0.0));
     character.talentRanks["overload"] = 2;
-    CHECK(MawSoloTalents::overloadScale(character, 1) == doctest::Approx(1.0));
-    CHECK(MawSoloTalents::overloadScale(character, 3) == doctest::Approx(1.4));
-    // At most three more monsters count.
-    CHECK(MawSoloTalents::overloadScale(character, 9) == doctest::Approx(1.6));
+    CHECK(MawSoloTalents::spellDamageBonus(character, true, 1, false) == doctest::Approx(0.0));
+    CHECK(MawSoloTalents::spellDamageBonus(character, true, 3, false) == doctest::Approx(0.4));
+    CHECK(MawSoloTalents::spellDamageBonus(character, true, 9, false) == doctest::Approx(0.6));
+    CHECK(MawSoloTalents::spellDamageBonus(character, false, 9, false) == doctest::Approx(0.0));
 
     CHECK(MawSoloTalents::leechBonus(character) == doctest::Approx(0.0));
     CHECK(MawSoloTalents::leechFloorDivisor(character) == doctest::Approx(5.0));
@@ -692,4 +825,329 @@ TEST_CASE("solo talents: sweeps pick living hostiles in reach and in the arc, ne
     CHECK(around.size() == 4);
     // The count caps it.
     CHECK(pickTalentTargets(candidates, 0, 0, 0, 0.0f, 407.2f, 180.0f, 2).size() == 2);
+}
+
+namespace
+{
+// The shipped table, bound for one test.
+struct ShippedTable
+{
+    SoloTalentTable table;
+    ShippedTable()
+    {
+        std::filesystem::path path = "assets_dev/engine/data_tables/talents.yml";
+        for (int up = 0; up < 4 && !std::filesystem::exists(path); ++up)
+        {
+            path = std::filesystem::path("..") / path;
+        }
+        std::ifstream file(path);
+        std::stringstream text;
+        text << file.rdbuf();
+        std::string error;
+        REQUIRE_MESSAGE(table.loadFromYaml(text.str(), error), error);
+        bindSoloTalentTable(&table);
+    }
+    ~ShippedTable()
+    {
+        bindSoloTalentTable(nullptr);
+    }
+};
+}
+
+TEST_CASE("solo archetypes: the first rank in a path closes the other two until a reset")
+{
+    ShippedTable shipped;
+    const SoloTalentTable &table = shipped.table;
+    Character character = fighter(500);
+    character.skills["Axe"] = {"Axe", 10, SkillMastery::Master};
+    character.skills["Bow"] = {"Bow", 10, SkillMastery::Master};
+    character.skills["FireMagic"] = {"FireMagic", 10, SkillMastery::Master};
+    CHECK_FALSE(talentPath(table, character));
+    CHECK(talentLearnRefusal(table, character, *table.find("multishot")).empty());
+    CHECK(talentLearnRefusal(table, character, *table.find("blink")).empty());
+
+    // The Any tree never chooses a path.
+    REQUIRE(learnTalent(table, character, "onslaught"));
+    REQUIRE(learnTalent(table, character, "conditioning"));
+    CHECK_FALSE(talentPath(table, character));
+    CHECK_FALSE(hasRageBar(table, character));
+
+    REQUIRE(learnTalent(table, character, "cleave"));
+    CHECK(talentPath(table, character) == TalentTree::Arms);
+    CHECK(hasRageBar(table, character));
+    CHECK_FALSE(talentLearnRefusal(table, character, *table.find("multishot")).empty());
+    CHECK_FALSE(talentLearnRefusal(table, character, *table.find("blink")).empty());
+    CHECK_FALSE(learnTalent(table, character, "nimble"));
+    CHECK(talentLearnRefusal(table, character, *table.find("vanguard")).empty());
+    CHECK(talentLearnRefusal(table, character, *table.find("bloodthirst")).empty());
+
+    // A reset is free and frees the choice.
+    resetTalents(character);
+    CHECK_FALSE(talentPath(table, character));
+    REQUIRE(learnTalent(table, character, "multishot"));
+    CHECK(talentPath(table, character) == TalentTree::Archery);
+    CHECK_FALSE(hasRageBar(table, character));
+    CHECK_FALSE(learnTalent(table, character, "cleave"));
+}
+
+TEST_CASE("solo archetypes: rage fills from blows and hits taken, to its limit, and drains out of combat")
+{
+    ShippedTable shipped;
+    const SoloTalentTable &table = shipped.table;
+    Party party;
+    party.seed(Party::createDefaultSeed());
+    REQUIRE_FALSE(party.members().empty());
+    Character &member = *party.member(0);
+    member.level = 300;
+    member.skills["Axe"] = {"Axe", 10, SkillMastery::Master};
+
+    // No bar off the Arms path.
+    MawSoloTalents::gainRageFromBlow(member, 0.2, 0.5f, false);
+    CHECK(member.talentState.rage == doctest::Approx(0.0f));
+
+    REQUIRE(learnTalent(table, member, "cleave"));
+    // A half-second swing that took a fifth of the monster's bar: 6 x 0.5 + 30 x 0.2.
+    MawSoloTalents::gainRageFromBlow(member, 0.2, 0.5f, false);
+    CHECK(member.talentState.rage == doctest::Approx(9.0f));
+    // An extra blow gives a third.
+    MawSoloTalents::gainRageFromBlow(member, 0.2, 0.5f, true);
+    CHECK(member.talentState.rage == doctest::Approx(12.0f).epsilon(0.01));
+    // A hit that took a tenth of the member's own bar: 60 x 0.1; the second's limit of 20 holds the rest back.
+    MawSoloTalents::gainRageFromHit(member, 0.1);
+    CHECK(member.talentState.rage == doctest::Approx(18.0f).epsilon(0.01));
+    MawSoloTalents::gainRageFromHit(member, 0.5);
+    CHECK(member.talentState.rage == doctest::Approx(20.0f).epsilon(0.01));
+    MawSoloTalents::gainRageFromBlow(member, 1.0, 0.5f, false);
+    CHECK(member.talentState.rage == doctest::Approx(20.0f).epsilon(0.01));
+
+    // The next second gives room again, in combat (not calm) without a drain.
+    MawSoloTalents::update(party, 0, 0, false, 1.0f);
+    CHECK(member.talentState.rage == doctest::Approx(20.0f).epsilon(0.01));
+    MawSoloTalents::gainRageFromBlow(member, 1.0, 0.5f, false);
+    CHECK(member.talentState.rage == doctest::Approx(40.0f).epsilon(0.01));
+
+    // The bar never passes its maximum.
+    for (int second = 0; second < 6; ++second)
+    {
+        MawSoloTalents::update(party, 0, 0, false, 1.0f);
+        MawSoloTalents::gainRageFromBlow(member, 1.0, 0.5f, false);
+    }
+    CHECK(member.talentState.rage == doctest::Approx(100.0f));
+
+    // Out of combat it drains 5 a second.
+    MawSoloTalents::update(party, 0, 0, true, 2.0f);
+    CHECK(member.talentState.rage == doctest::Approx(90.0f));
+}
+
+TEST_CASE("solo archetypes: Vanguard, Outnumbered, Nimble and Phase cut a hit, down to the shared floor")
+{
+    ShippedTable shipped;
+    Character member = fighter(300);
+    const auto scale = [&member](MawSoloTalents::IncomingHit hit)
+    {
+        return MawSoloTalents::incomingDamageScale(member, hit);
+    };
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true, .firedFromDistance = 3000})
+        == doctest::Approx(1.0));
+
+    // Vanguard: a missile loosed from beyond 800, with the melee weapon in the arms.
+    member.talentRanks["vanguard"] = 3;
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true, .firedFromDistance = 801})
+        == doctest::Approx(0.4));
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true, .firedFromDistance = 800})
+        == doctest::Approx(1.0));
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = false, .firedFromDistance = 3000})
+        == doctest::Approx(1.0));
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true}) == doctest::Approx(1.0));
+    member.talentRanks["vanguard"] = 1;
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true, .firedFromDistance = 3000})
+        == doctest::Approx(0.8));
+    member.talentState.meleeDrawn = false;
+    CHECK(scale({.physical = true, .monsterAttack = true, .missile = true, .firedFromDistance = 3000})
+        == doctest::Approx(1.0));
+    member.talentState.meleeDrawn = true;
+    member.talentRanks.erase("vanguard");
+
+    // Outnumbered: 4 % a nearby monster at rank 3, at most ten of them; a trap is not a monster's hit. The world
+    // counts the monsters within the talent's own reach (MawCombatRules::updateCombat).
+    CHECK(MawSoloTalents::packReach("outnumbered") == doctest::Approx(768.0f));
+    CHECK(MawSoloTalents::packReach("battle_frenzy") == doctest::Approx(768.0f));
+    member.talentRanks["outnumbered"] = 3;
+    CHECK(scale({.physical = true, .monsterAttack = true, .nearbyMonsters = 1}) == doctest::Approx(0.96));
+    CHECK(scale({.physical = true, .monsterAttack = true, .nearbyMonsters = 4}) == doctest::Approx(0.84));
+    CHECK(scale({.physical = true, .monsterAttack = true, .nearbyMonsters = 25}) == doctest::Approx(0.6));
+    CHECK(scale({.physical = true, .monsterAttack = false, .nearbyMonsters = 4}) == doctest::Approx(1.0));
+    // More monsters never hurt less in all: n x (1 - 0.04 n) rises to the tenth.
+    for (int count = 1; count < 10; ++count)
+    {
+        CHECK((count + 1) * scale({.physical = true, .monsterAttack = true, .nearbyMonsters = count + 1})
+            > count * scale({.physical = true, .monsterAttack = true, .nearbyMonsters = count}));
+    }
+    member.talentRanks.erase("outnumbered");
+
+    // Nimble: while moving. Phase: after a Blink.
+    member.talentRanks["nimble"] = 3;
+    member.talentState.hasLastPosition = true;
+    member.talentState.stillSeconds = 0.0f;
+    CHECK(scale({.physical = true, .monsterAttack = true}) == doctest::Approx(0.85));
+    member.talentState.stillSeconds = 1.0f;
+    CHECK(scale({.physical = true, .monsterAttack = true}) == doctest::Approx(1.0));
+    member.talentRanks.erase("nimble");
+    member.talentRanks["phase"] = 3;
+    CHECK(scale({.physical = true, .monsterAttack = true}) == doctest::Approx(1.0));
+    member.talentState.phaseSeconds = 2.0f;
+    CHECK(scale({.physical = true, .monsterAttack = true}) == doctest::Approx(0.5));
+    member.talentState.phaseSeconds = 0.0f;
+
+    // Together they multiply: Vanguard's 60 % with Spell Suppression's 20 %.
+    member.talentRanks["vanguard"] = 3;
+    member.talentRanks["spell_suppression"] = 41;
+    CHECK(scale({.physical = false, .monsterAttack = true, .missile = true, .firedFromDistance = 3000})
+        == doctest::Approx(0.32));
+    member.talentRanks["vanguard"] = 1;
+    CHECK(scale({.physical = false, .monsterAttack = true, .missile = true, .firedFromDistance = 3000})
+        == doctest::Approx(0.64));
+    // And they never leave less than a fifth: with Outnumbered's ten monsters (0.4 x 0.8 x 0.6 would be 0.192).
+    member.talentRanks["vanguard"] = 3;
+    member.talentRanks["outnumbered"] = 3;
+    CHECK(scale({.physical = false, .monsterAttack = true, .missile = true, .firedFromDistance = 3000,
+              .nearbyMonsters = 10})
+        == doctest::Approx(0.2));
+}
+
+TEST_CASE("solo archetypes: Battle Frenzy, Long Shot, the spell talents, Breach and Arcane Ward")
+{
+    ShippedTable shipped;
+    Character member = fighter(300);
+    CHECK(MawSoloTalents::battleFrenzyScale(member, 10) == doctest::Approx(1.0));
+    member.talentRanks["battle_frenzy"] = 3;
+    CHECK(MawSoloTalents::battleFrenzyScale(member, 0) == doctest::Approx(1.0));
+    CHECK(MawSoloTalents::battleFrenzyScale(member, 4) == doctest::Approx(1.2));
+    CHECK(MawSoloTalents::battleFrenzyScale(member, 30) == doctest::Approx(1.5));
+    member.talentRanks["battle_frenzy"] = 2;
+    CHECK(MawSoloTalents::battleFrenzyScale(member, 10) == doctest::Approx(1.35));
+
+    // Long Shot: nothing within 1536, rising evenly to 9 % at 5120 (user, 2026-11-18; 15 % until 2026-11-19).
+    CHECK(MawSoloTalents::longShotScale(member, 5120) == doctest::Approx(1.0));
+    member.talentRanks["long_shot"] = 3;
+    CHECK(MawSoloTalents::longShotScale(member, 1000) == doctest::Approx(1.0));
+    CHECK(MawSoloTalents::longShotScale(member, 1536) == doctest::Approx(1.0));
+    CHECK(MawSoloTalents::longShotScale(member, 3328) == doctest::Approx(1.045));
+    CHECK(MawSoloTalents::longShotScale(member, 5120) == doctest::Approx(1.09));
+    CHECK(MawSoloTalents::longShotScale(member, 9000) == doctest::Approx(1.09));
+
+    // Spell Surge, Overload and Opening Volley add: 50 + 90 + 45.
+    member.talentRanks["overload"] = 3;
+    member.talentRanks["opening_volley"] = 3;
+    CHECK(MawSoloTalents::spellDamageBonus(member, true, 1, true) == doctest::Approx(0.45));
+    CHECK(MawSoloTalents::spellDamageBonus(member, true, 6, false) == doctest::Approx(0.9));
+    member.talentState.surgeDamageSeconds = 1.0f;
+    CHECK(MawSoloTalents::spellDamageBonus(member, true, 6, true) == doctest::Approx(1.85));
+
+    CHECK(MawSoloTalents::breachShare(member) == doctest::Approx(0.0));
+    member.talentRanks["breach"] = 3;
+    CHECK(MawSoloTalents::breachShare(member) == doctest::Approx(0.15));
+    CHECK(MawSoloTalents::manaShieldCostScale(member) == doctest::Approx(1.0));
+    member.talentRanks["arcane_ward"] = 3;
+    CHECK(MawSoloTalents::manaShieldCostScale(member) == doctest::Approx(0.7));
+    CHECK(MawSoloTalents::exposeWeaknessPercent(member) == doctest::Approx(0.0f));
+    member.talentRanks["expose_weakness"] = 2;
+    member.talentRanks["hamstring"] = 3;
+    CHECK(MawSoloTalents::exposeWeaknessPercent(member) == doctest::Approx(6.0f));
+    CHECK(MawSoloTalents::exposeWeaknessSeconds() == doctest::Approx(5.0f));
+    CHECK(MawSoloTalents::hamstringPercent(member) == doctest::Approx(15.0f));
+    CHECK(MawSoloTalents::hamstringSeconds() == doctest::Approx(3.0f));
+}
+
+TEST_CASE("solo archetypes: a kill takes 3 s off Charge, a spell cast that hits 1 s off Spell Surge, once a cast")
+{
+    ShippedTable shipped;
+    Party party;
+    party.seed(Party::createDefaultSeed());
+    Character &member = *party.member(0);
+    member.talentRanks["charge"] = 1;
+    member.talentState.cooldownSeconds["charge"] = 20.0f;
+    MawSoloTalents::noteKill(member);
+    CHECK(member.talentState.cooldownSeconds["charge"] == doctest::Approx(17.0f));
+
+    member.talentState.cooldownSeconds["spell_surge"] = 12.0f;
+    MawSoloTalents::noteSpellHit(member);
+    // An area spell's other monsters and a bolt's leaps are the same cast.
+    MawSoloTalents::noteSpellHit(member);
+    MawSoloTalents::noteSpellHit(member);
+    CHECK(member.talentState.cooldownSeconds["spell_surge"] == doctest::Approx(11.0f));
+    MawSoloTalents::update(party, 0, 0, false, 1.0f);
+    MawSoloTalents::noteSpellHit(member);
+    CHECK(member.talentState.cooldownSeconds["spell_surge"] == doctest::Approx(9.0f));
+}
+
+TEST_CASE("solo archetypes: the damage stages apply the talents, only in a solo run")
+{
+    ShippedTable shipped;
+    RulesetOptions options;
+    options.soloRun = true;
+    MawRules solo(options, MawMapLevels{});
+    MawRules plain(RulesetOptions{}, MawMapLevels{});
+    Character member = fighter(300);
+    member.talentRanks["long_shot"] = 3;
+    member.talentRanks["opening_volley"] = 3;
+    member.talentRanks["breach"] = 3;
+
+    const auto stage = [](const MawRules &rules, MonsterDamageHit hit, const std::string &name)
+    {
+        std::mt19937 rng(5);
+        hit.pRng = &rng;
+        std::vector<DamageStageRecord> records;
+        rules.gameRules().combat.damageToMonsterStages().run(hit, &records);
+        for (const DamageStageRecord &record : records)
+        {
+            if (record.stage == name)
+            {
+                return std::pair<int, int>(record.before, record.after);
+            }
+        }
+        return std::pair<int, int>(0, 0);
+    };
+
+    // An arrow that flew the bow's full range: Long Shot's 9 %.
+    MonsterDamageHit arrow;
+    arrow.amount = 10000;
+    arrow.pMissileAttacker = &member;
+    arrow.missileFlightDistance = 5120;
+    arrow.targetFacts.level = 100;
+    arrow.targetFacts.maxHp = 50000;
+    arrow.targetCurrentHp = 20000;
+    std::pair<int, int> result = stage(solo, arrow, "solo-talents");
+    REQUIRE(result.first > 0);
+    CHECK(result.second == doctest::Approx(result.first * 1.09).epsilon(0.001));
+    // Expose Weakness on the monster adds its share to every hit.
+    arrow.targetFacts.exposedPercent = 9;
+    arrow.targetFacts.exposedUntilGameMinutes = 100;
+    result = stage(solo, arrow, "solo-talents");
+    CHECK(result.second == doctest::Approx(result.first * 1.09 * 1.09).epsilon(0.001));
+    // Not in a party game.
+    result = stage(plain, arrow, "solo-talents");
+    CHECK(result.second == result.first);
+
+    // A spell on a monster at full health: Opening Volley's 45 %; on a hurt one nothing.
+    MonsterDamageHit spell;
+    spell.amount = 10000;
+    spell.type = CombatDamageType::Fire;
+    spell.pMissileAttacker = &member;
+    spell.missileSpellId = 2;
+    spell.targetFacts.level = 100;
+    spell.targetFacts.maxHp = 50000;
+    spell.targetCurrentHp = 50000;
+    result = stage(solo, spell, "solo-talents");
+    CHECK(result.second == doctest::Approx(result.first * 1.45).epsilon(0.001));
+    spell.targetCurrentHp = 49999;
+    result = stage(solo, spell, "solo-talents");
+    CHECK(result.second == result.first);
+
+    // Breach: a resistance of 200 counts as 170, so the spell does 2^0.3 as much after the resistance stage.
+    spell.resistance = 200;
+    const std::pair<int, int> breached = stage(solo, spell, "resistance");
+    const std::pair<int, int> whole = stage(plain, spell, "resistance");
+    REQUIRE(whole.second > 0);
+    CHECK(double(breached.second) / whole.second == doctest::Approx(std::pow(2.0, 0.3)).epsilon(0.01));
 }

@@ -370,6 +370,11 @@ public:
         float shrinkArmorClassMultiplier = 1.0f;
         float armorClassHalvedRemainingSeconds = 0.0f;
         float darkGraspRemainingSeconds = 0.0f;
+        // A solo run's talents (GameplayActorSpellEffectState): cannot shoot or cast, movement alone slowed, deals less.
+        float silenceRemainingSeconds = 0.0f;
+        float moveSlowRemainingSeconds = 0.0f;
+        float moveSlowMultiplier = 1.0f;
+        float demoralizeRemainingSeconds = 0.0f;
         float dayOfProtectionRemainingSeconds = 0.0f;
         int dayOfProtectionPower = 0;
         float hourOfPowerRemainingSeconds = 0.0f;
@@ -1145,6 +1150,7 @@ public:
         return this;
     }
     const EventRuntimeState *eventRuntimeState() const override;
+    bool scriptedChestOpens(uint32_t chestId) const override;
     // evt.DamageDestructible and the rest (ISceneEventContext): an outdoor destructible by its source object index.
     bool damageDestructible(uint32_t id, int damage) override;
     bool destroyDestructible(uint32_t id) override;
@@ -1335,6 +1341,10 @@ public:
         bool turnBasedPendingAction = false;
         // A party spell whose damage was a critical hit (ProjectileState::critical).
         bool critical = false;
+        // A solo run's Arc talent on a party spell's missile (ProjectileState::chainLeft).
+        uint8_t chainCount = 0;
+        float chainShare = 0.0f;
+        float chainRadius = 0.0f;
     };
 
     struct PartyProjectileRequest
@@ -1362,11 +1372,12 @@ public:
         bool turnBasedPendingAction = false;
         // Its damage was a critical hit (ProjectileState::critical).
         bool critical = false;
-        // ProjectileState::chainLeft, chainShare, chainRadius and hitCredit.
+        // ProjectileState::chainLeft, chainShare, chainRadius, hitCredit and quietBlast.
         uint8_t chainCount = 0;
         float chainShare = 0.0f;
         float chainRadius = 0.0f;
         std::shared_ptr<bool> hitCredit;
+        bool quietBlast = false;
     };
 
     struct MonsterVisualState

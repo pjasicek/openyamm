@@ -1,0 +1,72 @@
+id: rulesets.maw_solo_talent_targets
+title: "Ruleset - solo run: Cleave and Sweeping Blows strike every monster in their arc, on uneven ground and off the crosshair"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Bug report (2026-11-18): Cleave and Sweeping Blows often struck one monster. collectTalentTargets tested the
+        line to each monster from the party's feet, so a slope hid monsters in reach (the one under the crosshair was
+        still struck); it now takes the attack's own line test (partyAttackActorFacts' lineOfSightToParty). And
+        Sweeping Blows swept only around a monster under the crosshair; it now sweeps around the one the Attack strikes
+        (GameplayActionController::partyAttackActorTarget: the crosshair's, else the nearest hostile). The party stands
+        on a slope above five monsters, in reach and in the arc.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            accuracy: 900
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent cleave 3", expect_contains: "cleave"}
+  - console: {line: "talent sweeping_blows 3", expect_contains: "sweeping_blows"}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Cleave: all five, though the ground hides four from the party's feet.
+  - set_pose: {map: oute3.odm, x: -4128, y: -9919, z: 1500, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 195, x: -3898, y: -9919, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -3878, y: -9749, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -3878, y: -10089, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -3788, y: -9849, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -3788, y: -9989, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 5}
+  - console: {line: "talent use cleave"}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 5}
+  # Sweeping Blows (rank 3: three more) on an Attack with no monster under the crosshair: the nearest and three others.
+  - set_pose: {map: oute3.odm, x: -8328, y: -9919, z: 1500, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 195, x: -8098, y: -9919, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -8078, y: -9749, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -8078, y: -10089, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -7988, y: -9849, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -7988, y: -9989, z: 1500}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 5}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, max: 0}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 4}

@@ -119,6 +119,9 @@ public:
     // actor under the crosshair, else the nearest hostile the fallback finds): a solo dragon rakes it, or breathes.
     static bool partyAttackTargetInMeleeReach(IGameplayWorldRuntime &world, const GameplayPartyAttackFrameInput &input,
         std::optional<size_t> directActorIndex);
+    // The actor that attack strikes, picked the same way (a solo run's Sweeping Blows sweeps around it).
+    static std::optional<size_t> partyAttackActorTarget(IGameplayWorldRuntime &world,
+        const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex);
 
     struct AttackCastResult
     {

@@ -41,6 +41,10 @@ struct SoloUnitFrameLayout
     // lbar=corner); they open the potion and scroll popups (GameplayQuickItems).
     SoloHudRect scrollSocket;
     SoloHudRect potionSocket;
+    // The centre of the class counter's row of gems (MAW's combo points and Elementalist stacks): on the box's top
+    // edge over the bars, right of the weapon socket (MAW's map progress holds the bottom band).
+    float counterX = 0;
+    float counterY = 0;
     float buffX = 0;
     float buffY = 0;
     float debuffY = 0;
@@ -64,6 +68,8 @@ inline SoloUnitFrameLayout soloUnitFrameLayout()
     layout.weapon = {57.6f, layout.box.y - 4.3f, 14.9f, 14.9f};
     layout.scrollSocket = {-4.3f, 0, 18.1f, 18.1f};
     layout.potionSocket = {-7.5f, 22.4f, 18.1f, 18.1f};
+    layout.counterX = innerX + innerWidth / 2;
+    layout.counterY = layout.box.y;
     layout.buffX = 71.5f;
     layout.buffY = layout.box.y + layout.box.height + 5.3f;
     // Bigger tiles, closer together (the user, 2026-11-14): seven to a row under the box, the timer under each.

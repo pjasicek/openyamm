@@ -81,6 +81,13 @@ public:
         return false;
     }
 
+    // Whether evt.OpenChest shows this chest's loot (chestOpensForParty); true when the world cannot tell.
+    virtual bool scriptedChestOpens(uint32_t chestId) const
+    {
+        (void)chestId;
+        return true;
+    }
+
     virtual bool fireEventMissile(const EventMissileRequest &request)
     {
         (void)request;

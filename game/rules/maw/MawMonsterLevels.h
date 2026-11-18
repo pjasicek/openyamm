@@ -90,6 +90,8 @@ struct MawMonsterLevelInputs
     std::optional<int> dimensionPower;
     // A bounty hunt's map: every monster sits at its table level plus these, whatever else applies (MON:591-593).
     std::optional<double> bountyLevel;
+    // The Endless Arena's level (d42): the one being fought, else the next one; 0 counts as the first.
+    int arenaLevel = 0;
 };
 
 // The levels every monster of a map gains (bolsterLevel, zzMaw-Monsters.lua:417-445): the party's banked levels less
@@ -98,8 +100,8 @@ struct MawMonsterLevelInputs
 double mawMapBolster(const MawMapLevels &mapLevels, const MawMonsterLevelInputs &inputs);
 
 // Every monster's level on a map under MAW (devdocs/maw/BALANCE_MODEL.md §7.1-7.4, zzMaw-Monsters.lua
-// recalculateMonsterTable), by monster id. Levels are not capped at 255. The Arena (d42) and dimension maps have their
-// own rules; bounty maps raise the levels of their monsters where they are spawned.
+// recalculateMonsterTable), by monster id. Levels are not capped at 255. The Arena (d42, by the Endless Arena's level)
+// and dimension maps have their own rules; bounty maps raise the levels of their monsters where they are spawned.
 std::unordered_map<int, int> resolveMawMonsterLevels(
     const MonsterTable &monsterTable,
     const MawMapLevels &mapLevels,
@@ -132,4 +134,11 @@ MawMonsterFamily mawMonsterFamily(const MonsterTable *pMonsterTable, int monster
 // The arenas (MAW's d42, 7d05 and zarena, and MM9's thearena: each picks its fighters by the party's level), whose
 // monsters get no bolster and whose kills in Beyond Madness pay nothing.
 bool mawArenaMap(const std::string &mapFileName);
+
+// The Endless Arena's families (monTbl): the C-tier monsters that are not wimps (less 462 and 579), by table level.
+std::vector<const MonsterTable::MonsterStatsEntry *> mawArenaFamilies(const MonsterTable &monsterTable);
+
+// The B row of the family the Endless Arena brings in a wave (arenaWaveMonster): the list in order, again from its
+// start once the waves run past it. 0 without families or for a wave below 1.
+int mawArenaWaveMonster(int wave, const MonsterTable &monsterTable);
 }

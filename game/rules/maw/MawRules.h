@@ -115,8 +115,22 @@ public:
     // Where teachers teach, for the skill popups' trainer hints (the session's tables; empty without them).
     const MawTrainerHints &trainerHints() const;
     void setTrainerHints(MawTrainerHints hints);
-    // The dimension run on a map, or null.
+    // The instance of the current map the party is in (GameSession::mapInstanceId), set with the map.
+    void setMapInstanceId(const std::string &instanceId);
+    // The open rift, cleared or not, wherever the party is: its map's lowercase file name and its run. Null: none.
+    const std::pair<const std::string, MawDimensionRun> *rift() const;
+    std::pair<const std::string, MawDimensionRun> *rift();
+    // The party is in the open rift.
+    bool inRift() const;
+    // The party is in an instance of the current map, whether or not its rift is still open (a rift replaced from
+    // inside is gone before the party has left it).
+    bool inMapInstance() const;
+    // The dimension run on a map while the party is in its rift, or null: the map itself is never a run.
     const MawDimensionRun *dimensionRun(const std::string &mapFileName) const;
+    MawDimensionRun *dimensionRun(const std::string &mapFileName);
+    // Whether the map was cleared since its monsters last refilled (MawGameState::clearedSinceRefill); in the rift on
+    // that map, whether the rift was cleared.
+    bool clearedSinceRefill(const std::string &mapFileName) const;
     // An affix's value where a dimension run puts it in force (the current map without a name), else nothing
     // (getMapAffixPower).
     std::optional<double> mapAffix(MawMapAffix affix) const;
@@ -165,6 +179,11 @@ public:
     // Living hostile monsters within 512 of the party at the last update (legendaries 21 and 22); runtime only.
     int nearbyMonsters() const;
     void setNearbyMonsters(int count);
+    // The same count within the reach of the solo run's two pack talents, each by its own `distance` in talents.yml
+    // (768: wider than the legendaries' 512); runtime only, zero outside a solo run.
+    int outnumberedMonsters() const;
+    int battleFrenzyMonsters() const;
+    void setSoloPackMonsters(int outnumbered, int battleFrenzy);
     // Whether a living Shadow (or Omnipotent) boss is within 2000 of the party, which keeps Wizard Eye off; runtime.
     bool shadowBossNearby() const;
     void setShadowBossNearby(bool nearby);
@@ -172,6 +191,10 @@ public:
     // (mapvars.mawBounty, kept in the map's named variable MawBounty as levels + 1); runtime copy.
     std::optional<int> bountyLevel() const;
     void setBountyLevel(std::optional<int> levels);
+    // The Endless Arena's level the Arena's monsters are sized for: the one being fought, else the next one (the
+    // global variables MawArenaLevel and MawArenaBest + 1); runtime copy, 0 until the Arena is entered.
+    int arenaLevel() const;
+    void setArenaLevel(int level);
     // Beyond Madness gives no experience, corpse loot or crafting drops on the arenas (zarena, d42), 7d05 and a
     // bounty's map (zzzMaw_Experience.lua:162-166, zzMaw-Monsters.lua:4421-4428, zzAlchemy.lua:1122-1126).
     bool madnessRewardlessMap(const std::string &mapFileName) const;
@@ -283,6 +306,7 @@ private:
         int resetCount = -1;
         int dimensionPower = -1;
         std::optional<int> bountyLevel;
+        int arenaLevel = -1;
         std::unordered_map<int, int> levels;
         double bolster = 0;
         // The levels of the map's own B rows (one per encounter slot naming them), ordered by table level.
@@ -303,6 +327,7 @@ private:
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
     std::string m_currentMap;
+    std::string m_mapInstanceId;
     std::string m_lastOutdoorMap;
     MawTrainerHints m_trainerHints;
     MawGameState m_state;
@@ -314,8 +339,11 @@ private:
     mutable MonsterLevelCache m_monsterLevels;
     std::unordered_map<uint32_t, MawAuraSource> m_activeAuras;
     int m_nearbyMonsters = 0;
+    int m_outnumberedMonsters = 0;
+    int m_battleFrenzyMonsters = 0;
     bool m_shadowBossNearby = false;
     std::optional<int> m_bountyLevel;
+    int m_arenaLevel = 0;
     int m_partyStaffResistance = 0;
     double m_soloMonsterCut = 1.0;
     // A solo run's character curve, built on first use and again when the options or the surcharge change.

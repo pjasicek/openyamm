@@ -1190,8 +1190,25 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
             anchor({popup->x, popup->y, popup->width, popup->height, 1.0f});
         }
     }
-    // A class counter's popup, on hover over its gems.
-    for (size_t i = 0; !overlay.active && i < std::min<size_t>(5, pParty->members().size()); ++i)
+    // A class counter's popup, on hover over its gems: the party portraits', or the solo unit frame's (which draws no
+    // portraits in plain play).
+    const bool soloGameplay =
+        context.soloHud() && context.currentHudScreenState() == GameplayHudScreenState::Gameplay;
+    if (!overlay.active && soloGameplay)
+    {
+        if (const std::optional<GameplaySoloHud::CounterHit> hit =
+                GameplaySoloHud::counterAt(context, width, height, pInput->pointerX, pInput->pointerY))
+        {
+            overlay.title = hit->counter.title;
+            for (const std::string &line : hit->counter.notes)
+            {
+                appendPopupBodyLine(overlay.body, line);
+            }
+            overlay.above = false;
+            anchor(hit->rect);
+        }
+    }
+    for (size_t i = 0; !soloGameplay && !overlay.active && i < std::min<size_t>(5, pParty->members().size()); ++i)
     {
         const PortraitCounter counter = pParty->rules().classes.portraitCounter(pParty->members()[i]);
         const std::string id = std::string(context.currentHudScreenState() == GameplayHudScreenState::Gameplay
@@ -1256,6 +1273,37 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
             else if (tile->kind == GameplaySoloHud::BuffTileKind::Condition)
             {
                 overlay.title = Engine::localizeKnown(GameMechanics::conditionName(CharacterCondition(tile->index)));
+            }
+            else if (tile->kind == GameplaySoloHud::BuffTileKind::Talent && pMember != nullptr)
+            {
+                const SoloTalentState &talents = pMember->talentState;
+                const TalentDefinition *pTalent = tile->index == 0
+                    ? soloTalentTable().find("onslaught") : soloTalentTable().findKeystone("cheat_death");
+                if (pTalent != nullptr)
+                {
+                    overlay.title = Engine::tr(pTalent->name);
+                    if (tile->index == 0)
+                    {
+                        overlay.body = Engine::trn("{count} stack", "{count} stacks",
+                            uint64_t(talents.onslaughtStacks), {{"count", int64_t(talents.onslaughtStacks)}});
+                        appendPopupBodyLine(overlay.body, formatRemainingDuration(talents.onslaughtSeconds));
+                    }
+                    else if (talents.cheatDeathSeconds > 0.0f)
+                    {
+                        overlay.body = Engine::tr("Protecting: {time}",
+                            {{"time", formatRemainingDuration(talents.cheatDeathSeconds)}});
+                    }
+                    else if (talents.cheatDeathCooldown > 0.0f)
+                    {
+                        overlay.body = Engine::tr("Cooldown: {time}",
+                            {{"time", formatRemainingDuration(talents.cheatDeathCooldown)}});
+                    }
+                    else
+                    {
+                        overlay.body = Engine::tr("Ready");
+                    }
+                    appendPopupBodyLine(overlay.body, talentEffectText(*pTalent, talentRank(*pMember, pTalent->id)));
+                }
             }
             if (!overlay.title.empty())
             {

@@ -181,9 +181,14 @@ public:
         std::mt19937 &rng) const override;
     // MM9's shops sell their own items at MAW's power and rarity.
     bool rollsFixedShopStock() const override;
-    // A dimension map (zzMaw-Maps.lua UseMouseItem): its map refills on the next visit with three random families,
-    // denser by its affixes and at its power's level, and the party goes to its entrance.
-    std::optional<std::string> useTravelItem(Party &party, const InventoryItem &item) const override;
+    // A dimension map (zzMaw-Maps.lua UseMouseItem) opens a rift: an instance of its map with three random families,
+    // denser by its affixes and at its power's level, and the party goes to its entrance. Ours
+    // (devdocs/maw/DIMENSION_INSTANCES_PLAN.md): one rift at a time, and the dimensional portal the party gets with
+    // it leads into the rift from outside and back to where the party came from inside.
+    std::optional<TravelItemUse> planTravelItem(
+        const Party &party, const InventoryItem &item, const TravelItemOrigin &from) const override;
+    std::optional<TravelItemUse> useTravelItem(
+        Party &party, const InventoryItem &item, const TravelItemOrigin &from) const override;
     // MAW's loot filter, as the player set it; the drop's facts: its group or kind by Equip Stat, its MAW rarity (a
     // placed item MAW never rolled ranks as Common plus one per enchantment, IT:933-944) and its drop level.
     const RulesetLootFilter *lootFilter() const override;
@@ -212,8 +217,9 @@ public:
     std::optional<LootGathering> lootGathering() const override;
     std::optional<WorldItemSpotting> worldItemSpotting() const override;
     bool gathersItem(const InventoryItem &item) const override;
-    // Crafting items (1041-1070, zzzMaw_CraftingBag.lua:1-6) live in the crafting pouch; potions, bottles and
-    // reagents in the alchemy pouch; what is worth nothing and is no gear in the quest pouch (ours, DEVIATIONS 196).
+    // Crafting items (1041-1070, zzzMaw_CraftingBag.lua:1-6) and dimension maps live in the crafting pouch; potions,
+    // bottles and reagents in the alchemy pouch; what is worth nothing and is no gear in the quest pouch (ours,
+    // DEVIATIONS 196).
     std::optional<ItemPouch> pouch(const ItemDefinition &definition) const override;
     bool hasPouches() const override;
     // Doom and the modes after it (IT:4129-4201): chests open only for a member whose Disarm Traps skill x mastery
@@ -269,6 +275,15 @@ private:
         Character &bonuses) const;
     // The map a dimension map opens, or null for any other item.
     const MapStatsEntry *dimensionMapTarget(const InventoryItem &item) const;
+    // The open rift's map when the item is the dimensional portal, else null.
+    const MapStatsEntry *openRiftMap(uint32_t itemId) const;
+    // planTravelItem (no party: nothing changes) and useTravelItem (the party's: the rift opens, the portal is given).
+    std::optional<TravelItemUse> travelItemUse(
+        Party *pParty, const InventoryItem &item, const TravelItemOrigin &from) const;
+    // The item stays with the party, neither dropped nor sold (ours, the user 2026-11-17): the dimensional portal,
+    // and a dimension map while the Dimensional Maps quest runs, when the quest's giver is the only source of maps
+    // and a lost one would end the quest.
+    bool riftBound(const InventoryItem &item) const;
     // The MAW value of a base item before the selling (0.4) and buy-screen multipliers.
     double fullValue(
         const InventoryItem &item,

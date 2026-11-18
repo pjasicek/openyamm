@@ -216,6 +216,8 @@ public:
     void resetStateForCandidate(size_t candidateIndex);
     void rebuildCandidates();
     void refreshSkillChoices(bool applyCandidateDefaults);
+    // Turns the solo run on or off and brings the adventurer's starting skills in line with it.
+    void setSoloRun(bool soloRun);
     size_t candidateCount() const;
     const CreationCandidate &candidateAt(size_t candidateIndex) const;
     void beginNameEditing();
@@ -254,6 +256,9 @@ public:
     // The rules the creation popups read (a ruleset's skill texts, race card and skill matrix): a throwaway copy of the
     // chosen ruleset's rules, never given to the party the game starts with; Standard's for Standard.
     const GameRules &creationRules();
+    // What the class line with the race can reach in the skill: the class table's caps, lifted where the game's
+    // rules lift them (MAW's Lone Discipline in a solo run).
+    CreationSkillReach ruledSkillReach(const std::string &className, uint32_t raceId, const std::string &skill);
     // The class/skill matrix of a character's class line with its race: the best cap of each skill, best first; a skill
     // that needs a promotion for it carries a "*".
     std::vector<std::pair<std::string, uint32_t>> creationSkillMatrixLines(const Character &character) const;

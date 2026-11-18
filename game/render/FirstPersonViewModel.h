@@ -107,11 +107,9 @@ public:
         Action action = Action::Melee;
         // The active member's remaining recovery, for the trace only.
         float memberRecoverySeconds = 0.0f;
-        // A solo run's talent to show (cleave, whirlwind, charge, volley, blink ...) and whether Shield Wall holds the
-        // block pose.
+        // A solo run's talent to show (cleave, heroic_strike, charge, volley, blink ...).
         uint32_t talentSerial = 0;
         std::string talentClip;
-        bool talentBlock = false;
         // A solo run's Onslaught stacks, 0..1 of the most any rank holds: red and yellow dots on the hands. Not passed
         // for now (the user turned the dots off, 2026-11-14): GameApplication leaves it 0.
         float onslaught = 0.0f;

@@ -1,0 +1,54 @@
+id: rulesets.maw_solo_vanguard
+title: "Ruleset - solo run: Vanguard cuts the arrows monsters loose from beyond 800 units"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Vanguard (talents.yml; user, 2026-11-18): with a melee weapon drawn, a missile a monster loosed from more than
+        800 units away deals 20/40/60 % less. The distance is taken when the monster fires
+        (ProjectileState::firedDistance), carried by the impact event to the "solo-talent-cuts" stage. Six Master
+        Archers stand 1500 away and shoot the Knight for twelve seconds, first without the talent, then with rank 3.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            endurance: 60
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent cleave 1", expect_contains: "cleave"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11119, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11519, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -10919, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11719, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -10719, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 6}
+  # Measured (2026-11-18): six seconds without the talent take about half of the Knight's HP; rank 3 leaves 60 % off.
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 6}
+  - console: {line: "hp show"}
+  - console: {line: "hp atmost 65"}
+  - console: {line: "talent vanguard 3", expect_contains: "vanguard"}
+  - console: {line: "hp full"}
+  - advance_runtime: {seconds: 6}
+  - console: {line: "hp show"}
+  - console: {line: "hp atleast 70"}

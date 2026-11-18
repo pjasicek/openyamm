@@ -767,6 +767,9 @@ bool ScenarioRuntimeDriver::loadSelectedMapRuntime(const std::string &mapFileNam
         ScenarioGameApplicationAccess::captureCurrentSceneState(m_application);
     }
 
+    // A scenario's load leads to the map itself, out of any map instance.
+    ScenarioGameApplicationAccess::gameSession(m_application).setMapInstanceId({});
+
     if (!ScenarioGameApplicationAccess::activateWorldForMapFileName(m_application, mapFileName))
     {
         failure = "could not activate scenario map '" + mapFileName + "'";
@@ -3274,17 +3277,20 @@ bool ScenarioRuntimeDriver::useInventoryItem(size_t memberIndex, uint32_t itemId
     runtime.itemService().tryUseHeldItemOnPartyMember(runtime, memberIndex, false);
     used = !runtime.heldInventoryItem().active || !(runtime.heldInventoryItem().item == before);
 
-    // A bottle with drinks left, or a refused item, goes back to the pack.
+    // A bottle with drinks left, or a refused item, goes back to the pack; so does an item that travels, as the
+    // game's own click puts it back before the party sets off.
     if (runtime.heldInventoryItem().active && !placeHeldItemInInventory(failure))
     {
         return false;
     }
 
-    // An item that travels (a MAW dimension map) takes the party along.
+    // An item that travels (a MAW dimension map, or the dimensional portal, which is kept) takes the party along,
+    // and a map is used up from the pack as the party sets off.
     const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
 
     if (pEventRuntimeState != nullptr && pEventRuntimeState->pendingMapMove.has_value())
     {
+        used = true;
         return processPendingMapMove(failure);
     }
 

@@ -4181,6 +4181,36 @@ size_t Party::gatherPouchItems()
     return moved;
 }
 
+size_t Party::movePouchItemsToTheirPouches()
+{
+    if (m_pItemTable == nullptr || !rules().items.hasPouches())
+    {
+        return 0;
+    }
+
+    size_t moved = 0;
+
+    for (size_t index = 0; index < ItemPouchCount; ++index)
+    {
+        const ItemPouch from = ItemPouch(index);
+        std::erase_if(pouchItemsMutable(from),
+            [this, from, &moved](const InventoryItem &item)
+            {
+                const std::optional<ItemPouch> pouch = pouchFor(item);
+
+                if (!pouch || *pouch == from || !addToPouch(*pouch, item))
+                {
+                    return false;
+                }
+
+                ++moved;
+                return true;
+            });
+    }
+
+    return moved;
+}
+
 bool Party::canGrantInventoryItem(const InventoryItem &item) const
 {
     if (item.objectDescriptionId == 0 || item.quantity == 0)
@@ -9797,6 +9827,7 @@ void Party::rebuildMagicalBonusesFromBuffs()
     for (Character &member : m_members)
     {
         rules().skills.applyStatBonuses(member);
+        rules().classes.applyPrimaryStatBonuses(member);
         applyMagicalPrimaryStatResourceBonuses(member, m_pClassMultiplierTable);
         rules().classes.applyClassBonuses(member);
         rules().skills.applyResourceBonuses(member);
@@ -10128,6 +10159,10 @@ void makeSoloRunParty(Party &party)
     {
         prefillSoloActionBar(*pMember);
     }
+
+    // Nothing happens for a character that has the skill already (a Troll, or one given it on the creation sheet) or
+    // whose class may not learn it under the ruleset.
+    party.learnMemberSkill(0, SoloRunStartSkill);
 }
 
 void giveSoloRunStartScrolls(Party &party)

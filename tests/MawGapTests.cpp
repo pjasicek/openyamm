@@ -628,8 +628,8 @@ TEST_CASE("MAW item resistance enchantments and Shielding cut damage on their ow
     CHECK(mawMitigatedDamage(hit) == doctest::Approx(500).epsilon(0.002));
     hit.itemResistances[0] = 0;
     hit.resistances[0] = 100;
-    // Resistances are divided by 100 + the attacker's level (MAW 249b00da; 100 + 12 L before).
-    CHECK(mawMitigatedDamage(hit) == doctest::Approx(1000 / (100.0 / 250 + 1)).epsilon(0.002));
+    // Resistances are divided by 100 + twice the attacker's level (MAW f1ffd3b1; 100 + L before).
+    CHECK(mawMitigatedDamage(hit) == doctest::Approx(1000 / (100.0 / 400 + 1)).epsilon(0.002));
 
     // The best resistance enchantment per element counts, not their sum.
     EquippedItemRuntimeState state;

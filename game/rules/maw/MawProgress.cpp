@@ -58,7 +58,9 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
         summary.deaths = m_rules.madnessLedger().deaths();
     }
 
-    const std::string currentMap = query.currentMap ? lowercaseName(query.currentMap->mapFileName) : std::string();
+    // In a rift the party stands on no map's row: the rift is not its map.
+    const std::string currentMap =
+        query.currentMap && !m_rules.inRift() ? lowercaseName(query.currentMap->mapFileName) : std::string();
     const int today = gameDay(query.gameMinutes);
 
     // Enroth, Antagarich, Jadame and Chedian, as the worlds came out (map table continents 3, 2, 1 and 5). Chedian's
@@ -100,8 +102,8 @@ std::optional<RulesetProgressSummary> MawMonsterRules::progressSummary(const Rul
             entry.completedOnce = state.completedMaps.contains(file);
             entry.resetOffer = mapResetOffer(file);
             entry.current = file == currentMap;
-            const auto run = state.dimensionRuns.find(file);
-            entry.dimensionRun = run != state.dimensionRuns.end() && !run->second.completed;
+            // A rift is an instance beside its map, never the map's own state.
+            entry.dimensionRun = false;
 
             // This month's bounty of the map's town, not yet slain (BountyHuntRuntime's entries by map name).
             if (query.pEventState != nullptr)

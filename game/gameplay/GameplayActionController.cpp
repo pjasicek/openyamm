@@ -569,9 +569,12 @@ CharacterAttackResult buildRangedReleaseAttack(
     return attack;
 }
 
+// requireLineOfSight false: the actor was already found in sight (a solo run's talent blow: collectTalentTargets also
+// takes a monster whose middle a door frame hides when its side is in view).
 std::optional<GameplayActionController::PartyAttackActorFacts> resolveUsableActorTarget(
     const GameplayActionController::PartyAttackConfig &config,
-    std::optional<size_t> actorIndex)
+    std::optional<size_t> actorIndex,
+    bool requireLineOfSight = true)
 {
     if (!actorIndex || config.pWorldRuntime == nullptr)
     {
@@ -581,7 +584,8 @@ std::optional<GameplayActionController::PartyAttackActorFacts> resolveUsableActo
     const std::optional<GameplayPartyAttackActorFacts> actor =
         config.pWorldRuntime->partyAttackActorFacts(*actorIndex, false);
 
-    if (!actor || !GameplayActionController::isPartyAttackActorTargetable(*actor) || !actor->lineOfSightToParty)
+    if (!actor || !GameplayActionController::isPartyAttackActorTargetable(*actor)
+        || (requireLineOfSight && !actor->lineOfSightToParty))
     {
         return std::nullopt;
     }
@@ -1218,7 +1222,7 @@ AttackOrderFacts attackOrderFacts(
     facts.entityTargetHit = config.pWorldRuntime != nullptr
         && config.directTargetEntityIndex.has_value()
         && config.pWorldRuntime->isPartyAttackMeleeEntityTarget(*config.directTargetEntityIndex);
-    facts.target = resolveUsableActorTarget(config, config.directTargetActorIndex);
+    facts.target = resolveUsableActorTarget(config, config.directTargetActorIndex, !config.talentBlow);
 
     if (!facts.target)
     {
@@ -1339,19 +1343,40 @@ std::optional<std::string> GameplayActionController::attackOrderSpell(const Part
     return std::nullopt;
 }
 
-bool GameplayActionController::partyAttackTargetInMeleeReach(IGameplayWorldRuntime &world,
-    const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
+namespace
 {
-    PartyAttackConfig config;
+// The actor a party attack made now strikes, as attackOrderFacts picks it: the usable actor under the crosshair, else
+// the nearest hostile the fallback finds.
+std::optional<GameplayActionController::PartyAttackActorFacts> partyAttackActorTargetFacts(
+    IGameplayWorldRuntime &world, const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
+{
+    GameplayActionController::PartyAttackConfig config;
     config.pWorldRuntime = &world;
     config.fallbackQuery = input.fallbackQuery;
     config.partyPosition = {input.partyPosition.x, input.partyPosition.y, input.partyPosition.z};
-    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, directActorIndex);
+    std::optional<GameplayActionController::PartyAttackActorFacts> target =
+        resolveUsableActorTarget(config, directActorIndex);
     if (!target)
     {
         target = chooseFallbackRangedTarget(config);
     }
-    return target && actorDistanceFromParty(*target, config.partyPosition) <= CharacterMeleeAttackDistance;
+    return target;
+}
+} // namespace
+
+bool GameplayActionController::partyAttackTargetInMeleeReach(IGameplayWorldRuntime &world,
+    const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
+{
+    const std::optional<PartyAttackActorFacts> target = partyAttackActorTargetFacts(world, input, directActorIndex);
+    const WorldPoint party = {input.partyPosition.x, input.partyPosition.y, input.partyPosition.z};
+    return target && actorDistanceFromParty(*target, party) <= CharacterMeleeAttackDistance;
+}
+
+std::optional<size_t> GameplayActionController::partyAttackActorTarget(IGameplayWorldRuntime &world,
+    const GameplayPartyAttackFrameInput &input, std::optional<size_t> directActorIndex)
+{
+    const std::optional<PartyAttackActorFacts> target = partyAttackActorTargetFacts(world, input, directActorIndex);
+    return target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
 }
 
 void GameplayActionController::updateCooldowns(GameplayScreenState &screenState, float deltaSeconds)
@@ -1859,6 +1884,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                 hit.type = attack.damageType;
                 hit.melee = true;
                 hit.killed = killed;
+                hit.critical = attack.criticalDamage;
+                hit.recoverySeconds = attack.recoverySeconds;
                 hit.pWorld = config.pWorldRuntime;
                 hit.targetActorIndex = target->actorIndex;
                 hit.extraBlow = config.talentExtraBlow;
@@ -2091,6 +2118,8 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                         && config.pRuntime->soloTalents()
                     ? std::make_shared<bool>(true)
                     : nullptr,
+                // Multishot's arrows: a Carnage blast hurts the monsters it reaches without making them flinch.
+                .quietBlast = config.talentFanArrows > 1,
             };
             if (attack.projectileSpreadArcRadians > 0.0f)
             {

@@ -49,6 +49,10 @@ struct MonsterDamageHit
     // shot; the item table and the HP above are set with it.
     const Character *pMissileAttacker = nullptr;
     uint32_t missileSpellId = 0;
+    // A party missile's flight, from where it left to where it struck (0 when unknown), and the monsters its blast
+    // damaged at once, this one included (0: no blast, or unknown).
+    float missileFlightDistance = 0.0f;
+    int blastMonsters = 0;
     std::mt19937 *pRng = nullptr;
     bool stop = false;
 };
@@ -66,6 +70,9 @@ struct PartyMissileSource
     // its own element (GameplayProjectileService::addPartyArrowElements).
     int addedElementalDamage = 0;
     std::optional<ElementalDamageBonuses> weaponElements;
+    // The missile's flight to the monster, and the monsters its blast damaged at once (MonsterDamageHit).
+    float flightDistance = 0.0f;
+    int blastMonsters = 0;
 };
 
 // A monster's attack reaching a party member, before it lands.
@@ -150,6 +157,9 @@ struct PartyHitOnMonster
     bool melee = false;
     uint32_t spellId = 0;
     bool killed = false;
+    // A critical hit, and a weapon blow's recovery in seconds (a solo run's talents: Expose Weakness, Hamstring, rage).
+    bool critical = false;
+    float recoverySeconds = 0.0f;
     // The world and the actor hit, for effects on the monster (null when not known).
     IGameplayWorldRuntime *pWorld = nullptr;
     std::optional<size_t> targetActorIndex;
@@ -212,6 +222,10 @@ struct CharacterDamageHit
     // A monster's attack (traps and other sources skip the attack-only stages); a missile when physicalProjectile.
     bool monsterAttack = false;
     bool physicalProjectile = false;
+    // A monster's missile or spell of any damage type, and how far the monster stood from the party when it loosed it
+    // (negative: unknown).
+    bool missile = false;
+    float firedFromDistance = -1.0f;
     // A monster attack's source: its level and ruleset facts, which attack it was, and the damage it rolled before a
     // personal shield took its share (amount is what passed the shield).
     int attackerLevel = 0;

@@ -1,6 +1,7 @@
 #include "game/content/RulesetOptions.h"
 #include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
+#include "game/ui/GameplayPortraitGems.h"
 #include "game/ui/SoloBarSelectorModel.h"
 #include "game/ui/SoloHudLayout.h"
 
@@ -129,6 +130,19 @@ TEST_CASE("solo hud: recovery and buff sweeps run from 0 to 1")
     CHECK(layout.box.x < layout.medallion.x + layout.medallion.width);
     CHECK(layout.health.x + layout.health.width <= layout.box.x + layout.box.width);
     CHECK(layout.mana.y + layout.mana.height <= layout.box.y + layout.box.height);
+
+    // The class counter's gems sit on the box's top edge, right of the weapon socket, over the name row and under
+    // the frame's top; ten gems with a two-digit badge stay inside the box's width.
+    for (int pips : {5, 10})
+    {
+        const std::vector<PortraitGemPlace> gems = counterGemRowPlaces(pips, layout.counterX, layout.counterY);
+        REQUIRE(gems.size() == size_t(pips));
+        CHECK(gems.front().x - gems.front().radius > layout.weapon.x + layout.weapon.width);
+        CHECK(gems.front().y - gems.front().radius > 0);
+        CHECK(gems.front().y + gems.front().radius < layout.name.y);
+    }
+    const PortraitGemPlace badge = counterGemRowBadgePlace(10, 18.0f, 9.2f, layout.counterX, layout.counterY);
+    CHECK(badge.x + 9.0f < layout.box.x + layout.box.width);
 }
 
 TEST_CASE("solo run: a recovery's total is the longest applied since the member was ready")

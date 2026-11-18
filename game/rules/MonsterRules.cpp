@@ -28,18 +28,46 @@ void MonsterRules::enterMap(MapStatsEntry &, MonsterTable &) const
 {
 }
 
+uint64_t MonsterRules::mapAssetVariant(const std::string &) const
+{
+    return 0;
+}
+
 char MonsterRules::spawnTier(const MapStatsEntry &, char tier, uint32_t) const
 {
     return tier;
 }
 
-std::optional<std::string> MonsterRules::rulesTopic(const std::string &, Party &) const
+std::optional<RulesTopicReply> MonsterRules::rulesTopic(
+    const std::string &, Party &, const IGameplayWorldRuntime *) const
 {
     return std::nullopt;
 }
 
 void MonsterRules::updateMonsters(IGameplayWorldRuntime &, float) const
 {
+}
+
+std::vector<std::pair<std::string, std::string>> MonsterRules::liveMapInstances() const
+{
+    return {};
+}
+
+MapInstanceExit MonsterRules::mapInstanceExit(const std::string &, bool sameMap, const std::string &) const
+{
+    MapInstanceExit exit;
+    exit.kind = sameMap ? MapInstanceExit::Kind::Stay : MapInstanceExit::Kind::Leave;
+    return exit;
+}
+
+std::optional<std::string> MonsterRules::mapTravelRefusal() const
+{
+    return std::nullopt;
+}
+
+std::optional<std::string> MonsterRules::lloydsBeaconRefusal() const
+{
+    return std::nullopt;
 }
 
 std::string MonsterRules::teleportBlockedText(bool) const

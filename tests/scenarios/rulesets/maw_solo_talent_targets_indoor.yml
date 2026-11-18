@@ -1,0 +1,65 @@
+id: rulesets.maw_solo_talent_targets_indoor
+title: "Ruleset - solo run: indoors Cleave strikes monsters in rooms the party has not entered and round a corner"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        The indoor half of maw_solo_talent_targets.yml (bug report, 2026-11-18). collectTalentTargets looks at every
+        actor of the map, not only those in sectors the party has stood in (the activated sectors gate the monsters'
+        AI, not who a blow reaches), and a monster whose middle a corner hides still counts when its side is in view.
+        6d01: a corridor (sector 36) opens through a doorway at x 2752 into a room (sector 43); the crosshair looks up
+        at the ceiling, off every monster.
+  - new_game_flow:
+      start_map: 6d01.blv
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            accuracy: 900
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent cleave 3", expect_contains: "cleave"}
+  - setup_shortcut: {kind: immortal, value: true}
+  # A room not entered: the party stands in the corridor, three monsters in the room beyond the doorway. They are
+  # spawned while the party waits up the corridor's north arm. An indoor summon stands 96 east of the point given (the
+  # first of a summoning ring), so each x is 96 short: they stand at 2870/384, 2930/250 and 2930/520.
+  - set_pose: {map: 6d01.blv, x: 2432, y: 960, z: -768, yaw_degrees: 0, pitch_degrees: 50}
+  - clear_hostiles: {radius: 30000}
+  - spawn_actor: {monster_id: 195, x: 2774, y: 384, z: -768}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: 2834, y: 250, z: -768}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: 2834, y: 520, z: -768}
+  - console: {line: "actor immobile last on"}
+  - set_pose: {map: 6d01.blv, x: 2560, y: 384, z: -768, yaw_degrees: 0, pitch_degrees: 50}
+  - advance_runtime: {seconds: 2}
+  - console: {line: "talent use cleave"}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 3}
+  # Round a corner: the party at the corridor's bend, the monster in its east arm. The inner corner hides its middle
+  # at every height; its far side is in view. It stands at 2580/430. The Attack's fallback (the middle's line) does not take it; Cleave does.
+  - clear_hostiles: {radius: 30000}
+  - advance_runtime: {seconds: 12}
+  - set_pose: {map: 6d01.blv, x: 2432, y: 960, z: -768, yaw_degrees: 0, pitch_degrees: 50}
+  - spawn_actor: {monster_id: 195, x: 2484, y: 430, z: -768}
+  - console: {line: "actor immobile last on"}
+  - set_pose: {map: 6d01.blv, x: 2424, y: 598, z: -768, yaw_degrees: -47, pitch_degrees: 50}
+  - advance_runtime: {seconds: 2}
+  - press_action: {action: attack}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, max: 0}
+  - advance_runtime: {seconds: 3}
+  - console: {line: "talent use cleave"}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1}

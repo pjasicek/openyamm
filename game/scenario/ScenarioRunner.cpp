@@ -3036,14 +3036,19 @@ bool assertRuleset(
         }
     }
 
-    // A dimension run: {map, power, affix_count, completed, min_family_actors (living actors of its families)}, or
-    // {map, none: true}; the Dimensional Maps quest: {tier, given, cleared, done}.
+    // The open rift, wherever the party is: {map, power, affix_count, completed, inside (the party is in it),
+    // min_family_actors (living actors of its families on the loaded map)}, or {map, none: true}; the Dimensional Maps
+    // quest: {tier, given, cleared, done}.
     MawRules *pMawRules = context.runtimeDriver->mawRules();
 
     if (node.IsMap() && node["dimension_run"] && pMawRules != nullptr)
     {
         const YAML::Node run = node["dimension_run"];
-        const MawDimensionRun *pRun = pMawRules->dimensionRun(run["map"].as<std::string>(""));
+        std::string runMap = run["map"].as<std::string>("");
+        std::transform(runMap.begin(), runMap.end(), runMap.begin(),
+            [](unsigned char character) { return char(std::tolower(character)); });
+        const std::pair<const std::string, MawDimensionRun> *pRift = pMawRules->rift();
+        const MawDimensionRun *pRun = pRift != nullptr && pRift->first == runMap ? &pRift->second : nullptr;
         std::string problem;
 
         if (run["none"].as<bool>(false))
@@ -3070,6 +3075,11 @@ bool assertRuleset(
                 {
                     ++familyActors;
                 }
+            }
+
+            if (run["inside"] && pMawRules->inRift() != run["inside"].as<bool>())
+            {
+                problem = pMawRules->inRift() ? "the party is in the rift" : "the party is not in the rift";
             }
 
             if (run["power"] && int(pRun->power) != run["power"].as<int>())
@@ -3465,8 +3475,8 @@ bool runSetRuleset(
 // damage_actor: {actor_index, amount, tier, expect}: a party hit through the normal damage path (the actor turns on the
 // party), for combat scenarios on maps whose actors are friendly. tier (default physical): what the hit is to an energy
 // shield, physical, classic_blaster, kreegan_energy or spell. `all: true` instead of `actor_index` hits every living
-// actor, again until none lives (monsters summoned meanwhile count), for clearing a whole map. expect: refused passes
-// when the hit does nothing.
+// actor, again until none lives (monsters summoned meanwhile count), for clearing a whole map; `spare: N` leaves the
+// first N actors it would hit alone, for a map left almost cleared. expect: refused passes when the hit does nothing.
 bool runDamageActor(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -3507,12 +3517,14 @@ bool runDamageActor(
     {
         constexpr int MaximumPasses = 10;
         bool anyHit = true;
+        const size_t firstActorIndex = step.payload["spare"].as<size_t>(0);
 
         for (int pass = 0; pass < MaximumPasses && anyHit; ++pass)
         {
             anyHit = false;
 
-            for (size_t actorIndex = 0; actorIndex < context.runtimeDriver->mapActorCount(); ++actorIndex)
+            for (size_t actorIndex = firstActorIndex; actorIndex < context.runtimeDriver->mapActorCount();
+                 ++actorIndex)
             {
                 std::string ignored;
                 anyHit = context.runtimeDriver->damageActor(
@@ -3876,8 +3888,9 @@ bool runRulesetBanks(
     return true;
 }
 
-// console: {line, expect_contains}: runs a debug console line in the game as typed (`testparty apply mid newclasses`);
-// fails when the console reports an error, or its output lacks expect_contains.
+// console: {line, expect_contains, expect_not_contains}: runs a debug console line in the game as typed (`testparty
+// apply mid newclasses`); fails when the console reports an error, its output lacks expect_contains or holds
+// expect_not_contains.
 bool runConsoleCommand(
     ScenarioExecutionContext &context,
     const ScenarioStep &step,
@@ -3906,6 +3919,14 @@ bool runConsoleCommand(
     if (!expected.empty() && output.find(expected) == std::string::npos)
     {
         failures.push_back(stepLocation(step) + ": console output lacks \"" + expected + "\": " + output);
+        return false;
+    }
+
+    const std::string unexpected = step.payload["expect_not_contains"].as<std::string>("");
+
+    if (!unexpected.empty() && output.find(unexpected) != std::string::npos)
+    {
+        failures.push_back(stepLocation(step) + ": console output holds \"" + unexpected + "\": " + output);
         return false;
     }
 
@@ -6538,13 +6559,20 @@ bool assertTurnBased(
                 : effect == "paralyze"   ? std::optional<float>(inspectState.paralyzeRemainingSeconds)
                 : effect == "fear"       ? std::optional<float>(inspectState.fearRemainingSeconds)
                 : effect == "control"    ? std::optional<float>(inspectState.controlRemainingSeconds)
-                                         : std::nullopt;
+                // A solo run's talents: Challenge, Hamstring, Demoralizing Shout; `exposed` is Expose Weakness's
+                // percent.
+                : effect == "silence"    ? std::optional<float>(inspectState.silenceRemainingSeconds)
+                : effect == "move_slow"  ? std::optional<float>(inspectState.moveSlowRemainingSeconds)
+                : effect == "demoralize" ? std::optional<float>(inspectState.demoralizeRemainingSeconds)
+                : effect == "exposed" && hasRuntimeState
+                    ? std::optional<float>(runtimeState.rulesetFacts.exposedPercent)
+                    : std::nullopt;
         }
 
         if (!remaining)
         {
             failures.push_back(stepLocation(step) + ": turn_based actor_effect needs an actor and slow, stun, "
-                "paralyze, fear or control");
+                "paralyze, fear, control, silence, move_slow, demoralize or exposed");
             return false;
         }
 
@@ -10383,6 +10411,15 @@ bool assertActorVisible(
         failures.push_back(
             stepLocation(step) + ": actor_visible hp_below failed: " + std::to_string(inspectState.currentHp));
         success = false;
+    }
+
+    // The monster is (true) or is not (false) playing its hit reaction, the flinch a hit starts.
+    if (actorNode["got_hit"])
+    {
+        success = hasRuntimeState
+            && checkRuntimeField(
+                "got_hit", boolText(runtimeState.animationState == ActorAiAnimationState::GotHit))
+            && success;
     }
 
     if (actorNode["shield_raised"])

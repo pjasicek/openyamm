@@ -1994,6 +1994,13 @@ void travelByTransport(
         return;
     }
 
+    // Where the rules close the roads (MAW: in a rift), nothing is paid and nobody leaves.
+    if (const std::optional<std::string> refusal = party.rules().monsters.mapTravelRefusal())
+    {
+        result.messages.push_back(*refusal);
+        return;
+    }
+
     int waitDays = 0;
 
     if (scheduled)

@@ -37,6 +37,39 @@ struct MapMonsterPlacement
 // A slain monster whose carried loot the rules size.
 // What map scripts may ask of the rules (evt.RulesetInfo): MAW's difficulty (0 Easy to 5 Nightmare) and the bolster
 // level of the current continent, which its scripts scale rewards by.
+// What an NPC answers to a topic the rules run (evt.RulesTopic).
+struct RulesTopicReply
+{
+    std::string text;
+    // A further rules topic the NPC offers after this answer (MAW: repeating an unfinished dimension map).
+    std::string offeredTopic;
+    // The text asks the party to confirm by typing "yes"; this rules topic then carries it out.
+    std::string confirmTopic;
+};
+
+// Where a move out of a map instance leads (MonsterRules::mapInstanceExit).
+struct MapInstanceExit
+{
+    enum class Kind
+    {
+        // The party stays in the instance (a move within its map).
+        Stay,
+        // To the named map itself.
+        Leave,
+        // To another place: mapFileName at x, y, z.
+        Redirect,
+        // Nowhere: `text` says why.
+        Refuse,
+    };
+
+    Kind kind = Kind::Leave;
+    std::string mapFileName;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    std::string text;
+};
+
 struct RulesetScriptInfo
 {
     std::string rulesetId = "mmerge";
@@ -156,11 +189,16 @@ public:
     // dimension map's monster families replace its own, so their art loads with it, and all are the party's enemies
     // through the map's own relation cells). Standard: nothing.
     virtual void enterMap(MapStatsEntry &map, MonsterTable &monsterTable) const;
+    // A value that differs whenever enterMap would set the map up differently (MAW: in a rift, by its families), so
+    // a map already loaded one way is loaded anew for the other. Standard: always 0.
+    virtual uint64_t mapAssetVariant(const std::string &mapFileName) const;
     // The tier ('A' to 'C') an encounter spawn takes after the map's rules (MAW: a dimension map's affix raises some);
     // `seed` keys the roll. Standard: the rolled tier.
     virtual char spawnTier(const MapStatsEntry &map, char tier, uint32_t seed) const;
-    // An NPC topic the rules run (evt.RulesTopic): what the NPC says, or nothing when the rules have no such topic.
-    virtual std::optional<std::string> rulesTopic(const std::string &topic, Party &party) const;
+    // An NPC topic the rules run (evt.RulesTopic): the NPC's answer, or nothing when the rules have no such topic.
+    // `pWorld` is the map the party stands on, when one is loaded.
+    virtual std::optional<RulesTopicReply> rulesTopic(
+        const std::string &topic, Party &party, const IGameplayWorldRuntime *pWorld) const;
     virtual RulesetScriptInfo scriptInfo(uint32_t continentId) const;
     // Town bounties (BountyHuntRuntime). The reward for slaying the monster. Standard: its level x 100.
     virtual uint32_t bountyReward(const MonsterTable::MonsterStatsEntry &stats) const;
@@ -214,6 +252,18 @@ public:
     virtual bool mapRefillForced(const std::string &mapFileName) const;
     // A gameplay load of the map is under way, and whether it refills the map; it clears a forced refill.
     virtual void mapLoaded(const std::string &mapFileName, bool refilled) const;
+    // The map instances the rules keep (map file name and instance id, GameSession::mapInstanceId); the session drops
+    // the saved state of any other. Standard: none.
+    virtual std::vector<std::pair<std::string, std::string>> liveMapInstances() const;
+    // The party is in a map instance and a move names a map without naming an instance: where the move leads.
+    // `sameMap`: it names the instance's own map. Standard: the instance for its own map, the named map otherwise.
+    virtual MapInstanceExit mapInstanceExit(
+        const std::string &targetMapFileName, bool sameMap, const std::string &moveSourceKind) const;
+    // Why the party cannot travel to another map from where it is by a map's edge or a stable, ship or coach (MAW: in
+    // a rift), or nothing. Standard: nothing.
+    virtual std::optional<std::string> mapTravelRefusal() const;
+    // Why Lloyd's Beacon cannot be cast where the party is (MAW: in a rift), or nothing. Standard: nothing.
+    virtual std::optional<std::string> lloydsBeaconRefusal() const;
     // Whether nearby enemies stop Lloyd's Beacon and Town Portal (MAW from Nightmare). Standard: never.
     virtual bool teleportBlockedNearEnemies() const;
     // What a Town Portal or Lloyd's Beacon refused that way says. Standard: "Can't teleport now".

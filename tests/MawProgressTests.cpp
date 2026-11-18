@@ -182,9 +182,10 @@ TEST_CASE("MAW's Progress tab lists each continent's maps with their state, leve
     REQUIRE(pReset != nullptr);
     CHECK_EQ(pReset->resets, 2);
     CHECK_FALSE(pReset->dimensionRun);
+    // A rift is beside its map, never the map's own state: the row of the map it lies on shows none.
     const RulesetProgressMap *pRun = findMap(enroth, "6d06.blv");
     REQUIRE(pRun != nullptr);
-    CHECK(pRun->dimensionRun);
+    CHECK_FALSE(pRun->dimensionRun);
     CHECK(pReset->levelFromResets > 0);
 
     const RulesetProgressMap *pUnvisited = findMap(enroth, "6d05.blv");

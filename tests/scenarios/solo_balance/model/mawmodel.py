@@ -47,7 +47,7 @@ RarityDifficultyMult = [0, 1, 1, 1, 1.1, 1.2, 1.4, 1.6, 1.8, 2]
 RarityBandMult = [(1,1,1),(1,1,1),(1,1,1),(1,1,1),(1.5,1.4,1.4),(2,1.8,1.6),(2.5,2.2,1.8),(3,2.6,2),(4,3,2.2),(5.5,3.4,2.4)]
 Common, Uncommon, Rare, Epic, Ancient, Primordial, Legendary, Celestial = range(1, 9)
 
-def legendary_ramp(L): return clamp01((L-100)/320)
+def legendary_ramp(L): return clamp01((L-100)/400)
 def power_for(IL): return min(math.floor(max(IL, 0)/5), 100)
 
 def weapon_damage(IL, two, flat):
@@ -56,7 +56,11 @@ def weapon_damage(IL, two, flat):
     if not two: dice, fl, ld = dice/2, fl/2, ld/2
     return dice, fl, ld
 
-def weapon_flat(L): return min(L*0.5, 16)
+# MAW f1ffd3b1: the base item's ladder rung (1 at level 0, the sixth from level 100) sets the weapon's flat damage and the
+# armour everyone wears; the Primordial item of the level adds its power by the geared share.
+def base_tier(L): return 1 + 5*clamp01(L/100)
+def weapon_flat(L): return 16*(base_tier(L)-1)/5
+def armor_tier_ac(L): return 116*(0.21 + 0.79*(base_tier(L)-1)/5)
 
 def enchant_chance(r, t):
     return {Epic: min(5+0.75*t, 20), Rare: min(20+2*t, 60), Uncommon: min(60+t, 80)}.get(r, 100)
@@ -191,14 +195,14 @@ class Model:
         health = (25 + per*L + (stat/5 + bb_flat)*per + flat_bonus)*(1+bb_pct*bb_s/100)*(1+stat/1000)
         # defence
         pw = power_for(IL); ch = min(max(maw_round(pw*1.2), pw+4), 255)
-        worn = (116+116*ch/40)*g
+        worn = armor_tier_ac(GL) + 116*ch/40*g
         am = self.mastery_for(a_s)
         ac = worn*(1+0.5*legendary_ramp(GL)+self.grow(ChainItemArmor, a_s, am)*a_s/100) + self.buff_flat('stoneskin', bs, L, 4, buffs)
         res = worn*self.grow(ChainItemResistance, a_s, am)*a_s/100 + self.buff_flat('resist', bs, L, 4, buffs) + self.stat_effect(stat)
-        enres = self.max_enchant(GL)*100/200*(1+0.5*legendary_ramp(GL))
+        enres = self.max_enchant(GL)*100/200*g*(1+0.5*legendary_ramp(GL))
         hit = 1/(1+stat/(100+stat)*0.5)
         phys = max(1/(ac/(200+VL)+1), 0.1)
-        magic = 1/(res/(100+VL)+1)*max(1-self.buff_mult('shield', bs, buffs), 0.7)*1/(enres/100+1)
+        magic = 1/(res/(100+2*VL)+1)*max(1-self.buff_mult('shield', bs, buffs), 0.7)*1/(enres/100+1)
         magic = max(magic, 0.1)
         ramp = legendary_ramp(GL)
         leg = (1-0.10*ramp)*(1-(1-0.97**5)*ramp)
@@ -206,7 +210,10 @@ class Model:
         taken = (phys*0.5+magic*0.5)*hit*leg
         vitality = health/taken*cover
         # power (melee)
-        wd, wf, wl = weapon_damage(IL, True, weapon_flat(IL))
+        flat = weapon_flat(GL)
+        fd, ff, _ = weapon_damage(ch*5, True, flat)
+        bd, bf, _ = weapon_damage(0, True, flat)
+        wd, wf = bd + (fd-bd)*g, bf + (ff-bf)*g
         melee = s + 10*ramp
         wsm = 1 + 2*melee/100
         arms = ar_s if arms_explicit else ar_s*1.5
@@ -224,7 +231,7 @@ class Model:
         critm = 1+min(cc, 1)*cd
         dmg *= critm
         enl = (1+0.5*ramp)*(1+(critm-1)*ramp)
-        enc_base = self.weapon_level_damage(IL, True, weapon_flat(IL))*enl
+        enc_base = self.weapon_level_damage(ch*5, True, flat)*g*enl
         dmg += enc_base*0.5*min(GL/100, 1)
         dmg += enc_base*self.ggmv(FireAuraDamage, s, m)
         dmg *= min(1+0.25*ramp, 2)*(1+0.15*ramp)

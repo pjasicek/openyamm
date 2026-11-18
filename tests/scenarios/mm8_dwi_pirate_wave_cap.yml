@@ -1,0 +1,23 @@
+id: mm8.dwi_pirate_wave_cap
+title: Dagger Wound's pirates land at most ten times per map refill (out01_pirate_war.lua)
+world: mm8
+mode: faithful
+tags: [mm8, events, regression]
+steps:
+  - new_game_flow:
+      start_map: out01.odm
+  # Each round wipes the party's enemies and fires the war timer (event 463): both pirate groups land again (two
+  # waves of twelve) until the map variable PirateWaves reaches ten, then nothing more lands.
+  - play_lua:
+      max_seconds: 600
+      source: |
+        for i = 1, 7 do
+          clear_hostiles(60000)
+          click(463)
+          wait(2)
+        end
+        if clear_hostiles(60000) ~= 0 then
+          error("pirates landed after the tenth wave")
+        end
+  - assert:
+      state_dump_named_map_var: {name: PirateWaves, value: 10}

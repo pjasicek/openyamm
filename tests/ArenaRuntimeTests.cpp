@@ -329,10 +329,10 @@ TEST_CASE("MAW arena bouts past level 100 draw from the twelve types nearest the
     }
 }
 
-TEST_CASE("MAW arena bouts in d42 draw by the six-fold arena levels, not the table's")
+TEST_CASE("MAW arena bouts in d42 draw by the Arena's own levels, not the table's")
 {
     // A level 28 party's Squire bout brought Cyclops Hunters with 27,000 hit points: table level in the Squire range,
-    // six times that in the Arena.
+    // six times that in the Arena (MAW before 2f172096; since then the Arena's levels follow the Endless Arena's).
     const Game::MonsterTable monsters = arenaMonsters();
     Game::MawRules rules(Game::RulesetOptions{}, Game::MawMapLevels{});
     Game::Party party;
@@ -342,12 +342,16 @@ TEST_CASE("MAW arena bouts in d42 draw by the six-fold arena levels, not the tab
     party.member(0)->level = 28;
     party.setRules(&rules.gameRules());
     const Game::MapStatsEntry map = arenaMap(Arenas[2]);
-    // Squire at 28: 14..42. d42 levels (zzMaw-Monsters.lua:577-582); the bout takes the twelve nearest types.
+    // Squire at 28: 14..42. d42 levels before the first Endless Arena bout (zzMaw-Monsters.lua:577-589): a B row at
+    // 12, the first level's second family 2 higher and its third 4; the bout takes the twelve nearest types.
     const auto distance = [&](int id)
     {
         const double base = monsters.findStatsById(int16_t(id))->level;
-        const double familyLevel = monsters.findStatsById(int16_t(Game::mawMonsterFamily(&monsters, id).row(2)))->level;
-        const int level = int(std::lround(std::max(base * 6 - (base - familyLevel) * 6 * 0.8, 5.0)));
+        const int familyB = Game::mawMonsterFamily(&monsters, id).row(2);
+        const double familyLevel = monsters.findStatsById(int16_t(familyB))->level;
+        const double levelB = 12 + (familyB == Game::mawArenaWaveMonster(2, monsters) ? 2 : 0)
+            + (familyB == Game::mawArenaWaveMonster(3, monsters) ? 4 : 0);
+        const int level = int(std::lround(std::max(levelB + (base - familyLevel) * 1.2, 5.0)));
         return std::max({14 - level, level - 42, 0});
     };
     std::vector<int> distances;

@@ -1601,6 +1601,11 @@ bool GameDataLoader::selectedMapRenderSourcePixelsReleased() const
     return m_selectedMapRenderSourcePixelsReleased;
 }
 
+uint64_t GameDataLoader::selectedMapRulesVariant() const
+{
+    return m_selectedMapRulesVariant;
+}
+
 size_t GameDataLoader::lastReleasedMapRenderSourcePixelBytes() const
 {
     return m_lastReleasedMapRenderSourcePixelBytes;
@@ -5026,9 +5031,12 @@ bool GameDataLoader::loadSelectedMap(
         return false;
     }
 
+    m_selectedMapRulesVariant = 0;
+
     if (mapLoadPurpose == MapLoadPurpose::FullGameplay || mapLoadPurpose == MapLoadPurpose::HeadlessGameplay)
     {
         boundGameRules().monsters.enterMap(*selectedMap, m_monsterTable);
+        m_selectedMapRulesVariant = boundGameRules().monsters.mapAssetVariant(selectedMap->fileName);
     }
 
     GameDataLoadTimingLogger timingLogger(selectedMap->fileName, "game_data_loader");

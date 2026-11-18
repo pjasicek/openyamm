@@ -158,6 +158,10 @@ struct EventRuntimeState
         int32_t y = 0;
         int32_t z = 0;
         std::optional<std::string> mapName;
+        // The instance of the map to arrive in (GameSession::mapInstanceId; empty: the map itself). Unset for an
+        // ordinary move: it stays in the instance the party is in when the map is the same, and leads to the map
+        // itself otherwise.
+        std::optional<std::string> instanceId;
         std::optional<int32_t> directionDegrees;
         bool useMapStartPosition = false;
         // With useMapStartPosition: the start decoration to use ("north start", ...); empty means "party start".
@@ -165,6 +169,10 @@ struct EventRuntimeState
         bool useFullscreenLoading = false;
         // Travel time, food or fare were already spent, so the travel autosave belongs to the arrival map.
         bool travelTimeApplied = false;
+        // The item that leads there (ItemRules::planTravelItem): it is used for good as the party sets off, after
+        // the autosave of the map being left, so that save holds the item unused. Until then it stays where it is, in
+        // the player's hand or back in a bag.
+        std::optional<InventoryItem> travelItem;
         // The party arrives at the given height and falls from there instead of standing on the ground below
         // (evt.MoveToMap's options keepHeight: falling off Celeste into the Bracada Desert sky, OY Celeste fall).
         // Not saved: a move pending in a save lands on the ground.

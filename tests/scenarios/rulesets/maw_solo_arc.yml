@@ -1,0 +1,47 @@
+id: rulesets.maw_solo_arc
+title: "Ruleset - solo run: Arc makes a single-target spell's missile leap on to the monsters beside its target"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Arc (talents.yml): a single-target spell's missile leaps on from the monster it strikes to the nearest other
+        within 1024, up to 1/2/3 times, as an arrow with Chaining Arrows does (the same ProjectileState::chainLeft).
+        A Fire Bolt at the first of three Mercenary Captains, each within 1024 of the one before: without the talent
+        one is hurt, with rank 2 all three.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Archer
+            level: 60
+            intellect: 300
+            skills:
+              - {name: FireMagic, level: 10, mastery: 2}
+            equipment: {}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - spawn_actor: {monster_id: 195, x: -8928, y: -10619, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -8928, y: -10969, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 195, x: -9028, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 2, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 1, max: 1}
+  - console: {line: "talent arc 2", expect_contains: "arc"}
+  - advance_runtime: {seconds: 3}
+  - cast_spell: {member_index: 0, spell_id: 2, skill: 10, mastery: 2, actor_index: last}
+  - advance_runtime: {seconds: 2}
+  - assert:
+      actor_count: {monster_id: 195, hurt: true, min: 3, max: 3}

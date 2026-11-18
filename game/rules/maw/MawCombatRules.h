@@ -178,6 +178,9 @@ private:
     // The world's clock (game minutes) as of the last update, for Divine Protection, and what the rules tell the player
     // there next.
     mutable float m_gameMinutes = 0;
+    // A solo run's last damage spell cast and the monsters it counted round its named target (Overload).
+    mutable uint32_t m_soloCastSpellId = 0;
+    mutable int m_soloCastMonsters = 0;
     mutable std::vector<std::string> m_statusMessages;
     // Sounds by name the combat rules ask for (a solo's Cheat Death), played with the status messages.
     mutable std::vector<std::string> m_soundNames;

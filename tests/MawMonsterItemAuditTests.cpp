@@ -453,6 +453,7 @@ TEST_CASE("MAW map scripts read a bolster level with the reset and dimension ter
     MawDimensionRun run;
     run.power = 7;
     rules.state().dimensionRuns["d12.blv"] = run;
+    rules.setMapInstanceId(MawRiftInstanceId);
     CHECK_EQ(monsters.scriptInfo(1).bolsterLevel, 90);
 }
 

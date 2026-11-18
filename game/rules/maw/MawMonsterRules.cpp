@@ -285,7 +285,9 @@ void rollDimensionMapDrop(MawRules &rules, const CorpseLootContext &context, int
     RandomStream stream(randomStreamKey(rules.randomRootSeed(), RandomDomain::Dimension,
         randomNameKey(context.pMap->fileName), context.visitSeed, context.actorIndex));
     const std::string mapFileName = lowerFileName(context.pMap->fileName);
-    const int dropped = state.mapsDropped[mapFileName];
+    // A rift counts the maps dropped in it apart from its map's.
+    MawDimensionRun *pRiftRun = rules.dimensionRun(mapFileName);
+    int &dropped = pRiftRun != nullptr ? pRiftRun->mapsDropped : state.mapsDropped[mapFileName];
     const double multiplier = boss ? data.bossDropMultiplier() * bossDropShare(context) : 1;
     // The chance reads the monster's table level, a byte capped at 255 (zzMaw-Maps.lua:885); the gate above and the
     // map's power below use the full level.
@@ -316,7 +318,7 @@ void rollDimensionMapDrop(MawRules &rules, const CorpseLootContext &context, int
     map.writeFields(*item.rulesetFields);
     result.extraItems.push_back(item);
     state.mapDropPity = 0;
-    ++state.mapsDropped[mapFileName];
+    ++dropped;
 }
 
 int levelOf(const std::unordered_map<int, int> &levels, int monsterId, int fallback)
@@ -962,7 +964,7 @@ bool MawMonsterRules::makeBoss(ActorRulesetFacts &facts, uint64_t seed, uint8_t 
         MawGameState &state = m_rules.state();
         const std::string mapFileName = lowerFileName(m_rules.currentMap());
 
-        if (mapFileName != "d42.blv" && !state.clearedSinceRefill.contains(mapFileName))
+        if (mapFileName != "d42.blv" && !m_rules.clearedSinceRefill(mapFileName))
         {
             const double broodlordRoll = unitDraw(affix);
             const double omnipotentRoll = unitDraw(affix);
@@ -1312,6 +1314,21 @@ void MawMonsterRules::leaveMap(IGameplayWorldRuntime &world) const
         return;
     }
 
+    // A rift keeps what the party slew there (ours, the user 2026-11-17: the party leaves and returns at will), and
+    // its progress goes on its run, not on its map's record.
+    if (MawDimensionRun *pRun = m_rules.dimensionRun(progress.mapFileName))
+    {
+        pRun->slain = progress.slainMonsters;
+        pRun->counted = progress.countedMonsters;
+        return;
+    }
+
+    // A rift that is gone before the party has left it (replaced from inside) leaves nothing on its map's record.
+    if (m_rules.inMapInstance())
+    {
+        return;
+    }
+
     if (revivalRules(m_rules.options()) && progress.indoor && pRuntimeState != nullptr)
     {
         const auto weakened = pRuntimeState->namedMapVars.find(WeakenedVariable);
@@ -1350,7 +1367,7 @@ std::optional<RulesetMapProgress> MawMonsterRules::mapProgress(const IGameplayWo
     MawMapProgressFacts facts;
     facts.insanityRules = mode == RulesetChallengeMode::RoadToInsanity || mode == RulesetChallengeMode::BeyondMadness;
     facts.revivalRules = revivalRules(options);
-    facts.cleared = state.clearedSinceRefill.contains(mapFileName);
+    facts.cleared = m_rules.clearedSinceRefill(mapFileName);
     facts.completedBefore = state.completedMaps.contains(mapFileName);
     facts.austerity = mode == RulesetChallengeMode::Austerity;
     facts.beyondMadness = mode == RulesetChallengeMode::BeyondMadness;
@@ -1370,44 +1387,10 @@ std::optional<RulesetMapProgress> MawMonsterRules::mapProgress(const IGameplayWo
     return mawMapProgress(progress, facts);
 }
 
-namespace
-{
-// monTbl: the C-tier monsters that are not wimps (less 462 and 579), by their table level.
-std::vector<const MonsterTable::MonsterStatsEntry *> mawArenaFamilies(const MonsterTable &monsterTable)
-{
-    std::vector<const MonsterTable::MonsterStatsEntry *> families;
-
-    for (int monsterId = 3; monsterId <= 651; monsterId += 3)
-    {
-        const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(int16_t(monsterId));
-
-        if (pStats != nullptr && pStats->aiType != MonsterTable::MonsterAiType::Wimp && monsterId != 462
-            && monsterId != 579)
-        {
-            families.push_back(pStats);
-        }
-    }
-
-    std::stable_sort(families.begin(), families.end(),
-        [](const MonsterTable::MonsterStatsEntry *pLeft, const MonsterTable::MonsterStatsEntry *pRight)
-        {
-            return pLeft->level < pRight->level;
-        });
-    return families;
-}
-}
-
 int16_t MawMonsterRules::arenaWaveMonster(int wave, const MonsterTable &monsterTable) const
 {
-    const std::vector<const MonsterTable::MonsterStatsEntry *> families = mawArenaFamilies(monsterTable);
-
-    if (families.empty() || wave <= 0)
-    {
-        return 0;
-    }
-
     // The wave's family, its B variant (the arena rolls the tier).
-    return int16_t(families[size_t(wave - 1) % families.size()]->id - 1);
+    return int16_t(mawArenaWaveMonster(wave, monsterTable));
 }
 
 uint32_t MawMonsterRules::bountyReward(const MonsterTable::MonsterStatsEntry &stats) const
@@ -1420,8 +1403,7 @@ std::optional<std::string> MawMonsterRules::bountyRefusal(const IGameplayWorldRu
 {
     MapKillProgress progress;
 
-    if (world.mapKillProgress(progress)
-        && !m_rules.state().clearedSinceRefill.contains(lowerFileName(progress.mapFileName)))
+    if (world.mapKillProgress(progress) && !m_rules.clearedSinceRefill(progress.mapFileName))
     {
         return Engine::tr("You need to clear the area COMPLETELY first.");
     }
@@ -1641,13 +1623,15 @@ void MawMonsterRules::resetMap(const std::string &mapFileName) const
 {
     const std::string fileName = lowerFileName(mapFileName);
     ++m_rules.state().mapResetCounts[fileName];
-    m_forcedRefills.insert(fileName);
+    m_rules.state().pendingRefills.insert(fileName);
 }
 
 bool MawMonsterRules::mapRefillForced(const std::string &mapFileName) const
 {
+    // A rift starts afresh at its first load, whatever state an earlier rift on the same map left; the map itself
+    // refills when a reset marked it.
     const MawDimensionRun *pRun = m_rules.dimensionRun(mapFileName);
-    return m_forcedRefills.contains(lowerFileName(mapFileName)) || (pRun != nullptr && pRun->entering);
+    return pRun != nullptr ? pRun->entering : m_rules.state().pendingRefills.contains(lowerFileName(mapFileName));
 }
 
 bool MawMonsterRules::countsForMapCompletion(
@@ -1700,8 +1684,22 @@ void MawMonsterRules::mapLoaded(const std::string &mapFileName, bool refilled) c
 {
     const std::string fileName = lowerFileName(mapFileName);
     MawGameState &state = m_rules.state();
-    m_forcedRefills.erase(fileName);
     m_usedDecorationsMap = fileName;
+
+    // The rift on this map: its first load places its monsters, and none of its map's records change.
+    if (MawDimensionRun *pRun = m_rules.dimensionRun(fileName))
+    {
+        if (pRun->entering)
+        {
+            pRun->entering = false;
+            std::random_device device;
+            m_refillSeeds[fileName] = (uint64_t(device()) << 32) | device();
+        }
+
+        return;
+    }
+
+    state.pendingRefills.erase(fileName);
 
     if (refilled)
     {
@@ -1711,22 +1709,15 @@ void MawMonsterRules::mapLoaded(const std::string &mapFileName, bool refilled) c
         std::random_device device;
         m_refillSeeds[fileName] = (uint64_t(device()) << 32) | device();
     }
+}
 
-    const auto run = state.dimensionRuns.find(fileName);
-
-    if (run == state.dimensionRuns.end())
-    {
-        return;
-    }
-
-    if (run->second.entering)
-    {
-        run->second.entering = false;
-    }
-    else if (refilled)
-    {
-        state.dimensionRuns.erase(run);
-    }
+uint64_t MawMonsterRules::mapAssetVariant(const std::string &mapFileName) const
+{
+    const MawDimensionRun *pRun = m_rules.dimensionRun(mapFileName);
+    return pRun != nullptr
+        ? 1 + (uint64_t(uint16_t(pRun->families[0])) | uint64_t(uint16_t(pRun->families[1])) << 16
+               | uint64_t(uint16_t(pRun->families[2])) << 32)
+        : 0;
 }
 
 void MawMonsterRules::enterMap(MapStatsEntry &map, MonsterTable &monsterTable) const
@@ -2029,6 +2020,27 @@ void MawMonsterRules::updateMonsters(IGameplayWorldRuntime &world, float deltaSe
         m_bossTracks.clear();
         m_regenerationSeconds = 0;
         m_auraSeconds = 0;
+    }
+
+    // The Arena's monsters follow the Endless Arena's level: the one being fought, else the next one (MON:577-589).
+    if (m_rules.currentMap() == "d42.blv")
+    {
+        if (const EventRuntimeState *pRuntimeState = world.eventRuntimeState())
+        {
+            const auto globalVar = [pRuntimeState](const char *pName)
+            {
+                const auto found = pRuntimeState->namedGlobalVars.find(pName);
+                return found != pRuntimeState->namedGlobalVars.end() ? found->second : 0;
+            };
+            const int fought = globalVar("MawArenaLevel");
+            const int arenaLevel = fought > 0 ? fought : globalVar("MawArenaBest") + 1;
+
+            if (arenaLevel != m_rules.arenaLevel())
+            {
+                m_rules.setArenaLevel(arenaLevel);
+                world.refreshRulesetMonsters();
+            }
+        }
     }
 
     if (m_foodCapMap != m_rules.currentMap())
@@ -2353,7 +2365,7 @@ int MawMonsterRules::saveFoodCost(const std::string &mapFileName, bool indoor, b
     std::transform(lowercaseMap.begin(), lowercaseMap.end(), lowercaseMap.begin(),
                    [](unsigned char character) { return char(std::tolower(character)); });
 
-    if (!nightmareRules(m_rules.options()) || m_rules.state().clearedSinceRefill.contains(lowercaseMap))
+    if (!nightmareRules(m_rules.options()) || m_rules.clearedSinceRefill(lowercaseMap))
     {
         return 0;
     }
@@ -2382,10 +2394,223 @@ std::string formatQuestText(const std::string &format, const std::string &name, 
 
     return text;
 }
+
+// The quest's map for a tier: the item, and the name and level of the map it opens.
+struct QuestMap
+{
+    InventoryItem item;
+    std::string mapName;
+    int mapLevel = 0;
+};
+
+// Keyed by the tier, so asking again gives the same map: after a reload, and when an unfinished run is given up
+// (rollQuestMap).
+std::optional<QuestMap> rollQuestMap(const MawRules &rules, int tier, const Party &party)
+{
+    const MawDimensionData &data = rules.dimensionData();
+    RandomStream stream(randomStreamKey(rules.randomRootSeed(), RandomDomain::DimensionQuest, uint64_t(tier)));
+    std::vector<uint16_t> pool = rules.dimensionMapPool();
+
+    if (pool.empty())
+    {
+        pool = data.dungeons();
+    }
+
+    const double activeRoll = unitDraw(stream);
+    const uint8_t activeSlots = activeRoll <= 0.1 ? 4 : activeRoll < 0.3 ? 3 : 2;
+    const MawDimensionMap map = rules.rollDimensionMap(stream, pool, {true, true, true, true}, activeSlots,
+        (tier - 20) / 10);
+    const MapStatsEntry *pTarget = rules.mapTable() != nullptr ? rules.mapTable()->findById(map.mapId) : nullptr;
+    const ItemTable *pItemTable = party.itemTable();
+
+    if (pTarget == nullptr || pItemTable == nullptr || pItemTable->get(data.mapItemId()) == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    QuestMap questMap;
+    questMap.item = ItemGenerator::makeInventoryItem(data.mapItemId(), *pItemTable, ItemGenerationMode::Generic);
+    map.writeFields(questMap.item.rulesetFields);
+    questMap.mapName = pTarget->name;
+    questMap.mapLevel = mawDimensionMapLevel(map.power, rules.mapLevels().band(pTarget->fileName));
+    return questMap;
 }
 
-std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic, Party &party) const
+// Giving up the quest's unfinished rift for the same map again (ours; MAW has no way out of a run that cannot be
+// finished). Asked first, then carried out once the party typed "yes": the rift closes, and the map it lay on was
+// never touched.
+RulesTopicReply repeatQuestMap(MawRules &rules, Party &party, const IGameplayWorldRuntime *pWorld, bool confirmed)
 {
+    MawGameState &state = rules.state();
+    const MawDimensionQuest &quest = state.dimensionQuest;
+    const MawDimensionData &data = rules.dimensionData();
+    const double repeatShare = data.quest().repeatShare;
+    const int percent = int(mawRound(repeatShare * 100));
+    RulesTopicReply reply;
+
+    if (!quest.mapGiven || quest.cleared)
+    {
+        reply.text = Engine::tr("There is no unfinished rift of mine for you to repeat.");
+        return reply;
+    }
+
+    const std::pair<const std::string, MawDimensionRun> *pRift = rules.rift();
+
+    if (pRift == nullptr || pRift->second.completed || pRift->second.questTier != quest.tierLevel)
+    {
+        reply.text = Engine::tr("The rift is not open: use the map I gave you. Should you slay {percent}% of its "
+                                "creatures and find no way to finish, I can close the rift and give you its map again.",
+            {{"percent", percent}});
+        return reply;
+    }
+
+    // What the party last left behind there, or the rift as it is when the party stands in it.
+    int slain = pRift->second.slain;
+    int counted = pRift->second.counted;
+    MapKillProgress live;
+
+    if (rules.inRift() && pWorld != nullptr && pWorld->mapKillProgress(live))
+    {
+        slain = live.slainMonsters;
+        counted = live.countedMonsters;
+    }
+
+    const MapStatsEntry *pMap = rules.mapTable() != nullptr ? rules.mapTable()->findByFileName(pRift->first) : nullptr;
+    const std::string mapName = pMap != nullptr ? Engine::localize(pMap->name) : pRift->first;
+    const int needed = int(std::ceil(repeatShare * counted - 1e-9));
+    // A rift the party never set foot in holds nothing to lose: it closes for the asking.
+    const bool neverEntered = pRift->second.entering;
+
+    if (!neverEntered && (counted <= 0 || slain < needed))
+    {
+        reply.text = Engine::tr("You have slain {slain} of the {counted} creatures in the rift in {map}. Slay {needed} "
+                                "of them, {percent}%, and I can close the rift and give you its map again.",
+            {{"slain", slain}, {"counted", counted}, {"map", mapName}, {"needed", needed}, {"percent", percent}});
+        return reply;
+    }
+
+    if (rules.inRift())
+    {
+        reply.text = Engine::tr("I cannot close a rift you stand in. Leave it, then ask me again.");
+        return reply;
+    }
+
+    if (!confirmed)
+    {
+        reply.text = neverEntered
+            ? Engine::tr("You opened the rift in {map} and never set foot in it. I can close it and give you its map "
+                         "again. Type \"yes\" to have it so.",
+                  {{"map", mapName}})
+            : Engine::tr("You have slain {slain} of the {counted} creatures in the rift in {map}. I can close "
+                         "this rift unfinished and give you its map again: what you slew and left there is "
+                         "lost. Type \"yes\" to have it so.",
+                  {{"slain", slain}, {"counted", counted}, {"map", mapName}});
+        reply.confirmTopic = "dimensional_maps_repeat_confirmed";
+        return reply;
+    }
+
+    const std::optional<QuestMap> questMap = rollQuestMap(rules, quest.tierLevel, party);
+
+    if (!questMap)
+    {
+        return reply;
+    }
+
+    if (!party.tryGrantInventoryItem(questMap->item))
+    {
+        reply.text = Engine::tr("Your packs are too full to take the map.");
+        return reply;
+    }
+
+    // The rift is gone with its portal; the session drops its state (liveMapInstances).
+    state.dimensionRuns.clear();
+    party.removeItem(data.portalItemId(), uint32_t(std::max(party.inventoryItemCount(data.portalItemId()), 0)));
+    reply.text = Engine::tr("The rift in {map} is closed. Take this map: it opens {target} anew (Map Level {level}).",
+        {{"map", mapName}, {"target", Engine::localize(questMap->mapName)}, {"level", questMap->mapLevel}});
+    return reply;
+}
+}
+
+std::vector<std::pair<std::string, std::string>> MawMonsterRules::liveMapInstances() const
+{
+    std::vector<std::pair<std::string, std::string>> instances;
+
+    if (const std::pair<const std::string, MawDimensionRun> *pRift = m_rules.rift())
+    {
+        instances.emplace_back(pRift->first, MawRiftInstanceId);
+    }
+
+    return instances;
+}
+
+MapInstanceExit MawMonsterRules::mapInstanceExit(
+    const std::string &targetMapFileName, bool sameMap, const std::string &moveSourceKind) const
+{
+    MapInstanceExit exit;
+    const std::pair<const std::string, MawDimensionRun> *pRift = m_rules.inRift() ? m_rules.rift() : nullptr;
+
+    // Town Portal leads out of a rift even to the rift's own map; without a rift the instance is nothing of ours.
+    if (pRift == nullptr || moveSourceKind == "town_portal")
+    {
+        exit.kind = MapInstanceExit::Kind::Leave;
+        return exit;
+    }
+
+    if (sameMap)
+    {
+        exit.kind = MapInstanceExit::Kind::Stay;
+        return exit;
+    }
+
+    const MawDimensionRun &run = pRift->second;
+
+    // A dungeon's way outdoors: back to where the party entered the rift from. A rift from before rifts remembered
+    // that lets the way out lead where it says.
+    if (!m_rules.outdoorMap(pRift->first) && m_rules.outdoorMap(targetMapFileName))
+    {
+        if (run.originMapFileName.empty())
+        {
+            exit.kind = MapInstanceExit::Kind::Leave;
+            return exit;
+        }
+
+        exit.kind = MapInstanceExit::Kind::Redirect;
+        exit.mapFileName = run.originMapFileName;
+        exit.x = run.originX;
+        exit.y = run.originY;
+        exit.z = run.originZ;
+        return exit;
+    }
+
+    exit.kind = MapInstanceExit::Kind::Refuse;
+    exit.text = Engine::tr("The rift leads nowhere but back: use the Dimensional Portal or Town Portal.");
+    return exit;
+}
+
+std::optional<std::string> MawMonsterRules::mapTravelRefusal() const
+{
+    if (!m_rules.inRift())
+    {
+        return std::nullopt;
+    }
+
+    return Engine::tr("No road leads out of a rift: use the Dimensional Portal or Town Portal.");
+}
+
+std::optional<std::string> MawMonsterRules::lloydsBeaconRefusal() const
+{
+    return m_rules.inRift() ? std::optional<std::string>(Engine::tr("Lloyd's Beacon finds no hold in a rift."))
+                            : std::nullopt;
+}
+
+std::optional<RulesTopicReply> MawMonsterRules::rulesTopic(
+    const std::string &topic, Party &party, const IGameplayWorldRuntime *pWorld) const
+{
+    if (topic == "dimensional_maps_repeat" || topic == "dimensional_maps_repeat_confirmed")
+    {
+        return repeatQuestMap(m_rules, party, pWorld, topic == "dimensional_maps_repeat_confirmed");
+    }
+
     if (topic != "dimensional_maps")
     {
         return std::nullopt;
@@ -2396,6 +2621,7 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
     MawDimensionQuest &quest = m_rules.state().dimensionQuest;
     quest.tierLevel = quest.tierLevel > 0 ? quest.tierLevel : questRules.firstTier;
     const int tier = quest.tierLevel;
+    RulesTopicReply reply;
 
     if (!quest.mapGiven)
     {
@@ -2408,49 +2634,35 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
 
         if (int(highest) < tier)
         {
-            return formatQuestText(Engine::localize(questRules.textTooLow), {}, tier);
+            reply.text = formatQuestText(Engine::localize(questRules.textTooLow), {}, tier);
+            return reply;
         }
 
-        // Keyed by the tier, so asking again after a reload gives the same map (rollQuestMap).
-        RandomStream stream(randomStreamKey(m_rules.randomRootSeed(), RandomDomain::DimensionQuest, uint64_t(tier)));
-        std::vector<uint16_t> pool = m_rules.dimensionMapPool();
+        const std::optional<QuestMap> questMap = rollQuestMap(m_rules, tier, party);
 
-        if (pool.empty())
-        {
-            pool = data.dungeons();
-        }
-
-        const double activeRoll = unitDraw(stream);
-        const uint8_t activeSlots = activeRoll <= 0.1 ? 4 : activeRoll < 0.3 ? 3 : 2;
-        const MawDimensionMap map = m_rules.rollDimensionMap(stream, pool, {true, true, true, true}, activeSlots,
-            (tier - 20) / 10);
-        const MapStatsEntry *pTarget =
-            m_rules.mapTable() != nullptr ? m_rules.mapTable()->findById(map.mapId) : nullptr;
-        const ItemTable *pItemTable = party.itemTable();
-
-        if (pTarget == nullptr || pItemTable == nullptr || pItemTable->get(data.mapItemId()) == nullptr)
+        if (!questMap)
         {
             return std::nullopt;
         }
 
-        InventoryItem item =
-            ItemGenerator::makeInventoryItem(data.mapItemId(), *pItemTable, ItemGenerationMode::Generic);
-        map.writeFields(item.rulesetFields);
-
-        if (!party.tryGrantInventoryItem(item))
+        if (!party.tryGrantInventoryItem(questMap->item))
         {
-            return Engine::tr("Your packs are too full to take the map.");
+            reply.text = Engine::tr("Your packs are too full to take the map.");
+            return reply;
         }
 
         quest.mapGiven = true;
         quest.cleared = false;
-        return formatQuestText(Engine::localize(questRules.textGive), Engine::localize(pTarget->name),
-            mawDimensionMapLevel(map.power, m_rules.mapLevels().band(pTarget->fileName)));
+        reply.text = formatQuestText(Engine::localize(questRules.textGive), Engine::localize(questMap->mapName),
+            questMap->mapLevel);
+        return reply;
     }
 
     if (!quest.cleared)
     {
-        return Engine::localize(questRules.textNotCleared);
+        reply.text = Engine::localize(questRules.textNotCleared);
+        reply.offeredTopic = "dimensional_maps_repeat";
+        return reply;
     }
 
     // AddGoldExp: the gold, and the same in experience to everyone as an event gives it.
@@ -2467,7 +2679,7 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
         party.addExperienceToMember(memberIndex, experience, ExperienceReason::Event);
     }
 
-    const std::string text =
+    reply.text =
         formatQuestText(Engine::localize(questRules.textReward), Engine::localize(quest.clearedMapName), reward);
     quest.done = quest.done || tier >= questRules.unlockTier;
     quest.tierLevel = data.nextQuestTier(tier);
@@ -2475,6 +2687,6 @@ std::optional<std::string> MawMonsterRules::rulesTopic(const std::string &topic,
     quest.cleared = false;
     quest.clearedLevel = 0;
     quest.clearedMapName.clear();
-    return text;
+    return reply;
 }
 }

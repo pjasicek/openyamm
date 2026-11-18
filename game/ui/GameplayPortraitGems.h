@@ -92,6 +92,31 @@ inline PortraitGemPlace portraitGemBadgePlace(float width, float height, float r
     return {right - width * 0.5f, CentreY, height * 0.5f};
 }
 
+// A counter's gems in a row (the solo unit frame's, under its bars), first gem left, around the row's centre at
+// `centreX`, `centreY` (logical units). Five gems are larger than ten.
+inline std::vector<PortraitGemPlace> counterGemRowPlaces(int pips, float centreX, float centreY)
+{
+    std::vector<PortraitGemPlace> places;
+    const bool large = pips <= 5;
+    const float radius = large ? 4.4f : 3.3f;
+    const float step = large ? 10.5f : 7.6f;
+
+    for (int k = 0; k < pips; ++k)
+    {
+        places.push_back({centreX + (float(k) - float(pips - 1) / 2) * step, centreY, radius});
+    }
+
+    return places;
+}
+
+// The number badge of a row of ten gems, `width` wide: its centre just right of the last gem.
+inline PortraitGemPlace counterGemRowBadgePlace(int pips, float width, float height, float centreX, float centreY)
+{
+    const std::vector<PortraitGemPlace> places = counterGemRowPlaces(pips, centreX, centreY);
+    const float right = places.empty() ? centreX : places.back().x + places.back().radius;
+    return {right + 1.5f + width / 2, centreY, height / 2};
+}
+
 // The counter's gems (and, for ten, the number badge in the text style of the layout element `badgeLayoutId`) around
 // the HP arc of `healthArc`, its meter rectangle on screen with the arc's stroke width in logical units. Nothing for
 // a counter without pips.
@@ -100,4 +125,11 @@ void renderPortraitCounterGems(GameplayScreenRuntime &context, const PortraitCou
 // The screen rectangle the counter's gems cover, for the hover popup; nothing without pips.
 std::optional<GameplayResolvedHudLayoutElement> portraitCounterGemBounds(const PortraitCounter &counter,
     const GameplayResolvedHudLayoutElement &healthArc, float strokeWidth);
+// The counter as a row of gems (counterGemRowPlaces) centred at `centreX`, `centreY` in screen pixels, `scale` pixels
+// to a logical unit; for ten, the number badge right of the row in the text style of `badgeLayoutId`.
+void renderCounterGemRow(GameplayScreenRuntime &context, const PortraitCounter &counter, float centreX, float centreY,
+    float scale, const std::string &badgeLayoutId);
+// The screen rectangle the row and its badge cover, for the hover popup; nothing without pips.
+std::optional<GameplayResolvedHudLayoutElement> counterGemRowBounds(const PortraitCounter &counter, float centreX,
+    float centreY, float scale);
 }

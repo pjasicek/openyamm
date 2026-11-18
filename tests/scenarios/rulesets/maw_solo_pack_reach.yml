@@ -1,0 +1,46 @@
+id: rulesets.maw_solo_pack_reach
+title: "Ruleset - solo run: Outnumbered and Battle Frenzy count the monsters within 768 units"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Outnumbered and Battle Frenzy (talents.yml; user, 2026-11-18) count the living hostile monsters within their
+        own distance, 768, wider than the 512 of MAW's legendaries (MawCombatRules::updateCombat,
+        MawRules::outnumberedMonsters and battleFrenzyMonsters; `talent list` prints both). Monsters stand 400, 700
+        and 1100 away: the first two are counted, the one at 700 lying outside the old 512.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent outnumbered 3", expect_contains: "outnumbered"}
+  - console: {line: "talent battle_frenzy 3", expect_contains: "battle_frenzy"}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "talent list", expect_contains: "outnumbered counts 0, battle frenzy counts 0"}
+  - spawn_actor: {monster_id: 195, x: -9328, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "talent list", expect_contains: "outnumbered counts 1, battle frenzy counts 1"}
+  - spawn_actor: {monster_id: 195, x: -9728, y: -10619, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "talent list", expect_contains: "outnumbered counts 2, battle frenzy counts 2"}
+  - spawn_actor: {monster_id: 195, x: -9728, y: -12419, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 0.5}
+  - console: {line: "talent list", expect_contains: "outnumbered counts 2, battle frenzy counts 2"}

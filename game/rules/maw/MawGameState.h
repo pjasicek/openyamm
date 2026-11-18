@@ -11,6 +11,10 @@ namespace OpenYAMM::Game
 {
 // A dimension map used on its target map (zzMaw-Maps.lua mapvars.mapAffixes): its affixes stay in force there until
 // the map refills again.
+// A dimension map opens a rift: an instance of its map (GameSession::mapInstanceId) with a state of its own, which
+// leaves the map itself as it was. One rift is open at a time; a cleared one stays until the next map is used.
+constexpr const char *MawRiftInstanceId = "rift";
+
 struct MawDimensionRun
 {
     // The active affixes (0 empty) and the power.
@@ -24,6 +28,16 @@ struct MawDimensionRun
     bool completed = false;
     // The Dimensional Maps quest tier the run counts for when cleared (0: none).
     int questTier = 0;
+    // Where the party stood when it last entered the rift: its way out leads back there. No map: unknown (a run from
+    // a save before rifts were instances), and a way out leads where it says.
+    std::string originMapFileName;
+    int32_t originX = 0;
+    int32_t originY = 0;
+    int32_t originZ = 0;
+    // The slain and counted monsters as the party last left the rift, and the dimension maps dropped in it.
+    int32_t slain = 0;
+    int32_t counted = 0;
+    int32_t mapsDropped = 0;
 
     int affixCount() const;
     bool operator==(const MawDimensionRun &) const = default;
@@ -73,6 +87,9 @@ struct MawGameState
     double bankedLevel = 0;
     // Lowercase map file name: times the dungeon was reset for harder monsters (+20 levels each).
     std::unordered_map<std::string, int> mapResetCounts;
+    // Lowercase map file names whose next load refills them whatever their respawn time: a dungeon reset at its
+    // entrance, the map of a dimension run the party gave up.
+    std::unordered_set<std::string> pendingRefills;
     // Lowercase map file names whose completion reward was paid: once per game, and the dimension maps' pool.
     std::unordered_set<std::string> completedMaps;
     // Lowercase map file names cleared since their monsters last refilled (MAW's mapvars.completed): the HUD's 100 %,
@@ -99,8 +116,8 @@ struct MawGameState
     // A solo run's scroll auras: the game minute each ends, on any map (the user, 2026-11-16). A fixed aura listed
     // here ends only then.
     std::unordered_map<uint32_t, double> fixedAuraEndMinutes;
-    // Dimension maps by lowercase target map file name, the quest, and what the map kill drop has failed since it last
-    // dropped (vars.mapDropFailures).
+    // The open rift by its map's lowercase file name (one at most; saves before rifts were instances may hold more
+    // until loaded), the quest, and what the map kill drop has failed since it last dropped (vars.mapDropFailures).
     std::unordered_map<std::string, MawDimensionRun> dimensionRuns;
     MawDimensionQuest dimensionQuest;
     double mapDropPity = 0;
@@ -139,6 +156,11 @@ struct MawGameState
     // The levels banked on every continent except this one (MAW getPartyLevel).
     double levelOutside(uint32_t continentId) const;
     int resetCount(const std::string &mapFileName) const;
+    // A save from before rifts were map instances, where a run lay in its map's own state and several could be open:
+    // one run is kept as the rift (the one on `currentMap`, lowercase, else an unfinished one, else any), and what
+    // its map's records said of it (the visit, the maps dropped, the clear) goes onto the run; the other runs' maps
+    // are marked to refill as themselves. Returns the kept run's map, or nothing when there is no run.
+    std::string keepOneRift(const std::string &currentMap);
 
     bool operator==(const MawGameState &) const = default;
 };

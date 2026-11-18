@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <fstream>
 #include <iterator>
+#include <span>
 #include <sstream>
 #include <string_view>
 #include <system_error>
@@ -814,13 +815,15 @@ std::string antialiasingValue(int samples)
 
 namespace
 {
-constexpr std::array<std::pair<const char *, float>, 5> TurnBasedSpeeds = {{
+using SpeedStep = std::pair<const char *, float>;
+constexpr std::array<SpeedStep, 5> TurnBasedSpeeds = {{
     {"1", 1.0f}, {"1.5", 1.5f}, {"2", 2.0f}, {"3", 3.0f}, {"4", 4.0f}}};
-}
+// Fast mode offers the same factors without 1, which would make its key do nothing.
+constexpr std::span<const SpeedStep> FastModeSpeeds = std::span<const SpeedStep>(TurnBasedSpeeds).subspan(1);
 
-bool parseTurnBasedSpeedValue(const std::string &value, float &speed)
+bool parseSpeedStep(std::span<const SpeedStep> steps, const std::string &value, float &speed)
 {
-    for (const auto &[text, factor] : TurnBasedSpeeds)
+    for (const auto &[text, factor] : steps)
     {
         if (trimCopy(value) == text)
         {
@@ -832,15 +835,36 @@ bool parseTurnBasedSpeedValue(const std::string &value, float &speed)
     return false;
 }
 
-std::string turnBasedSpeedValue(float speed)
+std::string speedStepValue(std::span<const SpeedStep> steps, float speed)
 {
     // The nearest offered factor, so a hand-edited value still shows on the slider.
-    const auto nearest = std::min_element(TurnBasedSpeeds.begin(), TurnBasedSpeeds.end(),
-        [speed](const auto &left, const auto &right)
+    const auto nearest = std::min_element(steps.begin(), steps.end(),
+        [speed](const SpeedStep &left, const SpeedStep &right)
         {
             return std::abs(left.second - speed) < std::abs(right.second - speed);
         });
     return nearest->first;
+}
+}
+
+bool parseTurnBasedSpeedValue(const std::string &value, float &speed)
+{
+    return parseSpeedStep(TurnBasedSpeeds, value, speed);
+}
+
+std::string turnBasedSpeedValue(float speed)
+{
+    return speedStepValue(TurnBasedSpeeds, speed);
+}
+
+bool parseFastModeSpeedValue(const std::string &value, float &speed)
+{
+    return parseSpeedStep(FastModeSpeeds, value, speed);
+}
+
+std::string fastModeSpeedValue(float speed)
+{
+    return speedStepValue(FastModeSpeeds, speed);
 }
 
 namespace
@@ -1150,6 +1174,16 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "fast_mode_speed"))
+    {
+        float parsed = settings.fastModeSpeed;
+
+        if (parseFastModeSpeedValue(*value, parsed))
+        {
+            settings.fastModeSpeed = parsed;
+        }
+    }
+
     // Android has no combat log: the thumb controls leave it no room (user, 2026-10-25).
 #if !defined(__ANDROID__)
     if (const std::optional<std::string> value = getIniValue(document, "gameplay", "combat_log"))
@@ -1259,6 +1293,14 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         if (*value == "painted" || *value == "lines")
         {
             settings.paintedMaps = *value == "painted";
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "gameplay", "indoor_minimap_arrow"))
+    {
+        if (*value == "white" || *value == "green" || *value == "cyan")
+        {
+            settings.indoorMinimapArrow = *value;
         }
     }
 
@@ -2634,6 +2676,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("language", settings.language);
     serializer.add("turn_based_monster_speed", turnBasedSpeedValue(settings.turnBasedMonsterSpeed));
     serializer.add("turn_based_party_speed", turnBasedSpeedValue(settings.turnBasedPartySpeed));
+    serializer.add("fast_mode_speed", fastModeSpeedValue(settings.fastModeSpeed));
     serializer.add("enemy_health_bars", settings.enemyHealthBarMode);
     serializer.add("enemy_health_bar_values", settings.enemyHealthBarValues);
     serializer.add("enemy_health_bar_damage_trail", boolValue(settings.enemyHealthBarDamageTrail));
@@ -2643,6 +2686,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
     serializer.add("upkeep_auto_brew", boolValue(settings.upkeepAutoBrew));
     serializer.add("quest_markers", boolValue(settings.questMarkers));
     serializer.add("map_style", settings.paintedMaps ? "painted" : "lines");
+    serializer.add("indoor_minimap_arrow", settings.indoorMinimapArrow);
     serializer.add("save_list_order", settings.saveListNewestFirst ? "newest" : "name");
     serializer.add("quicksave_slots", std::clamp(settings.quickSaveSlots, 1, 20));
     serializer.add("mm9_loot_in_older_worlds", boolValue(settings.mm9LootInOlderWorlds));

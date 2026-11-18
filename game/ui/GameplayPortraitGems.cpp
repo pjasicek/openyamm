@@ -187,17 +187,19 @@ std::vector<ScreenGem> screenGems(int pips, const GameplayResolvedHudLayoutEleme
 
     return gems;
 }
+
+// The number badge's height in logical units.
+constexpr float BadgeHeight = 9.2f;
+
+// A row's badge is wider than the arc's: the unit frame's scale draws the digits wider against the pill.
+float rowBadgeWidth(size_t digits)
+{
+    return 6.0f + 6.0f * float(digits);
 }
 
-void renderPortraitCounterGems(GameplayScreenRuntime &context, const PortraitCounter &counter,
-    const GameplayResolvedHudLayoutElement &healthArc, float strokeWidth, const std::string &badgeLayoutId)
+// The gems, socket and lit stone each, at their screen places.
+void renderGems(GameplayScreenRuntime &context, const PortraitCounter &counter, const std::vector<ScreenGem> &gems)
 {
-    if (counter.kind == PortraitCounterKind::None || counter.pips <= 0)
-    {
-        return;
-    }
-
-    const std::vector<ScreenGem> gems = screenGems(counter.pips, healthArc, strokeWidth);
     const std::vector<PortraitGemFill> fills = portraitGemFills(counter);
     const GemTexture stone = counter.kind == PortraitCounterKind::ComboPoints ? GemTexture::Ruby : GemTexture::Amber;
     GameplayUiRuntime &runtime = context.gameplayUiRuntime();
@@ -233,23 +235,17 @@ void renderPortraitCounterGems(GameplayScreenRuntime &context, const PortraitCou
         runtime.submitHudTexturedQuad(lit->textureHandle, left, top + size * cut, size, size * (1 - cut),
             0, cut, 1, 1);
     }
+}
 
-    if (counter.kind != PortraitCounterKind::Stacks || counter.amount <= 0)
-    {
-        return;
-    }
-
-    // The exact number in a small badge below the first gem.
-    const float scale = std::max(0.001f, healthArc.scale);
-    const std::string text = std::to_string(int(std::lround(counter.amount)));
-    constexpr float BadgeHeight = 9.2f;
-    const float badgeWidth = BadgeHeight + 5.0f * float(text.size() - 1);
-    const PortraitGemPlace place = portraitGemBadgePlace(badgeWidth, BadgeHeight, healthArc.width * 0.5f / scale,
-        healthArc.height * 0.5f / scale, strokeWidth);
+// The exact number in a small badge centred at `centreX`, `centreY` (screen pixels), `badgeWidth` logical units wide.
+void renderBadge(GameplayScreenRuntime &context, float centreX, float centreY, float badgeWidth, float scale,
+    const std::string &text, const std::string &badgeLayoutId)
+{
+    GameplayUiRuntime &runtime = context.gameplayUiRuntime();
     const float height = BadgeHeight * scale;
     const float width = badgeWidth * scale;
-    const float x = healthArc.x + healthArc.width * 0.5f + place.x * scale - width / 2;
-    const float y = healthArc.y + healthArc.height * 0.5f + place.y * scale - height / 2;
+    const float x = centreX - width / 2;
+    const float y = centreY - height / 2;
 
     if (const std::optional<GameplayHudTextureHandle> badge = gemTexture(context, GemTexture::Badge))
     {
@@ -264,6 +260,83 @@ void renderPortraitCounterGems(GameplayScreenRuntime &context, const PortraitCou
         // The label's own box is wider than the badge so a centred number is never clipped.
         context.renderLayoutLabel(*pLayout, {x - 4 * scale, y, width + 8 * scale, height, scale}, text);
     }
+}
+}
+
+void renderPortraitCounterGems(GameplayScreenRuntime &context, const PortraitCounter &counter,
+    const GameplayResolvedHudLayoutElement &healthArc, float strokeWidth, const std::string &badgeLayoutId)
+{
+    if (counter.kind == PortraitCounterKind::None || counter.pips <= 0)
+    {
+        return;
+    }
+
+    renderGems(context, counter, screenGems(counter.pips, healthArc, strokeWidth));
+
+    if (counter.kind != PortraitCounterKind::Stacks || counter.amount <= 0)
+    {
+        return;
+    }
+
+    // The exact number in a small badge below the first gem.
+    const float scale = std::max(0.001f, healthArc.scale);
+    const std::string text = std::to_string(int(std::lround(counter.amount)));
+    const float badgeWidth = BadgeHeight + 5.0f * float(text.size() - 1);
+    const PortraitGemPlace place = portraitGemBadgePlace(badgeWidth, BadgeHeight, healthArc.width * 0.5f / scale,
+        healthArc.height * 0.5f / scale, strokeWidth);
+    renderBadge(context, healthArc.x + healthArc.width * 0.5f + place.x * scale,
+        healthArc.y + healthArc.height * 0.5f + place.y * scale, badgeWidth, scale, text, badgeLayoutId);
+}
+
+void renderCounterGemRow(GameplayScreenRuntime &context, const PortraitCounter &counter, float centreX, float centreY,
+    float scale, const std::string &badgeLayoutId)
+{
+    if (counter.kind == PortraitCounterKind::None || counter.pips <= 0)
+    {
+        return;
+    }
+
+    scale = std::max(0.001f, scale);
+    std::vector<ScreenGem> gems;
+    for (const PortraitGemPlace &place : counterGemRowPlaces(counter.pips, 0, 0))
+    {
+        gems.push_back({centreX + place.x * scale, centreY + place.y * scale, place.radius * scale});
+    }
+    renderGems(context, counter, gems);
+
+    if (counter.kind != PortraitCounterKind::Stacks || counter.amount <= 0)
+    {
+        return;
+    }
+
+    const std::string text = std::to_string(int(std::lround(counter.amount)));
+    const float badgeWidth = rowBadgeWidth(text.size());
+    const PortraitGemPlace place = counterGemRowBadgePlace(counter.pips, badgeWidth, BadgeHeight, 0, 0);
+    renderBadge(context, centreX + place.x * scale, centreY + place.y * scale, badgeWidth, scale, text,
+        badgeLayoutId);
+}
+
+std::optional<GameplayResolvedHudLayoutElement> counterGemRowBounds(const PortraitCounter &counter, float centreX,
+    float centreY, float scale)
+{
+    if (counter.kind == PortraitCounterKind::None || counter.pips <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<PortraitGemPlace> places = counterGemRowPlaces(counter.pips, 0, 0);
+    float right = places.back().x + places.back().radius;
+    if (counter.kind == PortraitCounterKind::Stacks)
+    {
+        // Room for a two-digit badge.
+        const float badgeWidth = rowBadgeWidth(2);
+        const PortraitGemPlace badge = counterGemRowBadgePlace(counter.pips, badgeWidth, BadgeHeight, 0, 0);
+        right = badge.x + badgeWidth / 2;
+    }
+    const float left = places.front().x - places.front().radius;
+    const float half = std::max(places.front().radius, BadgeHeight / 2);
+    return GameplayResolvedHudLayoutElement{centreX + left * scale, centreY - half * scale, (right - left) * scale,
+        2 * half * scale, scale};
 }
 
 std::optional<GameplayResolvedHudLayoutElement> portraitCounterGemBounds(const PortraitCounter &counter,

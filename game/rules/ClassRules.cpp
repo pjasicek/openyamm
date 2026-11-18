@@ -22,6 +22,10 @@ constexpr uint32_t VampireRace = 1;
 constexpr uint32_t UndeadRace = 6;
 } // namespace
 
+void ClassRules::applyPrimaryStatBonuses(Character &) const
+{
+}
+
 void ClassRules::applyClassBonuses(Character &member) const
 {
     // MMerge MiscTweaks.lua (races 6 and 1, the executable's own Lich rule switched off); MM7 gives a Lich Mind and

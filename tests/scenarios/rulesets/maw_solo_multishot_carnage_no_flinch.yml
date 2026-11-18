@@ -1,0 +1,61 @@
+id: rulesets.maw_solo_multishot_carnage_no_flinch
+title: "Ruleset - solo run: Multishot's Carnage blasts hurt the monsters near without making them flinch"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        A Carnage bow explodes every arrow, and Multishot fires 2/3/4 headings (twice with a Master bow), so a volley
+        used to blast a group once per arrow and each blast restarted every monster's flinch: the group stood locked
+        (Discord report, 2026-11-17). Multishot's arrows now carry ProjectileState::quietBlast: their blasts still hurt
+        the monsters they reach but never start a hit reaction or a knockback; the monster an arrow strikes still
+        flinches (user, 2026-11-17). Rank 1 with a Master bow: four arrows, two of them strike the first Captain. The
+        second stands beside it, inside the blast and off every arrow's line, and is sampled through the volley: hurt,
+        and its animation never 4 (GotHit). Accuracy 500 makes every hit roll certain under MAW.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Ariel
+            class: Archer
+            level: 20
+            accuracy: 500
+            skills:
+              - {name: Bow, level: 8, mastery: 3}
+            equipment: {}
+  # A Hunting Bow of Carnage.
+  - grant_item: {item_id: 56, special: 3, equip: bow}
+  - console: {line: "talent multishot 1", expect_contains: "multishot"}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - clear_hostiles: {radius: 6000}
+  # Rank 1's two headings fly 12 degrees either side of the aim (east), a Master bow's pair 1.5 degrees either side
+  # of each: none down the aim itself. Trees stand still. The first stands on the +12 degree heading 1000 out, within
+  # the party's shot reach (two arrows strike it); the second on the aim line, 208 from the first: inside the blast,
+  # 180 from the nearest arrow.
+  - spawn_actor: {monster_id: 451, x: -8750, y: -11111, z: 200}
+  - spawn_actor: {monster_id: 451, x: -8750, y: -11319, z: 200}
+  - advance_runtime: {seconds: 0.1}
+  - console: {line: "talent use multishot", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.05}
+  - assert:
+      projectiles: {source: party, min_count: 4}
+  # The arrows land about 0.25 s after release. Without quietBlast the second Tree is in GotHit from then until about
+  # 0.6 s and knocked back 9 units.
+  - advance_runtime: {seconds: 0.25}
+  - assert:
+      actor_visible: {actor_index: last-1, hp_below: 40, got_hit: true, report_state: true}
+  - assert:
+      actor_visible: {actor_index: last, hp_below: 40, got_hit: false, report_state: true}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_visible: {actor_index: last, got_hit: false, near: {x: -8750, y: -11319, max_distance: 1}}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_visible: {actor_index: last, got_hit: false, near: {x: -8750, y: -11319, max_distance: 1}}
+  - advance_runtime: {seconds: 0.1}
+  - assert:
+      actor_visible: {actor_index: last, got_hit: false, near: {x: -8750, y: -11319, max_distance: 1}}

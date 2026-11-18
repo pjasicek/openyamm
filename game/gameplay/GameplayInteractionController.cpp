@@ -1045,7 +1045,7 @@ std::optional<std::string> soloPressOrderSpell(GameplayScreenRuntime &runtime, G
     {
         config.useTalentOrder = [pMember](const std::string &talentId)
         {
-            return talentRank(*pMember, talentId) > 0 && talentCooldownRemaining(*pMember, talentId) <= 0.0f;
+            return talentReady(soloTalentTable(), *pMember, talentId);
         };
     }
     return GameplayActionController::attackOrderSpell(config);
@@ -1081,19 +1081,30 @@ struct TalentOrderUse
     bool swingShown = false;
 };
 
-// Sweeping Blows (a melee blow also strikes the nearest others in its arc) for the ordinary attack about to hit
-// `target`. (Chaining Arrows rides on the arrows themselves: PartyAttackConfig::chainCount.)
+// Sweeping Blows (a melee blow also strikes the nearest others in its arc) for the ordinary attack about to be made:
+// its target is the actor under the crosshair (directActorIndex) or, without one, the nearest hostile the attack
+// takes instead. (Chaining Arrows rides on the arrows themselves: PartyAttackConfig::chainCount.)
 template <typename StrikeBlow>
 void strikeFollowUpTalentBlows(GameplayScreenRuntime &runtime, IGameplayWorldRuntime &world,
-    const GameplayPartyAttackFrameInput &attackInput, size_t target, bool bowDrawn, StrikeBlow strike)
+    const GameplayPartyAttackFrameInput &attackInput, std::optional<size_t> directActorIndex, bool bowDrawn,
+    StrikeBlow strike)
 {
     Party *pParty = world.party();
     const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
-    if (pMember == nullptr || !GameMechanics::canTakeGameplayAction(*pMember) || !runtime.soloTalents())
+    if (pMember == nullptr || !GameMechanics::canTakeGameplayAction(*pMember) || !runtime.soloTalents() || bowDrawn)
     {
         return;
     }
-    const std::optional<GameplayPartyAttackActorFacts> facts = world.partyAttackActorFacts(target, false);
+    const int rank = talentRank(*pMember, "sweeping_blows");
+    const TalentDefinition *pTalent = rank > 0 ? soloTalentTable().find("sweeping_blows") : nullptr;
+    if (pTalent == nullptr)
+    {
+        return;
+    }
+    const std::optional<size_t> target =
+        GameplayActionController::partyAttackActorTarget(world, attackInput, directActorIndex);
+    const std::optional<GameplayPartyAttackActorFacts> facts =
+        target ? world.partyAttackActorFacts(*target, false) : std::nullopt;
     if (!facts)
     {
         return;
@@ -1102,24 +1113,19 @@ void strikeFollowUpTalentBlows(GameplayScreenRuntime &runtime, IGameplayWorldRun
     const float targetDistance = std::max(0.0f,
         std::hypot(facts->position.x - party.x, facts->position.y - party.y) - float(facts->radius));
     constexpr float MeleeReach = 407.2f;
-    const SoloTalentTable &table = soloTalentTable();
-    const bool melee = !bowDrawn && targetDistance <= MeleeReach;
-
-    if (const int rank = talentRank(*pMember, "sweeping_blows"); melee && rank > 0)
+    if (targetDistance > MeleeReach)
     {
-        if (const TalentDefinition *pTalent = table.find("sweeping_blows"))
-        {
-            const size_t extra = size_t(std::max(1, int(pTalent->perRank) * rank));
-            std::vector<size_t> beside = collectTalentTargets(world, attackInput, MeleeReach, pTalent->arc, extra + 1);
-            beside.erase(std::remove(beside.begin(), beside.end(), target), beside.end());
-            const float share = talentSkillShare(*pTalent, *pMember);
-            for (size_t index = 0; index < beside.size() && index < extra; ++index)
-            {
-                strike(TalentBlow{.actorIndex = beside[index], .share = share, .extra = true, .noHitReaction = true});
-            }
-        }
+        return;
     }
 
+    const size_t extra = size_t(std::max(1, int(pTalent->perRank) * rank));
+    std::vector<size_t> beside = collectTalentTargets(world, attackInput, MeleeReach, pTalent->arc, extra + 1);
+    beside.erase(std::remove(beside.begin(), beside.end(), *target), beside.end());
+    const float share = talentSkillShare(*pTalent, *pMember);
+    for (size_t index = 0; index < beside.size() && index < extra; ++index)
+    {
+        strike(TalentBlow{.actorIndex = beside[index], .share = share, .extra = true, .noHitReaction = true});
+    }
 }
 
 GameplayActionController::PartyAttackExecutionResult executePartyAttack(
@@ -1196,9 +1202,9 @@ GameplayActionController::PartyAttackExecutionResult executePartyAttack(
             : std::nullopt;
     // A solo run's Sweeping Blows: extra blows on the monsters beside the target, struck before the blow that pays
     // the recovery (a recovering member strikes no more).
-    if (pTalentBlow == nullptr && directActorIndex && runtime.soloTalents() && !turnBasedCombatRuntime.active())
+    if (pTalentBlow == nullptr && runtime.soloTalents() && !turnBasedCombatRuntime.active())
     {
-        strikeFollowUpTalentBlows(runtime, *pWorldRuntime, partyAttackInput, *directActorIndex, bowDrawn,
+        strikeFollowUpTalentBlows(runtime, *pWorldRuntime, partyAttackInput, directActorIndex, bowDrawn,
             [&](const TalentBlow &blow)
             {
                 executePartyAttack(runtime, spellService, partyAttackInput, standardHoverInput, targetQueries, decision,
@@ -1349,22 +1355,72 @@ void queueTalentMovePresentation(IGameplayWorldRuntime &world, const std::array<
     pEvents->pendingSounds.push_back(std::move(sound));
 }
 
-// The living hostiles a sweeping talent strikes (pickTalentTargets over the world's actors near the party).
+// Whether either side of a monster whose middle is hidden (a door frame, a corner or a stair's edge before it) is in
+// view from the party's chest: lines to points three quarters of its radius left and right of its middle, at its aim
+// height and higher up its body.
+bool talentTargetSideInSight(const IGameplayWorldRuntime &world, const GameplayWorldPoint &chest,
+    const GameplayPartyAttackActorFacts &facts)
+{
+    const float dx = facts.position.x - chest.x;
+    const float dy = facts.position.y - chest.y;
+    const float length = std::hypot(dx, dy);
+    if (length < 1.0f)
+    {
+        return true;
+    }
+    const float offset = float(facts.radius) * 0.75f;
+    const float sideX = -dy / length * offset;
+    const float sideY = dx / length * offset;
+    for (const float height : {facts.targetHeight, float(facts.height) * 0.8f})
+    {
+        for (const float sign : {-1.0f, 1.0f})
+        {
+            const GameplayWorldPoint side = {
+                facts.position.x + sideX * sign, facts.position.y + sideY * sign, facts.position.z + height};
+            if (world.hasClearLineBetween(chest, side))
+            {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+// The living hostiles a sweeping talent strikes (pickTalentTargets over the world's actors near the party). Every actor
+// of the map is looked at, as the Attack's fallback looks: an indoor monster in a sector the party has not stood in
+// yet (its AI still asleep) is struck as any other. The line to each is the attack's own (partyAttackActorFacts:
+// from the party's chest, at several heights of the monster), not one from the party's feet, which uneven ground
+// hides; with its middle hidden, either side of it in view will do.
 std::vector<size_t> collectTalentTargets(IGameplayWorldRuntime &world, const GameplayPartyAttackFrameInput &attackInput,
     float reach, float arcDegrees, size_t maxCount)
 {
     const GameplayWorldPoint party = attackInput.partyPosition;
     std::vector<TalentTargetCandidate> candidates;
-    for (const size_t index : world.collectMapActorIndicesWithinRadius(
-             party.x, party.y, party.z, reach + 512.0f, true, party.x, party.y, party.z))
+    for (size_t index = 0; index < world.mapActorCount(); ++index)
     {
-        const std::optional<GameplayPartyAttackActorFacts> facts = world.partyAttackActorFacts(index, false);
-        if (!facts)
+        GameplayRuntimeActorState state = {};
+        if (!world.actorRuntimeState(index, state) || state.isDead || state.isInvisible)
         {
             continue;
         }
+        const float edgeDistance = std::max(0.0f,
+            std::sqrt((state.preciseX - party.x) * (state.preciseX - party.x)
+                + (state.preciseY - party.y) * (state.preciseY - party.y)
+                + (state.preciseZ - party.z) * (state.preciseZ - party.z))
+                - float(state.radius));
+        if (edgeDistance > reach)
+        {
+            continue;
+        }
+        const std::optional<GameplayPartyAttackActorFacts> facts = world.partyAttackActorFacts(index, false);
+        if (!facts || facts->isDead || facts->currentHp <= 0 || !facts->hostileToParty || facts->isInvisible)
+        {
+            continue;
+        }
+        const bool inSight =
+            facts->lineOfSightToParty || talentTargetSideInSight(world, attackInput.rangedSource, *facts);
         candidates.push_back({index, facts->position.x, facts->position.y, facts->position.z, float(facts->radius),
-            !facts->isDead && facts->currentHp > 0 && facts->hostileToParty && !facts->isInvisible});
+            inSight});
     }
     return pickTalentTargets(candidates, party.x, party.y, party.z, world.gameplayCameraYawRadians(), reach, arcDegrees,
         maxCount);
@@ -1405,6 +1461,10 @@ std::string useSoloTalent(GameplayScreenRuntime &runtime, GameplaySpellService &
             return Engine::tr("{talent} is ready in {seconds} s",
                 {{"talent", name}, {"seconds", int64_t(std::ceil(cooldown))}});
         }
+        if (talent.rageCost > 0.0f && pMember->talentState.rage < talent.rageCost)
+        {
+            return Engine::tr("{talent} needs a full rage bar", {{"talent", name}});
+        }
         if (!GameMechanics::canTakeGameplayAction(*pMember) || pMember->recoverySecondsRemaining > 0.0f
             || viewModel.swingWaiting)
         {
@@ -1434,7 +1494,12 @@ std::string useSoloTalent(GameplayScreenRuntime &runtime, GameplaySpellService &
             actor ? GameplayWorldHit{} : crosshair, false, &talentBlow);
     };
     const float share = talent.share / 100.0f;
-    const auto startCooldown = [&]() { cooldown = talentCooldownSeconds(talent, rank); };
+    // The use is paid for here: the cooldown starts and the talent's rage is spent.
+    const auto startCooldown = [&]()
+    {
+        cooldown = talentCooldownSeconds(talent, rank);
+        pMember->talentState.rage = std::max(0.0f, pMember->talentState.rage - talent.rageCost);
+    };
     // A battle order's talent shows no clip of its own after the Attack's swing or shot.
     const auto showClip = [&](const char *pClip)
     {
@@ -1635,20 +1700,86 @@ std::string useSoloTalent(GameplayScreenRuntime &runtime, GameplaySpellService &
         }
         queueTalentMovePresentation(*pWorld, from,
             {from[0] + std::cos(yaw) * talent.distance, from[1] + std::sin(yaw) * talent.distance, from[2]});
+        // Phase: the seconds after the jump are safer.
+        const TalentDefinition *pPhase = table.find("phase");
+        if (pPhase != nullptr && talentRank(*pMember, "phase") > 0)
+        {
+            pMember->talentState.phaseSeconds = pPhase->duration;
+        }
         startCooldown();
         showClip("blink");
         return {};
     }
-    if (talent.id == "shield_wall")
+    if (talent.id == "heroic_strike")
     {
-        if (pMember->equipment.offHand == 0)
+        // One hard blow on the monster under the crosshair when it is in reach, else the nearest in the arc ahead.
+        constexpr float Reach = 407.2f;
+        constexpr float ArcDegrees = 60.0f;
+        const std::vector<size_t> inReach = collectTalentTargets(*pWorld, attackInput, Reach, ArcDegrees, 16);
+        if (inReach.empty())
         {
-            return Engine::tr("Shield Wall needs a shield");
+            // At the blow the monster may have stepped away: the swing whiffs.
+            return atBlow ? std::string() : Engine::tr("Nothing in reach");
         }
-        pMember->talentState.shieldWallSeconds = talentDurationSeconds(talent, rank);
+        const size_t target = crosshairActor
+                && std::find(inReach.begin(), inReach.end(), *crosshairActor) != inReach.end()
+            ? *crosshairActor
+            : inReach.front();
+        if (!landNow && viewModel.meleeSwings)
+        {
+            waitForBlow("heroic_strike");
+            return {};
+        }
+        // Its own sound over the swing's (engine/audio/solo_talents/talent_heroic_strike.wav).
+        playTalentSound("talent_heroic_strike");
+        blow(target, talentShareAtRank(talent, rank), false, false);
+        if (!atBlow)
+        {
+            startCooldown();
+            showClip("heroic_strike");
+        }
+        return {};
+    }
+    if (talent.id == "challenge" || talent.id == "demoralizing_shout")
+    {
+        // Challenge: every hostile that has noticed the party, wherever it stands (user, 2026-11-18), may not shoot
+        // or cast for the duration, a boss for half of it, so they come to blows. Demoralizing Shout: every hostile
+        // within the distance deals less (MAW's cut of a monster under Shrinking Ray or Dark Grasp).
+        const bool challenge = talent.id == "challenge";
+        std::vector<size_t> heard;
+        if (challenge)
+        {
+            for (size_t actor = 0; actor < pWorld->mapActorCount(); ++actor)
+            {
+                GameplayRuntimeActorState state = {};
+                if (pWorld->actorRuntimeState(actor, state) && !state.isDead && state.hostileToParty
+                    && state.hasDetectedParty)
+                {
+                    heard.push_back(actor);
+                }
+            }
+        }
+        else
+        {
+            heard = collectTalentTargets(*pWorld, attackInput, talent.distance, 180.0f, 256);
+        }
+        if (heard.empty())
+        {
+            return challenge ? Engine::tr("No monster has noticed you") : Engine::tr("Nothing in reach");
+        }
+        const float seconds = talentDurationSeconds(talent, rank);
+        for (const size_t actor : heard)
+        {
+            GameplayRuntimeActorState state = {};
+            const bool boss = pWorld->actorRuntimeState(actor, state) && state.rulesetFacts.bossAffix != 0;
+            pWorld->debuffActor(actor,
+                challenge ? GameplayActorHitDebuff::Silence : GameplayActorHitDebuff::Demoralize,
+                challenge && boss ? seconds / 2.0f : seconds, 1.0f);
+        }
+        playTalentSound(challenge ? "talent_challenge" : "talent_demoralizing_shout");
         startCooldown();
-        showClip("shield_wall");
-        return Engine::tr("{name}: Shield Wall", {{"name", pMember->name}});
+        showClip(talent.id.c_str());
+        return Engine::tr("{name}: {talent}", {{"name", pMember->name}, {"talent", name}});
     }
     if (talent.id == "spell_surge")
     {
@@ -2132,6 +2263,15 @@ GameplayInteractionController::updateWorldInteractionFrame(
     GameplayScreenState::WorldInteractionInputState &worldInteractionInputState =
         screenState.worldInteractionInputState();
     IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    // A solo run's talents that need the melee weapon in the arms (Vanguard, Outnumbered) read it from the member.
+    if (Party *pSoloParty = runtime.soloTalents() && pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr)
+    {
+        if (Character *pSolo = pSoloParty->activeMember())
+        {
+            pSolo->talentState.meleeDrawn = !soloBowDrawn(runtime, pSolo);
+        }
+    }
     const bool heldItemActive = runtime.heldInventoryItem().active;
     const float screenWidth = static_cast<float>(input.screenWidth);
     const float screenHeight = static_cast<float>(input.screenHeight);
@@ -2797,7 +2937,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 [&](const TalentDefinition &talent) { return talent.id == talentId; });
             Party *pParty = pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
             Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
-            if (found == talents.end() || pMember == nullptr || talentCooldownRemaining(*pMember, talentId) > 0.0f)
+            if (found == talents.end() || pMember == nullptr || !talentReady(soloTalentTable(), *pMember, talentId))
             {
                 return false;
             }

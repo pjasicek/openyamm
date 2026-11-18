@@ -14,6 +14,7 @@
 #include "game/party/SpellIds.h"
 #include "game/party/WorldSpells.h"
 #include "game/rules/GameRules.h"
+#include "game/rules/SoloTalents.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/SpellTable.h"
 
@@ -1862,6 +1863,19 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 Engine::tr(SpellFailedText));
         }
 
+        if (spellId == SpellId::LloydsBeacon)
+        {
+            if (const std::optional<std::string> refusal = party.rules().monsters.lloydsBeaconRefusal())
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::Failed,
+                    rule->targetKind,
+                    rule->effectKind,
+                    *refusal);
+            }
+        }
+
         if ((spellId == SpellId::TownPortal || spellId == SpellId::LloydsBeacon)
             && party.rules().monsters.teleportBlockedNearEnemies()
             && partyHasYellowAlert(worldRuntime))
@@ -2574,6 +2588,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 move.directionDegrees = request.utilityMapMoveDirectionDegrees;
                 move.useMapStartPosition = request.utilityMapMoveUseMapStartPosition;
                 move.useFullscreenLoading = request.utilityMapMoveUseFullscreenLoading;
+                move.traceSourceKind = "town_portal";
                 pEventRuntimeState->pendingMapMove = move;
                 castSucceeded = true;
             }
@@ -2699,6 +2714,23 @@ PartySpellCastResult PartySpellSystem::castSpell(
         worldRequest.targetY = targetPoint.y;
         worldRequest.targetZ = targetPoint.z;
         worldRequest.targetActorIndex = request.targetActorIndex;
+
+        // A solo run's Arc talent: a single-target spell's missile leaps on from the monster it strikes, as an arrow
+        // with Chaining Arrows does. A spell with a blast never chains (the projectile ends at its blast), and a spell
+        // that chains by its own rules (MAW's Chain Lightning) keeps them.
+        if (const int arcRank = pCaster != nullptr ? talentRank(*pCaster, "arc") : 0; arcRank > 0)
+        {
+            const TalentDefinition *pArc = soloTalentTable().find("arc");
+            const bool chainsItself = party.rules().combat.spellChainMastery(request.spellId, skillMastery).has_value();
+
+            if (pArc != nullptr && !chainsItself)
+            {
+                worldRequest.chainCount = uint8_t(std::clamp(int(pArc->perRank) * arcRank, 0, 16));
+                worldRequest.chainShare = talentSkillShare(*pArc, *pCaster);
+                worldRequest.chainRadius = pArc->distance;
+            }
+        }
+
         castSucceeded = worldRuntime.castPartySpellProjectile(worldRequest);
     }
     else if (rule->effectKind == PartySpellCastEffectKind::MultiProjectile)

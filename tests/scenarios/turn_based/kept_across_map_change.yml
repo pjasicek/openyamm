@@ -1,0 +1,28 @@
+id: turn_based.kept_across_map_change
+title: Turn-based - travelling to another map keeps turn-based mode on
+world: mm8
+mode: faithful
+tags: [turn_based, regression]
+steps:
+  - note:
+      text: >-
+        User request 2026-11-17: turn-based mode is not cancelled by a map change. The party enters the Abandoned
+        Temple from Dagger Wound in turn-based mode and is still in it there (the old map's monsters and in-flight
+        actions are left behind; the temple's monsters join on the next turn). A party defeat still ends it.
+  - new_game_flow:
+      start_map: out01.odm
+  - press_action: combat
+  - advance_runtime: {seconds: 4}
+  - assert: {turn_based: {active: true}}
+  - lua_event:
+      source: "evt.MoveToMap(-3008, -1696, 2464, 512, 0, 0, 0, 0, 'd05.blv')"
+  - advance_runtime: {seconds: 2, follow_map_move: true}
+  - assert: {map: d05.blv}
+  - assert: {turn_based: {active: true, report: true}}
+  # The turns go on in the temple.
+  - turn_based_turns: {count: 2}
+  - assert: {turn_based: {active: true, report: true}}
+  # A lost fight ends turn-based mode, although the party wakes on another map.
+  - party_defeat: {knock_out: true, wait_seconds: 5}
+  - advance_runtime: {seconds: 1}
+  - assert: {turn_based: {active: false}}

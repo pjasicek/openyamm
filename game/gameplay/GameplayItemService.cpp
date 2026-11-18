@@ -244,8 +244,63 @@ void closeCharacterInventoryAfterPotionExplosion(GameplayScreenRuntime &runtime)
     runtime.characterDetailOverlay() = {};
 }
 
-// An item the rules make travel when used (MAW's dimension maps): it is used up and the party goes to the start of the
-// map it names.
+// An item the rules make travel when used (MAW's dimension maps and dimensional portal): the party goes where the
+// rules say, and the item is used up when they say so. A refusal is shown and nothing else happens.
+TravelItemOrigin travelItemOrigin(const IGameplayWorldRuntime &worldRuntime)
+{
+    TravelItemOrigin from;
+    from.x = int32_t(std::lround(worldRuntime.partyX()));
+    from.y = int32_t(std::lround(worldRuntime.partyY()));
+    from.z = int32_t(std::lround(worldRuntime.partyFootZ()));
+    return from;
+}
+
+// Where the party carries an item like this one (the same kind with the same ruleset fields: for a dimension map
+// its place, power and affixes), in the members' bags or the pouches.
+std::optional<BagItemRef> findCarriedTravelItem(const Party &party, const InventoryItem &item)
+{
+    const auto matches = [&item](const InventoryItem &carried)
+    {
+        return carried.objectDescriptionId == item.objectDescriptionId && carried.rulesetFields == item.rulesetFields;
+    };
+    const int bagCount = party.rules().items.bagCount(party);
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        for (int bag = 0; bag < bagCount; ++bag)
+        {
+            for (const InventoryItem &carried : InventoryBags::itemsInBag(party.members()[memberIndex], uint8_t(bag)))
+            {
+                if (matches(carried))
+                {
+                    return BagItemRef{memberIndex, uint8_t(bag), carried.gridX, carried.gridY};
+                }
+            }
+        }
+    }
+
+    if (party.members().empty() || !party.rules().items.hasPouches())
+    {
+        return std::nullopt;
+    }
+
+    for (const uint8_t bag :
+        {InventoryBags::CraftingPouchBag, InventoryBags::AlchemyPouchBag, InventoryBags::QuestPouchBag})
+    {
+        for (const InventoryItem &carried : InventoryBags::itemsInBag(party, 0, bag))
+        {
+            if (matches(carried))
+            {
+                return BagItemRef{0, bag, carried.gridX, carried.gridY};
+            }
+        }
+    }
+
+    return std::nullopt;
+}
+
+// The held item when the rules make it travel: the move is queued and the item is used only as the party sets off
+// (GameplayItemService::useTravelItemForMove), so the autosave of the map being left holds it unused.
 bool tryUseTravelItem(GameplayScreenRuntime &runtime, GameplayUiController::HeldInventoryItemState &heldItem)
 {
     Party *pParty = runtime.party();
@@ -257,21 +312,37 @@ bool tryUseTravelItem(GameplayScreenRuntime &runtime, GameplayUiController::Held
         return false;
     }
 
-    const std::optional<std::string> mapFileName = pParty->rules().items.useTravelItem(*pParty, heldItem.item);
+    const std::optional<TravelItemUse> plan =
+        pParty->rules().items.planTravelItem(*pParty, heldItem.item, travelItemOrigin(*pWorldRuntime));
 
-    if (!mapFileName)
+    if (!plan)
     {
         return false;
     }
 
+    if (!plan->refusal.empty())
+    {
+        if (plan->consumed)
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+
+        runtime.setStatusBarEvent(plan->refusal, 4.0f);
+        return true;
+    }
+
     EventRuntimeState::PendingMapMove move = {};
-    move.mapName = *mapFileName;
-    move.useMapStartPosition = true;
+    move.mapName = plan->mapFileName;
+    move.instanceId = plan->instanceId;
+    move.useMapStartPosition = plan->useMapStartPosition;
+    move.x = plan->x;
+    move.y = plan->y;
+    move.z = plan->z;
     move.traceSourceKind = "item";
     move.traceSourceId = heldItem.item.objectDescriptionId;
+    move.travelItem = heldItem.item;
     pEventRuntimeState->pendingMapMove = move;
-    heldItem = {};
-    pParty->clearHeldItemForQueries();
 
     GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
     characterScreen.open = false;
@@ -411,6 +482,59 @@ void applyBreachCharge(GameplayScreenRuntime &runtime, const ItemDefinition &ite
 GameplayItemService::GameplayItemService(GameSession &session)
     : m_session(session)
 {
+}
+
+bool GameplayItemService::useTravelItemForMove(GameplayScreenRuntime &runtime, const InventoryItem &item)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    Party *pParty = runtime.party();
+    const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pParty == nullptr || pWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    // Still in hand, or put back since (a screen that closed, a click): it must be the party's yet.
+    const bool held = heldItem.active && heldItem.item.objectDescriptionId == item.objectDescriptionId
+        && heldItem.item.rulesetFields == item.rulesetFields;
+    const std::optional<BagItemRef> carried = held ? std::nullopt : findCarriedTravelItem(*pParty, item);
+
+    if (!held && !carried)
+    {
+        return false;
+    }
+
+    const std::optional<TravelItemUse> use =
+        pParty->rules().items.useTravelItem(*pParty, item, travelItemOrigin(*pWorldRuntime));
+
+    if (!use)
+    {
+        return false;
+    }
+
+    if (use->consumed)
+    {
+        if (held)
+        {
+            heldItem = {};
+            pParty->clearHeldItemForQueries();
+        }
+        else
+        {
+            InventoryItem taken;
+            InventoryBags::takeFromBag(*pParty, carried->memberIndex, carried->bag,
+                pParty->rules().items.bagCount(*pParty), carried->gridX, carried->gridY, taken);
+        }
+    }
+
+    if (!use->refusal.empty())
+    {
+        runtime.setStatusBarEvent(use->refusal, 4.0f);
+        return false;
+    }
+
+    return true;
 }
 
 bool GameplayItemService::tryUseHeldTravelItem(GameplayScreenRuntime &runtime)

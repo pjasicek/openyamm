@@ -421,12 +421,13 @@ std::pair<double, double> powerAndVitality(
     critInputs.fateSkill = rules.auraSkill(47);
     critInputs.buffScale = rules.buffScale();
     critInputs.madness = rules.options().challengeMode == RulesetChallengeMode::BeyondMadness;
+    critInputs.overcrit = mawWearsLegendaryAffix(character, LegendaryOvercrit);
     addMapCritAffixes(rules, critInputs);
     const MawCrit crit = mawCrit(critInputs);
     const double average = (rows.meleeMinimumDamage + rows.meleeMaximumDamage) / 2.0
         * (1 + std::min(crit.chance, 1.0) * (crit.multiplier - 1));
     const double power = mawRound(average / (std::max(1, delay.delay) / 60.0)
-        * mawPartyHitChance(rows.meleeAttack, reference, rules.blessHitSkill(character), model)
+        * mawPartyHitChance(mawFullMeleeAttack(character, rows), reference, rules.blessHitSkill(character), model)
         * delay.damageMultiplier * std::max(crit.chance, 1.0));
 
     double fullHealth = character.maxHealth;
@@ -866,18 +867,15 @@ MawCombatRules::MawCombatRules(MawRules &rules)
 
             // Dimension affix 12 raises the resistances of unnamed monsters (zzMaw-Monsters.lua:600-605).
             const int bonus = mawMonsterResistanceBonus(m_rules, hit.targetFacts);
-
-            // An Assassin's Mass Distortion, a weapon blow, takes Earth's resistance twice; stage_assassinAttack
-            // replaces the result after Mass Distortion's scale, so the scale does not apply (DM:822-866, CMB-4).
-            constexpr uint32_t MassDistortion = 44;
-
-            if (hit.pMissileAttacker != nullptr && hit.missileSpellId == MassDistortion
-                && mawClassSpell(hit.pMissileAttacker->className, MassDistortion) != nullptr)
+            // A solo run's Breach talent: the caster's spells count less of the monster's resistance.
+            const bool soloSpell =
+                m_rules.options().soloRun && hit.pMissileAttacker != nullptr && hit.missileSpellId != 0;
+            const double breach = soloSpell ? MawSoloTalents::breachShare(*hit.pMissileAttacker) : 0.0;
+            const auto breached = [breach, bonus](double damage, int resistance)
             {
-                const double once = resisted(hit.amount, hit.resistance, bonus);
-                hit.amount = int(std::ceil(resisted(once, hit.resistances.earth, bonus)));
-                return;
-            }
+                const int capped = mawCappedMonsterResistance(resistance, bonus);
+                return damage / mawMonsterResistanceDivisor(int(mawRound(capped * (1.0 - breach))));
+            };
 
             // A dragon's breath and Flame Blast take the monster's lowest resistance (DM:657-664).
             if (hit.pMissileAttacker != nullptr && (hit.missileSpellId == 97 || hit.missileSpellId == 123)
@@ -890,13 +888,13 @@ MawCombatRules::MawCombatRules(MawRules &rules)
                     {
                         return mawCappedMonsterResistance(left) < mawCappedMonsterResistance(right);
                     });
-                hit.amount = int(std::ceil(resisted(hit.amount, lowest, bonus)));
+                hit.amount = int(std::ceil(breached(hit.amount, lowest)));
                 return;
             }
 
             if (!hit.weaponElements)
             {
-                hit.amount = int(std::ceil(resisted(hit.amount, hit.resistance, bonus)));
+                hit.amount = int(std::ceil(breached(hit.amount, hit.resistance)));
                 return;
             }
 
@@ -1044,6 +1042,47 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             }
 
             hit.amount = int(mawRound(hit.amount * (1 + taken / 100)));
+        });
+    m_damageToMonster.add(
+        "solo-talents",
+        [this](MonsterDamageHit &hit)
+        {
+            // A solo run's talents on the character's own hits (devdocs/solo_action/ARCHETYPES_BUILD.md): Battle
+            // Frenzy on a melee blow, Long Shot on an arrow, and on a spell Spell Surge, Overload and Opening Volley,
+            // which add to one another. Expose Weakness is on the monster, for every hit.
+            if (!m_rules.options().soloRun || hit.amount <= 0 || hit.attackerFacts.level > 0)
+            {
+                return;
+            }
+
+            double scale = 1.0;
+
+            if (hit.pMeleeAttacker != nullptr)
+            {
+                scale *= MawSoloTalents::battleFrenzyScale(*hit.pMeleeAttacker, m_rules.battleFrenzyMonsters());
+            }
+            else if (hit.pMissileAttacker != nullptr && hit.missileSpellId == 0)
+            {
+                scale *= MawSoloTalents::longShotScale(*hit.pMissileAttacker, hit.missileFlightDistance);
+            }
+            else if (hit.pMissileAttacker != nullptr)
+            {
+                // A blast knows the monsters it damaged; a spell that named its target counted the crowd round it at
+                // the cast.
+                const int blast = hit.blastMonsters > 0                  ? hit.blastMonsters
+                    : m_soloCastSpellId == hit.missileSpellId ? m_soloCastMonsters
+                                                              : 0;
+                const bool fullHealth = hit.targetFacts.maxHp > 0 && hit.targetCurrentHp >= hit.targetFacts.maxHp;
+                scale *= 1.0 + MawSoloTalents::spellDamageBonus(
+                    *hit.pMissileAttacker, isAreaSpell(hit.missileSpellId), blast, fullHealth);
+            }
+
+            if (hit.targetFacts.exposedPercent > 0.0f && m_gameMinutes < hit.targetFacts.exposedUntilGameMinutes)
+            {
+                scale *= 1.0 + hit.targetFacts.exposedPercent / 100.0;
+            }
+
+            hit.amount = int(mawRound(hit.amount * scale));
         });
     m_damageToMonster.add(
         "map-affixes",
@@ -1306,14 +1345,21 @@ MawCombatRules::MawCombatRules(MawRules &rules)
             hit.amount = int(mawRound(amount));
         });
     m_damageToCharacter.add(
-        "solo-spell-suppression",
+        "solo-talent-cuts",
         [this](CharacterDamageHit &hit)
         {
-            // A solo run's Spell Suppression: the last cut of a hit that is not physical, from a monster, a trap or
-            // anything else, after the 90 % cap of armour and resistances (user, 2026-11-16).
-            if (m_rules.options().soloRun && hit.amount > 0 && hit.type != CombatDamageType::Physical)
+            // A solo run's own cuts, last of all, after the 90 % cap of armour and resistances: Spell Suppression (a
+            // hit that is not physical, from a monster, a trap or anything else; user, 2026-11-16), Vanguard,
+            // Outnumbered, Nimble and Phase (user, 2026-11-18). Together they leave at least the table's damage_floor.
+            if (m_rules.options().soloRun && hit.amount > 0)
             {
-                hit.amount = int(mawRound(hit.amount * MawSoloTalents::nonPhysicalDamageScale(*hit.pCharacter)));
+                MawSoloTalents::IncomingHit incoming;
+                incoming.physical = hit.type == CombatDamageType::Physical;
+                incoming.monsterAttack = mawMonsterHit(hit);
+                incoming.missile = hit.missile;
+                incoming.firedFromDistance = hit.firedFromDistance;
+                incoming.nearbyMonsters = m_rules.outnumberedMonsters();
+                hit.amount = int(mawRound(hit.amount * MawSoloTalents::incomingDamageScale(*hit.pCharacter, incoming)));
             }
         });
 }
@@ -1906,6 +1952,7 @@ MawPowerReport mawPowerReport(
     critInputs.fateSkill = rules.auraSkill(47);
     critInputs.buffScale = rules.buffScale();
     critInputs.madness = rules.options().challengeMode == RulesetChallengeMode::BeyondMadness;
+    critInputs.overcrit = mawWearsLegendaryAffix(character, LegendaryOvercrit);
     addMapCritAffixes(rules, critInputs);
     const MawCrit crit = mawCrit(critInputs);
 
@@ -1941,14 +1988,15 @@ MawPowerReport mawPowerReport(
         return damage;
     };
 
-    report.melee = blowPower(rows.meleeMinimumDamage, rows.meleeMaximumDamage, rows.meleeAttack,
+    report.melee = blowPower(rows.meleeMinimumDamage, rows.meleeMaximumDamage, mawFullMeleeAttack(character, rows),
         mawCharacterAttackDelay(rules, character, itemTable, CharacterAttackMode::Melee, sheet.speed.actual,
             rules.auraSkill(5, &character)),
         weaponExtra(heldWeapons(character, itemTable, true, false)));
 
     // A Master bowman looses two arrows.
     const double arrows = skillMastery(character, "Bow") >= SkillMastery::Master ? 2 : 1;
-    report.ranged = blowPower(rows.rangedMinimumDamage * arrows, rows.rangedMaximumDamage * arrows, rows.rangedAttack,
+    report.ranged = blowPower(rows.rangedMinimumDamage * arrows, rows.rangedMaximumDamage * arrows,
+        mawFullRangedAttack(character, rows),
         mawCharacterAttackDelay(rules, character, itemTable, CharacterAttackMode::Bow, sheet.speed.actual,
             rules.auraSkill(5, &character)),
         weaponExtra(heldWeapons(character, itemTable, false, true)));
@@ -2224,7 +2272,8 @@ std::optional<int> MawCombatRules::spellDamageOnTarget(const CharacterSpellCast 
         return std::nullopt;
     }
 
-    // An Assassin's Mass Distortion is a weapon blow (classSpellDamage); the resistance stage scales it.
+    // An Assassin's Mass Distortion is a weapon blow (classSpellDamage) without this scale; the resistance stage
+    // divides it by Earth's resistance once, as any spell (MAW 21275f61; twice before, DM:826-871, CMB-4).
     if (mawClassSpell(cast.pCaster->className, uint32_t(MassDistortion)) != nullptr)
     {
         return std::nullopt;
@@ -2249,18 +2298,11 @@ std::optional<SkillMastery> MawCombatRules::spellChainMastery(int spellId, Skill
 
 int MawCombatRules::rollSpellDamage(const CharacterSpellCast &cast, bool *pCritical) const
 {
-    const int damage = rollSpellDamageBeforeTalents(cast, pCritical);
-
-    // A solo run's Spell Surge talent, and Overload on an area spell into a crowd.
-    if (m_rules.options().soloRun && cast.pCaster != nullptr && damage > 0)
-    {
-        const double overload = cast.pSpell != nullptr && isAreaSpell(uint32_t(cast.pSpell->id))
-            ? MawSoloTalents::overloadScale(*cast.pCaster, cast.monstersNearTarget)
-            : 1.0;
-        return int(std::lround(damage * MawSoloTalents::spellDamageScale(*cast.pCaster) * overload));
-    }
-
-    return damage;
+    // A solo run's spell talents act where the spell lands (the "solo-talents" stage): a spell that names its target
+    // leaves the crowd it counted round it for Overload there.
+    m_soloCastSpellId = cast.pSpell != nullptr ? uint32_t(cast.pSpell->id) : 0;
+    m_soloCastMonsters = cast.monstersNearTarget;
+    return rollSpellDamageBeforeTalents(cast, pCritical);
 }
 
 int MawCombatRules::rollSpellDamageBeforeTalents(const CharacterSpellCast &cast, bool *pCritical) const
@@ -2664,9 +2706,11 @@ int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int 
     // Mana Shield first, then legendary 15 on what is left, then Divine Protection (DM:1866-1903).
     if (pMember->hasSkill("ManaShield") && !pMember->rulesetState.manaShieldDisabled)
     {
-        const MawManaShieldResult shielded = mawManaShield(
-            damage, pMember->spellPoints, skillLevel(*pMember, "ManaShield"), skillMastery(*pMember, "ManaShield"));
-        pMember->spellPoints -= shielded.spellPointsSpent;
+        // A solo run's Arcane Ward: the shield spends a share of the SP, so the same pool absorbs more.
+        const double cost = m_rules.options().soloRun ? MawSoloTalents::manaShieldCostScale(*pMember) : 1.0;
+        const MawManaShieldResult shielded = mawManaShield(damage, int(pMember->spellPoints / cost),
+            skillLevel(*pMember, "ManaShield"), skillMastery(*pMember, "ManaShield"));
+        pMember->spellPoints -= std::min(pMember->spellPoints, int(std::ceil(shielded.spellPointsSpent * cost)));
         damage = std::max(0, shielded.damage);
     }
 
@@ -2685,6 +2729,13 @@ int MawCombatRules::absorbCharacterDamage(Party &party, size_t memberIndex, int 
         }
 
         damage = left;
+    }
+
+    // A solo run's rage: the share of the member's bar the hit took.
+    if (m_rules.options().soloRun && damage > 0)
+    {
+        const int fullHealth = std::max(1, Party::effectiveMaximumHealth(*pMember));
+        MawSoloTalents::gainRageFromHit(*pMember, double(damage) / fullHealth);
     }
 
     return damage;
@@ -2978,19 +3029,31 @@ void MawCombatRules::updateCombat(Party &party, IGameplayWorldRuntime &world, fl
     m_gameMinutes = world.gameMinutes();
     updateArtifacts(party, world);
     int nearbyMonsters = 0;
+    // The solo run's pack talents count by their own reach (talents.yml), wider than the legendaries' 512.
+    const bool solo = m_rules.options().soloRun;
+    const float outnumberedReach = solo ? MawSoloTalents::packReach("outnumbered") : 0.0f;
+    const float battleFrenzyReach = solo ? MawSoloTalents::packReach("battle_frenzy") : 0.0f;
+    int outnumberedMonsters = 0;
+    int battleFrenzyMonsters = 0;
 
     for (size_t actorIndex = 0; actorIndex < world.mapActorCount(); ++actorIndex)
     {
         GameplayActorRulesView state;
 
-        if (world.actorRulesView(actorIndex, state) && !state.isDead && state.hostileToParty
-            && std::hypot(state.preciseX - world.partyX(), state.preciseY - world.partyY()) - state.radius <= 512)
+        if (!world.actorRulesView(actorIndex, state) || state.isDead || !state.hostileToParty)
         {
-            ++nearbyMonsters;
+            continue;
         }
+
+        const float distance =
+            std::hypot(state.preciseX - world.partyX(), state.preciseY - world.partyY()) - state.radius;
+        nearbyMonsters += distance <= 512 ? 1 : 0;
+        outnumberedMonsters += solo && distance <= outnumberedReach ? 1 : 0;
+        battleFrenzyMonsters += solo && distance <= battleFrenzyReach ? 1 : 0;
     }
 
     m_rules.setNearbyMonsters(nearbyMonsters);
+    m_rules.setSoloPackMonsters(outnumberedMonsters, battleFrenzyMonsters);
     EventRuntimeState *pRuntimeState = world.eventRuntimeState();
 
     // Real-time poison, once a second.
@@ -3206,10 +3269,53 @@ void MawCombatRules::applyPartyHitEffects(Party &party, const PartyHitOnMonster 
         return;
     }
 
-    // A solo run's Onslaught talent: a kill adds an attack-speed stack.
-    if (hit.killed && m_rules.options().soloRun)
+    // A solo run's talents (devdocs/solo_action/ARCHETYPES_BUILD.md).
+    if (m_rules.options().soloRun)
     {
-        MawSoloTalents::noteKill(*party.member(hit.memberIndex));
+        Character &member = *party.member(hit.memberIndex);
+
+        // A kill adds an Onslaught stack and takes the cooldown_per_kill off (Charge).
+        if (hit.killed)
+        {
+            MawSoloTalents::noteKill(member);
+        }
+
+        // Rage: a melee blow gives for its recovery and for the share of the monster's bar it took.
+        if (hit.melee)
+        {
+            const int monsterHealth = std::max(1, hit.pTarget->maxHp);
+            MawSoloTalents::gainRageFromBlow(member, double(hit.damage) / monsterHealth, hit.recoverySeconds,
+                hit.extraBlow);
+        }
+
+        // A damaging spell that hit takes Spell Surge's cooldown_per_cast off, once for the cast.
+        if (hit.spellId != 0)
+        {
+            MawSoloTalents::noteSpellHit(member);
+        }
+
+        // A critical bow hit exposes the monster (Expose Weakness) and slows its movement (Hamstring).
+        if (!hit.melee && hit.spellId == 0 && hit.critical && hit.pWorld != nullptr && hit.targetActorIndex)
+        {
+            constexpr float GameMinutesPerSecond = 0.5f;
+
+            if (const float percent = MawSoloTalents::exposeWeaknessPercent(member); percent > 0.0f)
+            {
+                if (ActorRulesetFacts *pFacts = hit.pWorld->mutableActorRulesetFacts(*hit.targetActorIndex))
+                {
+                    const bool running = m_gameMinutes < pFacts->exposedUntilGameMinutes;
+                    pFacts->exposedPercent = running ? std::max(pFacts->exposedPercent, percent) : percent;
+                    pFacts->exposedUntilGameMinutes =
+                        m_gameMinutes + MawSoloTalents::exposeWeaknessSeconds() * GameMinutesPerSecond;
+                }
+            }
+
+            if (const float percent = MawSoloTalents::hamstringPercent(member); percent > 0.0f)
+            {
+                hit.pWorld->debuffActor(*hit.targetActorIndex, GameplayActorHitDebuff::MoveSlow,
+                    MawSoloTalents::hamstringSeconds(), 1.0f / std::max(0.05f, 1.0f - percent / 100.0f));
+            }
+        }
     }
 
     // A Grandmaster spear blow stacks more physical damage on its target until it dies (DM:546-583).

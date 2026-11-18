@@ -1,0 +1,81 @@
+id: rulesets.maw_solo_challenge_shouts
+title: "Ruleset - solo run: Challenge stops the monsters' shooting and Demoralizing Shout cuts what they deal"
+world: mm6
+mode: faithful
+tags: [rulesets, maw, solo, combat]
+steps:
+  - note:
+      text: >-
+        Challenge (talents.yml): every hostile that has noticed the party, wherever it stands (user, 2026-11-18), may
+        not shoot or cast for 4/5/6 s (GameplayActorHitDebuff::Silence; the AI falls back to its blow as it does when
+        blinded); with no such monster it does nothing and keeps its cooldown. Demoralizing Shout
+        (a full rage bar): the monsters within 1024 deal less for 6/8/10 s (GameplayActorHitDebuff::Demoralize, MAW's
+        cut of a monster under Shrinking Ray). Master Archers stand 1500 away and shoot; after the Challenge and the
+        arrows already in the air, none flies for the rest of its six seconds.
+  - new_game_flow:
+      start_map: oute3.odm
+      ruleset: "maw:solo"
+      party:
+        gold: 0
+        food: 10
+        members:
+          - name: Probe
+            class: Knight
+            level: 60
+            accuracy: 900
+            skills:
+              - {name: Sword, level: 10, mastery: 3}
+            equipment: {}
+  - grant_item: {item_id: 1, equip: mainhand}
+  - console: {line: "talent cleave 1", expect_contains: "cleave"}
+  - console: {line: "talent challenge 3", expect_contains: "challenge"}
+  - console: {line: "talent demoralizing_shout 1", expect_contains: "demoralizing_shout"}
+  - setup_shortcut: {kind: immortal, value: true}
+  - set_pose: {map: oute3.odm, x: -9728, y: -11319, z: 200, yaw_degrees: 0, pitch: 0}
+  - advance_runtime: {seconds: 7}
+  - clear_hostiles: {radius: 9000}
+  # Nothing has noticed the Knight: the Challenge is not spent.
+  - console: {line: "talent use challenge", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.2}
+  - console: {line: "talent list", expect_not_contains: "challenge=3 (cooldown"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11019, z: 200}
+  - console: {line: "actor immobile last on"}
+  - spawn_actor: {monster_id: 476, x: -8228, y: -11619, z: 200}
+  - console: {line: "actor immobile last on"}
+  # One far beyond the others: the Challenge has no reach of its own, it takes whoever has noticed the Knight.
+  - spawn_actor: {monster_id: 476, x: -6928, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  # They shoot: within twelve seconds some arrow is in the air at one of these checks.
+  - advance_runtime: {seconds: 6}
+  - console: {line: "talent use challenge", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.1}
+  - assert: {turn_based: {actor_index: last, actor_effect: silence, effect_min: 5.0, effect_max: 6.0}}
+  # The arrows in the air land; no new one leaves while the Challenge holds.
+  - advance_runtime: {seconds: 2.5}
+  - assert:
+      projectiles: {source_monster_id: 476, max_count: 0}
+  - advance_runtime: {seconds: 2.5}
+  - assert:
+      projectiles: {source_monster_id: 476, max_count: 0}
+  # It ends, and they shoot again: the Knight, no longer immortal, is hurt.
+  - console: {line: "hp full"}
+  - setup_shortcut: {kind: immortal, value: false}
+  - advance_runtime: {seconds: 10}
+  - assert:
+      party_health: {full: false}
+  - setup_shortcut: {kind: immortal, value: true}
+  # Demoralizing Shout needs the full bar and reaches 1024: the archers at 1500 are out of it, one brought near is in.
+  - console: {line: "talent rage 0", expect_contains: "rage 0"}
+  - console: {line: "talent use demoralizing_shout", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.1}
+  - assert: {turn_based: {actor_index: last, actor_effect: demoralize, effect_max: 0.0}}
+  - spawn_actor: {monster_id: 195, x: -9328, y: -11319, z: 200}
+  - console: {line: "actor immobile last on"}
+  - advance_runtime: {seconds: 1}
+  - console: {line: "talent rage 100", expect_contains: "rage 100"}
+  - console: {line: "talent use demoralizing_shout", expect_contains: "using"}
+  - advance_runtime: {seconds: 0.1}
+  - assert: {turn_based: {actor_index: last, actor_effect: demoralize, effect_min: 5.0, effect_max: 6.0}}
+  - console: {line: "talent list", expect_contains: "(not full)"}

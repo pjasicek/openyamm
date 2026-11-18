@@ -24,9 +24,13 @@ public:
         GameplayScreenRuntime &runtime,
         size_t memberIndex,
         bool keepCharacterScreenOpen);
-    // The held item when the rules make it travel (MAW's dimension maps): it is used up and the party goes to the map
-    // it names. False for every other item, which stays in hand.
+    // The held item when the rules make it travel (MAW's dimension maps): the move to the map it names is queued and
+    // the item is used only as the party sets off (useTravelItemForMove). False for every other item.
     bool tryUseHeldTravelItem(GameplayScreenRuntime &runtime);
+    // The second step of a travel item's use (PendingMapMove::travelItem), as the party sets off: the rules set the
+    // visit up and the item is used up if they say so, from the player's hand or from the bag it went back to. False
+    // when the party no longer has the item or the rules now refuse: the party stays.
+    bool useTravelItemForMove(GameplayScreenRuntime &runtime, const InventoryItem &item);
     // The member's quick item slot (the potion radial): the matching potion or scroll from the member's bags, else
     // another member's (QuickItemSlots::findPartyItem), used on the member as a held item is (a scroll casts, a potion is drunk under the rules' recovery). What remains goes back
     // where it lay. False, with a status line, when nothing was used.

@@ -24,6 +24,12 @@ CharacterCombatRows mawCombatRows(
     const ItemTable &itemTable,
     const CharacterStatValues &stats);
 
+// The attack a blow or a shot rolls with and the sheet shows: the rows' attack with the character's own bonuses
+// (Bless's flat attack, the items' attack enchantments). MAW's hit chance popups and Power read pl:GetMeleeAttack()
+// and pl:GetRangedAttack(), which hold them too.
+int mawFullMeleeAttack(const Character &character, const CharacterCombatRows &rows);
+int mawFullRangedAttack(const Character &character, const CharacterCombatRows &rows);
+
 // A character's armour as MAW's armour popups show it (itemStats' armorAC, shieldAC and the skills' bonuses,
 // zzMaw-Items.lua:2690-2998): the pieces' and the shield's own Armor Class, before Legendary 28 and the dragon
 // triple, and what the body-armour skill (`bodySkill`, empty without leather, chain or plate) and Shield add.

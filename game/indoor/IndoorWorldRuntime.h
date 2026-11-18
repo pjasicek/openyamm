@@ -449,6 +449,7 @@ public:
         return this;
     }
     const EventRuntimeState *eventRuntimeState() const override;
+    bool scriptedChestOpens(uint32_t chestId) const override;
     bool fireEventMissile(const EventMissileRequest &request) override;
     bool turnMapActors(std::optional<size_t> actorIndex, uint32_t group, float seconds) override;
     bool wakeMapActors(std::optional<size_t> actorIndex, uint32_t group) override;

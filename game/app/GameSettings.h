@@ -112,6 +112,10 @@ std::string antialiasingValue(int samples);
 bool parseTurnBasedSpeedValue(const std::string &value, float &speed);
 std::string turnBasedSpeedValue(float speed);
 
+// Fast mode's speed factor: one of "1.5", "2", "3" or "4".
+bool parseFastModeSpeedValue(const std::string &value, float &speed);
+std::string fastModeSpeedValue(float speed);
+
 // The repeated voice line interval in milliseconds: one of "0", "500", "1000", "2000", "3000", "5000" or "10000".
 bool parseRepeatedVoiceLineIntervalValue(const std::string &value, int &intervalMs);
 std::string repeatedVoiceLineIntervalValue(int intervalMs);
@@ -404,6 +408,8 @@ struct GameSettings
     // (GrayFace MM8Patch TurnBasedSpeed and TurnBasedPartySpeed). The party's own movement stage stays at 1.
     float turnBasedMonsterSpeed = 1.0f;
     float turnBasedPartySpeed = 1.0f;
+    // How many times faster the game runs while fast mode is on (1.5 to 4); the Fast Mode key turns it on and off.
+    float fastModeSpeed = 2.0f;
     // The combat log button and its docked log of hits (MAW GAPS H.3); hidden, nothing is recorded
     // (GameplayScreenRuntime::combatLogShown).
     CombatLogMode combatLog = CombatLogMode::Auto;
@@ -428,6 +434,9 @@ struct GameSettings
     // Maps with a painted map (MM9's) show it on the minimap and the journal map; false shows the MM6-MM8 line map
     // where the map also has outlines (MM9's dungeons, the default). Maps without outlines always show the painted map.
     bool paintedMaps = false;
+    // The colour of the party arrow on the minimap of indoor maps: "white" (the arrow as drawn), "green" or "cyan";
+    // a coloured arrow stands out among the white walls of the line map. Outdoors it is always white.
+    std::string indoorMinimapArrow = "white";
     // The load and save lists: false keeps Quicksave, Autosave, then the rest by name; true puts the newest first.
     bool saveListNewestFirst = false;
     // How many quicksaves a playthrough keeps (1 to 20): a new one pushes the earlier ones down, the oldest goes.

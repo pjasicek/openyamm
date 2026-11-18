@@ -546,6 +546,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.sourceX = request.sourceX;
         projectile.sourceY = request.sourceY;
         projectile.sourceZ = request.sourceZ;
+        projectile.firedDistance = std::hypot(request.targetX - request.sourceX, request.targetY - request.sourceY,
+            request.targetZ - request.sourceZ);
         projectile.x = request.sourceX;
         projectile.y = request.sourceY;
         projectile.z = request.sourceZ;
@@ -563,6 +565,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.chainShare = request.chainShare;
         projectile.chainRadius = request.chainRadius;
         projectile.hitCredit = request.hitCredit;
+        projectile.quietBlast = request.quietBlast;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.turnBasedPendingAction = request.turnBasedPendingAction;
         projectile.lifetimeTicks = request.definition.lifetimeTicks;
@@ -606,6 +609,8 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.sourceX = request.sourceX;
     projectile.sourceY = request.sourceY;
     projectile.sourceZ = request.sourceZ;
+    projectile.firedDistance = std::hypot(request.targetX - request.sourceX, request.targetY - request.sourceY,
+        request.targetZ - request.sourceZ);
     projectile.x = request.sourceX + directionX * spawnForwardOffset;
     projectile.y = request.sourceY + directionY * spawnForwardOffset;
     projectile.z = request.sourceZ + directionZ * spawnForwardOffset;
@@ -644,6 +649,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.chainShare = request.chainShare;
     projectile.chainRadius = request.chainRadius;
     projectile.hitCredit = request.hitCredit;
+    projectile.quietBlast = request.quietBlast;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.turnBasedPendingAction = request.turnBasedPendingAction;
     projectile.sectorId = request.sectorId;
@@ -1237,6 +1243,7 @@ std::optional<GameplayProjectileService::ProjectileSpawnRequest> GameplayProject
     request.blastMinimumDamage = projectile.blastMinimumDamage;
     request.blastMaximumDamage = projectile.blastMaximumDamage;
     request.critical = projectile.critical;
+    request.quietBlast = projectile.quietBlast;
     request.sourceX = struck.preciseX;
     request.sourceY = struck.preciseY;
     request.sourceZ = fromZ;
@@ -2992,6 +2999,9 @@ PartyMissileSource GameplayProjectileService::partyMissileSource(
         source.spellId = uint32_t(std::max(projectile.spellId, 0));
         source.targetCurrentHp = targetCurrentHp;
         source.resistances = monsterDamageResistances(targetStats);
+        // The flight from where it left to where it is now, at the monster (a solo run's Long Shot).
+        source.flightDistance = std::hypot(projectile.x - projectile.sourceX, projectile.y - projectile.sourceY,
+            projectile.z - projectile.sourceZ);
     }
 
     return source;

@@ -137,7 +137,7 @@ double clamp01(double value)
 
 double legendaryRamp(double level)
 {
-    return clamp01((level - 100.0) / (420.0 - 100.0));
+    return clamp01((level - 100.0) / (500.0 - 100.0));
 }
 
 double powerFor(double itemLevel)
@@ -175,9 +175,38 @@ WeaponDamage weaponDamageForLevel(double itemLevel, bool twoHanded, double flat)
     return damage;
 }
 
+// The ladder rung of the base items the expected character carries (estimateBaseTier): the first at level 0, the top
+// one (the sixth) from level 100.
+constexpr double BaseTiers = 6;
+
+double baseTier(double level)
+{
+    return 1 + (BaseTiers - 1) * clamp01(level / 100.0);
+}
+
+// weaponTierFlat of that rung: the top rung is worth 16 flat damage, the first none.
 double weaponFlat(double level)
 {
-    return std::min(level * 0.5, 16.0);
+    return 16.0 * (baseTier(level) - 1) / (BaseTiers - 1);
+}
+
+// The power a Primordial item dropped at this level carries (GetPrimordialCharges).
+double primordialCharges(double level)
+{
+    const double power = powerFor(level);
+    return std::min(std::max(mawRound(power * 1.2), power + 4), 255.0);
+}
+
+// The item level of that Primordial weapon (referenceWeaponLevel), which the expected weapon grows towards.
+double referenceWeaponLevel(double level)
+{
+    return primordialCharges(level) * 5;
+}
+
+// armorTierAC: a first-rung body armour is worth 21 % of the reference armour's 116.
+double armorTierArmorClass(double tier)
+{
+    return 116 * (0.21 + (1 - 0.21) * (tier - 1) / (BaseTiers - 1));
 }
 
 // Loot rarities in MAW's order (const.Rarity, 1-based).
@@ -637,9 +666,9 @@ double MawBalanceModel::mana(double level)
 
 double MawBalanceModel::wornArmor(double level)
 {
-    const double power = powerFor(level);
-    const double charges = std::min(std::max(mawRound(power * 1.2), power + 4), 255.0);
-    return (116 + 116 * charges / 40) * gearedFraction(level);
+    // The base item of the expected rung, which every character wears, plus what a Primordial item's power adds to
+    // the reference armour, by the geared share.
+    return armorTierArmorClass(baseTier(level)) + 116 * primordialCharges(level) / 40 * gearedFraction(level);
 }
 
 double MawBalanceModel::armorClass(double level)
@@ -660,9 +689,9 @@ double MawBalanceModel::resistance(double level)
         + statisticEffect(stat(level));
 }
 
-double MawBalanceModel::enchantResistance(double level) const
+double MawBalanceModel::enchantResistance(double level)
 {
-    return maxEnchantStrength(level) * 100 / 200 * (1 + 0.5 * legendaryRamp(level));
+    return maxEnchantStrength(level) * 100 / 200 * gearedFraction(level) * (1 + 0.5 * legendaryRamp(level));
 }
 
 double MawBalanceModel::chanceToBeHit(double level)
@@ -729,7 +758,7 @@ double MawBalanceModel::attack(double level)
     const double estimatedSkill = skill(level);
     const int estimatedMastery = mastery(level);
     const double meleeSkill = estimatedSkill + 10 * legendaryRamp(level);
-    return weaponDamageForLevel(level, true, weaponFlat(level)).flat
+    return expectedWeapon(level).flat
         + gradualMasteryValue(SwordAttack, meleeSkill, masteryForSkill(meleeSkill)) * meleeSkill
         + gradualMasteryValue(ArmsmasterAttack, estimatedSkill, estimatedMastery) * estimatedSkill
         + statisticEffect(stat(level))
@@ -752,11 +781,31 @@ double MawBalanceModel::weaponLevelDamage(double itemLevel, bool twoHanded, doub
     return ((levelDamage + arms) * (1 + 0.02 * skill(itemLevel)) + statFlat) * (1 + stat(itemLevel) / 1000);
 }
 
+// estimateWeapon: the two-handed weapon of the expected rung, between a bare one and the Primordial one of this level
+// by the geared share.
+MawBalanceModel::ExpectedWeapon MawBalanceModel::expectedWeapon(double level)
+{
+    const double geared = gearedFraction(level);
+    const double flat = weaponFlat(level);
+    const WeaponDamage full = weaponDamageForLevel(referenceWeaponLevel(level), true, flat);
+    const WeaponDamage bare = weaponDamageForLevel(0, true, flat);
+    ExpectedWeapon weapon;
+    weapon.dice = bare.dice + (full.dice - bare.dice) * geared;
+    weapon.flat = bare.flat + (full.flat - bare.flat) * geared;
+    return weapon;
+}
+
+// estimateWeaponLevelDamage: what the Primordial weapon's power adds, by the geared share.
+double MawBalanceModel::expectedWeaponLevelDamage(double level)
+{
+    return weaponLevelDamage(referenceWeaponLevel(level), true, weaponFlat(level)) * gearedFraction(level);
+}
+
 double MawBalanceModel::power(double level)
 {
     const double estimatedSkill = skill(level);
     const int estimatedMastery = mastery(level);
-    const WeaponDamage weapon = weaponDamageForLevel(level, true, weaponFlat(level));
+    const ExpectedWeapon weapon = expectedWeapon(level);
     const double ramp = legendaryRamp(level);
     const double meleeSkill = estimatedSkill + 10 * ramp;
     const double weaponSkillMult = 1 + SwordSkillDamagePerPoint * meleeSkill / 100;
@@ -789,7 +838,7 @@ double MawBalanceModel::power(double level)
     damage *= critMult;
 
     const double enchantLegendary = (1 + (1.5 - 1) * ramp) * (1 + (critMult - 1) * ramp);
-    const double enchantBase = weaponLevelDamage(level, true, weaponFlat(level)) * enchantLegendary;
+    const double enchantBase = expectedWeaponLevelDamage(level) * enchantLegendary;
     damage += enchantBase * 0.5 * std::min(level / 100, 1.0);
     damage += enchantBase * gradualMasteryValue(FireAuraDamage, estimatedSkill, estimatedMastery);
     damage *= std::min(1 + 0.05 * 5 * ramp, 2.0) * (1 + 0.15 * ramp);
@@ -824,7 +873,7 @@ double MawBalanceModel::spellPower(double level)
     power *= critFactor;
 
     const double enchantLegendary = (1 + (1.5 - 1) * ramp) * (1 + (critFactor - 1) * ramp);
-    const double enchantBase = weaponLevelDamage(level, true, weaponFlat(level)) * enchantLegendary;
+    const double enchantBase = expectedWeaponLevelDamage(level) * enchantLegendary;
     const double enchant = enchantBase
         * (0.5 * std::min(level / 100, 1.0) + gradualMasteryValue(FireAuraDamage, estimatedSkill, estimatedMastery))
         * std::pow(1.015, estimatedSkill);
