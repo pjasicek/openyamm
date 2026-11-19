@@ -76,6 +76,7 @@ private:
         bool dragThresholdExceeded = false;
         bool dragStartDelivered = false;
         bool longPressCandidate = false;
+        bool inspectToggleCandidate = false;
         bool debugConsoleGestureCandidate = false;
         bool debugConsoleGestureTriggered = false;
     };
@@ -113,6 +114,7 @@ private:
     float m_mobilePendingCameraTapY = 0.0f;
     MobileJumpDoubleTapGesture m_mobileJumpDoubleTapGesture;
     bool m_mobileDebugConsoleToggleRequested = false;
+    bool m_mobileInspectLocked = false;
     bool m_previousLeftMouseButtonHeld = false;
     bool m_previousRightMouseButtonHeld = false;
     bool m_previousMiddleMouseButtonHeld = false;

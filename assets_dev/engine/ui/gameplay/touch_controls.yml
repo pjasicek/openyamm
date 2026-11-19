@@ -42,6 +42,7 @@ elements:
     interactive: true
     asset:
       default: obsidian_action_magnifier
+    notes: Hold for momentary right-click; long-press without a second touch to toggle sticky inspect mode.
   notes: One bottom-left column, bottom to top Turn Mode, Inventory, Inspect. Retain
     80-unit thumb targets with eight-unit gaps; the narrow group clears the full party
     frame and end ornament even at 4:3.
@@ -143,6 +144,7 @@ elements:
   interactive: true
   asset:
     default: obsidian_action_magnifier
+  notes: Hold for momentary right-click; long-press without a second touch to toggle sticky inspect mode.
 - id: OutdoorFollowerPanel
   anchor_space: screen
   anchor: top_right
