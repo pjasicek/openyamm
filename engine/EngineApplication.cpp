@@ -366,6 +366,10 @@ int EngineApplication::run() const
 
 #if defined(__ANDROID__) || defined(OPENYAMM_IOS)
     SDL_SetHint(SDL_HINT_ORIENTATIONS, "LandscapeLeft LandscapeRight");
+#elif defined(__APPLE__)
+    // Before SDL_Init: Cocoa reads it when the video starts. Without a Space, borderless covers the camera housing's
+    // band too, as exclusive fullscreen does. The SDL_VIDEO_MAC_FULLSCREEN_SPACES environment variable still wins.
+    SDL_SetHint(SDL_HINT_VIDEO_MAC_FULLSCREEN_SPACES, m_config.macosBorderlessOwnSpace ? "1" : "0");
 #endif
 
     if (!SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTS))

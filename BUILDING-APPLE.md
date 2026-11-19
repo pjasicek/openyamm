@@ -193,6 +193,10 @@ xcrun simctl io <udid> screenshot screen.png
   MacBook Pro is 1728 x 1117 points at 2x, pixel for pixel on the panel with the cursor at its usual size and speed.
   The list marks the panel's size "(native)". Borderless renders the desktop's own pixels, which macOS scales to the
   panel unless the display is at its Default scaling.
+- Borderless opens in a fullscreen Space of its own, which macOS keeps below the camera housing. With Video > macOS >
+  "Borderless window in its own Space" off (`[video] macos_borderless_own_space=false`, read at start), it is a
+  window over the whole display, the housing's band included, on the current desktop; to keep swiping to it, give
+  the game a desktop of its own (Dock icon > Options > Assign To > This Desktop).
 - A minimized window does not render on macOS (Metal hands it no drawables), so `OPENYAMM_START_MINIMIZED` runs stall
   before their first frame.
 - bgfx's Metal backend cannot resolve multisampled depth, so ambient occlusion turns off while anti-aliasing is on (the

@@ -335,6 +335,12 @@ void MainMenuScreen::loadCatalog()
             continue;
         }
 #endif
+#if !defined(__APPLE__) || defined(OPENYAMM_IOS)
+        if (item["macos_only"].as<bool>(false))
+        {
+            continue;
+        }
+#endif
         m_settings.push_back(std::move(setting));
     }
     for (const YAML::Node &item : catalog["bindings"])

@@ -154,6 +154,10 @@ std::string menuSettingValue(const GameSettings &settings, std::string_view id)
     {
         return settings.verticalSync ? "true" : "false";
     }
+    if (id == "macos_borderless_own_space")
+    {
+        return settings.macosBorderlessOwnSpace ? "true" : "false";
+    }
     if (id == "check_for_updates")
     {
         return settings.updateCheck;
@@ -622,6 +626,15 @@ bool setMenuSettingValue(GameSettings &settings, std::string_view id, const std:
             return false;
         }
         settings.verticalSync = value == "true";
+        return true;
+    }
+    if (id == "macos_borderless_own_space")
+    {
+        if (value != "true" && value != "false")
+        {
+            return false;
+        }
+        settings.macosBorderlessOwnSpace = value == "true";
         return true;
     }
     if (id == "check_for_updates")

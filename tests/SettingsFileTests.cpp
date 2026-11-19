@@ -255,6 +255,16 @@ TEST_CASE("the fast attack repeat setting is off by default and loads back on")
     CHECK(contains(savedNames(loaded), "gameplay.fast_attack_repeat"));
 }
 
+TEST_CASE("the macOS borderless Space setting is on by default and loads back off")
+{
+    CHECK(GameSettings::createDefault().macosBorderlessOwnSpace);
+    CHECK_FALSE(contains(savedNames(GameSettings::createDefault()), "video.macos_borderless_own_space"));
+    const GameSettings loaded =
+        loadText("[profile]\nname=desktop\nversion=5\n[video]\nmacos_borderless_own_space=false\n");
+    CHECK_FALSE(loaded.macosBorderlessOwnSpace);
+    CHECK(contains(savedNames(loaded), "video.macos_borderless_own_space"));
+}
+
 TEST_CASE("an unbound action loads back unbound, not as its default key")
 {
     using OpenYAMM::Game::InputBindingKind;

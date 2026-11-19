@@ -398,6 +398,7 @@ void applySettingsConfigOverridesIfConfigured(
     config.hitchTrace = settings->hitchTrace;
     config.hitchThresholdMilliseconds = settings->hitchThresholdMilliseconds;
     config.verticalSync = settings->verticalSync;
+    config.macosBorderlessOwnSpace = settings->macosBorderlessOwnSpace;
     config.installedContent.acceptModifiedPacks = settings->keepModifiedPacks;
     config.installedContent.languageId = settings->language;
 }
