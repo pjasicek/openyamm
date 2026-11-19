@@ -965,3 +965,43 @@ TEST_CASE("swept body bounds face touch can be padded")
     CHECK_FALSE(indoorSweptBodyBoundsTouchFace(bounds, wall));
     CHECK(indoorSweptBodyBoundsTouchFace(bounds, wall, 5.0f));
 }
+
+
+TEST_CASE("sloped ceilings stop at their polygon edge while floors retain support slack")
+{
+    IndoorMapData map;
+    // A small bevel under a stair landing: its highest edge is at y=0, z=256.
+    map.vertices = {{-85, 0, 256}, {85, 0, 256}, {85, 14, 228}, {-85, 14, 228}};
+    IndoorFace face;
+    face.vertexIndices = {0, 3, 2, 1};
+    face.facetType = 6;
+    face.roomNumber = 0;
+    map.faces = {face};
+    map.sectors.resize(1);
+    map.sectors[0].ceilingFaceIds = {0};
+    for (bool cached : {false, true})
+    {
+        CAPTURE(cached);
+        IndoorFaceGeometryCache cache(map.faces.size());
+        auto *geometry = cached ? &cache : nullptr;
+        // Extending the plane two units outside the polygon invents a ceiling above the landing.
+        CHECK_FALSE(sampleIndoorCeiling(map, map.vertices, 0, -2, 256, 0, nullptr, geometry).hasCeiling);
+        CHECK_FALSE(sampleIndoorCeiling(map, map.vertices, 87, 7, 0, 0, nullptr, geometry).hasCeiling);
+        CHECK_FALSE(sampleIndoorCeiling(map, map.vertices, -87, 7, 0, 0, nullptr, geometry).hasCeiling);
+        CHECK_FALSE(sampleIndoorCeiling(map, map.vertices, 0, 16, 0, 0, nullptr, geometry).hasCeiling);
+        const auto inside = sampleIndoorCeiling(map, map.vertices, 0, 7, 0, 0, nullptr, geometry);
+        REQUIRE(inside.hasCeiling);
+        CHECK(inside.height == doctest::Approx(242));
+        const auto edge = sampleIndoorCeiling(map, map.vertices, 0, 0, 0, 0, nullptr, geometry);
+        REQUIRE(edge.hasCeiling);
+        CHECK(edge.height == doctest::Approx(256));
+    }
+    // Feet still need their existing edge tolerance for narrow stair treads.
+    map.faces[0].vertexIndices = {0, 1, 2, 3};
+    map.faces[0].facetType = 4;
+    map.sectors[0].ceilingFaceIds.clear();
+    map.sectors[0].floorFaceIds = {0};
+    const auto floor = sampleIndoorFloor(map, map.vertices, 87, 7, 256, 0, 128, 0);
+    REQUIRE(floor.hasFloor);
+    CHECK(floor.height == doctest::Approx(242));
+}

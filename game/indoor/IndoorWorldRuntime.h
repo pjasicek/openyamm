@@ -68,6 +68,7 @@ public:
 
     struct MapActorAiState
     {
+        std::string actorProfile;
         uint32_t actorId = 0;
         // The monster that last hit it; it fights that one back (not saved).
         std::optional<uint32_t> lastActorAttackerId;
@@ -267,6 +268,7 @@ public:
         const std::optional<ScriptedEventProgram> *pLocalEventProgram,
         const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
     void bindActorBehaviorCatalog(const ActorBehaviorCatalog *pCatalog);
+    void rollPlacedWeaponLoot();
     ActorBehaviorRuntime *actorBehaviorRuntime() override;
     const ActorBehaviorRuntime *actorBehaviorRuntime() const override;
     GameplayActorShields *actorShields() override
@@ -334,6 +336,10 @@ public:
 
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
+    const SpellTable *spellTable() const override
+    {
+        return m_pSpellTable;
+    }
     const MapStatsEntry *arenaMap() const override
     {
         return m_map && m_map->runtimeRestrictions.isArena && m_map->arena ? &*m_map : nullptr;

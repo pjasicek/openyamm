@@ -4,6 +4,7 @@
 #include "game/events/EvtEnums.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/NpcFollowerTypes.h"
+#include "game/gameplay/GameplaySparring.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/events/MechanismAudioProfile.h"
 #include "game/party/Party.h"
@@ -756,6 +757,7 @@ struct EventRuntimeState
     bool legacySmallBarrelDecorVars = false;
     std::optional<ActiveDecorationContext> activeDecorationContext;
     std::optional<ActiveHookContext> activeHookContext;
+    std::optional<GameplaySparringState> sparring;
     std::vector<std::string> messages;
     std::vector<std::string> statusMessages;
     // Seconds each status message stays on the status bar, by its index in statusMessages (evt.StatusText's optional
@@ -796,6 +798,8 @@ struct EventRuntimeState
     std::vector<ActorEffectRequest> actorEffectRequests;
     std::vector<WorldModelRequest> worldModelRequests;
     std::optional<PendingDialogueContext> pendingDialogueContext;
+    // A topic's one-shot request to leave its talk. Runtime output only, never serialized.
+    bool pendingDialogueClose = false;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingMovie> pendingMovie;
     // Transient requests the session takes each frame (never saved).
@@ -943,7 +947,9 @@ public:
         uint16_t topicId,
         const EventRuntimeState &runtimeState,
         const Party *pParty,
-        const ISceneEventContext *pSceneEventContext = nullptr
+        const ISceneEventContext *pSceneEventContext = nullptr,
+        // the title the handler named with evt.TopicTitle, left as it is when it named none
+        std::string *pTitle = nullptr
     ) const;
     bool executeHooks(
         const std::optional<ScriptedEventProgram> &localProgram,

@@ -3381,6 +3381,46 @@ TEST_CASE("incoming monster hits do not add character recovery")
     CHECK_EQ(pMember->recoverySecondsRemaining, doctest::Approx(0.0f));
 }
 
+TEST_CASE("sparring counts the opponent's landed melee hits without damage and resolves the loss once")
+{
+    using namespace OpenYAMM::Game;
+    constexpr uint32_t ActorId = 64;
+    constexpr uint16_t LossEvent = 321;
+    struct RingWorld : PainReflectionTestWorldRuntime
+    {
+        std::vector<uint16_t> events;
+
+        bool executeMapEvent(uint16_t id, size_t &, std::optional<uint8_t>) override
+        {
+            events.push_back(id);
+            return true;
+        }
+    } world;
+    world.actorInfo = GameplayCombatActorInfo{.actorId = ActorId, .monsterLevel = 1, .attackBonus = 1000};
+    world.eventRuntimeState()->sparring = GameplaySparringState{
+        .actorId = ActorId, .partyGoal = 8, .opponentGoal = 2, .lossEvent = LossEvent,
+    };
+    Party party = makeMonsterSpecialAttackTestParty();
+    Character &member = *party.member(0);
+    const int health = member.health;
+    GameplayCombatController controller;
+    GameplayCombatController::PendingCombatEventContext context{party, &world, nullptr};
+    controller.recordPartyProjectileImpact(
+        ActorId, 12, 1000, 0, false, CombatDamageType::Physical, GameplayActorAttackAbility::Attack1);
+    for (int i = 0; i < 5; ++i)
+    {
+        controller.recordMonsterMeleeImpact(
+            ActorId, 12, 1000, CombatDamageType::Irresistible, GameplayActorAttackAbility::Attack1);
+    }
+    controller.handleAndClearPendingCombatEvents(context);
+
+    CHECK_EQ(member.health, health);
+    CHECK_EQ(world.eventRuntimeState()->sparring->opponentScore, 2);
+    CHECK_FALSE(world.eventRuntimeState()->sparring->active);
+    CHECK(world.reflectedDamageRequests.empty());
+    CHECK(world.events == std::vector<uint16_t>{LossEvent});
+}
+
 TEST_CASE("monster hour of power resistance bonus only affects OE elemental damage types")
 {
     constexpr int Damage = 64;
@@ -11919,4 +11959,56 @@ TEST_CASE("found item messages use the generic name of an item")
 
     scroll.unidentifiedName = "N / A";
     CHECK(OpenYAMM::Game::ItemRuntime::foundItemName(scroll) == "Spirit Lash");
+}
+
+TEST_CASE("outdoor party cannot be lifted through a ceiling by rising terrain")
+{
+    using namespace OpenYAMM::Game;
+    for (const int roofHeight : {320, 2048})
+    {
+        CAPTURE(roofHeight);
+        OutdoorMapData map;
+        map.heightMap.resize(OutdoorMapData::TerrainWidth * OutdoorMapData::TerrainHeight);
+        map.attributeMap.assign(map.heightMap.size(), 0);
+        for (int y = 0; y < OutdoorMapData::TerrainHeight; ++y)
+        {
+            for (int x = 0; x < OutdoorMapData::TerrainWidth; ++x)
+            {
+                map.heightMap[y * OutdoorMapData::TerrainWidth + x] = uint8_t(std::clamp((x - 64) * 8, 0, 255));
+            }
+        }
+        OutdoorBModel roof;
+        roof.vertices = {{0, -512, roofHeight}, {0, 512, roofHeight},
+            {1024, 512, roofHeight}, {1024, -512, roofHeight}};
+        OutdoorBModelFace ceiling;
+        ceiling.vertexIndices = {0, 1, 2, 3};
+        ceiling.polygonType = 6;
+        ceiling.planeNormalZ = -65536;
+        roof.faces.push_back(ceiling);
+        map.bmodels.push_back(roof);
+        OutdoorMovementController controller(map, std::nullopt, std::nullopt, std::nullopt, std::nullopt);
+        OutdoorMoveState state = controller.initializeState(0, 100, 0);
+        for (int step = 0; step < 256; ++step)
+        {
+            state = controller.resolveMove(state, 256, 0, 0, false, false, false, false, false,
+                512, 0, 4000, 1.0f / 128.0f);
+            CHECK_LE(state.footZ + 192, float(roofHeight) + 0.02f);
+        }
+        CHECK_GT(state.x, 100);
+        if (roofHeight == 320)
+        {
+            CHECK_LT(state.x, 300);
+        }
+        else
+        {
+            CHECK_GT(state.x, 500); // A generous roof must not stop ordinary uphill walking.
+        }
+        const float blockedX = state.x;
+        for (int step = 0; step < 64; ++step)
+        {
+            state = controller.resolveMove(state, -256, 0, 0, false, false, false, false, false,
+                512, 0, 4000, 1.0f / 128.0f);
+        }
+        CHECK_LT(state.x, blockedX - 64); // The party can back away from the low roof.
+    }
 }

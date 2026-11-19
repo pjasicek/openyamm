@@ -84,6 +84,7 @@ struct MapLootContainerSource
     // opened, like an MM6-MM8 chest slot (MM9 chests at MM7's average, BALANCE_PLAN.md 3.7).
     uint32_t randomRecords = 1;
     bool removeWhenEmpty = false;
+    bool rollEquipment = false;
 };
 
 struct MapSearchableLootPropSource
@@ -156,6 +157,8 @@ struct MapMm9BarrelSource
 
 struct MapItemSourceData
 {
+    bool rollPlacedWeaponLoot = false;
+    std::vector<uint32_t> placedEquipmentLootIndices;
     std::vector<MapWorldItemSource> worldItems;
     std::vector<MapLootContainerSource> lootContainers;
     std::vector<MapSearchableLootPropSource> searchableLootProps;

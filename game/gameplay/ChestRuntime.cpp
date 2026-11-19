@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayLootFilter.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
+#include "game/maps/MapItemSourceData.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
 #include "game/tables/ChestTable.h"
@@ -412,7 +413,8 @@ GameplayChestViewState buildMaterializedChestView(
     const ChestTable *pChestTable,
     const ItemTable *pItemTable,
     Party *pParty,
-    const std::string &worldId)
+    const std::string &worldId,
+    const MapLootContainerSource *pSource)
 {
     GameplayChestViewState view = {};
     view.chestId = chestId;
@@ -481,20 +483,14 @@ GameplayChestViewState buildMaterializedChestView(
                 if (pItemDefinition->isGold())
                 {
                     int32_t rawGoldAmount = 0;
-                    uint32_t goldAmount = 0;
+                    readChestItemRecordInt32(chest, recordIndex, ChestItemGoldAmountOffset, rawGoldAmount);
+                    uint32_t goldAmount = uint32_t(std::max(0, rawGoldAmount));
                     const std::optional<int> pileSize = goldPileSize(placedItemId);
-                    std::mt19937 goldRng(makeChestSeed(sessionChestSeed, mapId, chestId, uint32_t(recordIndex)));
-                    const std::optional<uint32_t> rulesGold =
-                        pileSize ? itemRules.chestGoldAmount(*pileSize, goldRng) : std::nullopt;
-
-                    if (rulesGold)
+                    const bool fixedGold = pSource != nullptr && pSource->gold > 0 && goldAmount > 0;
+                    if (pileSize && !fixedGold)
                     {
-                        goldAmount = *rulesGold;
-                    }
-                    else if (readChestItemRecordInt32(chest, recordIndex, ChestItemGoldAmountOffset, rawGoldAmount)
-                        && rawGoldAmount > 0)
-                    {
-                        goldAmount = uint32_t(rawGoldAmount);
+                        std::mt19937 goldRng(makeChestSeed(sessionChestSeed, mapId, chestId, uint32_t(recordIndex)));
+                        goldAmount = itemRules.chestGoldAmount(*pileSize, goldRng).value_or(goldAmount);
                     }
 
                     if (goldAmount == 0)
@@ -550,7 +546,8 @@ GameplayChestViewState buildMaterializedChestView(
                 ? RandomChestItemMaxLevel
                 : sampleRemappedTreasureLevel(-rawItemId, normalizedMapTreasureLevel, rng);
 
-            if (resolvedTreasureLevel == RandomChestItemMaxLevel)
+            const bool rollEquipment = pSource != nullptr && pSource->rollEquipment;
+            if (rollEquipment || resolvedTreasureLevel == RandomChestItemMaxLevel)
             {
                 if (pItemTable == nullptr
                     || pStandardItemEnchantTable == nullptr
@@ -565,14 +562,16 @@ GameplayChestViewState buildMaterializedChestView(
                         *pStandardItemEnchantTable,
                         *pSpecialItemEnchantTable,
                         ItemGenerationRequest{
-                            .treasureLevel = SpawnableItemTreasureLevels,
+                            .treasureLevel = rollEquipment ? resolvedTreasureLevel : SpawnableItemTreasureLevels,
                             .mode = ItemGenerationMode::ChestLoot,
-                            .allowRareItems = true,
-                            .rareItemsOnly = true,
+                            .allowRareItems = !rollEquipment,
+                            .rareItemsOnly = !rollEquipment,
                             .worldId = worldId,
                         },
                         pParty,
-                        rng);
+                        rng,
+                        rollEquipment ? ItemEnchantRuntime::isEnchantable
+                                      : std::function<bool(const ItemDefinition &)>{});
 
                 if (generatedItem.has_value())
                 {

@@ -80,3 +80,19 @@ TEST_CASE("scenario loader rejects an unknown step, step key or assert key, nami
     REQUIRE(unknownWaitAssert.errors.size() == 1);
     CHECK(anyErrorContains(unknownWaitAssert, "unknown wait_until assert key 'qbit_set'"));
 }
+
+TEST_CASE("scenario loader accepts actor spell slots mastery and temporary Heroism assertions")
+{
+    const auto loaded = loadScenarioText("- assert:\n    actor_visible: {actor_index: last, spell1: Heroism, "
+        "spell2: '', spell1_skill: 4, spell2_skill: 0, spell1_mastery: 2, spell2_mastery: 0, heroism: false}\n");
+    CHECK(loaded.errors.empty());
+}
+
+TEST_CASE("scenario loader accepts the sparring and status text assertions next to the loot and combat ones")
+{
+    const auto result = loadScenarioText(
+        "- assert: {sparring: {active: false}, status_text: ''}\n"
+        "- assert: {chest_view: {open: false}, party_position: {x: 1, y: 2}}\n"
+        "- assert: {turn_based: {active: false}, member_points: {}, recovering_members: {count: 0}}\n");
+    CHECK_MESSAGE(result.errors.empty(), (result.errors.empty() ? "" : result.errors.front()));
+}

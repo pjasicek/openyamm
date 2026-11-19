@@ -225,6 +225,7 @@ public:
 
     struct MapActorState
     {
+        std::string actorProfile;
         uint32_t actorId = 0;
         // The monster that last hit it; it fights that one back (not saved).
         std::optional<uint32_t> lastActorAttackerId;
@@ -680,7 +681,8 @@ public:
         GameplayFxService *pGameplayFxService = nullptr,
         const MergedBolsterMapTable *pMergedBolsterMapTable = nullptr,
         const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr,
-        const MapItemSourceData *pItemSourceData = nullptr
+        const MapItemSourceData *pItemSourceData = nullptr,
+        bool rollPlacedEquipmentLoot = false
     );
 
     bool isInitialized() const;
@@ -716,6 +718,8 @@ public:
         uint32_t actorIndex = 0;
         uint32_t monsterId = 0;
         bool byParty = false;   // the party dealt the killing blow (MapActorState::killedByParty)
+        // The actor's NPC (0 for none): hooks ask for a story monster by it.
+        uint32_t npcId = 0;
     };
 
     void setMonsterKilledHooksEnabled(bool enabled);
@@ -723,6 +727,10 @@ public:
     int mapId() const;
     const std::string &mapName() const override;
     const MonsterTable *monsterTable() const override;
+    const SpellTable *spellTable() const override
+    {
+        return m_pSpellTable;
+    }
     const MergedBolsterMonsterTable *mergedBolsterMonsterTable() const override;
     GameplayWorldPoint chooseBountyHuntSpawnPoint(uint32_t seed) const override;
     bool isIndoorMap() const override;
@@ -1603,7 +1611,7 @@ private:
         uint16_t &height,
         std::string &objectName,
         std::string &objectSpriteName) const;
-    void materializeMapDeltaWorldItems();
+    void materializeMapDeltaWorldItems(bool rollPlacedEquipmentLoot);
     void materializeSemanticWorldItems();
     bool groundMm9WorldItemPlacement(WorldItemState &worldItem) const;
     bool groundMm9ActorPlacement(MapActorState &actor);

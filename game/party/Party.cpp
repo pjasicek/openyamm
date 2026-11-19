@@ -9062,7 +9062,8 @@ void Party::clearFoundArtifactItems()
 
 bool Party::arcomageTavernCountsForChampion(uint32_t houseId)
 {
-    return houseId <= LastMm8ArcomageHouseId || houseId >= FirstMm7ArcomageHouseId;
+    return (houseId >= FirstMm8ArcomageHouseId && houseId <= LastMm8ArcomageHouseId)
+        || (houseId >= FirstMm7ArcomageHouseId && houseId <= LastMm7ArcomageHouseId);
 }
 
 bool Party::hasArcomageWinAt(uint32_t houseId) const
@@ -9855,7 +9856,7 @@ const PartyShieldRules &Party::personalShieldRules() const
     return m_pPersonalShieldRules != nullptr ? *m_pPersonalShieldRules : defaults;
 }
 
-Party::PersonalShieldHit Party::absorbPersonalShieldHit(size_t memberIndex, int damage)
+Party::PersonalShieldHit Party::absorbPersonalShieldHit(size_t memberIndex, int damage, bool preview)
 {
     PersonalShieldHit result;
     result.passedDamage = damage;
@@ -9866,7 +9867,10 @@ Party::PersonalShieldHit Party::absorbPersonalShieldHit(size_t memberIndex, int 
         return result;
     }
 
-    pMember->personalShieldSecondsSinceDamage = 0.0f;
+    if (!preview)
+    {
+        pMember->personalShieldSecondsSinceDamage = 0.0f;
+    }
 
     if (pMember->personalShield <= 0.0f)
     {
@@ -9877,14 +9881,17 @@ Party::PersonalShieldHit Party::absorbPersonalShieldHit(size_t memberIndex, int 
     // a cannon strike (COMBAT.md, Ion cannons).
     result.absorbed = true;
     const float taken = std::min(float(damage), pMember->personalShield);
-    pMember->personalShield -= taken;
     result.passedDamage = damage - int(std::lround(taken));
+    const float remaining = pMember->personalShield - taken;
+    result.broke = remaining <= 0.5f;
 
-    if (pMember->personalShield <= 0.5f)
+    if (!preview)
     {
-        pMember->personalShield = 0.0f;
-        pMember->personalShieldSecondsSinceBreak = 0.0f;
-        result.broke = true;
+        pMember->personalShield = result.broke ? 0.0f : remaining;
+        if (result.broke)
+        {
+            pMember->personalShieldSecondsSinceBreak = 0.0f;
+        }
     }
 
     return result;

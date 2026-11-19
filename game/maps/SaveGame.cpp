@@ -10,6 +10,7 @@
 #include <array>
 #include <bitset>
 #include <cctype>
+#include <charconv>
 #include <cmath>
 #include <cstdint>
 #include <cstring>
@@ -5330,6 +5331,78 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::AtmosphereState &value
         && readValue(reader, value.clearColorAbgr);
 }
 
+// Profile assignments use the existing map-variable dictionary, not extra actor bytes. The key names the
+// actor slot and immutable content id; the value guards against binding it to a different monster kind.
+// Rebuild this namespace from the snapshot on every write (refills/removals cannot leave stale assignments).
+constexpr std::string_view ActorProfileVarPrefix = "OpenYAMM.ActorProfile/";
+
+template<class Actor, class MonsterId>
+std::optional<EventRuntimeState> savedActorProfiles(const std::optional<EventRuntimeState> &state,
+    const std::vector<Actor> &actors, MonsterId monsterId)
+{
+    std::optional<EventRuntimeState> saved = state;
+    if (saved)
+    {
+        std::erase_if(saved->namedMapVars, [](const auto &entry)
+        {
+            return entry.first.starts_with(ActorProfileVarPrefix);
+        });
+    }
+    for (size_t index = 0; index < actors.size(); ++index)
+    {
+        if (actors[index].actorProfile.empty())
+        {
+            continue;
+        }
+        if (!saved)
+        {
+            saved.emplace();
+        }
+        saved->namedMapVars[std::string(ActorProfileVarPrefix) + std::to_string(index) + "/"
+            + actors[index].actorProfile] = monsterId(actors[index]);
+    }
+    return saved;
+}
+
+template<class Actor, class MonsterId>
+bool restoreSavedActorProfiles(std::optional<EventRuntimeState> &state, std::vector<Actor> &actors,
+    MonsterId monsterId)
+{
+    if (!state)
+    {
+        return true;
+    }
+    std::unordered_set<size_t> assigned;
+    for (const auto &[key, kind] : state->namedMapVars)
+    {
+        if (!key.starts_with(ActorProfileVarPrefix))
+        {
+            continue;
+        }
+        const std::string_view binding = std::string_view(key).substr(ActorProfileVarPrefix.size());
+        const size_t separator = binding.find('/');
+        if (separator == std::string_view::npos || separator == 0 || separator + 1 == binding.size())
+        {
+            return false;
+        }
+        size_t index = 0;
+        const char *pEnd = binding.data() + separator;
+        const std::from_chars_result parsed = std::from_chars(binding.data(), pEnd, index);
+        if (parsed.ec != std::errc{} || parsed.ptr != pEnd || index >= actors.size()
+            || monsterId(actors[index]) != kind || !assigned.insert(index).second)
+        {
+            return false;
+        }
+        actors[index].actorProfile = binding.substr(separator + 1);
+    }
+    // These keys are save metadata, not live quest variables. A stock reader can retain them unchanged.
+    std::erase_if(state->namedMapVars, [](const auto &entry)
+    {
+        return entry.first.starts_with(ActorProfileVarPrefix);
+    });
+    return true;
+}
+
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value)
 {
     writeValue(writer, value.gameMinutes);
@@ -5343,7 +5416,8 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::Snapshot &value
     writeValue(writer, value.openedChestFlags);
     writeValue(writer, value.materializedChestViews);
     writeValue(writer, value.activeChestView);
-    writeValue(writer, value.eventRuntimeState);
+    writeValue(writer, savedActorProfiles(value.eventRuntimeState, value.mapActors,
+        [](const OutdoorWorldRuntime::MapActorState &actor) { return actor.monsterId; }));
     writeValue(writer, value.actorUpdateAccumulatorSeconds);
     writeValue(writer, value.sessionChestSeed);
     writeValue(writer, value.nextActorId);
@@ -5424,13 +5498,17 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::Snapshot &value)
         value.hasOutdoorRuntimeSaveParityFields = true;
     }
 
-    return loaded;
+    return loaded && restoreSavedActorProfiles(value.eventRuntimeState, value.mapActors,
+        [](const OutdoorWorldRuntime::MapActorState &actor) { return actor.monsterId; });
 }
 
 void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
 {
     writeValue(writer, value.mapDeltaData);
-    writeValue(writer, value.eventRuntimeState);
+    writeValue(writer, value.mapDeltaData
+        ? savedActorProfiles(value.eventRuntimeState, value.mapDeltaData->actors,
+            [](const MapDeltaActor &actor) { return actor.monsterId; })
+        : value.eventRuntimeState);
     writeValue(writer, value.worldRuntime);
     writeValue(writer, value.partyRuntime);
     writeValue(writer, value.timers);
@@ -5441,7 +5519,7 @@ void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
 
 bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
 {
-    return readValue(reader, value.mapDeltaData)
+    const bool loaded = readValue(reader, value.mapDeltaData)
         && readValue(reader, value.eventRuntimeState)
         && (reader.version() < 20 || readValue(reader, value.worldRuntime))
         && (reader.version() < 20 || readValue(reader, value.partyRuntime))
@@ -5450,6 +5528,8 @@ bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
             || readValue(reader, value.lastProcessedPartyMoveStateForFaceTriggers))
         && readValue(reader, value.mechanismAccumulatorMilliseconds)
         && (reader.version() < SaveVersionMapLayoutIdentity || readValue(reader, value.mapLayoutIdentity));
+    return loaded && (!value.mapDeltaData || restoreSavedActorProfiles(value.eventRuntimeState,
+        value.mapDeltaData->actors, [](const MapDeltaActor &actor) { return actor.monsterId; }));
 }
 
 void writeValue(BinaryWriter &writer, const RulesetLootFilterRule &value)

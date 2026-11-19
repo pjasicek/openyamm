@@ -1,3 +1,4 @@
+#include "engine/BgfxContext.h"
 #include "game/outdoor/OutdoorSunlight.h"
 #include "game/rules/GameRules.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
@@ -1132,6 +1133,12 @@ void OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
 {
     view.m_keyboardInteractionBillboardCandidates.clear();
 
+    // Headless scenarios use geometric picking without allocating GPU billboard textures.
+    if (!Engine::BgfxContext::isBgfxInitialized())
+    {
+        return;
+    }
+
     if (viewWidth <= 0
         || viewHeight <= 0
         || pViewMatrix == nullptr
@@ -1466,7 +1473,7 @@ void OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
             {
                 candidate.inspectHit.bModelIndex = actorIndex;
                 candidate.inspectHit.name = pActorState->displayName;
-                candidate.inspectHit.npcId = 0;
+                candidate.inspectHit.npcId = pActorState->npcId;
                 candidate.inspectHit.actorGroup = pActorState->group;
             }
             candidate.inspectHit.distance = cameraDepth;
