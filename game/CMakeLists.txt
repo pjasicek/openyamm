@@ -17,6 +17,7 @@ add_library(openyamm_game STATIC
     render/SkyRenderer.cpp
     app/ScreenManager.cpp
     app/GameInputSystem.cpp
+    app/WindowPointer.cpp
     app/ProfilingControl.cpp
     arcomage/ArcomageAi.cpp
     arcomage/ArcomageLoader.cpp

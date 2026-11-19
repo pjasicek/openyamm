@@ -1,4 +1,5 @@
 #include "engine/BgfxContext.h"
+#include "engine/DisplayModes.h"
 #include "engine/EngineApplication.h"
 #include "engine/ImageAssetLoader.h"
 
@@ -205,11 +206,12 @@ uint64_t initialWindowFlagsForMode(WindowMode mode)
         flags |= SDL_WINDOW_RESIZABLE;
     }
 
-#if defined(OPENYAMM_IOS)
     // Render in device pixels, as on Android. In UIKit points an iPhone screen is only about 400 high, too small for
-    // the 480-unit HUD canvases and their bitmap fonts.
-    flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
-#endif
+    // the 480-unit HUD canvases and their bitmap fonts; on a Retina Mac, points would be stretched by the system.
+    if (HighPixelDensityWindows)
+    {
+        flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
+    }
 
     return flags;
 }
@@ -249,13 +251,12 @@ SDL_Window *createApplicationWindow(const ApplicationConfig &config)
 #endif
 }
 
-// Exclusive fullscreen accepts only a mode the display lists, so a saved size picks the display's closest mode.
+// Exclusive fullscreen accepts only a mode the display lists. The saved size is the size rendered (pixels on macOS).
 bool setExclusiveFullscreenMode(SDL_Window *pWindow, int width, int height)
 {
     SDL_DisplayMode displayMode = {};
 
-    return SDL_GetClosestFullscreenDisplayMode(
-               SDL_GetDisplayForWindow(pWindow), width, height, 0.0f, true, &displayMode)
+    return findFullscreenDisplayMode(SDL_GetDisplayForWindow(pWindow), width, height, displayMode)
         && SDL_SetWindowFullscreenMode(pWindow, &displayMode);
 }
 

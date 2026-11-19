@@ -187,8 +187,14 @@ xcrun simctl io <udid> screenshot screen.png
 
 - arm64 only: no Intel Macs, universal binaries or x86_64 Simulator. FFmpeg is configured for a single architecture.
 - Deployment targets are macOS 14.0 and iOS 26.0, the versions tested. Older systems are untested.
-- macOS renders at the window's point size, like Windows and Linux; there is no Retina (high pixel density) rendering
-  yet. iOS renders in device pixels, as Android does.
+- macOS and iOS render in device pixels (Retina), as Android does; the mouse is mapped from window points to those
+  pixels. Windowed sizes are in points, as macOS shows windows. Fullscreen resolutions are the sizes rendered, in
+  pixels: each picks the display mode of that pixel size nearest the desktop's scale, so 3456 x 2234 on a 16-inch
+  MacBook Pro is 1728 x 1117 points at 2x, pixel for pixel on the panel with the cursor at its usual size and speed.
+  The list marks the panel's size "(native)". Borderless renders the desktop's own pixels, which macOS scales to the
+  panel unless the display is at its Default scaling.
+- A minimized window does not render on macOS (Metal hands it no drawables), so `OPENYAMM_START_MINIMIZED` runs stall
+  before their first frame.
 - bgfx's Metal backend cannot resolve multisampled depth, so ambient occlusion turns off while anti-aliasing is on (the
   game logs this), as with the other renderers except OpenGL.
 - No safe-area handling: on iPhones with a camera housing, HUD elements at the screen edges can sit under it in

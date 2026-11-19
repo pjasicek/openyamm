@@ -1,6 +1,7 @@
 #include "game/app/GameInputSystem.h"
 
 #include "game/app/MobileJoystickDirection.h"
+#include "game/app/WindowPointer.h"
 
 #include <SDL3/SDL.h>
 
@@ -329,8 +330,18 @@ void GameInputSystem::updateFromEngineInput(
     float pointerX = 0.0f;
     float pointerY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&pointerX, &pointerY);
-    m_frame.pointerX = pointerX;
-    m_frame.pointerY = pointerY;
+    // The mouse's window; outside it SDL keeps the last position in that window.
+    SDL_Window *pPointerWindow = SDL_GetMouseFocus();
+
+    if (pPointerWindow == nullptr)
+    {
+        pPointerWindow = SDL_GetKeyboardFocus();
+    }
+
+    // SDL places the mouse in window coordinates; the frame is in the window's pixels.
+    const float pointerDensity = windowPixelDensity(pPointerWindow);
+    m_frame.pointerX = pointerX * pointerDensity;
+    m_frame.pointerY = pointerY * pointerDensity;
 
     const bool physicalLeftMouseButtonHeld = (mouseButtons & SDL_BUTTON_LMASK) != 0;
     const bool physicalRightMouseButtonHeld = (mouseButtons & SDL_BUTTON_RMASK) != 0;
@@ -400,8 +411,9 @@ void GameInputSystem::updateFromEngineInput(
                 const SDL_MouseButtonEvent event = events.front();
                 events.pop_front();
                 held = event.type == SDL_EVENT_MOUSE_BUTTON_DOWN;
-                m_frame.pointerX = event.x;
-                m_frame.pointerY = event.y;
+                const float eventDensity = windowPixelDensity(SDL_GetWindowFromID(event.windowID));
+                m_frame.pointerX = event.x * eventDensity;
+                m_frame.pointerY = event.y * eventDensity;
             }
         };
 
@@ -409,16 +421,9 @@ void GameInputSystem::updateFromEngineInput(
     applyPendingMouseButton(1, m_suppressMiddleMouseButtonUntilReleased, middleMouseButtonHeld);
     applyPendingMouseButton(2, m_suppressRightMouseButtonUntilReleased, rightMouseButtonHeld);
 
-    SDL_Window *pMouseLookWindow = SDL_GetMouseFocus();
-
-    if (pMouseLookWindow == nullptr)
-    {
-        pMouseLookWindow = SDL_GetKeyboardFocus();
-    }
-
     if (settings.controlScheme == ControlScheme::Modern
-        && pMouseLookWindow != nullptr
-        && SDL_GetWindowRelativeMouseMode(pMouseLookWindow)
+        && pPointerWindow != nullptr
+        && SDL_GetWindowRelativeMouseMode(pPointerWindow)
         && screenWidth > 0
         && screenHeight > 0)
     {
