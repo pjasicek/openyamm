@@ -54,6 +54,11 @@ std::optional<CGDirectDisplayID> coreGraphicsDisplay(SDL_DisplayID display)
 #endif
 }
 
+bool windowHasHighPixelDensity(SDL_Window *pWindow)
+{
+    return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_HIGH_PIXEL_DENSITY) != 0;
+}
+
 RenderSize displayModeRenderSize(const DisplayModeSize &mode, bool highPixelDensity)
 {
     if (!highPixelDensity || mode.pixelDensity <= 0.0f)
@@ -106,7 +111,7 @@ std::optional<size_t> findDisplayModeForRenderSize(
     return best;
 }
 
-std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display)
+std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display, bool highPixelDensity)
 {
     std::vector<RenderSize> sizes;
     int count = 0;
@@ -114,7 +119,7 @@ std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display)
 
     for (int index = 0; pModes != nullptr && index < count; ++index)
     {
-        const RenderSize size = displayModeRenderSize(displayModeSize(*pModes[index]), HighPixelDensityWindows);
+        const RenderSize size = displayModeRenderSize(displayModeSize(*pModes[index]), highPixelDensity);
 
         if (std::find(sizes.begin(), sizes.end(), size) == sizes.end())
         {
@@ -126,9 +131,10 @@ std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display)
     return sizes;
 }
 
-bool findFullscreenDisplayMode(SDL_DisplayID display, int width, int height, SDL_DisplayMode &mode)
+bool findFullscreenDisplayMode(
+    SDL_DisplayID display, int width, int height, bool highPixelDensity, SDL_DisplayMode &mode)
 {
-    if (HighPixelDensityWindows)
+    if (highPixelDensity)
     {
         const SDL_DisplayMode *pDesktopMode = SDL_GetDesktopDisplayMode(display);
         int count = 0;

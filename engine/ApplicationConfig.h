@@ -37,6 +37,9 @@ struct ApplicationConfig
     // macOS: borderless (desktop fullscreen) gets a fullscreen Space of its own, below the camera housing. Off, it is a
     // window over the whole display on the current desktop. SDL reads this when its video starts.
     bool macosBorderlessOwnSpace = true;
+    // macOS: windows render in device pixels (Retina). Off, they render in points, which the system scales to the
+    // display, and fullscreen sizes are display modes' sizes in points. Read when the window is created.
+    bool macosRetina = true;
     // Upper limit of anisotropic texture filtering; 1 turns it off.
     uint8_t maxAnisotropy;
     bool fpsTrace;

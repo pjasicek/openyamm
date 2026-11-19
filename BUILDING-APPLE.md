@@ -192,7 +192,9 @@ xcrun simctl io <udid> screenshot screen.png
   pixels: each picks the display mode of that pixel size nearest the desktop's scale, so 3456 x 2234 on a 16-inch
   MacBook Pro is 1728 x 1117 points at 2x, pixel for pixel on the panel with the cursor at its usual size and speed.
   The list marks the panel's size "(native)". Borderless renders the desktop's own pixels, which macOS scales to the
-  panel unless the display is at its Default scaling.
+  panel unless the display is at its Default scaling. `[video] macos_retina=false` in `settings.ini` (no menu option,
+  read at start) renders in points instead, as before Retina support: the system stretches the image, and fullscreen
+  sizes are the display modes' sizes in points.
 - Borderless opens in a fullscreen Space of its own, which macOS keeps below the camera housing. With Video > macOS >
   "Borderless window in its own Space" off (`[video] macos_borderless_own_space=false`, read at start), it is a
   window over the whole display, the housing's band included, on the current desktop; to keep swiping to it, give

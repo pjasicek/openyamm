@@ -197,28 +197,32 @@ bool startMinimizedRequested()
 #endif
 }
 
-uint64_t initialWindowFlagsForMode(WindowMode mode)
+uint64_t initialWindowFlags(const ApplicationConfig &config)
 {
     uint64_t flags = 0;
 
-    if (mode == WindowMode::Windowed)
+    if (config.windowMode == WindowMode::Windowed)
     {
         flags |= SDL_WINDOW_RESIZABLE;
     }
 
     // Render in device pixels, as on Android. In UIKit points an iPhone screen is only about 400 high, too small for
     // the 480-unit HUD canvases and their bitmap fonts; on a Retina Mac, points would be stretched by the system.
-    if (HighPixelDensityWindows)
+#if defined(OPENYAMM_IOS)
+    flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#elif defined(__APPLE__)
+    if (config.macosRetina)
     {
         flags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
     }
+#endif
 
     return flags;
 }
 
 SDL_Window *createApplicationWindow(const ApplicationConfig &config)
 {
-    uint64_t flags = initialWindowFlagsForMode(config.windowMode);
+    uint64_t flags = initialWindowFlags(config);
 
     if (startMinimizedRequested())
     {
@@ -251,12 +255,14 @@ SDL_Window *createApplicationWindow(const ApplicationConfig &config)
 #endif
 }
 
-// Exclusive fullscreen accepts only a mode the display lists. The saved size is the size rendered (pixels on macOS).
+// Exclusive fullscreen accepts only a mode the display lists. The saved size is the size rendered (pixels on macOS,
+// unless Retina rendering is off).
 bool setExclusiveFullscreenMode(SDL_Window *pWindow, int width, int height)
 {
     SDL_DisplayMode displayMode = {};
 
-    return findFullscreenDisplayMode(SDL_GetDisplayForWindow(pWindow), width, height, displayMode)
+    return findFullscreenDisplayMode(
+               SDL_GetDisplayForWindow(pWindow), width, height, windowHasHighPixelDensity(pWindow), displayMode)
         && SDL_SetWindowFullscreenMode(pWindow, &displayMode);
 }
 

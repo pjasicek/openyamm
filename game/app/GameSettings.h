@@ -296,6 +296,9 @@ struct GameSettings
     // macOS: borderless is a fullscreen Space of its own (below the camera housing); off, a window over the whole
     // display on the current desktop. Read at start.
     bool macosBorderlessOwnSpace = true;
+    // macOS: render in device pixels (Retina). Off, in points scaled by the system, with fullscreen sizes in points.
+    // Only in settings.ini, read at start.
+    bool macosRetina = true;
     bool ambientOcclusion = false;
     int ambientOcclusionStrength = 35;
     // Glow around flames, glow cards, emissive surfaces and spell effects (display-space bloom).

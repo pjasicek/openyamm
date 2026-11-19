@@ -9,13 +9,10 @@
 
 namespace OpenYAMM::Engine
 {
-// Apple windows render in device pixels (SDL_WINDOW_HIGH_PIXEL_DENSITY): on a Retina display the drawable is the
-// window's size in points times the display's backing scale, and display modes are listed in points with a density.
-#if defined(__APPLE__)
-constexpr bool HighPixelDensityWindows = true;
-#else
-constexpr bool HighPixelDensityWindows = false;
-#endif
+// Whether the window renders in device pixels (SDL_WINDOW_HIGH_PIXEL_DENSITY: iOS, and macOS unless `[video]
+// macos_retina` is off). On a Retina display its drawable is then its size in points times the display's backing
+// scale; display modes are listed in points with a density either way.
+bool windowHasHighPixelDensity(SDL_Window *pWindow);
 
 struct RenderSize
 {
@@ -45,10 +42,12 @@ std::optional<size_t> findDisplayModeForRenderSize(
     std::span<const DisplayModeSize> modes, RenderSize size, const DisplayModeSize &desktop, bool highPixelDensity);
 
 // The render sizes of a display's fullscreen modes, each once.
-std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display);
+std::vector<RenderSize> fullscreenRenderSizes(SDL_DisplayID display, bool highPixelDensity);
 
-// The fullscreen mode for a render size: the mode that renders exactly that size, else SDL's closest mode.
-bool findFullscreenDisplayMode(SDL_DisplayID display, int width, int height, SDL_DisplayMode &mode);
+// The fullscreen mode for a render size: the mode that renders exactly that size, else SDL's closest mode (always
+// SDL's closest mode, by listed size, for a window without high pixel density).
+bool findFullscreenDisplayMode(
+    SDL_DisplayID display, int width, int height, bool highPixelDensity, SDL_DisplayMode &mode);
 
 // The size of the display's panel in pixels (macOS), the render size that maps one to one onto it.
 std::optional<RenderSize> nativeDisplayRenderSize(SDL_DisplayID display);

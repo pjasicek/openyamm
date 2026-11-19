@@ -265,6 +265,15 @@ TEST_CASE("the macOS borderless Space setting is on by default and loads back of
     CHECK(contains(savedNames(loaded), "video.macos_borderless_own_space"));
 }
 
+TEST_CASE("the macOS Retina setting is on by default and loads back off")
+{
+    CHECK(GameSettings::createDefault().macosRetina);
+    CHECK_FALSE(contains(savedNames(GameSettings::createDefault()), "video.macos_retina"));
+    const GameSettings loaded = loadText("[profile]\nname=desktop\nversion=5\n[video]\nmacos_retina=false\n");
+    CHECK_FALSE(loaded.macosRetina);
+    CHECK(contains(savedNames(loaded), "video.macos_retina"));
+}
+
 TEST_CASE("an unbound action loads back unbound, not as its default key")
 {
     using OpenYAMM::Game::InputBindingKind;

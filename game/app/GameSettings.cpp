@@ -1785,6 +1785,11 @@ std::optional<GameSettings> parseGameSettingsDocument(const IniDocument &documen
         parseBoolValue(*value, settings.macosBorderlessOwnSpace);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "macos_retina"))
+    {
+        parseBoolValue(*value, settings.macosRetina);
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video_quality", "prefer_restored_icons"))
     {
         parseBoolValue(*value, settings.assetScaleProfile.preferRestoredIcons);
@@ -2806,6 +2811,7 @@ std::vector<SettingsEntry> serializeGameSettings(const GameSettings &settings)
         std::clamp(settings.resolutionHeight, 200, 16384));
     serializer.add("vsync", boolValue(settings.verticalSync));
     serializer.add("macos_borderless_own_space", boolValue(settings.macosBorderlessOwnSpace));
+    serializer.add("macos_retina", boolValue(settings.macosRetina));
     serializer.section("video_quality");
     serializer.add("sky", Engine::assetScaleTierToString(settings.assetScaleProfile.sky));
     serializer.add("decorations", Engine::assetScaleTierToString(settings.assetScaleProfile.decorations));

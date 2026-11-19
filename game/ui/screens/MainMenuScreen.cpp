@@ -1126,8 +1126,9 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
         const bool fullscreen = m_draft.windowMode == WindowMode::Fullscreen;
         if (fullscreen)
         {
-            // The sizes fullscreen renders: pixels on macOS, which lists its modes in points.
-            for (const Engine::RenderSize size : Engine::fullscreenRenderSizes(display))
+            // The sizes fullscreen renders: pixels on macOS, which lists its modes in points, unless Retina is off.
+            for (const Engine::RenderSize size :
+                 Engine::fullscreenRenderSizes(display, Engine::windowHasHighPixelDensity(pWindow)))
             {
                 if (size.width >= 640 && size.height >= 480)
                 {
