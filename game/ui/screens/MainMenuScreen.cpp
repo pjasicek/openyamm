@@ -1,5 +1,6 @@
 #include "game/ui/screens/MainMenuScreen.h"
 
+#include "engine/DisplayModes.h"
 #include "engine/Localization.h"
 #include "engine/Utf8Text.h"
 #include "game/app/GameUpdater.h"
@@ -330,6 +331,12 @@ void MainMenuScreen::loadCatalog()
         }
 #if defined(__ANDROID__)
         if (item["desktop_only"].as<bool>(false))
+        {
+            continue;
+        }
+#endif
+#if !defined(__APPLE__) || defined(OPENYAMM_IOS)
+        if (item["macos_only"].as<bool>(false))
         {
             continue;
         }
@@ -1116,16 +1123,33 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
         std::set<std::pair<int, int>> sizes;
         SDL_Window *pWindow = SDL_GetKeyboardFocus();
         const SDL_DisplayID display = pWindow ? SDL_GetDisplayForWindow(pWindow) : SDL_GetPrimaryDisplay();
-        int count = 0;
-        SDL_DisplayMode **pModes = SDL_GetFullscreenDisplayModes(display, &count);
-        for (int i = 0; pModes != nullptr && i < count; ++i)
+        const bool fullscreen = m_draft.windowMode == WindowMode::Fullscreen;
+        if (fullscreen)
         {
-            if (pModes[i]->w >= 640 && pModes[i]->h >= 480)
+            // The sizes fullscreen renders: pixels on macOS, which lists its modes in points, unless Retina is off.
+            for (const Engine::RenderSize size :
+                 Engine::fullscreenRenderSizes(display, Engine::windowHasHighPixelDensity(pWindow)))
             {
-                sizes.emplace(pModes[i]->w, pModes[i]->h);
+                if (size.width >= 640 && size.height >= 480)
+                {
+                    sizes.emplace(size.width, size.height);
+                }
             }
         }
-        SDL_free(pModes);
+        else
+        {
+            // A window's size is in window coordinates, as the modes are listed.
+            int count = 0;
+            SDL_DisplayMode **pModes = SDL_GetFullscreenDisplayModes(display, &count);
+            for (int i = 0; pModes != nullptr && i < count; ++i)
+            {
+                if (pModes[i]->w >= 640 && pModes[i]->h >= 480)
+                {
+                    sizes.emplace(pModes[i]->w, pModes[i]->h);
+                }
+            }
+            SDL_free(pModes);
+        }
         if (m_draft.windowMode == WindowMode::Windowed)
         {
             SDL_Rect bounds{};
@@ -1142,10 +1166,16 @@ void MainMenuScreen::chooseSetting(const Setting &setting)
             }
         }
         sizes.emplace(m_draft.resolutionWidth, m_draft.resolutionHeight);
+        // The size that maps one to one onto the panel's pixels (macOS).
+        const std::optional<Engine::RenderSize> nativeSize =
+            fullscreen ? Engine::nativeDisplayRenderSize(display) : std::nullopt;
         for (const auto &[width, height] : sizes)
         {
             const std::string value = std::to_string(width) + "x" + std::to_string(height);
-            choices.emplace_back(value, std::to_string(width) + " x " + std::to_string(height));
+            const bool native = nativeSize && *nativeSize == Engine::RenderSize{width, height};
+            choices.emplace_back(value, native
+                ? Engine::tr("{width} x {height} (native)", {{"width", width}, {"height", height}})
+                : std::to_string(width) + " x " + std::to_string(height));
         }
     }
     std::vector<std::string> labels;

@@ -1,6 +1,7 @@
 add_library(openyamm_engine
     BgfxContext.cpp
     AudioSystem.cpp
+    DisplayModes.cpp
     ApplicationConfig.cpp
     AssetPaths.cpp
     UserDataPaths.cpp
@@ -68,4 +69,9 @@ if (WIN32)
 elseif (UNIX AND NOT ANDROID AND NOT APPLE)
     # The updater loads the system's libcurl at runtime (engine/update/HttpTransport.cpp).
     target_link_libraries(openyamm_engine PRIVATE ${CMAKE_DL_LIBS})
+endif()
+
+if (APPLE AND NOT IOS)
+    # DisplayModes.cpp reads the panel's native display mode.
+    target_link_libraries(openyamm_engine PRIVATE "-framework CoreFoundation" "-framework CoreGraphics")
 endif()
