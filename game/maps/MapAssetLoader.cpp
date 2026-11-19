@@ -4448,6 +4448,27 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.outdoorMapData->noTerrain = (mapExtraBitsRaw & EnvironmentFlagNoTerrain) != 0;
             }
 
+            // Gameplay needs water depth even when no renderer or GPU is loaded.
+            if (!assetInfo.outdoorMapData->noTerrain
+                && !outdoorMapUsesBModelGround(*assetInfo.outdoorMapData))
+            {
+                if (!liquidTable)
+                {
+                    liquidTable = loadLiquidTable(assetFileSystem, pSharedCache);
+                }
+                assetInfo.outdoorTerrainTiles = buildOutdoorTerrainTiles(
+                    assetFileSystem, *assetInfo.outdoorMapData, liquidTable ? &*liquidTable : nullptr);
+                std::string waterError;
+                if (!assetInfo.outdoorTerrainTiles
+                    || !loadOutdoorWaterDepthData(assetFileSystem, *assetInfo.outdoorMapData,
+                        assetInfo.outdoorTerrainTiles->tiles, waterError))
+                {
+                    std::cerr << "Failed to load outdoor water depth for " << map.fileName
+                              << ": " << waterError << '\n';
+                    return std::nullopt;
+                }
+            }
+
             if (loadActorPreviews)
             {
                 assetInfo.outdoorActorPreviewBillboardSet =
@@ -4474,7 +4495,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 logStageComplete("outdoor land mask built");
                 assetInfo.outdoorTileColors = buildOutdoorTileColors(assetFileSystem, *assetInfo.outdoorMapData);
                 logStageComplete("outdoor tile colors built");
-                if (!assetInfo.outdoorMapData->noTerrain)
+                if (!assetInfo.outdoorMapData->noTerrain && !assetInfo.outdoorTerrainTiles)
                 {
                     assetInfo.outdoorTerrainTiles = buildOutdoorTerrainTiles(
                         assetFileSystem, *assetInfo.outdoorMapData, liquidTable ? &*liquidTable : nullptr);

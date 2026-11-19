@@ -500,6 +500,11 @@ bool ItemTable::load(
     return true;
 }
 
+bool ItemDefinition::isGold() const
+{
+    return toLowerCopy(equipStat) == "gold";
+}
+
 bool ItemDefinition::hasContentFlag(const std::string &flag) const
 {
     const std::string normalizedFlag = toLowerCopy(trimCopy(flag));

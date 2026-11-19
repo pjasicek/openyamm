@@ -4,8 +4,9 @@ source:
   geometry_file: oute3.odm
 initial_state:
   chest_policy_overrides:
-    # Native crates flanking the western bridge on the road to Castle Ironfist.
-    # Event 76 / model 28: (-19696, -10016); event 77 / model 27: (-19696, -10944).
+    # Storage behind the tavern: models 90/91, events 501/502.
+    # Keep the old storage ids so saved player inventories move with the storage.
+    # Bridge events 76/77 now use ordinary loot ids 0/19 (oute3_storage.lua).
     - chest_index: 2
       preserve_on_refill: true
     - chest_index: 3

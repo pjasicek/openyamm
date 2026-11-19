@@ -2156,7 +2156,7 @@ TEST_CASE("mm6 monthly shrines reward in the legacy month and respect pilgrimage
         REQUIRE_MESSAGE(program.has_value(), error.c_str());
 
         PartySeed seed = {};
-        seed.members = {makeScriptedRegressionMember(), makeScriptedRegressionMember()};
+        seed.members.assign(5, makeScriptedRegressionMember());
         Party party = {};
         party.seed(seed);
         EventRuntime runtime = {};
@@ -4310,11 +4310,18 @@ TEST_CASE("mm7 tularean forest mmmerge artifact and clanker overlays apply")
                 return bmodel.name == "ClL1_W";
             });
         REQUIRE(bmodelIt != loadedMap.outdoorMapData->bmodels.end());
-        REQUIRE_FALSE(bmodelIt->faces.empty());
+        REQUIRE_GT(bmodelIt->faces.size(), 38u);
 
-        for (const OpenYAMM::Game::OutdoorBModelFace &face : bmodelIt->faces)
+        for (size_t faceIndex = 0; faceIndex < bmodelIt->faces.size(); ++faceIndex)
         {
-            CHECK_EQ(face.cogTriggeredNumber, 504u);
+            CAPTURE(faceIndex);
+            const bool isArchway = faceIndex < 14 || (faceIndex >= 27 && faceIndex <= 38);
+            const OpenYAMM::Game::OutdoorBModelFace &face = bmodelIt->faces[faceIndex];
+            CHECK_EQ(face.cogTriggeredNumber, isArchway ? 504u : 0u);
+            if (isArchway)
+            {
+                CHECK(OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::Clickable));
+            }
         }
     }
 
@@ -4756,7 +4763,7 @@ TEST_CASE("mm7 erathia mmmerge transport route switches contest destination")
     const OpenYAMM::Game::EventRuntimeState::TransportRouteOverride &bracadaRoute =
         completedContestState.transportRouteOverrides.at(routeKey);
     CHECK_EQ(bracadaRoute.mapFileName, "7Out06.odm");
-    CHECK_EQ(bracadaRoute.destinationName, "Bracada Desert");
+    CHECK_EQ(bracadaRoute.destinationName, "The Bracada Desert");
     CHECK_EQ(bracadaRoute.x, 19171);
     CHECK_EQ(bracadaRoute.directionDegrees, 180);
 }
@@ -4824,6 +4831,52 @@ TEST_CASE("mm7 tularean caves mmmerge overlay adds Loren Steel as quest follower
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 376, existingQuestState, &existingQuestParty));
     REQUIRE_EQ(existingQuestState.hiredNpcFollowers.size(), 1u);
     CHECK_EQ(existingQuestState.hiredNpcFollowers.front().npcId, 410u);
+}
+
+TEST_CASE("mm7 Alice greeting distinguishes kidnapping from rescue and preserves repeat greetings")
+{
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> globalEventProgram =
+        loadMm7GlobalSupplementProgram(OPENYAMM_SOURCE_DIR, error);
+    REQUIRE_MESSAGE(globalEventProgram.has_value(), error.c_str());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::Party party = makeScriptedRegressionParty();
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    runtimeState.activeHookContext = OpenYAMM::Game::EventRuntimeState::ActiveHookContext{};
+    runtimeState.activeHookContext->kind = OpenYAMM::Game::EventRuntimeHookKind::NpcEnter;
+    runtimeState.activeHookContext->npcId = 393;
+    party.setQuestBit(612, true);
+    runtimeState.npcGreetingOverrides[393] = 162;
+    runtimeState.npcGreetingDisplayCounts[393] = 2;
+
+    REQUIRE(eventRuntime.executeHooks(
+        std::nullopt, globalEventProgram, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter, runtimeState, &party));
+    CHECK_EQ(runtimeState.npcGreetingOverrides.at(393), 163u);
+    CHECK_EQ(runtimeState.npcGreetingDisplayCounts.at(393), 0u);
+
+    runtimeState.npcGreetingDisplayCounts[393] = 1;
+    REQUIRE(eventRuntime.executeHooks(
+        std::nullopt, globalEventProgram, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter, runtimeState, &party));
+    CHECK_EQ(runtimeState.npcGreetingOverrides.at(393), 163u);
+    CHECK_EQ(runtimeState.npcGreetingDisplayCounts.at(393), 1u);
+
+    party.setQuestBit(612, false);
+    party.setQuestBit(611, true);
+    REQUIRE(eventRuntime.executeHooks(
+        std::nullopt, globalEventProgram, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter, runtimeState, &party));
+    CHECK_EQ(runtimeState.npcGreetingOverrides.at(393), 162u);
+    CHECK_EQ(runtimeState.npcGreetingDisplayCounts.at(393), 0u);
+
+    runtimeState.npcGreetingDisplayCounts[393] = 1;
+    REQUIRE(eventRuntime.executeHooks(
+        std::nullopt, globalEventProgram, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter, runtimeState, &party));
+    CHECK_EQ(runtimeState.npcGreetingDisplayCounts.at(393), 1u);
+
+    runtimeState.activeHookContext->npcId = 357;
+    REQUIRE(eventRuntime.executeHooks(
+        std::nullopt, globalEventProgram, OpenYAMM::Game::EventRuntimeHookKind::NpcEnter, runtimeState, &party));
+    CHECK_FALSE(runtimeState.npcGreetingOverrides.contains(357));
 }
 
 TEST_CASE("mm7 global mmmerge supplement keeps quest followers in sync")
@@ -5302,28 +5355,31 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 852, runtimeState, &party));
         CHECK(party.hasQuestBit(567));
         CHECK_EQ(runtimeState.npcTopicOverrides[390][0], 853u);
-
-        REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 950, runtimeState, &party));
-        const OpenYAMM::Game::Character *pMember = party.member(0);
-        REQUIRE(pMember != nullptr);
-        const OpenYAMM::Game::CharacterSkill *pBlasterSkill = pMember->findSkill("Blaster");
-        REQUIRE(pBlasterSkill != nullptr);
-        CHECK_EQ(pBlasterSkill->level, 1);
     }
 
     {
         OpenYAMM::Game::EventRuntime eventRuntime = {};
-        OpenYAMM::Game::Party party = makeScriptedRegressionParty();
+        OpenYAMM::Game::PartySeed seed = {};
+        seed.members = {makeScriptedRegressionMember(), makeScriptedRegressionMember()};
+        OpenYAMM::Game::Party party = {};
+        party.seed(seed);
         party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
         party.setCharacterDollTable(&mapLoader.gameDataLoader.getCharacterDollTable());
-        OpenYAMM::Game::Character *pWizard = party.member(0);
+        party.setQuestBit(560, true);
+        for (size_t memberIndex = 0; memberIndex < 4; ++memberIndex)
+        {
+            OpenYAMM::Game::Character *pMember = party.member(memberIndex);
+            REQUIRE(pMember != nullptr);
+            pMember->inventory.push_back(makeScriptedInventoryItem(1417));
+        }
+        party.member(0)->inventory.push_back(makeScriptedInventoryItem(1417));
+        OpenYAMM::Game::Character *pWizard = party.member(1);
         REQUIRE(pWizard != nullptr);
         pWizard->className = "Wizard";
         pWizard->role = "Wizard";
         pWizard->raceId = 9;
         pWizard->sexId = 0;
         pWizard->characterDataId = 62;
-        pWizard->inventory.push_back(makeScriptedInventoryItem(1417));
         pWizard->baseResistances.fire = 5;
         pWizard->skillPoints = 0;
         pWizard->skills["ChainArmor"] = {"ChainArmor", 3, OpenYAMM::Game::SkillMastery::Expert};
@@ -5331,11 +5387,24 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         OpenYAMM::Game::EventRuntimeState runtimeState = {};
 
         REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 847, runtimeState, &party));
-        pWizard = party.member(0);
+        CHECK_EQ(pWizard->className, "Wizard");
+        CHECK_EQ(party.inventoryItemCount(1417), 5);
+        CHECK(party.hasQuestBit(560));
+        CHECK_FALSE(party.hasQuestBit(1623));
+        CHECK_FALSE(party.hasQuestBit(1624));
+        CHECK_FALSE(runtimeState.npcTopicOverrides.contains(388));
+        CHECK_FALSE(runtimeState.npcGreetingOverrides.contains(388));
+
+        REQUIRE(party.removeItemFromMember(0, 1417));
+        REQUIRE(party.member(4) != nullptr);
+        party.member(4)->inventory.push_back(makeScriptedInventoryItem(1417));
+        REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 847, runtimeState, &party));
+        pWizard = party.member(1);
         REQUIRE(pWizard != nullptr);
         CHECK_EQ(pWizard->className, "Lich");
         CHECK_EQ(pWizard->characterDataId, 66u);
         CHECK_EQ(pWizard->portraitPictureId, 65u);
+        CHECK_EQ(pWizard->portraitTextureName, "pc27-01");
         CHECK_EQ(pWizard->voiceId, 26);
         CHECK_EQ(pWizard->baseResistances.fire, 20);
         CHECK_EQ(pWizard->baseResistances.light, 65000);
@@ -5345,6 +5414,7 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         CHECK_EQ(pWizard->skills.count("RepairItem"), 0u);
         CHECK_EQ(pWizard->skillPoints, 7u);
         CHECK_EQ(party.inventoryItemCount(1417), 0);
+        CHECK_FALSE(party.hasQuestBit(560));
         CHECK(party.hasQuestBit(1623));
         CHECK(party.hasQuestBit(1624));
         CHECK_EQ(runtimeState.npcTopicOverrides[388][0], 0u);
@@ -5424,6 +5494,42 @@ TEST_CASE("mm7 global mmmerge supplement applies custom CrossContinents and hatc
         CHECK(party.hasQuestBit(1615));
         CHECK(party.hasQuestBit(1616));
     }
+}
+
+TEST_CASE("mm7 ancient weapon lesson preserves existing skill ranks and mastery")
+{
+    using namespace OpenYAMM::Game;
+
+    std::string error;
+    const std::optional<ScriptedEventProgram> globalEventProgram =
+        loadMm7GlobalSupplementProgram(OPENYAMM_SOURCE_DIR, error);
+    REQUIRE_MESSAGE(globalEventProgram.has_value(), error.c_str());
+
+    PartySeed seed = {};
+    seed.members.assign(3, makeScriptedRegressionMember());
+    Party party = {};
+    party.seed(seed);
+    party.member(0)->skills["Blaster"] = {"Blaster", 10, SkillMastery::Master};
+    party.member(2)->skills["Blaster"] = {"Blaster", 7, SkillMastery::Expert};
+    REQUIRE(party.member(1)->findSkill("Blaster") == nullptr);
+
+    EventRuntime eventRuntime = {};
+    EventRuntimeState runtimeState = {};
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 950, runtimeState, &party));
+    REQUIRE(eventRuntime.executeEventById(std::nullopt, globalEventProgram, 950, runtimeState, &party));
+
+    const CharacterSkill *pMaster = party.member(0)->findSkill("Blaster");
+    const CharacterSkill *pNewExpert = party.member(1)->findSkill("Blaster");
+    const CharacterSkill *pExpert = party.member(2)->findSkill("Blaster");
+    REQUIRE(pMaster != nullptr);
+    REQUIRE(pNewExpert != nullptr);
+    REQUIRE(pExpert != nullptr);
+    CHECK_EQ(pMaster->level, 10u);
+    CHECK(pMaster->mastery == SkillMastery::Master);
+    CHECK_EQ(pNewExpert->level, 1u);
+    CHECK(pNewExpert->mastery == SkillMastery::Expert);
+    CHECK_EQ(pExpert->level, 7u);
+    CHECK(pExpert->mastery == SkillMastery::Expert);
 }
 
 TEST_CASE("mm7 lincoln mmmerge exit requires each active member to have a wetsuit")
@@ -7200,9 +7306,8 @@ TEST_CASE("mm6 remaining mmmerge delta overlays port map event fixes")
         OpenYAMM::Game::EventRuntime eventRuntime = {};
         REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 62, runtimeState, &party));
         REQUIRE(runtimeState.pendingInputPrompt.has_value());
-        REQUIRE_EQ(runtimeState.pendingInputPrompt->answers.size(), 2u);
-        CHECK_EQ(runtimeState.pendingInputPrompt->answers[0], "arrow");
-        CHECK_EQ(runtimeState.pendingInputPrompt->answers[1], "an arrow");
+        const std::vector<std::string> expectedAnswers = {"arrow", "an arrow", "стрела", "Стрела", "СТРЕЛА"};
+        CHECK_EQ(runtimeState.pendingInputPrompt->answers, expectedAnswers);
 
         runtimeState.pendingInputPrompt.reset();
         REQUIRE(eventRuntime.executeNpcTopicEventById(

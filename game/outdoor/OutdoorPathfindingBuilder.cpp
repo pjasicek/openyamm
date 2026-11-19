@@ -22,6 +22,15 @@ constexpr size_t OutdoorBModelSourceMaxBModelIndex =
 
 float terrainHeightAtSample(const OutdoorMapData &outdoorMapData, size_t gridX, size_t gridY)
 {
+    if (outdoorMapData.waterDepth)
+    {
+        const std::optional<float> height = outdoorMapData.waterDepth->movementHeight(
+            outdoorGridCornerWorldX(int(gridX)), outdoorGridCornerWorldY(int(gridY)), false);
+        if (height)
+        {
+            return *height;
+        }
+    }
     const size_t sampleIndex = gridY * static_cast<size_t>(OutdoorMapData::TerrainWidth) + gridX;
     return static_cast<float>(outdoorMapData.heightMap[sampleIndex])
         * static_cast<float>(OutdoorMapData::TerrainHeightScale);
@@ -61,6 +70,14 @@ bool terrainCellIsWater(
     const float centerY =
         (outdoorGridCornerWorldY(static_cast<int>(gridY))
             + outdoorGridCornerWorldY(static_cast<int>(gridY + 1))) * 0.5f;
+    if (outdoorMapData.waterDepth)
+    {
+        const std::optional<float> depth = outdoorMapData.waterDepth->depth(centerX, centerY);
+        if (depth)
+        {
+            return *depth > OutdoorWaterDepthData::WadingDepth;
+        }
+    }
     return isOutdoorTerrainWater(outdoorMapData, centerX, centerY)
         || outdoorLandMaskCellIsWater(pOutdoorLandMask, gridX, gridY);
 }

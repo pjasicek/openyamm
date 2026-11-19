@@ -1773,7 +1773,6 @@ void IndoorGameView::executeActiveDialogAction()
                 m_gameSession.data().itemTable());
         },
         {},
-        {},
         [this](size_t previousMessageCount, bool allowNpcFallbackContent)
         {
             m_gameSession.gameplayScreenRuntime().presentPendingEventDialog(

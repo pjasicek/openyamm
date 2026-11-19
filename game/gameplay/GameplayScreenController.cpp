@@ -680,6 +680,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     const bool residentSelectionMode = isHouseOccupantSelectionMode(context.activeEventDialog());
     const bool spellbookActive = context.spellbookReadOnly().active;
     const bool characterScreenOpen = context.characterScreenReadOnly().open;
+    const bool readingScroll = context.readableScrollOverlayReadOnly().staysOpen;
     const bool restActive = context.restScreenState().active;
     const bool menuActive = context.menuScreenState().active;
     const bool controlsActive = context.controlsScreenState().active;
@@ -712,6 +713,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && config.width > 0
         && config.height > 0
         && !config.blockPortraitInput
+        && !readingScroll
         && !spellbookActive
         && !restActive
         && !menuActive
@@ -745,6 +747,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
 
     const bool canUsePartyNumberHotkeys =
         !config.blockPortraitInput
+        && !readingScroll
         && !spellbookActive
         && !restActive
         && !menuActive
@@ -776,7 +779,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         {
             if (isNumberHotkeyNewlyPressed(input, context.previousKeyboardState(), memberIndex))
             {
-                GameplayHudInputController::activatePartyPortrait(context, memberIndex, portraitHotkeyConfig);
+                GameplayHudInputController::activatePartyPortrait(context, memberIndex, portraitHotkeyConfig, false);
             }
         }
     }
@@ -856,6 +859,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
 
     const bool canToggleJournal =
         !activeEventDialog
+        && !readingScroll
         && !hasActiveLootView
         && !restActive
         && !menuActive

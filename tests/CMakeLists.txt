@@ -26,6 +26,7 @@ add_executable(openyamm_unit_tests
     GameplayMapNotesTests.cpp
     AlchemyBenchRegressionTests.cpp
     GameplayRuleRegressionTests.cpp
+    OutdoorWaterDepthTests.cpp
     GameInputSystemTests.cpp
     GlUniformCacheTests.cpp
     AwardRuntimeTests.cpp
@@ -54,7 +55,7 @@ add_executable(openyamm_unit_tests
     IndoorPortalVisibilityTests.cpp
     IndoorRenderRevisionTests.cpp
     InventoryEquipRegressionTests.cpp
-    InventoryBookDoubleClickTests.cpp
+    InventoryItemDoubleClickTests.cpp
     LegacyLuaExportTests.cpp
     MapStatsRegressionTests.cpp
     MapDeltaDataTests.cpp
@@ -298,6 +299,8 @@ add_executable(openyamm_unit_tests
     ../game/ui/SpellbookUiLayout.cpp
     ../game/ui/UiLayoutManager.cpp
     ../game/outdoor/OutdoorGeometryUtils.cpp
+    ../game/outdoor/OutdoorTerrainMaterialConfig.cpp
+    ../game/outdoor/OutdoorWaterDepthData.cpp
     ../game/outdoor/OutdoorMeadow.cpp
     ../game/outdoor/OutdoorLightingRuntime.cpp
     ../game/outdoor/OutdoorLightingData.cpp

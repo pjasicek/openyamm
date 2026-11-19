@@ -1,5 +1,6 @@
 #include "game/items/InventoryItemMixingRuntime.h"
 
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/PotionMixingTable.h"
@@ -14,6 +15,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr uint32_t RechargePotionItemId = 233;
+constexpr uint32_t SlayingPotionItemId = 263;
 
 bool parsePositiveInteger(const std::string &value, uint32_t &result)
 {
@@ -48,12 +50,6 @@ SkillMastery alchemyMastery(const Character &member)
 {
     const CharacterSkill *pSkill = member.findSkill("Alchemy");
     return pSkill != nullptr ? pSkill->mastery : SkillMastery::None;
-}
-
-uint32_t alchemyLevel(const Character &member)
-{
-    const CharacterSkill *pSkill = member.findSkill("Alchemy");
-    return pSkill != nullptr ? pSkill->level : 0;
 }
 
 uint8_t requiredFailureDamageLevel(
@@ -110,6 +106,13 @@ uint16_t InventoryItemMixingRuntime::reagentPower(const ItemDefinition &itemDefi
     return parsePositiveInteger(itemDefinition.mod1, power)
         ? static_cast<uint16_t>(std::min<uint32_t>(power, 0xFFFFu))
         : 0;
+}
+
+uint32_t InventoryItemMixingRuntime::effectiveAlchemyLevel(const Character &member)
+{
+    const CharacterSkill *pSkill = member.findSkill("Alchemy");
+    const int baseLevel = pSkill != nullptr ? static_cast<int>(pSkill->level) : 0;
+    return static_cast<uint32_t>(std::max(0, baseLevel + member.skillBonus("Alchemy")));
 }
 
 bool InventoryItemMixingRuntime::isWandItem(const ItemDefinition &itemDefinition)
@@ -335,6 +338,56 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
         return {};
     }
 
+    if (heldItem.objectDescriptionId == SlayingPotionItemId)
+    {
+        const ItemDefinition *pDefinition = itemTable.get(pTargetItem->objectDescriptionId);
+        const SpecialItemEnchantTable *pEnchantTable = party.specialItemEnchantTable();
+        const ItemEnchantCategory category = pDefinition != nullptr
+            ? ItemEnchantRuntime::categoryForItem(*pDefinition)
+            : ItemEnchantCategory::None;
+        const bool isWeapon = category == ItemEnchantCategory::OneHandedWeapon
+            || category == ItemEnchantCategory::TwoHandedWeapon
+            || category == ItemEnchantCategory::Missile;
+
+        // Other potions still go through the mixing rules below.
+        if (isWeapon)
+        {
+            InventoryItemMixResult result = {};
+            result.handled = true;
+            result.action = InventoryItemMixAction::EnchantWeaponPotion;
+            result.statusText = "Spell failed";
+
+            if (pTargetItem->broken
+                || pTargetItem->rarity != ItemRarity::Common
+                || pDefinition->rarity != ItemRarity::Common
+                || pTargetItem->standardEnchantId != 0
+                || pTargetItem->specialEnchantId != 0
+                || pTargetItem->artifactId != 0
+                || pEnchantTable == nullptr)
+            {
+                return result;
+            }
+
+            const std::vector<SpecialItemEnchantEntry> &enchants = pEnchantTable->entries();
+
+            for (size_t index = 0; index < enchants.size(); ++index)
+            {
+                if (enchants[index].kind == SpecialItemEnchantKind::DragonSlaying)
+                {
+                    pTargetItem->specialEnchantId = static_cast<uint16_t>(index + 1);
+                    pTargetItem->temporaryBonusRemainingSeconds = 0.0f;
+                    result.success = true;
+                    result.heldItemConsumed = true;
+                    result.targetItemChanged = true;
+                    result.statusText.clear();
+                    return result;
+                }
+            }
+
+            return result;
+        }
+    }
+
     const Character *pAlchemyMember = party.bestPartyWideUtilitySkillMember("Alchemy");
     const Character &alchemyMember = pAlchemyMember != nullptr ? *pAlchemyMember : *pMember;
     const uint32_t targetItemId = pTargetItem->objectDescriptionId;
@@ -343,7 +396,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
         heldItem,
         *pTargetItem,
         alchemyMastery(alchemyMember),
-        alchemyLevel(alchemyMember),
+        effectiveAlchemyLevel(alchemyMember),
         itemTable,
         potionMixingTable,
         potionSettingTable,

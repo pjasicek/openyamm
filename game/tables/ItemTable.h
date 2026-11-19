@@ -120,6 +120,7 @@ struct ItemDefinition
     std::string importStatus;
     std::string balanceProfile;
 
+    bool isGold() const;
     bool hasContentFlag(const std::string &flag) const;
     bool availableInWorld(const std::string &worldId) const;
 };

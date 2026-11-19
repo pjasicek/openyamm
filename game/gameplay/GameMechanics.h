@@ -11,6 +11,7 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ClassMultiplierTable;
+class GameSession;
 class SpellTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
@@ -191,7 +192,7 @@ struct CharacterEquipPlan
 class GameMechanics
 {
 public:
-    static void bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable);
+    static void bindClassMultiplierTable(const GameSession &session, const ClassMultiplierTable *pClassMultiplierTable);
     static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
     static uint32_t maximumTrainableLevelFromExperience(const Character &character);
     static int calculateBaseCharacterMaxHealth(

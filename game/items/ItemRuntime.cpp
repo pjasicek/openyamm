@@ -212,7 +212,8 @@ bool ItemRuntime::characterMeetsClassRestriction(const Character &character, con
     const int actualAccuracy = static_cast<int>(character.accuracy)
         + character.permanentBonuses.accuracy + character.magicalBonuses.accuracy;
 
-    if (actualMight < itemDefinition.requiredMight || actualAccuracy < itemDefinition.requiredAccuracy)
+    if ((itemDefinition.requiredMight > 0 && actualMight < itemDefinition.requiredMight)
+        || (itemDefinition.requiredAccuracy > 0 && actualAccuracy < itemDefinition.requiredAccuracy))
     {
         return false;
     }
@@ -290,7 +291,7 @@ std::string ItemRuntime::displayName(
     const StandardItemEnchantTable *pStandardEnchantTable,
     const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
-    if (!item.identified && hasMeaningfulUnidentifiedName(itemDefinition))
+    if (!item.identified && requiresIdentification(itemDefinition))
     {
         return itemDefinition.unidentifiedName;
     }

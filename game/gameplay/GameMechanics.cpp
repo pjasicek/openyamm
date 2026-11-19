@@ -45,7 +45,13 @@ constexpr int ParameterBonusValues[29] = {
     7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6,
 };
 
-const ClassMultiplierTable *g_pClassMultiplierTable = nullptr;
+struct ClassMultiplierTableBinding
+{
+    const GameSession *pSession = nullptr;
+    const ClassMultiplierTable *pTable = nullptr;
+};
+
+ClassMultiplierTableBinding g_classMultiplierTableBinding;
 
 bool monsterHourOfPowerBoostsDamageResistance(CombatDamageType damageType)
 {
@@ -289,9 +295,9 @@ std::optional<ClassMultiplierEntry> classMultiplierForClassName(
         }
     }
 
-    if (g_pClassMultiplierTable != nullptr)
+    if (g_classMultiplierTableBinding.pTable != nullptr)
     {
-        const ClassMultiplierEntry *pEntry = g_pClassMultiplierTable->get(className);
+        const ClassMultiplierEntry *pEntry = g_classMultiplierTableBinding.pTable->get(className);
 
         if (pEntry != nullptr)
         {
@@ -2004,9 +2010,16 @@ uint64_t GameMechanics::experienceRequiredForNextLevel(uint32_t currentLevel)
     return OpenYAMM::Game::experienceRequiredForNextLevel(currentLevel);
 }
 
-void GameMechanics::bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
+void GameMechanics::bindClassMultiplierTable(const GameSession &session, const ClassMultiplierTable *pClassMultiplierTable)
 {
-    g_pClassMultiplierTable = pClassMultiplierTable;
+    if (pClassMultiplierTable != nullptr)
+    {
+        g_classMultiplierTableBinding = {&session, pClassMultiplierTable};
+    }
+    else if (g_classMultiplierTableBinding.pSession == &session)
+    {
+        g_classMultiplierTableBinding = {};
+    }
 }
 
 uint32_t GameMechanics::maximumTrainableLevelFromExperience(const Character &character)

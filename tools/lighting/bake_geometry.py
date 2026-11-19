@@ -2,6 +2,12 @@
 import math
 
 
+def surface_key(points, texture, uvs):
+    """Identify identical oriented surfaces, including material sampling, across model records."""
+    vertices = tuple((tuple(point), tuple(uv)) for point, uv in zip(points, uvs))
+    return texture.lower(), min(vertices[i:] + vertices[:i] for i in range(len(vertices)))
+
+
 def rle_bgra(pixels):
     """Encode BGRA texels as PackBits-style literal and repeated-pixel spans."""
     if len(pixels) % 4:

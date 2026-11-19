@@ -19,6 +19,7 @@ public:
     void addExactTranslation(const std::string &source, const std::string &translation);
     const std::string &translate(const std::string &source) const;
     std::string translateText(const std::string &source) const;
+    bool matchesAnswer(const std::string &source, const std::string &input) const;
     std::string format(
         const std::string &source,
         const std::vector<std::pair<std::string, std::string>> &values

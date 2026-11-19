@@ -170,9 +170,7 @@ std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTab
         return "item";
     }
 
-    if (!pItemDefinition->unidentifiedName.empty()
-        && pItemDefinition->unidentifiedName != "0"
-        && pItemDefinition->unidentifiedName != "N / A")
+    if (ItemRuntime::requiresIdentification(*pItemDefinition))
     {
         return pItemDefinition->unidentifiedName;
     }

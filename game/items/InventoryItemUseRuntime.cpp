@@ -16,13 +16,17 @@ namespace
 {
 constexpr int MinutesPerDay = 24 * 60;
 constexpr int DaysPerMonth = 28;
+constexpr uint32_t ToberskFruitItemId = 643;
 constexpr uint32_t GreenAppleItemId = 655;
+constexpr uint32_t Mm7RedAppleItemId = 1432;
+constexpr uint32_t Mm6AppleItemId = 2104;
 constexpr uint32_t HorseshoeItemId = 656;
 constexpr uint32_t Mm7HorseshoeItemId = 1448;
 constexpr uint32_t Mm6HorseshoeItemId = 2083;
 constexpr uint32_t DimensionDoorScrollItemId = 190;
 constexpr uint32_t ChargedConnectorStoneItemId = 624;
 constexpr uint32_t DischargedConnectorStoneItemId = 625;
+constexpr uint32_t GenieLampItemId = 1418;
 constexpr uint32_t DeckOfFateItemId = 2067;
 constexpr uint32_t ExtraPotionPlayerBitBase = 200000;
 
@@ -520,11 +524,10 @@ std::string itemCannotBeUsedStatusText(const ItemDefinition &itemDefinition)
     return itemDisplayNameForStatus(itemDefinition) + " can not be used that way";
 }
 
-bool isFoodItem(const InventoryItem &item, const ItemDefinition &itemDefinition)
+bool isFoodItem(uint32_t itemId)
 {
-    return item.objectDescriptionId == GreenAppleItemId
-        || itemNameContains(itemDefinition, "apple")
-        || itemNameContains(itemDefinition, "tobersk fruit");
+    return itemId == ToberskFruitItemId || itemId == GreenAppleItemId
+        || itemId == Mm7RedAppleItemId || itemId == Mm6AppleItemId;
 }
 
 std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
@@ -818,7 +821,7 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::UseHorseshoe;
     }
 
-    if (itemNameEquals(*pItemDefinition, "genie lamp"))
+    if (item.objectDescriptionId == GenieLampItemId)
     {
         return InventoryItemUseAction::UseGenieLamp;
     }
@@ -828,7 +831,7 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::UseDeckOfFate;
     }
 
-    if (isFoodItem(item, *pItemDefinition))
+    if (isFoodItem(item.objectDescriptionId))
     {
         return InventoryItemUseAction::EatFoodItem;
     }

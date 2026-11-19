@@ -42,6 +42,7 @@ using OpenYAMM::Game::projectIndoorVelocityAlongPlane;
 using OpenYAMM::Game::resolveIndoorInitialActorPlacement;
 using OpenYAMM::Game::sampleIndoorCeiling;
 using OpenYAMM::Game::sampleIndoorFloor;
+using OpenYAMM::Game::findIndoorSectorForPoint;
 using OpenYAMM::Game::selectNearestIndoorFaceHit;
 using OpenYAMM::Game::sweepIndoorBodyAgainstCylinder;
 using OpenYAMM::Game::sweepIndoorBodyAgainstFace;
@@ -869,4 +870,35 @@ TEST_CASE("swept body bounds face touch can be padded")
 
     CHECK_FALSE(indoorSweptBodyBoundsTouchFace(bounds, wall));
     CHECK(indoorSweptBodyBoundsTouchFace(bounds, wall, 5.0f));
+}
+
+TEST_CASE("ceiling portals define indoor sectors without becoming solid support")
+{
+    IndoorMapData map;
+    map.vertices = {{-128, -128, 0}, {128, -128, 0}, {128, 128, 0}, {-128, 128, 0}};
+    IndoorFace portal;
+    portal.vertexIndices = {0, 1, 2, 3};
+    portal.facetType = 5;
+    portal.isPortal = true;
+    portal.roomNumber = 1;
+    map.faces = {portal};
+    map.sectors.resize(2);
+    IndoorSector &sector = map.sectors[1];
+    sector.flags = 0x8;
+    sector.minX = sector.minY = -128;
+    sector.maxX = sector.maxY = 128;
+    sector.minZ = 0;
+    sector.maxZ = 256;
+    sector.portalFaceIds = {0};
+    sector.portalCount = 1;
+
+    const std::optional<int16_t> sectorId = findIndoorSectorForPoint(
+        map, map.vertices, {0, 0, 160}, nullptr, false);
+    REQUIRE(sectorId.has_value());
+    CHECK_EQ(*sectorId, 1);
+    CHECK_FALSE(sampleIndoorFloor(map, map.vertices, 0, 0, 160, 50, 1024).hasFloor);
+
+    // A vertical portal has no height over the query's XY and cannot identify this room.
+    map.vertices = {{0, -128, 0}, {0, 128, 0}, {0, 128, 256}, {0, -128, 256}};
+    CHECK_FALSE(findIndoorSectorForPoint(map, map.vertices, {0, 0, 160}, nullptr, false).has_value());
 }

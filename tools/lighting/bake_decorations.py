@@ -87,7 +87,7 @@ def export_cards(profile, output):
     dependencies = set()
 
     def use(path):
-        dependencies.add(str(path.relative_to(assets)))
+        dependencies.add(path.relative_to(assets).as_posix())
         return path
 
     scene = yaml.safe_load(use(source.with_suffix('.scene.yml')).read_text())
@@ -198,7 +198,7 @@ def export_cards(profile, output):
             mask_path = output / (texture + '_' + str(frame['palette_id']) + '.png')
             alpha.save(mask_path)
             textures[key] = dict(mask=str(mask_path.resolve()), alpha=alpha, width=width, height=height,
-                                 source=str(path.relative_to(assets)))
+                                 source=path.relative_to(assets).as_posix())
         scale = max(float(frame.get('scale', 1)), .01)
         texture_data = textures[key]
         return dict(name=name, width=texture_data['width'] * scale, height=texture_data['height'] * scale,

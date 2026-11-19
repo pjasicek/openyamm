@@ -623,6 +623,13 @@ struct GameApplicationTestAccess
         application.m_gameSession.gameplayScreenRuntime().closeRestOverlay();
     }
 
+    static void startEightHourRest(GameApplication &application)
+    {
+        GameplayScreenRuntime &runtime = application.m_gameSession.gameplayScreenRuntime();
+        runtime.openRestOverlay();
+        runtime.startRestAction(GameplayUiController::RestMode::Heal, 8.0f * 60.0f);
+    }
+
     static const EventDialogContent &activeEventDialog(const GameApplication &application)
     {
         return application.m_gameSession.gameplayScreenRuntime().activeEventDialog();
@@ -28295,6 +28302,75 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_eight_hour_rest_wakes_entire_sleeping_insane_party",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(
+                    out02ViewSession, assetFileSystem, "out02.odm", true, failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out02ViewSession.application;
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            if (pWorld == nullptr || pPartyRuntime == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            party.addFood(100);
+            party.clearPartyBuff(PartyBuffId::Fly);
+            const float initialGameMinutes = pWorld->gameMinutes();
+            for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
+            {
+                if (!party.applyMemberCondition(memberIndex, CharacterCondition::Insane, initialGameMinutes)
+                    || !party.applyMemberCondition(memberIndex, CharacterCondition::Asleep, initialGameMinutes)
+                    || GameMechanics::canAct(*party.member(memberIndex)))
+                {
+                    failure = "could not prepare sleeping insane party";
+                    return false;
+                }
+            }
+
+            GameApplicationTestAccess::startEightHourRest(application);
+            if (!GameApplicationTestAccess::isRestScreenActive(application)
+                || GameApplicationTestAccess::restRemainingMinutes(application) != 480.0f)
+            {
+                failure = "eight-hour healing rest did not start";
+                return false;
+            }
+
+            for (int frame = 0; frame < 180 && GameApplicationTestAccess::isRestScreenActive(application); ++frame)
+            {
+                GameApplicationTestAccess::updateRestScreen(application, 1.0f / 60.0f);
+            }
+            if (GameApplicationTestAccess::isRestScreenActive(application)
+                || std::abs(pWorld->gameMinutes() - initialGameMinutes - 480.0f) > 0.1f)
+            {
+                failure = "eight-hour healing rest did not complete";
+                return false;
+            }
+
+            GameApplicationTestAccess::gameSession(application).gameplayScreenRuntime().syncPartyConditionPortraits();
+            for (const Character &member : party.members())
+            {
+                if (member.conditions.test(static_cast<size_t>(CharacterCondition::Asleep))
+                    || !member.conditions.test(static_cast<size_t>(CharacterCondition::Insane))
+                    || !GameMechanics::canAct(member)
+                    || member.portraitState == PortraitId::Sleep)
+                {
+                    failure = "completed eight-hour rest left an insane member asleep or unable to act";
+                    return false;
+                }
+            }
+            return true;
+        }
+    );
+
+    runCase(
         "app_tavern_rent_room_closes_dialog_runs_rest_ui_and_wakes_at_6am",
         [&](std::string &failure)
         {
@@ -28313,7 +28389,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
             OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
             EventRuntimeState *pEventRuntimeState = pWorld != nullptr ? pWorld->eventRuntimeState() : nullptr;
-            const HouseEntry *pTavernHouse = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(107);
+            const HouseEntry *pTavernHouse = GameApplicationTestAccess::gameDataLoader(application).getHouseTable().get(229);
 
             if (pWorld == nullptr || pPartyRuntime == nullptr || pEventRuntimeState == nullptr || pTavernHouse == nullptr)
             {
@@ -28357,11 +28433,18 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
-            const std::string expectedRoomActionLabel =
-                "Rent room for " + std::to_string(PriceCalculator::tavernRoomPrice(pActiveMember, *pTavernHouse)) + " gold";
+            const EventDialogContent &lobby = GameApplicationTestAccess::activeEventDialog(application);
+            if (!lobby.actions.empty() && lobby.actions.front().kind == EventDialogActionKind::HouseProprietor)
+            {
+                GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+                GameApplicationTestAccess::executeActiveDialogAction(application);
+            }
 
-            if (dialog.actions.empty() || dialog.actions.front().label != expectedRoomActionLabel)
+            const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
+            if (dialog.actions.empty()
+                || dialog.actions.front().kind != EventDialogActionKind::HouseService
+                || dialog.actions.front().id != static_cast<uint32_t>(HouseActionId::TavernRentRoom)
+                || !dialog.actions.front().enabled)
             {
                 failure = "tavern dialog did not expose rent room as the first action";
                 return false;
@@ -30443,7 +30526,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             OutdoorWorldRuntime::Snapshot state = world.snapshot();
             if (state.chests.size() <= 3)
             {
-                failure = "bridge chests are missing";
+                failure = "tavern storage chests are missing";
                 return false;
             }
             state.materializedChestViews.resize(state.chests.size());

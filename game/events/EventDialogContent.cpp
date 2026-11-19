@@ -1775,6 +1775,18 @@ EventDialogContent buildEventDialogContent(
                         dialog.actions.push_back(std::move(action));
                     }
                 }
+
+                const HouseEntry *pHostHouse = pHouseTable != nullptr && context.hostHouseId != 0
+                    ? pHouseTable->get(context.hostHouseId)
+                    : nullptr;
+                if (pNpc != nullptr && pHostHouse != nullptr && pHostHouse->restHostNpcId == pNpc->id)
+                {
+                    EventDialogAction action = {};
+                    action.kind = EventDialogActionKind::NpcOfferLodging;
+                    action.id = pHostHouse->id;
+                    action.label = "Would you like to rest?";
+                    dialog.actions.push_back(std::move(action));
+                }
             }
         }
 

@@ -215,6 +215,7 @@ public:
         float y,
         float z,
         float maxFloorRise) const;
+    bool isInDeepWater(const OutdoorMoveState &state) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
     void updateFaceGeometries(const std::vector<OutdoorFaceGeometryData> &geometries);

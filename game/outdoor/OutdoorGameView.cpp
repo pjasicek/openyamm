@@ -205,12 +205,7 @@ bool outdoorActorIsPartyControlled(OutdoorWorldRuntime::ActorControlMode mode)
 
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
-constexpr int MinutesPerDay = 24 * 60;
-constexpr int InnRestDawnHour = 5;
-constexpr uint32_t DeyjaTavernHouseId = 111;
-constexpr uint32_t PitTavernHouseId = 114;
 constexpr uint64_t GameplayMouseLookCursorSyncIntervalTicks = 100;
-constexpr uint32_t MountNighonTavernHouseId = 116;
 constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
 constexpr int JournalRevealWidth = 88;
 constexpr int JournalRevealHeight = 88;
@@ -4436,40 +4431,6 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     screenRuntime.clearStatusBarHoverText();
 }
 
-float OutdoorGameView::innRestDurationMinutes(uint32_t houseId) const
-{
-    if (m_pOutdoorWorldRuntime == nullptr)
-    {
-        return 8.0f * 60.0f;
-    }
-
-    int currentMinuteOfDay = static_cast<int>(std::floor(m_pOutdoorWorldRuntime->gameMinutes()));
-    currentMinuteOfDay %= MinutesPerDay;
-
-    if (currentMinuteOfDay < 0)
-    {
-        currentMinuteOfDay += MinutesPerDay;
-    }
-
-    int minutesUntilDawn = InnRestDawnHour * 60 - currentMinuteOfDay;
-
-    if (minutesUntilDawn <= 0)
-    {
-        minutesUntilDawn += MinutesPerDay;
-    }
-
-    float durationMinutes = static_cast<float>(minutesUntilDawn) + 60.0f;
-
-    if (houseId == DeyjaTavernHouseId
-        || houseId == PitTavernHouseId
-        || houseId == MountNighonTavernHouseId)
-    {
-        durationMinutes += 12.0f * 60.0f;
-    }
-
-    return durationMinutes;
-}
-
 bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
 {
     if (m_pOutdoorPartyRuntime == nullptr)
@@ -4621,11 +4582,6 @@ GameplayUiController::HouseShopOverlayState &OutdoorGameView::houseShopOverlay()
 const GameplayUiController::HouseShopOverlayState &OutdoorGameView::houseShopOverlay() const
 {
     return m_gameSession.gameplayScreenRuntime().houseShopOverlay();
-}
-
-void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
-{
-    setStatusBarEvent(text, durationSeconds);
 }
 
 void OutdoorGameView::setRenderLayers(const RenderLayers &layers)

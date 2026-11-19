@@ -79,6 +79,8 @@ const char *eventDialogActionKindName(EventDialogActionKind kind)
             return "house_resident";
         case EventDialogActionKind::NpcTopic:
             return "npc_topic";
+        case EventDialogActionKind::NpcOfferLodging:
+            return "npc_offer_lodging";
         case EventDialogActionKind::ArenaChallenge:
             return "arena_challenge";
         case EventDialogActionKind::NpcProfessionNews:
@@ -3869,6 +3871,16 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             setPendingDialogueContext(context.eventRuntimeState, DialogueContextKind::NpcTalk,
                 npcId, currentDialogueHostHouseId(context.eventRuntimeState));
             result.shouldOpenPendingEventDialog = true;
+        }
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::NpcOfferLodging)
+    {
+        if (context.pParty != nullptr && context.pWorldRuntime != nullptr)
+        {
+            result.shouldCloseActiveDialog = true;
+            result.pendingInnRest = InnRestRequest{action.id};
         }
         return result;
     }

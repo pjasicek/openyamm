@@ -1,7 +1,145 @@
 language: ru
 translations:
+  # MM7: the Warlock's dragon familiar, feeding and growth.
+  "The dragon is already traveling with you.": "Дракон уже путешествует вместе с вашей группой."
+  "The grown dragon joins your company.": "Взрослый дракон присоединяется к вашей группе."
+  "The hatchling is hungry, but you need five food to feed it.": "Маленький дракон проголодался, но чтобы его накормить, потребуется 5 единиц еды."
+  "The hatchling has grown enough to travel with you.": "Маленький дракончик уже достаточно подрос, чтобы путешествовать вместе с вашей группой."
+  "The hatchling eats the food.": "Маленький дракончик ест еду."
+  # Harmondale (MM7): hill-fort hatch, signal fires and road signs.
+  Hatch: Люк
+  Hut: Хижина
+  "Signal Fire Pit": "Сигнальный костёр"
+  "North to the Tularean Forest": "На север — в Туларейский лес"
+  "West to Erathia": "На запад — в Эратию"
+  "South to Barrow Downs": "На юг — в Барроу-Даунс"
+  "East": "На восток"
+  # Emerald Island (MM7): the town sign, event-bound cart and dungeon entrances.
+  "Welcome to Emerald Isle": "Добро пожаловать на Изумрудный остров"
+  "Cart": "Повозка"
+  "Enter The Temple of the Moon": "Вход: Храм Луны"
+  "Enter the Dragon's Cave": "Вход: Пещера дракона"
+  # Outdoor landmarks, signs and interactive objects (MM6–MM8).
+  "Circle of Stones": "Круг камней"
+  "Royal Lines": "Королевские линии"
+  "Welcome to Misty Islands": "Добро пожаловать на Туманные острова"
+  "Volcano": "Вулкан"
+  "Anvil": "Наковальня"
+  "Plaza": "Площадь"
+  "East to Harmondale": "На восток — в Хармондэйл"
+  "North to Deyja Moors": "На север — в Дейю"
+  "West to Tatalia": "На запад — в Таталию"
+  "South to the Bracada Desert": "На юг — в пустыню Бракада"
+  "City of Steadwick": "Город Стедвик"
+  "Sewer": "Канализация"
+  "The Mercenary Guild ": "Гильдия наёмников"
+  "East to Steadwick": "На восток — в Стедвик"
+  "Wharf": "Пристань"
+  "Dock": "Причал"
+  "Stone": "Камень"
+  "North ": "На север"
+  "Dwarven Barrow": "Гномий курган"
+  "Mansion": "Особняк"
+  "Tunnel Entrance": "Вход в туннель"
+  "Titan Stronghold": "Крепость Титанов"
+  "East to the Tularean Forest": "На восток — в Туларейский лес"
+  "Open Crate": "Открыть ящик"
+  "Sealed Crate": "Запечатанный ящик"
+  "Regnan Pirate Outpost": "Пиратская застава Регны"
+  "Pirate Ship": "Пиратский корабль"
+  "Landing Craft": "Шлюпка"
+  "Fire the Cannon !": "Выстрелить из пушки!"
+  "Fire the cannon !": "Выстрелить из пушки!"
+  "Palm tree": "Пальма"
+  "Flower": "Цветок"
+  "Flowers": "Цветы"
+  "Buoy": "Буй"
+  "The Vault of Time": "Хранилище времени"
+  "The Tomb of Lord Brinne": "Гробница лорда Бринна"
+  "Pine tree": "Сосна"
+  "A Cave": "Пещера"
+  "Destroyed Building": "Разрушенное здание"
+  "Cactus": "Кактус"
+  "Rune post": "Столб с рунами"
+  "The Temple of the Sun": "Храм Солнца"
+  "A Druid Circle": "Круг друидов"
+  "Dimension Door": "Пространственная дверь"
+  "You need a power stone to operate this teleporter": "Для активации телепорта нужен камень силы"
+  "Tower": "Башня"
+  "Regnan Ship": "Корабль Регны"
+  "Sunk Regnan Ship": "Затонувший корабль Регны"
+  # Elemental planes and their portals (MM8).
+  "Raven Man Nest": "Гнездо людей-воронов"
+  "Enter the Plane of Air": "Вход: План Воздуха"
+  "Enter the Plane of Fire": "Вход: План Огня"
+  "Enter the Plane of Water": "Вход: План Воды"
+  "Leave the Plane of Air": "Выход из Плана Воздуха"
+  "Leave the Plane of Fire": "Выход из Плана Огня"
+  "Leave the Plane of Water": "Выход из Плана Воды"
+  "Gate to the Plane of Air": "Врата в План Воздуха"
+  "Gate to the Plane of Earth": "Врата в План Земли"
+  "Gate to the Plane of Fire": "Врата в План Огня"
+  "Gate to the Plane of Water": "Врата в План Воды"
+  "Gate out of the Plane of Air": "Врата из Плана Воздуха"
+  "Gate out of the Plane of Fire": "Врата из Плана Огня"
+  "Gate out of the Plane of Water": "Врата из Плана Воды"
+  "Prison of the Air Lord": "Темница Владыки Воздуха"
+  "Prison of the Earth Lord": "Темница Владыки Земли"
+  "Prison of the Fire Lord": "Темница Владыки Огня"
+  "Prison of the Water Lord": "Темница Владыки Воды"
+  # Interactive objects and the flush-system shelter in the Hive (MM6).
+  Keg: Бочка
+  Protected: Защищено
+  # Interactive objects in the Tomb of Ethric the Mad (MM6).
+  "Burial niche": "Погребальная ниша"
+  "Elevator": "Лифт"
+  "Platform": "Платформа"
+  "Gate": "Ворота"
+  "Exit.": "Выход."
+  # Interactive terminals in the Control Center (MM6).
+  "Computer Terminal": "Компьютерный терминал"
+  # Interactive objects in the Tomb of VARN (MM6).
+  "Well of VARN": "Колодец ВАРН"
+  "Cleansing Pool": "Очистительный бассейн"
+  "CleansingPool": "Очистительный бассейн"
+  "Water Temple": "Храм Воды"
+  "Control Room Entry": "Вход в диспетчерскую"
+  "Tomb of Varn": "Гробница ВАРН"
+  "Picture": "Изображение"
+  "Tapestry": "Гобелен"
+  "Demon Lair": "Логово дьяволов"
+  "Guardian of Kriegspire": "Хранитель Кригспайра"
+  "Curator of Kriegspire": "Куратор Кригспайра"
+  "Accept (Yes/No)?": "Согласны (Да/Нет)?"
+  # Localized initials for yes/no input prompts; full words are in gameplay.yml.
+  "Y": "Д"
+  "N": "Н"
+  'Answer?  ': 'Ответ: '
   Teleporter: Телепорт
+  # Bracada Desert (MM7) teleporter destinations.
+  "Celeste Gate": "Врата в Селесту"
+  "Random Teleporter": "Случайный телепорт"
+  "To Main Square": "На главную площадь"
+  Shops: Магазины
+  Tavern: Таверна
+  Guilds: Гильдии
+  "School of Sorcery": "Школа магии"
+  Docks: Причал
+  Stables: Конюшни
+  "Keep Off!": "Не приближаться!"
+  "Poisoned Spike": "Отравленный шип"
+  # Traps and interactive surfaces in the Shadow Guild (MM6).
+  "Unstable rock": "Неустойчивый камень"
+  "Suspicious Floor": "Подозрительная каменная плита"
+  "Dark pit": "Тёмная яма"
+  "Magical Wall": "Волшебная стена"
   "Memory Crystal Beta": "Кристалл памяти «Бета»"
+  # Interactive objects and system messages in the Oracle (MM6).
+  "Panel": "Панель"
+  "Oracle": "Оракул"
+  "The Oracle": "Оракул"
+  "Oracle of Enroth": "Оракул Энрота"
+  "Not enough memory to operate.": "Недостаточно памяти для работы."
   # Interactive objects in the Monolith (MM6).
   "Strange tree": "Странное дерево"
   "Strange rock": "Странная скала"
@@ -170,12 +308,13 @@ translations:
   Empty sack: Пустой мешок
   The Door is Locked: Дверь заперта
   Inventory is full: Инвентарь заполнен
+  "This is %s, the month of %s.\nJourney to the Shrine of %s and pray there to be rewarded.": "Сейчас %s, месяц %s.\nОтправляйтесь к святилищу %s и помолитесь там, чтобы получить награду."
   You must wait until the new month to undergo a pilgrimage.: Чтобы совершить паломничество, нужно дождаться нового месяца.
   ' +20 Hit Points': +20 очков здоровья
   ' +20 Hit points restored.': +20 восстановленных очков здоровья.
   ' This razor sharp crystal is too immature to harvest.': Этот кристалл, острый как бритва, ещё слишком незрелый для добычи.
-  ' a_eetcoa': ' a_eetcoa'
-  ' ts_rehmu': ' ts_rehmu'
+  " a_eetcoa": "ьия_ыоц_"
+  " ts_rehmu": "_лтпйлвп"
   '"+100,000 Experience"': «+100 000 очков опыта»
   '"+5000 Experience, -5000 Gold."': «+5000 очков опыта, -5000 золотых».
   '"A copper sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened."': '«На
@@ -194,33 +333,23 @@ translations:
   '"A wooden sign reads: As the winds blow, the seasons change, and only at the end of all can the doors be opened."': '«На
     деревянной табличке написано: „Ветер дует, времена года сменяют друг друга, и только в конце всего этого двери могут открыться“».'
   '"Ah, delicious amber!"': «Ах, восхитительный янтарь!»
-  ? '"Alert, environmental controls are offline on Level Four, Sections 18 through 96.  Access restricted to drones until
-    further notice."'
+  ? '"Alert, environmental controls are offline on Level Four, Sections 18 through 96.  Access restricted to drones until further notice."'
   : «Внимание! Системы контроля за состоянием окружающей среды на четвёртом уровне, в секциях с 18 по 96, вышли из строя.
     До дальнейшего уведомления доступ ограничен только для дронов».
   ? '"Alive without breath, as cold as death, never thirsty ever drinking, all in mail never clinking, ever travelling, never
     walking, mouth ever moving, never talking.  What am I? "'
-  : «Живой, но не дышащий, холодный, как смерть, никогда не испытывающий жажды, но всегда пьющий, весь в доспехах, но они
-    никогда не звенят, всегда путешествующий, но никогда не идущий, рот всегда шевелится, но никогда не говорит. Что я такое?»
-  ? '"Before entering the Planetary Reaction Chamber, please request a pair of Safety Goggles from one of our Drones.  During
-    peak hours of operation, this facility can generate enough power to produce a light bright enough to be seen from space.  Please
-    avoid looking directly into the light."'
+  : «Я жив, но не дышу воздухом. Я холоден, как смерть. Я никогда не испытываю жажды, но пью постоянно.
+    Моя кольчуга никогда не звенит. Я всегда в движении, но никогда не хожу.
+    Мой рот постоянно движется, но я никогда не говорю. Что я такое?»
+  ? '"Before entering the Planetary Reaction Chamber, please request a pair of Safety Goggles from one of our Drones.  During peak hours of operation, this facility can generate enough power to produce a light bright enough to be seen from space.  Please avoid looking directly into the light."'
   : «Перед входом в камеру планетарной реакции, пожалуйста, обратитесь к одному из наших дронов, чтобы получить защитные очки.
     В часы пиковой нагрузки данное сооружение может генерировать достаточно энергии для создания света, который виден из космоса.
     Пожалуйста, не смотрите прямо на свет».
-  ? '"Blaster weapons provide an effective, accurate ranged attack.  To operate the blaster, hold the grip comfortably in
-    your hand, point the barrel at your target, and gently squeeze the trigger.  Should the weapon misfire, do not look into
-    the barrel- give the weapon to an instructor and let them fix the problem.  Never point a blaster at something you do
-    not want to vaporize."'
+  ? '"Blaster weapons provide an effective, accurate ranged attack.  To operate the blaster, hold the grip comfortably in your hand, point the barrel at your target, and gently squeeze the trigger.  Should the weapon misfire, do not look into the barrel- give the weapon to an instructor and let them fix the problem.  Never point a blaster at something you do not want to vaporize."'
   : «Бластерное оружие обеспечивает эффективную и точную атаку на расстоянии. Чтобы воспользоваться бластером, удобно возьмите
     его за рукоятку, наведите ствол на цель и плавно нажмите на спусковой крючок. Если оружие дало осечку, не смотрите в ствол
     — передайте его инструктору, чтобы он устранил неисправность. Никогда не направляйте бластер на то, что вы не хотите испарить».
-  ? '"Chief Engineer Wilson�s Personal Log.  I have locked myself in Storage Room #6 but currently have no means of escape.  The
-    drone-bots have gone mad and have started killing everyone in sight.  I was able to access the main control terminal on
-    Level Four despite warnings of a hazardous leak, and I sent a distress signal, but since we have not had contact with
-    any of the colonies for several weeks, I do not believe that a rescue is possible.  I have also managed to seal this facility
-    so that the drones can not escape.  It is my hope that the colonists will be able to mount some sort of defense by the
-    time my encryption codes are broken.  Tell Emma I love her.  Wilson out."'
+  ? '"Chief Engineer Wilson’s Personal Log.  I have locked myself in Storage Room #6 but currently have no means of escape.  The drone-bots have gone mad and have started killing everyone in sight.  I was able to access the main control terminal on Level Four despite warnings of a hazardous leak, and I sent a distress signal, but since we have not had contact with any of the colonies for several weeks, I do not believe that a rescue is possible.  I have also managed to seal this facility so that the drones can not escape.  It is my hope that the colonists will be able to mount some sort of defense by the time my encryption codes are broken.  Tell Emma I love her.  Wilson out."'
   : «Личный журнал главного инженера Уилсона. Я заперся в кладовой № 6, но пока у меня нет возможности выбраться отсюда. Дроны
     сошли с ума и начали убивать всех, кто попадается им на глаза. Мне удалось получить доступ к главному терминалу управления
     на четвёртом уровне, несмотря на предупреждения об опасной утечке, и я отправил сигнал бедствия, но, поскольку мы уже
@@ -252,13 +381,12 @@ translations:
   : «Мнение эксперта — это ключ, и двери Баа откроются перед тобой.                                                                                                                                                                                                                  Затем
     пройди по спирали к каждой голове, поговори с Баа, иначе ты погибнешь».
   '"Follow Baa!  +50,000 Experience."': «Следуй за Баа!  +50 000 очков опыта».
-  ? '"Hello and welcome to this self-guided tour of the Varn Planetary Control Facility.  We gladly welcome all visitors.  As
-    you arrive at each key area, be sure to check any of our display screens for more information.  Enjoy your tour!"'
+  ? '"Hello and welcome to this self-guided tour of the Varn Planetary Control Facility.  We gladly welcome all visitors.  As you arrive at each key area, be sure to check any of our display screens for more information.  Enjoy your tour!"'
   : «Здравствуйте и добро пожаловать на эту самостоятельную экскурсию по Центру управления планетой Варн. Мы рады приветствовать
     всех посетителей. При подходе к каждому ключевому участку обязательно обращайте внимание на наши информационные экраны,
     где вы найдете дополнительную информацию. Желаем вам приятной экскурсии!»
-  '"I go through an apple, or point out your way, I fit in a bow, then a target, to stay. What am I?"': «Я пронзаю яблоко
-    или указываю тебе путь, я вписываюсь в лук, а потом в мишень, чтобы остаться на месте. Что я такое?»
+  '"I go through an apple, or point out your way, I fit in a bow, then a target, to stay. What am I?"': «Я могу проткнуть яблоко
+    или показать тебе дорогу. Помести меня на тетиву лука — и я полечу в мишень и останусь там. Что я такое?»
   '"In case of energy leak, bathe in one of the medicated pools placed for your safety and convenience."': «В случае утечки
     энергии окунитесь в один из лечебных бассейнов, установленных для вашей безопасности и удобства».
   '"Life above all, Accuracy before Might, Endurance before Speed, and finally, Luck."': «Жизнь превыше всего, точность важнее
@@ -267,9 +395,7 @@ translations:
     10 000 золотых вы будете исцелены“».'
   '"The Guardian of Kriegspire proclaims, ''For 50,000 gold, the secret will be revealed!''"': '«Хранитель Кригспайра провозглашает:
     „За 50 000 золотых тайна будет раскрыта!“»'
-  ? '"The room to your left is the main meeting hall.  Visiting dignitaries from around the world have feasted at banquets
-    held in their honor.  In fact, it is said that at his 21st birthday party King Sheridan nearly choked to death on a piece
-    of mogred, but was saved by a serving girl who he later married and made his Queen.  Ahh, l�amour."'
+  ? '"The room to your left is the main meeting hall.  Visiting dignitaries from around the world have feasted at banquets held in their honor.  In fact, it is said that at his 21st birthday party King Sheridan nearly choked to death on a piece of mogred, but was saved by a serving girl who he later married and made his Queen.  Ahh, l’amour."'
   : «Комната слева от вас — главный зал для собраний. Здесь в честь высокопоставленных гостей со всего мира устраивались банкеты.
     Говорят, что на вечеринке по случаю своего 21-летия король Шеридан чуть не подавился кусочком могреда, но его спасла служанка,
     на которой он впоследствии женился и сделал королевой. Ах, любовь».
@@ -277,18 +403,14 @@ translations:
   : '«Поверхность обелиска на ощупь тёплая, как кровь. Когда ты убираешь руку, в поле зрения появляется надпись:                                                                                                                                                            _ay,enis_nn_ans.»'
   ? '"The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            erbthieaeuu,_o''d"'
   : '«Поверхность обелиска на ощупь тёплая, как кровь. Когда ты убираешь руку, в поле зрения появляется надпись:                                                                                                                                                            erbthieaeuu,_o''d»'
-  ? '"This is the main equipment storage and repair facility.  By now, you may have noticed several floating Drone-bots.  They
-    are responsible both for maintaining the key systems of this facility as well as sanitation.  If a unit becomes damaged,
-    it is brought here to be repaired."'
+  ? '"This is the main equipment storage and repair facility.  By now, you may have noticed several floating Drone-bots.  They are responsible both for maintaining the key systems of this facility as well as sanitation.  If a unit becomes damaged, it is brought here to be repaired."'
   : «Это главный центр хранения и ремонта оборудования. К этому моменту вы, возможно, уже заметили несколько парящих дронов-ботов.
     Они отвечают как за обслуживание ключевых систем этого объекта, так и за поддержание чистоты. Если какой-либо аппарат
     повреждается, его доставляют сюда для ремонта».
-  ? '"Warning, intruder alert, Level Four, Section.  All drones proceed to Level Four to intercept intruders.  Reactor is
-    offline.  Encryption integrity at 2.064%.  Warning, intruder alert, Level Four�"'
+  ? '"Warning, intruder alert, Level Four, Section.  All drones proceed to Level Four to intercept intruders.  Reactor is offline.  Encryption integrity at 2.064%.  Warning, intruder alert, Level Four…"'
   : «Предупреждение, сигнал о вторжении, четвертый уровень, секция. Все дроны — направляйтесь на четвертый уровень для перехвата
     вторгшихся. Реактор отключен. Целостность шифрования — 2,064 %. Предупреждение, сигнал о вторжении, четвертый уровень…»
-  ? '"We apologize for any inconvenience, but we ask that all personnel evacuate the facility at this time.  Please do not
-    be alarmed.  Thank you."'
+  ? '"We apologize for any inconvenience, but we ask that all personnel evacuate the facility at this time.  Please do not be alarmed.  Thank you."'
   : «Приносим извинения за доставленные неудобства, но просим весь персонал покинуть объект в данный момент.  Пожалуйста,
     не беспокойтесь.  Спасибо».
   ? '"Well, thanks for sneaking me out of the Castle.  Sorry about the circus thing�I hope I wasn�t too much trouble to find.  I�ll
@@ -298,7 +420,7 @@ translations:
     Я войду сама, чтобы никто не догадался, что это ты меня похитил. Еще раз спасибо и до свидания. Я это запомню, и теперь
     у меня у тебя должок!»
   '"What consumes rocks, levels mountains, destroys wood, pushes the clouds across the sky, and can make a young one old?"': «Что
-    разъедает скалы, сглаживает горы, уничтожает лес, гонит облака по небу и способно сделать молодого старым?»
+    обращает камни в пыль, стирает горы, разрушает лес, гонит облака по небу и заставляет молодых стареть?»
   '"Who told you!  Alright, you may pass!"': «Кто тебе это сказал!  Ладно, можешь пройти!»
   ? '"With painstaking care, you are able to decipher the message of the hieroglyphs, intermixed with diagrams of devils:                                                                                          Remember
     our Enemy, children, and never underestimate the danger they pose.  Though you will never see one during your journey,
@@ -324,8 +446,8 @@ translations:
     храни Хранителя и держи его в надёжном месте, вдали от корабля, чтобы не потерять и то, и другое в результате одной беды».'
   ? '"You cannot see me, hear me or touch me.  I lie behind the stars and alter what is real, I am what you really fear, Close
     your eyes and come I near. What am I?"'
-  : «Ты не можешь меня увидеть, услышать или прикоснуться ко мне. Я скрываюсь за звёздами и изменяю реальность, я — то, чего
-    ты на самом деле боишься. Закрой глаза, и я подойду к тебе. Кто я?»
+  : «Ты не можешь меня увидеть, услышать или потрогать. Я скрываюсь за звёздами и искажаю очертания вещей.
+    Я — то, чего ты боишься. Закрой глаза — и я рядом. Что я такое?»
   '"You drink the water, with no effect."': «Ты пьешь воду, но это не даёт никакого эффекта».
   '"You thumb through the books, but find nothing of interest."': «Ты пролистываешь книги, но ничего интересного не находишь».
   + 10 Might (Temporary): +10 к силе (временно)
@@ -334,6 +456,7 @@ translations:
   +10 Accuracy temporary.: +10 к меткости (временно).
   +10 Cold resistance permanent: +10 к постоянной устойчивости к холоду
   +10 Cold resistance permanent.: +10 к сопротивлению холоду (постоянное).
+  +10 Earth resistance permanent.: +10 к сопротивлению «Земля» (постоянный эффект).
   +10 Electric resistance permanent.: +10 к постоянному электрическому сопротивлению.
   +10 Electricity resistance permanent: +10 к сопротивлению электричеству (постоянное)
   +10 Elemental resistance permanent.: +10 к постоянной сопротивляемости стихиям.
@@ -449,13 +572,13 @@ translations:
   : '20 лет назад я выиграл ежегодные соревнования по стрельбе из лука, проходившие в замке Айронфист, и с тех пор удерживаю
     титул чемпиона.
 
-    Это дает мне право по своему усмотрению присваивать лучникам звания «воин-маг» и «мастер-лучник».
+    Это дает мне право по своему усмотрению присваивать лучникам звания «боевой маг» и «мастер-лучник».
 
-    Я присвою звание «воин-маг» всем лучникам из вашей компании, если вы окажете мне небольшую услугу. Мне нужен ключ от старых
+    Я присвою звание «боевой маг» всем лучникам из вашей компании, если вы окажете мне небольшую услугу. Мне нужен ключ от старых
     «Башен Дракона», установленных возле каждого крупного поселения в Энроте для сбивания летающих существ.
 
     Думаю, их можно настроить так, чтобы они сбивали только монстров, а не всё, что летает в воздухе. Поскольку это своего
-    рода мой личный проект, остальным из вас я присвою почетное звание «воин-маг».
+    рода мой личный проект, остальным из вас я присвою почетное звание «боевой маг».
 
     Ключ находится в моей старой крепости у южного входа в мои земли.
 
@@ -675,17 +798,17 @@ translations:
     Tonight we will recite the song of the ancestors.
 
     Will you stay and recite with us?'
-  : 'Ах!
+  : 'А-а-ах!
 
-    [Дерево счастливо вздыхает]
+    [Дерево радостно вздыхает.]
 
-    У тебя есть душа!
+    Вы принесли Сердце!
 
     Лес поёт от радости!
 
-    Сегодня ночью мы будем петь песню предков.
+    Сегодня ночью мы запоём песню предков.
 
-    Останешься ли ты и споёшь вместе с нами?'
+    Останетесь спеть с нами?'
   Air Resistance +10 (Permanent): Сопротивление воздуха +10 (постоянное)
   All Hit points restored.: Все очки здоровья восстановлены.
   All must have amber.  Take life force!: У всех должна быть янтарь.  Поглощайте жизненную силу!
@@ -706,6 +829,9 @@ translations:
 
     Вернись, когда установишь все три.'
   All wards must be destroyed.: Все отсеки должны быть уничтожены.
+  Altar: Алтарь
+  Altar of Fire: Алтарь огня
+  Altar of Cold: Алтарь холода
   Altar of Pain: Алтарь боли
   ? 'Although it may be hard to believe, I happen to be one of the top druids in the land.
 
@@ -722,7 +848,7 @@ translations:
     Those among you who are not druids will be granted honorary great druid status, and I am sure the experience will be worthwhile.'
   : 'Хотя в это и трудно поверить, я являюсь одним из лучших друидов в стране.
 
-    В силу этого я уполномочен присваивать друидам звания «великого друида» и «архдруида», при условии, что они докажут свою
+    В силу этого я уполномочен присваивать друидам звания «великого друида» и «архидруида», при условии, что они докажут свою
     достойность.
 
     Чтобы получить звание великого друида, вы должны провести Церемонию Солнца.
@@ -979,7 +1105,7 @@ translations:
   : 'Немедленно верните «Осцилляционный ускоритель» на «Ресуректру»!
 
     Каждая секунда — это потеря драгоценного времени!'
-  Ca-Click!: Ca-Click!
+  Ca-Click!: Громкий щелчок!
   Castle Stone: Каменный замок
   Castle Stromgard: Замок Стромгард
   Castle Temper: «Замок Темпер»
@@ -1314,7 +1440,7 @@ translations:
     Here is your reward; you''ve done both the School of Sorcery and myself a great service.'
   : 'Превосходно!
 
-    Это, без сомнения, «Накидка Времен года».
+    Это, без сомнения, Палантин времён года.
 
     Вот твоя награда; ты оказал огромную услугу как Школе магии, так и мне лично.'
   ? 'Excellent!
@@ -2150,7 +2276,7 @@ translations:
     Ты устранил серьезную проблему в нашем королевстве, не говоря уже о том, что оказал услугу самому себе… Теперь можно без
     опаски летать над городами.
 
-    С большим удовольствием я повышаю всех воинов-магов до звания мастеров-лучников, а всех почетных воинов-магов — до звания
+    С большим удовольствием я повышаю всех боевых магов до звания мастеров-лучников, а всех почетных боевых магов — до звания
     почетных мастеров-лучников.'
   ? 'I know how to make a blue potion, but not red ones�Just about any blue herb will do.
 
@@ -2521,7 +2647,7 @@ translations:
 
     Тебе понадобятся доказательства, чтобы убедить регента Хамфри и добиться отстранения Сликкера от должности в Совете.
 
-    Отправляйся в Верхний храм Баа в Кригспайре и вернись с доказательствами, связывающими Сликкера с храмом Баа.'
+    Отправляйся в Высший храм Баа в Кригспайре и вернись с доказательствами, связывающими Сликкера с храмом Баа.'
   ? 'It is always good to speak with heroes of the realm!
 
     Come back in some less troubled time and we''ll swap tales of honor and courage by the fire!'
@@ -2553,7 +2679,7 @@ translations:
     Retrieve it from the monks and put it in the temple you rebuilt.
 
     Then return to me.'
-  : 'Кажется, немного рано повышать кого-либо до звания первосвященника, учитывая, что повышение до звания священника произошло
+  : 'Кажется, немного рано повышать кого-либо до звания верховного жреца, учитывая, что повышение до звания священника произошло
     совсем недавно.
 
     Ведь многие ждут всю жизнь, чтобы получить такое повышение, но получают его лишь посмертно.
@@ -2800,7 +2926,7 @@ translations:
 
     Я разорился, если кто-нибудь не примет меры против этих сектантов!'
   Luck +2 (Permanent): Удача +2 (постоянно)
-  Magic Gate Open: «Волшебные ворота» открыты
+  Magic Gate Open: Волшебные врата открыты!
   Magically Refreshing!: По-настоящему освежающе!
   Main Power failed.  Emergency power on.: Сбой основного питания.  Включено аварийное питание.
   Main Power restored.: Основное электроснабжение восстановлено.
@@ -3289,7 +3415,7 @@ translations:
     Take the Axe to Dadeross, a Minotaur in the service of the Merchants of Alvar, on the island of Dagger Wound.
 
     He will be able to verify the truth of what you find.'
-  : 'Только Масул, вождь нашего стада, может признать кого-либо достойным звания Повелителя Минотавров.
+  : 'Только Масул, вождь нашего стада, может признать кого-либо достойным звания Владыки минотавров.
 
     Один из способов доказать свою достойность — найти топор его отца, Топор Бальтазара, в недрах Шахт Тёмных Гномов.
 
@@ -3545,7 +3671,7 @@ translations:
 
     Вот, возьми этот плащ… Возможно, он тебе пригодится.'
   'Small rocks and debris fall from above. ': Сверху падают мелкие камни и обломки.
-  Snick!: Хлоп!
+  Snick!: Тихий щелчок!
   ? 'So this is the legendary Mordred, eh?
 
     Interesting, I was expecting something much grander.
@@ -3695,7 +3821,7 @@ translations:
 
     Тогда я отремонтирую ваш замок.
 
-    Завоюю ваше уважение.
+    И вы заслужите моё уважение.
 
     Идите сейчас и остерегайтесь грифонов в Бракаде.'
   ? 'So�what goes around comes around, eh?
@@ -3717,7 +3843,7 @@ translations:
     information damaging to our cause.
 
     Silence her, and return with a trinket of hers to prove the job is done.'
-  : 'Итак… ты хочешь стать Ассасином.
+  : 'Итак… ты хочешь стать убийцей.
 
     Хорошо.
 
@@ -4071,7 +4197,7 @@ translations:
     Any Minotaurs in your party are promoted to Minotaur Lord!'
   : 'Стадо Масула в долгу перед вами.
 
-    Все минотавры в вашей группе получают звание «Лорд минотавров»!'
+    Все минотавры в вашей группе получают звание «Владыка минотавров»!'
   The Invaders have been defeated!: Захватчики разгромлены!
   ? 'The King of the Dwarves, Snergle, usurped Rocklin for leadership of the dwarven clans.
 
@@ -4451,13 +4577,13 @@ translations:
     Существует способ настроить башни так, чтобы они стреляли только по крупным объектам, и я хочу, чтобы все они были настроены
     в интересах Королевства.
 
-    Магия становится всё более распространённой, как и истории о молодых чародеях, которых сбивают с неба, потому что они
+    Магия становится всё более распространённой, как и истории о молодых колдунах, которых сбивают с неба, потому что они
     не знали, как работают эти башни.
 
     Ключ у вас.
 
-    Если ты настроишь все башни так, чтобы они стреляли только по крупным объектам, я повышу всех воинов-магов из вашего числа
-    до звания мастеров-лучников, а всех почетных воинов-магов — до звания почетных мастеров-лучников.'
+    Если ты настроишь все башни так, чтобы они стреляли только по крупным объектам, я повышу всех боевых магов из вашего числа
+    до звания мастеров-лучников, а всех почетных боевых магов — до звания почетных мастеров-лучников.'
   ? 'The road to Ironfist is much safer thanks to you.
 
     You have our gratitude.'
@@ -4686,7 +4812,7 @@ translations:
     Bring me that lovely vase I saw on the mantle in Lord Markham�s manor, and I shall call you Rogue.'
   : 'Пусть закон и решает, кто виновен, а кто нет, но я решаю, кого называть «вором», а кого — просто преступником.
 
-    Принеси мне ту прекрасную вазу, которую я видела на каминной полке в поместье лорда Маркхэма, и я назову тебя «мошенником».'
+    Принеси мне ту прекрасную вазу, которую я видела на каминной полке в поместье лорда Маркхэма, и я назову тебя «разбойником».'
   ? 'To attain the status of Great Wyrm, a Dragon must prove that he can handle himself against a great number of foes.
 
     He must face down the vermin that Charles Quixote would send against us.
@@ -4706,7 +4832,7 @@ translations:
     In doing this, you will prove to me your worthiness.
 
     '
-  : 'Чтобы обрести статус Великого Дракона, дракон должен доказать, что способен справиться с огромным количеством врагов.
+  : 'Чтобы обрести статус Великого змея, дракон должен доказать, что способен справиться с огромным количеством врагов.
 
     Он должен дать отпор отбросам, которых Чарльз Кихот пошлет против нас.
 
@@ -4775,6 +4901,7 @@ translations:
   Tree: Дерево
   Trial by Cold: Испытание холодом
   Trial by Fire: Испытание огнём
+  Trial by Pain: Испытание болью
   Uh oh....: Ой-ой...
   ? 'Um.
 
@@ -4830,7 +4957,7 @@ translations:
   ? Warning!  Sensor array controls are strictly off limits to unauthorized personnel!  Use of the Sign of Sight is restricted
     to communications technicians only!  A mild electric shock will be transmitted to violators.
   : Внимание!  Доступ к органам управления массивом датчиков строго запрещен посторонним лицам!  Использование устройства
-    «Sign of Sight» разрешено исключительно техническим специалистам по связи!  Нарушители получат слабый электрический разряд.
+    «Знак зрения» разрешено исключительно техническим специалистам по связи!  Нарушители получат слабый электрический разряд.
   Water Resistance +10 (Permanent): Водостойкость +10 (постоянная)
   ? 'We can get to the boat docks?
 
@@ -5126,12 +5253,12 @@ translations:
     Надеюсь, теперь пауки больше не будут терроризировать Нью-Сорпигал.
 
     Вот награда, которую я тебе обещал.'
-  What is the Captain's code?: Что такое «кодекс капитана»?
-  What is the communication officer's code?: Каков кодекс сотрудника по связям с общественностью?
-  What is the doctor's code?: Что такое «код врача»?
-  What is the engineer's code?: Что такое кодекс инженера?
-  What is the first mate's code?: Что такое «код старшего помощника капитана»?
-  What is the navigator's code?: Что такое код навигатора?
+  What is the Captain's code?: Какой пароль у капитана?
+  What is the communication officer's code?: Какой пароль у радиста?
+  What is the doctor's code?: Какой пароль у врача?
+  What is the engineer's code?: Какой пароль у инженера?
+  What is the first mate's code?: Какой пароль у старшего помощника?
+  What is the navigator's code?: Какой пароль у навигатора?
   ? What is this? A letter from caravan master, Dadeross? Let's see�hmmm�Well, it seems that serious events are afoot. It
     is a pity--what has happened on Dagger Wound. Serious action may need to be taken, but I require more information��and
     I think I know how to get it! Perhaps you would be interested in helping me? I will compensate you, of course. And, here.
@@ -5348,7 +5475,7 @@ translations:
     '
   : 'Здесь вам всегда рады!
 
-    Конечно, я повышу всех жрецов, путешествующих с вами, до звания «Жреца Солнца»!'
+    Конечно, я повышу всех клириков, путешествующих с вами, до звания «Священника Света»!'
   ? 'You are missing all or some of the needed ingredients.
 
     Return when you have them all.'
@@ -5534,7 +5661,7 @@ translations:
 
     Обряд очищения начнётся немедленно! Вы доказали свою достойность и теперь являетесь членами нашего стада!
 
-    Минотавры, путешествующие с вами, получают звание «Лорд минотавров».
+    Минотавры, путешествующие с вами, получают звание «Владыка минотавров».
 
     Остальным членам вашей группы будут преподаны навыки, которые могут им пригодиться.'
   ? 'You have found the Prophecies of the Snake!
@@ -5658,7 +5785,7 @@ translations:
     You must finish this before I''ll promote you to Warrior Mage.'
   : 'Ты ещё не взорвал машину.
 
-    Ты должен завершить это, прежде чем я повышу тебя до звания «Воина-мага».'
+    Ты должен завершить это, прежде чем я повышу тебя до звания «Боевого мага».'
   ? 'You haven�t done the job yet!
 
     Remember, you must go to Watchtower 6 and move the weight from the box in the upper gatehouse to the lower gatehouse.
@@ -5703,13 +5830,13 @@ translations:
     Only then can I promote you to Priests of the Dark.'
   : 'Вы должны посетить остров Эвенморн и осквернить Алтарь Света в Церкви Солнца.
 
-    Только тогда я смогу повысить вас до звания Жрецов Тьмы.'
+    Только тогда я смогу повысить вас до звания Священников Тьмы.'
   ? 'You must visit Evenmorn island and purify the Altar of Darkness in the Church of the Moon.
 
     Only then can I promote you to Priests of the Light.'
   : 'Вы должны посетить остров Эвенморн и очистить Алтарь Тьмы в Церкви Луны.
 
-    Только тогда я смогу повысить вас до звания Жрецов Света.'
+    Только тогда я смогу повысить вас до звания Священников Света.'
   ? 'You no goblin!
 
     You leave!
@@ -6122,29 +6249,255 @@ translations:
     Заберите его в свой замок и поставьте там, где захотите.
 
     Он будет безжалостно атаковать вторгшихся.'
-  ___d___d: ___d___d
-  __dn_r_n: __dn_r_n
-  amonghiss: amonghiss
-  e_laru_a: e_laru_a
-  ethesunsh: ethesunsh
-  eut__i_n: eut__i_n
-  gholdsold: gholdsold
+  "___d___d": "__о___,_"
+  "__dn_r_n": ",_т___м."
+  "amonghiss": "торнаипоявл"
+  "e_laru_a": "в_о_к_аи"
+  "ethesunsh": "ыхприсветес"
+  "eut__i_n": "п_ае_нер"
+  "gholdsold": "роговхранит"
   hmmm, You decide against it.: Хм, ты решил этого не делать.
-  inesonmid: inesonmid
-  ininhil_: ininhil_
-  ivg_whn_: ivg_whn_
-  pearswhil: pearswhil
-  pohuwwba: pohuwwba
-  redditoh: redditoh
-  srhtfnut: srhtfnut
-  summerday: summerday
+  "inesonmid": "олнцавденьс"
+  "ininhil_": "яыпое_ад"
+  "ivg_whn_": "тномт__а"
+  "pearswhil": "воихподданн"
+  "pohuwwba": "пвспбврг"
+  "redditoh": "тжрдлпсе"
+  "srhtfnut": "иолсцоти"
+  "summerday": "ерединылета"
   ? 'the Lost Book of Khel is rumored to hold the secrets to the ultimate powers of the dark art of necromancy.
 
     It may be good that no one knows where it is!'
   : 'Ходят слухи, что в «Потерянной книге Кхела» хранятся секреты всемогущей силы тёмного искусства некромантии.
 
     Возможно, это даже к лучшему, что никто не знает, где она находится!'
-  theunicornkin: theunicornkin
-  thornskey: thornskey
-  ubjectsap: ubjectsap
-  veoseo_l: veoseo_l
+  "theunicornkin": "корольедино"
+  "thornskey": "ключстарого"
+  "ubjectsap": "яетсясредис"
+  "veoseo_l": "о.л.о_тк"
+
+  # Russian answers accepted by Escaton (MM8), and remaining obelisk fragments.
+  "_vehlgpe": "рд_квчёз"
+  "fi_eo_od": "аизоеьтр"
+  "prison": "тюрьма"
+  "jail": "темница"
+  "in": "внутри"
+  "inside": "внутри"
+  "egg": "яйцо"
+  "an egg": "яйца"
+  # Dungeon object labels and transitions, audited across MM6-MM8 on 2026-11-03.
+  "Stone Face": "Каменное лицо"
+  "Lord of Fire": "Повелитель Огня"
+  "Glowing dinosaur bones": "Светящиеся кости динозавров"
+  "Gold vein": "Золотая жила"
+  "Gems": "Драгоценные камни"
+  "Pool": "Бассейн"
+  "Wall": "Стена"
+  "Tile": "Плитка"
+  "Chandelier": "Люстра"
+  "Flickering Torch": "Мерцающий факел"
+  "Full sack": "Полный мешок"
+  "Cell": "Тюремная камера"
+  "Cylinder": "Цилиндр"
+  "Oracle Memory Crystal": "Кристалл памяти Оракула"
+  "Baa Head One": "Каменная голова Баа № 1"
+  "Baa Head Two": "Каменная голова Баа № 2"
+  "Baa Head Three": "Каменная голова Баа № 3"
+  "Baa Head Four": "Каменная голова Баа № 4"
+  "Almighty Head of Baa.": "Всемогущая каменная голова Баа."
+  "Lava pool": "Лавовый бассейн"
+  "Torch": "Факел"
+  "Sewer Grate": "Канализационная решётка"
+  "Stew filled bowl.": "Миска, наполненная рагу."
+  "Crates filled with wood chips.": "Ящики, наполненные древесной стружкой."
+  "Mead filled barrel.": "Бочка, наполненная медовухой."
+  "Water filled barrel.": "Бочка, наполненная водой."
+  "Mine": "Шахта"
+  "Boulders.": "Валуны."
+  "Small glittering pool.": "Небольшой сверкающий пруд."
+  "Switch.": "Переключатель."
+  "Shard filled caskets.": "Бочки, наполненные осколками кристаллов."
+  "Sacks.": "Мешки."
+  "Crystal.": "Кристалл."
+  "Table with implements atop.": "Стол с инструментами на нём."
+  "Carved mural.": "Резное панно."
+  "Old bones.": "Старые кости."
+  "Wall with missing bricks.": "Стена с пробелами в кирпичной кладке."
+  "Iron Maiden": "«Железная дева» (орудие пыток)"
+  "Long dead adventurer.": "Давно умерший искатель приключений."
+  "Skeleton in a cage.": "Скелет в клетке."
+  "Shelves": "Полки"
+  "Potions for sale": "Продажа зелий"
+  "Pantry": "Кладовая"
+  "Counter": "Прилавок магазина"
+  "Ore Vein": "Рудная жила"
+  "Pillar": "Каменная колонна"
+  "Vault": "Хранилище"
+  "Portrait": "Портрет"
+  "Mine Car": "Вагонетка"
+  "Lift": "Лифт"
+  "Key Hole": "Замочная скважина"
+  "Submarine": "Подводная лодка"
+  "Camp Fire": "Костёр"
+  "Food Bowl": "Миска с едой"
+  "Leave the Arena": "Выход: «Арена»"
+  "Leave the Temple of the Moon": "Выход: Храм Луны"
+  "Leave Thunderfist Mountain": "Выход: Гора Громовой Кулак"
+  "Exit the Tularean Caves": "Выход: Туларейские пещеры"
+  "Leave the Breeding Zone": "Выход: Зона разведения"
+  "Leave the Walls of Mist": "Выход: Стены тумана"
+  "Exit Clanker's Lab": "Выход: Лаборатория Кланкера"
+  "Leave the School of Sorcery": "Выход: Школа магии"
+  "Leave Watchtower 6": "Выход: «Сторожевая башня» № 6"
+  "Leave the Vampire Family House": "Выход: Винный погреб"
+  "Leave the Tidewater Caverns": "Выход: Пещеры Приливной воды"
+  "Leave Lord Markham's Manor": "Выход: Усадьба лорда Маркхэма"
+  "Leave the Grand Temple of the Moon": "Выход: Великий Храм Луны"
+  "Leave the Mercenary Guild": "Выход: Гильдия наемников"
+  "Leave the White Cliff Caves": "Выход: Пещера «Белый утес»"
+  "Leave the Hall Under the Hill": "Выход: Зал под холмом"
+  "Leave the Lincoln": "Выход: «Линкольн»"
+  "Enter the Throne Room": "Вход: Тронный зал"
+  "Leave Stone City": "Выход: Каменный город"
+  "Leave Celeste": "Выход: Селеста"
+  "Enter the Walls of Mist": "Вход: Стены тумана"
+  "Enter Castle Lambent": "Вход: Замок Ламбент"
+  "Leave the Pit": "Выход: Яма"
+  "Enter the Breeding Zone": "Вход: Зона разведения"
+  "Enter Castle Gloaming": "Вход: Замок «Сумерки»"
+  "Leave the Hive": "Выход: «Улей»"
+  "Leave Castle Harmondale": "Выход: Замок Хармондэйл"
+  "Leave Castle Lambent": "Выход: Замок Ламбент"
+  "Leave Fort Riverstride": "Выход: Форт Риверстрайд"
+  "Leave Castle Navan": "Выход: Замок Наван"
+  "Leave Castle Gryphonheart": "Выход: Замок Грифонхарт"
+  "Leave the Red Dwarf Mines": "Выход: Шахты «Красного карлика»"
+  "Leave the Cave": "Выход: Пещера"
+  "Leave the Haunted Mansion": "Выход: Особняк с привидениями"
+  "Leave The Strange Temple": "Выход: Странный храм"
+  "Leave the Erathian Sewer": "Выход: Эратские канализационные туннели"
+  "Leave the Maze": "Выход: Лабиринт"
+  "Leave the Dwarven Barrow": "Выход: Гробница гномов"
+  "Leave to tower": "Выход к башне"
+  "Leave the Hidden tomb": "Выход: Скрытая гробница"
+  "Leave the Temple of Light": "Выход: Храм Света"
+  "Leave to Temple of Dark": "Выход к Храму Тьмы"
+  "Leave the Grand Temple of the Sun": "Выход: Великий храм Солнца"
+  "Leave the Hall of the Pit": "Выход: Зал Ямы"
+  "Enter the Pit": "Вход: Яма"
+  "Leave the Abandoned Temple": "Выход: Заброшенный храм"
+  "Enter the Submarine": "Вход: Подводная лодка"
+  "Leave the Regnan Pirate Outpost": "Выход: Пиратский аванпост"
+  "Leave Smuggler's Cove": "Выход: Бухта контрабандистов"
+  "Leave the Dire Wolf Den": "Выход: Логово гигантского волка"
+  "Leave Merchant House of Alvar": "Выход: Торговый дом Альвара"
+  "Leave Escaton's Crystal": "Выход: Кристалл Эскатона"
+  "Leave the Wasp Nest": "Выход: Осиное гнездо"
+  "Leave the Ogre Raiding Fortress": "Выход: Крепость Огра"
+  "Leave the Troll Tomb": "Выход: Гробница троллей"
+  "Leave the Cyclops Larder": "Выход: «Кладовая Циклопа»"
+  "Leave the Chain of Fire": "Выход: Цепь огня"
+  "Leave the Dragon Hunter's Camp": "Выход: Лагерь охотников на драконов"
+  "Leave the dragon cave": "Выход: Пещера Дракона"
+  "Leave the Naga Vault": "Выход: Хранилище Нага"
+  "Leave the Necromancers' Guild": "Выход: Гильдия некромантов"
+  "Leave the Mad Necromancer's Lab": "Выход: Лаборатория Безумного Некроманта"
+  "Leave the Vampire Crypt": "Выход: Гробница вампира"
+  "Leave the Temple of the Sun": "Выход: Храм Солнца"
+  "Leave the Druid Circle": "Выход: Круг друидов"
+  "Leave Balthazar Lair": "Выход: Логово Бальтазара"
+  "Leave the Barbarian Fortress": "Выход: Крепость варваров"
+  "Leave the Crypt of Korbu": "Выход: Усыпальница Корбу"
+  "Leave the Castle Air": "Выход: Воздушный замок"
+  "Leave the Tomb of Lord Brinne": "Выход: Гробница лорда Бринна"
+  "Leave the Castle of Fire": "Выход: Огненный замок"
+  "Leave the War Camp": "Выход: Военный лагерь"
+  "Leave the Pirate Stronghold": "Выход: Пиратская крепость"
+  "Leave the Abandoned Pirate Keep": "Выход: Заброшенная пиратская крепость"
+  "Leave the Passage Under Regna": "Выход: Проход под Регной"
+  "Leave the Small Sub Pen": "Выход: Малый док подводных лодок"
+  "Leave Escaton's Palace": "Выход: Дворец Эскатона"
+  "Leave the Prison of the Lord of Air": "Выход: Тюрьма Повелителя Воздуха"
+  "Leave the Prison of the Lord of Fire": "Выход: Тюрьма Повелителя Огня"
+  "Leave Prison of the Lord of Water": "Выход: Тюрьма Повелителя Воды"
+  "Leave the Prison of the Lord of Earth": "Выход: Тюрьма Повелителя Земли"
+  "Leave the Uplifted Library": "Выход: Вознесённая библиотека"
+  "Leave the Dark Dwarf Compound": "Выход: Поселение тёмных гномов"
+  "Talk to the Arena Master": "Поговорите с управляющим ареной"
+  "Leave the Ancient Troll Home": "Выход: Дом древнего тролля"
+  "Leave the Grand Temple of Eep": "Выход: Великий храм Ипа"
+  "Leave the Chapel of Eep": "Выход: Часовня Ип"
+  "Leave the Church of Eep": "Выход: Церковь Ипа"
+  "Leave Old Loeb's Cave": "Выход: Пещера старого Лёба"
+  "Leave Ilsingore's Cave": "Выход: Пещера Илсингора"
+  "Leave Yaardrake's Cave": "Выход: Пещера Яардрейка"
+  "Leave New World Computing": "Выход: New World Computing"
+  "Gate out of the Plane of Earth": "Выход: План Земли"
+  "Leave the Plane of Earth": "Выход: План Земли"
+  # Dungeon entrance labels used by MM7 and MM8 map events.
+  "A giant's sword": "Меч великана"
+  "Enter Castle Gryphonheart": "Вход: Замок Грифонхарт"
+  "Enter Castle Harmondale": "Вход: Замок Хармондэйл"
+  "Enter Castle Navan": "Вход: Замок Наван"
+  "Enter Clanker's Laboratory": "Вход: Лаборатория Кланкера"
+  "Enter Colony Zod": "Вход: Колония Зод"
+  "Enter Dwarven Barrow": "Вход в гробницу гномов"
+  "Enter Escaton's Crystal": "Вход: Кристалл Эскатона"
+  "Enter Escaton's Palace": "Вход: Дворец Эскатона"
+  "Enter Fort Riverstride": "Вход: Форт Риверстрайд"
+  "Enter Lord Markham's Manor": "Вход: Усадьба лорда Маркхэма"
+  "Enter Mansion": "Вход: Особняк с привидениями"
+  "Enter Smuggler's Cove": "Вход: Бухта контрабандистов"
+  "Enter Stone City": "Вход: Каменный город"
+  "Enter the Abandoned Pirate Keep": "Вход: Заброшенная пиратская крепость"
+  "Enter the Abandoned Temple": "Вход: Заброшенный храм"
+  "Enter the Ancient Troll Home": "Вход: Дом древнего тролля"
+  "Enter the Balthazar Lair": "Вход: Логово Бальтазара"
+  "Enter the Barbarian Fortress": "Вход: Крепость варваров"
+  "Enter the Castle of Air": "Вход: Замок Воздуха"
+  "Enter the Castle of Fire": "Вход: Огненный замок"
+  "Enter the Cave": "Вход в пещеру"
+  "Enter the Chain of Fire": "Вход: Цепь огня"
+  "Enter the Chapel of Eep": "Вход: Часовня Ип"
+  "Enter the Church of Eep": "Вход: Церковь Ипа"
+  "Enter the Crypt of Korbu": "Вход: Усыпальница Корбу"
+  "Enter the Cyclops Larder": "Вход: «Кладовая Циклопа»"
+  "Enter the Dark Dwarf Compound": "Вход: Поселение тёмных гномов"
+  "Enter the Dire Wolf Den": "Вход: Логово гигантского волка"
+  "Enter the Dragon Cave": "Вход: Пещера Дракона"
+  "Enter the Dragon Hunter's Camp": "Вход: Лагерь охотников на драконов"
+  "Enter the Druid Circle": "Вход: Круг друидов"
+  "Enter The Erathian Sewer": "Вход: Эратские канализационные туннели"
+  "Enter the Grand Temple of Eep": "Вход: Великий храм Ипа"
+  "Enter the Hall of the Pit": "Вход: Зал Ямы"
+  "Enter the Hall under the Hill": "Вход: Зал под холмом"
+  "Enter the Lincoln": "Вход: «Линкольн»"
+  "Enter the Mad Necromancer's Lab": "Вход: Лаборатория Безумного Некроманта"
+  "Enter the Mercenary Guild": "Вход: Гильдия наемников"
+  "Enter the Merchant House of Alvar": "Вход: Торговый дом Альвара"
+  "Enter the Naga Vault": "Вход: Хранилище Нага"
+  "Enter the Necromancers' Guild": "Вход: Гильдия некромантов"
+  "Enter the Ogre Raiding Fort": "Вход: Крепость Огра"
+  "Enter the Pirate Stronghold": "Вход: Пиратская крепость"
+  "Enter the Plane of Earth": "Вход: План Земли"
+  "Enter the Prison of the Air Lord": "Вход: Тюрьма Повелителя Воздуха"
+  "Enter the Prison of the Earth Lord": "Вход: Тюрьма Повелителя Земли"
+  "Enter the Prison of the Fire Lord": "Вход: Тюрьма Повелителя Огня"
+  "Enter the Prison of the Water Lord": "Вход: Тюрьма Повелителя Воды"
+  "Enter the Red Dwarf Mines": "Вход: Шахты «Красного карлика»"
+  "Enter the Regnan Pirate Outpost": "Вход: Пиратский аванпост"
+  "Enter the School of Sorcery": "Вход: Школа магии"
+  "Enter the Temple of Baa": "Вход: Храм Баа"
+  "Enter the Temple of the Sun": "Вход: Храм Солнца"
+  "Enter the The Titan Stronghold": "Вход: Крепость Титанов"
+  "Enter the Tidewater Caverns": "Вход: Пещеры Приливной воды"
+  "Enter the Tomb of Lord Brinne": "Вход: Гробница лорда Бринна"
+  "Enter the Tower": "Вход в башню"
+  "Enter the Troll Tomb": "Вход: Гробница троллей"
+  "Enter the Uplifted Library": "Вход: Вознесённая библиотека"
+  "Enter the Vampire Crypt": "Вход: Гробница вампира"
+  "Enter the War Camp": "Вход: Военный лагерь"
+  "Enter the Wasp Nest": "Вход: Осиное гнездо"
+  "Enter the White Cliff Caves": "Вход: Пещера «Белый утес»"
+  "Enter the Wine Cellar": "Вход: Винный погреб"
+  "Enter Watchtower 6": "Вход: «Сторожевая башня» № 6"

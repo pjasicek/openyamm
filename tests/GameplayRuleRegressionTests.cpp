@@ -3982,6 +3982,67 @@ TEST_CASE("equipped wand charge consumption decrements to empty and then stops")
     CHECK_FALSE(party.consumeEquippedWandCharge(0));
 }
 
+TEST_CASE("slaying potion permanently enchants an ordinary inventory weapon")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+    Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+    party.seed(seed);
+
+    InventoryItem weapon = {};
+    weapon.objectDescriptionId = 1;
+    bool validTarget = true;
+    SUBCASE("ordinary sword") {}
+    SUBCASE("ordinary bow") { weapon.objectDescriptionId = 61; }
+    SUBCASE("existing standard enchant") { weapon.standardEnchantId = 1; validTarget = false; }
+    SUBCASE("existing special enchant") { weapon.specialEnchantId = 1; validTarget = false; }
+    SUBCASE("temporary enchant")
+    {
+        weapon.specialEnchantId = 1;
+        weapon.temporaryBonusRemainingSeconds = 10.0f;
+        validTarget = false;
+    }
+    SUBCASE("broken weapon") { weapon.broken = true; validTarget = false; }
+    SUBCASE("artifact runtime") { weapon.artifactId = 1; validTarget = false; }
+    SUBCASE("rare weapon") { weapon.rarity = ItemRarity::Relic; validTarget = false; }
+    SUBCASE("artifact definition") { weapon.objectDescriptionId = 503; validTarget = false; }
+    REQUIRE(party.member(0)->addInventoryItemAt(weapon, 0, 0));
+
+    InventoryItem potion = {};
+    potion.objectDescriptionId = 263;
+    const InventoryItemMixResult result = InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+        party, 0, potion, 0, 0, gameData.itemTable, gameData.potionMixingTable,
+        gameData.mergedPotionSettingTable, gameData.mergedReagentSettingTable);
+
+    REQUIRE(result.handled);
+    CHECK_EQ(result.action, InventoryItemMixAction::EnchantWeaponPotion);
+    CHECK_EQ(result.success, validTarget);
+    CHECK_EQ(result.heldItemConsumed, validTarget);
+    CHECK_EQ(result.targetItemChanged, validTarget);
+    CHECK_FALSE(result.targetItemRemoved);
+    CHECK_FALSE(result.returnsBottle);
+    const InventoryItem *pWeapon = party.member(0)->inventoryItemAt(0, 0);
+    REQUIRE(pWeapon != nullptr);
+    CHECK_EQ(pWeapon->objectDescriptionId, weapon.objectDescriptionId);
+    if (validTarget)
+    {
+        const SpecialItemEnchantEntry *pEnchant = gameData.specialItemEnchantTable.get(pWeapon->specialEnchantId);
+        REQUIRE(pEnchant != nullptr);
+        CHECK_EQ(pEnchant->kind, SpecialItemEnchantKind::DragonSlaying);
+        CHECK_EQ(pWeapon->temporaryBonusRemainingSeconds, 0.0f);
+    }
+    else
+    {
+        CHECK_EQ(pWeapon->specialEnchantId, weapon.specialEnchantId);
+        CHECK_EQ(pWeapon->standardEnchantId, weapon.standardEnchantId);
+        CHECK_EQ(pWeapon->temporaryBonusRemainingSeconds, weapon.temporaryBonusRemainingSeconds);
+    }
+}
+
 TEST_CASE("inventory mixing creates reagent potion in target bottle")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -5805,6 +5866,26 @@ TEST_CASE("indoor flying movement can rise below nearby floor surfaces")
 
     CHECK(resolved.footZ > state.footZ);
     CHECK_FALSE(resolved.grounded);
+}
+
+TEST_CASE("indoor ceiling sampling does not extend a slope above its high edge")
+{
+    using namespace OpenYAMM::Game;
+
+    IndoorMapData mapData = {};
+    mapData.vertices = {{0, 0, 0}, {0, 64, 0}, {32, 64, 64}, {32, 0, 64}};
+    IndoorFace ceiling = {};
+    ceiling.vertexIndices = {0, 1, 2, 3};
+    ceiling.facetType = 6;
+    ceiling.roomNumber = 1;
+    mapData.faces = {ceiling};
+    mapData.sectors.resize(2);
+    mapData.sectors[1].ceilingFaceIds = {0};
+
+    const IndoorCeilingSample belowEdge = sampleIndoorCeiling(mapData, mapData.vertices, 33, 32, 60, 1);
+    REQUIRE(belowEdge.hasCeiling);
+    CHECK(belowEdge.height == doctest::Approx(64));
+    CHECK_FALSE(sampleIndoorCeiling(mapData, mapData.vertices, 33, 32, 64, 1).hasCeiling);
 }
 
 TEST_CASE("indoor flying movement is not clamped by portal ceiling samples")
@@ -10293,6 +10374,28 @@ TEST_CASE("item class restrictions accept role-only base classes and promotions"
     explicitClass.className = "Knight";
     explicitClass.role = "Paladin";
     CHECK_FALSE(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(explicitClass, broderickItem));
+}
+
+TEST_CASE("equipment only checks attributes with a positive requirement")
+{
+    OpenYAMM::Game::Character character = {};
+    character.might = 5;
+    character.accuracy = 14;
+    character.magicalBonuses.might = -10;
+    character.magicalBonuses.accuracy = -40;
+
+    OpenYAMM::Game::ItemDefinition item = {};
+    CHECK(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(character, item));
+
+    item.requiredMight = 1;
+    CHECK_FALSE(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(character, item));
+    character.magicalBonuses.might = -4;
+    CHECK(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(character, item));
+
+    item.requiredAccuracy = 1;
+    CHECK_FALSE(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(character, item));
+    character.magicalBonuses.accuracy = -13;
+    CHECK(OpenYAMM::Game::ItemRuntime::characterMeetsClassRestriction(character, item));
 }
 
 TEST_CASE("party yellow alert counts only detected hostile actors within the original alert range")

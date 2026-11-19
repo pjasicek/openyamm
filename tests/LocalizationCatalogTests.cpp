@@ -19,6 +19,267 @@
 
 namespace OpenYAMM
 {
+TEST_CASE("MM7 Emerald Island sign cart food and dragon topic use Russian translations")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm7"));
+    Game::GameDataLoader data;
+    data.setLanguage("ru");
+    REQUIRE(data.loadCommonForGameplay(assets));
+    const Game::LocalizationCatalog &catalog = data.getLocalizationCatalog();
+
+    CHECK_EQ(catalog.translateText("Welcome to Emerald Isle"), "Добро пожаловать на Изумрудный остров");
+    CHECK_EQ(catalog.translateText("Cart"), "Повозка");
+    CHECK_EQ(catalog.translateText("Enter The Temple of the Moon"), "Вход: Храм Луны");
+    CHECK_EQ(catalog.translateText("Enter the Dragon's Cave"), "Вход: Пещера дракона");
+
+    Game::GameplayUiController controller;
+    controller.bindLocalizationCatalog(&catalog);
+    controller.setStatusBarEvent("You find 5 food");
+    CHECK_EQ(controller.statusBar().eventText, "Найдено еды: 5");
+
+    // Global event 789 embeds this whole message, rather than requesting NPC text 988.
+    const std::string dragonMessage =
+        "The Dragon of Emerald Island lives in a cave in the northeast.\n"
+        "I wouldn't go there, though, he doesn't like visitors.\n"
+        "He spares our town so that we may pay him tribute, and in return he keeps pirates and undesirables out.";
+    const std::optional<std::string> localizedDragon = data.getNpcDialogTable().getText(988);
+    REQUIRE(localizedDragon.has_value());
+    CHECK_NE(*localizedDragon, dragonMessage);
+    CHECK_EQ(catalog.translateText(dragonMessage), *localizedDragon);
+
+    Game::LocalizationCatalog english;
+    REQUIRE(english.load(assets, "en"));
+    CHECK_EQ(english.translateText("Welcome to Emerald Isle"), "Welcome to Emerald Isle");
+    CHECK_EQ(english.translateText("Cart"), "Cart");
+    CHECK_EQ(english.translateText("Enter The Temple of the Moon"), "Enter The Temple of the Moon");
+    CHECK_EQ(english.translateText("Enter the Dragon's Cave"), "Enter the Dragon's Cave");
+    CHECK_EQ(english.translateText("You find 5 food"), "You find 5 food");
+    CHECK_EQ(english.translateText(dragonMessage), dragonMessage);
+}
+
+TEST_CASE("Dungeon object captions survive Russian NPC table registration across MM6 MM7 MM8")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm8"));
+    Game::GameDataLoader data;
+    data.setLanguage("ru");
+    REQUIRE(data.loadCommonForGameplay(assets));
+    const Game::LocalizationCatalog &catalog = data.getLocalizationCatalog();
+
+    // Check the final catalog, after NPC tables have registered overlapping object and effect captions.
+    CHECK_EQ(catalog.translateText("Camp Fire"), "Костёр");
+    CHECK_EQ(catalog.translateText("Food Bowl"), "Миска с едой");
+    CHECK_EQ(catalog.translateText("Red Barrel"), "Красная бочка");
+    CHECK_EQ(catalog.translateText("Steaming Cauldron"), "Дымящийся котёл");
+    CHECK_EQ(catalog.translateText("Empty bag"), "Пустой мешок");
+    CHECK_EQ(catalog.translateText("Diseased!"), "Болезнь!");
+    CHECK_EQ(catalog.translateText("+2 Air Resistance permanent"), "+2 к сопротивлению воздуху (постоянный эффект)");
+    CHECK_EQ(catalog.translateText("Oracle Memory Crystal"), "Кристалл памяти Оракула");
+    CHECK_EQ(catalog.translateText("Shard filled caskets."), "Бочки, наполненные осколками кристаллов.");
+    CHECK_EQ(catalog.translateText("Ore Vein"), "Рудная жила");
+    CHECK_EQ(catalog.translateText("Mine Car"), "Вагонетка");
+    CHECK_EQ(catalog.translateText("Key Hole"), "Замочная скважина");
+    CHECK_EQ(catalog.translateText("Submarine"), "Подводная лодка");
+
+    for (const std::string &source : {"Stone Face", "Lord of Fire", "Glowing dinosaur bones", "Gold vein",
+        "Gems", "Pool", "Wall", "Tile", "Chandelier", "Flickering Torch", "Full sack", "Cell", "Cylinder",
+        "Baa Head One", "Baa Head Two", "Baa Head Three", "Baa Head Four", "Almighty Head of Baa.", "Lava pool",
+        "Torch", "Sewer Grate", "Stew filled bowl.", "Crates filled with wood chips.", "Mead filled barrel.",
+        "Water filled barrel.", "Mine", "Boulders.", "Small glittering pool.", "Switch.", "Sacks.", "Crystal.",
+        "Table with implements atop.", "Carved mural.", "Old bones.", "Wall with missing bricks.", "Iron Maiden",
+        "Long dead adventurer.", "Skeleton in a cage.", "Shelves", "Potions for sale", "Pantry", "Counter",
+        "Pillar", "Vault", "Portrait", "Lift", "Leave the Arena", "Enter the Throne Room",
+        "Leave the Dwarven Barrow", "Leave the Red Dwarf Mines", "Enter Castle Gloaming", "Enter the Submarine",
+        "Leave the Prison of the Lord of Earth", "Talk to the Arena Master", "Gate out of the Plane of Earth"})
+    {
+        CAPTURE(source);
+        CHECK_NE(catalog.translateText(source), source);
+    }
+
+    Game::LocalizationCatalog english;
+    REQUIRE(english.load(assets, "en"));
+    CHECK_EQ(english.translateText("Stone Face"), "Stone Face");
+    CHECK_EQ(english.translateText("Submarine"), "Submarine");
+    CHECK_EQ(english.translateText("Leave the Arena"), "Leave the Arena");
+}
+
+TEST_CASE("MM6 Hive objects messages and map transition names use Russian translations")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    Game::GameDataLoader data;
+    data.setLanguage("ru");
+    REQUIRE(data.loadCommonForGameplay(assets));
+    const Game::LocalizationCatalog &catalog = data.getLocalizationCatalog();
+
+    CHECK_EQ(catalog.translate("Keg"), "Бочка");
+    CHECK_EQ(catalog.translate("Protected"), "Защищено");
+    for (const std::string &text : {"Door", "Switch", "Chest", "Exit", "The door is locked",
+        "The Door Won't Budge", " +20 Hit Points", "Flush system deactivated", "Flush system activated.",
+        "Flush sequence complete.", "Flush sequence in progress.", "Warning!  Flush system activated!"})
+    {
+        CAPTURE(text);
+        CHECK_NE(catalog.translateText(text), text);
+    }
+
+    // The exit hint uses the map name from Lua rather than the localized map table entry.
+    const Game::MapStatsEntry *pDestination = data.getMapStats().findByFileName("outa1.odm");
+    REQUIRE(pDestination != nullptr);
+    CHECK_EQ(catalog.translate("Sweet Water"), pDestination->name);
+    CHECK_NE(catalog.translate("Sweet Water"), "Sweet Water");
+    CHECK_EQ(catalog.translate("The Hive"), "«Улей»");
+
+    Game::LocalizationCatalog english;
+    REQUIRE(english.load(assets, "en"));
+    CHECK_EQ(english.translate("Keg"), "Keg");
+    CHECK_EQ(english.translate("Protected"), "Protected");
+    CHECK_EQ(english.translate("Sweet Water"), "Sweet Water");
+}
+
+TEST_CASE("MM6 Control Center terminals translate their exact runtime messages")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    Game::LocalizationCatalog catalog;
+    REQUIRE(catalog.load(assets, "ru"));
+
+    CHECK_EQ(catalog.translateText("Computer Terminal"), "Компьютерный терминал");
+    CHECK_EQ(catalog.translateText("Storage Container"), "Контейнер для хранения");
+    CHECK_EQ(catalog.translateText("It's a short circuit!"), "Это короткое замыкание!");
+
+    const std::optional<std::string> generated = assets.readTextFile("events/maps/sci-fi.lua");
+    const std::optional<std::string> supplement = assets.readTextFile("events/maps/sci-fi_mmmerge.lua");
+    REQUIRE(generated.has_value());
+    REQUIRE(supplement.has_value());
+    for (uint32_t eventId = 53; eventId <= 61; ++eventId)
+    {
+        CAPTURE(eventId);
+        const bool hasOverride = eventId == 55 || eventId == 56 || eventId == 60 || eventId == 61;
+        const std::string &script = hasOverride ? *supplement : *generated;
+        const std::string handler = (hasOverride ? "ReplaceMapEvent(" : "RegisterEvent(")
+            + std::to_string(eventId) + ",";
+        const size_t handlerStart = script.find(handler);
+        REQUIRE_NE(handlerStart, std::string::npos);
+        const size_t handlerEnd = script.find("end, \"Computer Terminal\")", handlerStart);
+        REQUIRE_NE(handlerEnd, std::string::npos);
+        const std::string prefix = eventId == 61 ? "evt.SimpleMessage(" : "evt.SetMessage(";
+        const size_t messageStart = script.find(prefix, handlerStart);
+        REQUIRE_LT(messageStart, handlerEnd);
+        const size_t messageEnd = script.find(")", messageStart + prefix.size());
+        REQUIRE_LT(messageEnd, handlerEnd);
+        // Decode the quoted Lua fragments, including the concatenated training message.
+        std::string message;
+        bool inString = false;
+        for (size_t offset = messageStart + prefix.size(); offset < messageEnd; ++offset)
+        {
+            const char character = script[offset];
+            if (inString && character == '\\')
+            {
+                REQUIRE_LT(offset + 1, messageEnd);
+                message += script[++offset];
+            }
+            else if (character == '"')
+            {
+                inString = !inString;
+            }
+            else if (inString)
+            {
+                message += character;
+            }
+        }
+        REQUIRE_FALSE(message.empty());
+        CHECK_FALSE(inString);
+        const std::string translated = catalog.translateText(message);
+        CHECK_NE(translated, message);
+        CHECK_EQ(translated.find("�"), std::string::npos);
+    }
+}
+
+TEST_CASE("Russian blaster inspection covers every rank and the scaling damage explanation")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    Game::GameDataLoader data;
+    data.setLanguage("ru");
+    REQUIRE(data.loadCommonForGameplay(assets));
+    const Game::SkillInspectEntry *pBlaster = data.getCharacterInspectTable().getSkill("Blaster");
+    REQUIRE(pBlaster != nullptr);
+    CHECK_NE(pBlaster->description.find("Бластеры"), std::string::npos);
+    CHECK_EQ(pBlaster->normalDescription, "Навык прибавляется к атаке");
+    CHECK_EQ(pBlaster->expertDescription, "Двойная прибавка навыка к атаке");
+    CHECK_EQ(pBlaster->masterDescription, "Тройная прибавка навыка к атаке");
+    CHECK_EQ(pBlaster->grandmasterDescription, "Пятикратная прибавка навыка к атаке");
+
+    const Game::LocalizationCatalog &catalog = data.getLocalizationCatalog();
+    const std::string scalingDescription =
+        "Blaster weapons provide an accurate ranged attack. With scaling damage enabled, only "
+        "Grandmaster rank adds damage per skill point.";
+    const std::string translated = catalog.translateText(scalingDescription);
+    CHECK_NE(translated, scalingDescription);
+    CHECK_NE(translated.find("Великий мастер"), std::string::npos);
+    CHECK_EQ(catalog.translateText("+1 damage per skill point"), "+1 к урону за каждый пункт навыка");
+    CHECK_EQ(catalog.translateText("Normal"), "Новичок");
+    CHECK_EQ(catalog.translateText("Expert"), "Эксперт");
+    CHECK_EQ(catalog.translateText("Master"), "Мастер");
+    CHECK_EQ(catalog.translateText("Grandmaster"), "Великий мастер");
+
+    Game::LocalizationCatalog english;
+    REQUIRE(english.load(assets, "en"));
+    CHECK_EQ(english.translateText(scalingDescription), scalingDescription);
+    CHECK_EQ(english.translateText("+1 damage per skill point"), "+1 damage per skill point");
+}
+
+TEST_CASE("Event input accepts original and Russian answers without changing answer branches")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1, "mm6"));
+    Game::LocalizationCatalog catalog;
+    REQUIRE(catalog.load(assets, "ru"));
+
+    for (const std::string &input : {"Да", "да", "ДА", " дА \t", "Yes", "YES", " yes "})
+    {
+        CAPTURE(input);
+        CHECK(catalog.matchesAnswer("Yes", input));
+        CHECK_FALSE(catalog.matchesAnswer("Y", input));
+    }
+    for (const std::string &input : {"Д", "д", "Y", "y"})
+    {
+        CAPTURE(input);
+        CHECK(catalog.matchesAnswer("Y", input));
+    }
+    for (const std::string &input : {"Нет", "НЕТ", "Н", "No", "", " \t", "Да нет", "Yes!"})
+    {
+        CAPTURE(input);
+        CHECK_FALSE(catalog.matchesAnswer("Yes", input));
+        CHECK_FALSE(catalog.matchesAnswer("Y", input));
+    }
+    CHECK(catalog.matchesAnswer("No", "НЕТ"));
+    CHECK(catalog.matchesAnswer("N", "н"));
+    CHECK_FALSE(catalog.matchesAnswer("", ""));
+    catalog.addExactTranslation("fir tree", "ёлка");
+    CHECK(catalog.matchesAnswer("fir tree", "ЁЛКА"));
+    CHECK_FALSE(catalog.matchesAnswer("fir tree", "елка"));
+
+    CHECK_EQ(catalog.translate("Guardian of Kriegspire"), "Хранитель Кригспайра");
+    CHECK_EQ(catalog.translate("Curator of Kriegspire"), "Куратор Кригспайра");
+    CHECK_EQ(catalog.translate("Accept (Yes/No)?"), "Согласны (Да/Нет)?");
+    CHECK_EQ(catalog.translateText("Answer: _"), "Ответ: _");
+    CHECK_EQ(catalog.format("Answer: {answer}_", {{"answer", "Да"}}), "Ответ: Да_");
+    CHECK_EQ(catalog.format("Answer: {answer}_", {{"answer", "Yes"}}), "Ответ: Yes_");
+
+    REQUIRE(catalog.load(assets, "en"));
+    CHECK(catalog.matchesAnswer("Yes", " YES "));
+    CHECK_FALSE(catalog.matchesAnswer("Yes", "Да"));
+    CHECK_EQ(catalog.format("Answer: {answer}_", {{"answer", "Yes"}}), "Answer: Yes_");
+}
+
 TEST_CASE("NPC time of day substitution follows the dialogue language at hour boundaries")
 {
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -96,8 +357,8 @@ TEST_CASE("MM6 promotion dialogue translates complete replies for all six class 
     CHECK_EQ(catalog.translate("Sorcerer"), "Колдун");
     CHECK_EQ(catalog.translate("Wizard"), "Волшебник");
     CHECK_EQ(catalog.translate("Master Wizard"), "Архимаг");
-    CHECK_EQ(catalog.translate("Arch Mage"), "Архимаг света");
-    CHECK_EQ(catalog.translate("Dark ArchMage"), "Архимаг тьмы");
+    CHECK_EQ(catalog.translate("Arch Mage"), "Архимаг Света");
+    CHECK_EQ(catalog.translate("Dark ArchMage"), "Архимаг Тьмы");
     const std::string repeatPrefix =
         "Your party has already completed this quest. Eligible companions are promoted to ";
     for (const std::string &className : {"Crusader", "Hero", "Wizard", "Master Wizard", "Cavalier", "Champion",
@@ -323,13 +584,13 @@ TEST_CASE("Mastery teacher requirements localize promotion alternatives and clas
     const std::string russianPrefix =
         "Чтобы освоить этот навык, вам необходимо получить повышение. Требуемый класс: ";
     CHECK_EQ(catalog.translateText(prefix + "Wizard" + suffix), russianPrefix + "Волшебник.");
-    CHECK_EQ(catalog.translateText(prefix + "Arch Mage or Lich" + suffix), russianPrefix + "Архимаг света или Лич.");
+    CHECK_EQ(catalog.translateText(prefix + "Arch Mage or Lich" + suffix), russianPrefix + "Архимаг Света или Лич.");
     CHECK_EQ(catalog.translateText(prefix + "Arch Mage, Dark ArchMage or Master Wizard" + suffix),
-        russianPrefix + "Архимаг света, Архимаг тьмы или Архимаг.");
+        russianPrefix + "Архимаг Света, Архимаг Тьмы или Архимаг.");
     CHECK_EQ(catalog.translateText(prefix + "High Priest or Priest of the Light" + suffix),
         russianPrefix + catalog.translate("High Priest") + " или " + catalog.translate("Priest of the Light") + ".");
     CHECK_EQ(catalog.translateText(prefix + "Wizard, Arch Mage, Lich or Master Wizard" + suffix),
-        russianPrefix + "Волшебник, Архимаг света, Лич или Архимаг.");
+        russianPrefix + "Волшебник, Архимаг Света, Лич или Архимаг.");
     CHECK_EQ(catalog.translateText("This skill level can not be learned by the Wizard class."),
         "Этот уровень навыка недоступен для класса «Волшебник».");
     for (const std::string &message : {
@@ -531,7 +792,8 @@ TEST_CASE("House service dialogs localize menus and priced skill lessons")
     for (const std::string &label : {"Buy Standard", "Buy Special", "Display Equipment", "Learn Skills",
              "Buy Spellbooks", "Sell", "Identify", "Repair", "Deposit", "Withdraw", "Rules", "Victory Conditions",
              "Play", "Play Arcomage", "Pay Fine", "Bounty Hunt", "Rent room for 17 gold",
-             "Fill packs to 14 days for 42 gold", "Train to level 5 for 100 gold"})
+             "Fill packs to 14 days for 42 gold", "Train to level 5 for 100 gold",
+             "2 days to Дейя for 55 gold"})
     {
         Game::EventDialogAction action;
         action.label = label;
@@ -555,6 +817,8 @@ TEST_CASE("House service dialogs localize menus and priced skill lessons")
     CHECK_EQ(localized.actions.back().label, "Освоить Кожаные доспехи за 500 золота");
     CHECK_EQ(localized.actions.back().argument, "LeatherArmor");
     CHECK_NE(localized.actions.back().disabledReason, lesson.disabledReason);
+    CHECK_EQ(localized.actions[localized.actions.size() - 2].label, "Дейя — 2 дн. за 55 золота");
+    CHECK_EQ(catalog.translateText("1 day to Дейя for 55 gold"), "Дейя — 1 дн. за 55 золота");
     CHECK_EQ(catalog.translateText("Learn Unknown Skill for 501 gold"), "Освоить Unknown Skill за 501 золота");
     CHECK_EQ(catalog.translateText("Train to level 7 for 235 gold"), "Обучиться до уровня 7 за 235 золота");
 }

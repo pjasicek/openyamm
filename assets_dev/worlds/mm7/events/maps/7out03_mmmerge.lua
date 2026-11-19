@@ -3,7 +3,7 @@
 RegisterMapOnLoadEvent(65005, "MMMerge Erathia contest transport", function()
     if IsQBitSet(QBit(519)) then -- Finished Scavenger Hunt
         evt.SetTransportRouteOverride(462, 4, {
-            destinationName = "Bracada Desert",
+            destinationName = "The Bracada Desert",
             mapFileName = "7Out06.odm",
             daysAvailable = {false, false, true, false, false, false, false},
             travelDays = 6,
@@ -36,6 +36,13 @@ RegisterMapOnLoadEvent(65006, "Restore Erathian obelisk state", function()
     evt.SetFacetBit(16, FacetBits.Untouchable, 1)
     evt.SetFacetBit(17, FacetBits.Invisible, 0)
     evt.SetFacetBit(16, FacetBits.Invisible, 1)
+end)
+
+-- Repair older Erathia snapshots that still hide Quixote after the Crusader quest.
+AppendMapEvent(86, function()
+    if (IsQBitSet(QBit(1590)) or IsQBitSet(QBit(1591))) and not IsQBitSet(QBit(534)) then
+        RemoveFollowerNpc(356)
+    end
 end)
 
 RegisterMapTimerEvent(65004, 180, function()

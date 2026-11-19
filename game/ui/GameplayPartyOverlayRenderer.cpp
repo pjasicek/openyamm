@@ -44,6 +44,7 @@
 #include <filesystem>
 #include <limits>
 #include <optional>
+#include <span>
 #include <string>
 #include <tuple>
 #include <unordered_map>
@@ -2130,6 +2131,17 @@ const CharacterDollEntry *resolveCharacterDollEntry(
     return pCharacterDollTable->getCharacter(1);
 }
 
+std::string characterSkillLabel(const std::string &skillName, SkillMastery mastery)
+{
+    std::string label = displaySkillName(skillName);
+    if (mastery != SkillMastery::None && mastery != SkillMastery::Normal)
+    {
+        label = masteryDisplayName(mastery) + ": " + label;
+    }
+
+    return label;
+}
+
 void appendCharacterSkillUiRows(
     const Character &character,
     std::vector<CharacterSkillUiRow> &rows,
@@ -2149,13 +2161,7 @@ void appendCharacterSkillUiRows(
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = displaySkillName(pSkill->name);
-
-        if (pSkill->mastery != SkillMastery::None && pSkill->mastery != SkillMastery::Normal)
-        {
-            row.label = masteryDisplayName(pSkill->mastery) + ": " + row.label;
-        }
-
+        row.label = characterSkillLabel(pSkill->name, pSkill->mastery);
         row.level = std::to_string(pSkill->level);
         row.upgradeable = character.skillPoints > pSkill->level;
         rows.push_back(std::move(row));
@@ -2211,13 +2217,7 @@ CharacterSkillUiData buildCharacterSkillUiData(const Character *pCharacter)
 
         CharacterSkillUiRow row = {};
         row.canonicalName = canonicalName;
-        row.label = displaySkillName(skill.name);
-
-        if (skill.mastery != SkillMastery::None && skill.mastery != SkillMastery::Normal)
-        {
-            row.label = masteryDisplayName(skill.mastery) + ": " + row.label;
-        }
-
+        row.label = characterSkillLabel(skill.name, skill.mastery);
         row.level = std::to_string(skill.level);
         row.upgradeable = pCharacter->skillPoints > skill.level;
         extraMiscRows.push_back(std::move(row));
@@ -4383,13 +4383,13 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
         const bool hasMinimapState = context.tryGetGameplayMinimapState(minimapState);
         if (mapResolved)
         {
-            const std::string mapTextureName = hasMinimapState && !minimapState.vectorBackground
+            const std::string mapTextureName = hasMinimapState
                 ? minimapState.textureName
-                : toLowerCopy(std::filesystem::path(context.currentMapFileName()).stem().string());
+                : std::string();
             int mapTextureWidth = 0;
             int mapTextureHeight = 0;
             const std::optional<GameplayScreenRuntime::HudTextureHandle> sourceMapTexture =
-                mapTextureName.empty()
+                !hasMinimapState || minimapState.vectorBackground || mapTextureName.empty()
                     ? std::nullopt
                     : context.gameplayUiRuntime().ensureHudTextureLoaded(mapTextureName);
             const std::vector<uint8_t> *pMapPixels =
@@ -5998,7 +5998,7 @@ void GameplayPartyOverlayRenderer::renderItemInspectOverlay(GameplayScreenRuntim
     {
         if (!enchantDescription.empty())
         {
-            itemSpecialDetail = "Special: " + enchantDescription;
+            itemSpecialDetail = context.localizeHudText("Special:") + " " + enchantDescription;
         }
         if (!setDescription.empty())
         {
@@ -9897,89 +9897,135 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         context.renderLayoutLabel(promptLayout, promptRect, "Select item target  LMB cast  Esc cancel");
     }
 
-    const auto renderSkillGroup =
-        [&context, width, height, &hasVisibleCharacterAncestors, &shouldRenderInCurrentPass, skillRowHeight, &skillViewport](
-            const char *pRegionId,
-            const char *pLevelHeaderId,
-            const std::vector<CharacterSkillUiRow> &rows)
+    if (characterScreen.page == GameplayUiController::CharacterPage::Skills)
+    {
+        struct SkillGroup
         {
-            const UiLayoutManager::LayoutElement *pRegionLayout = context.findHudLayoutElement(pRegionId);
-            const UiLayoutManager::LayoutElement *pLevelLayout = context.findHudLayoutElement(pLevelHeaderId);
-
-            if (pRegionLayout == nullptr
-                || pLevelLayout == nullptr
-                || !hasVisibleCharacterAncestors(*pRegionLayout)
-                || !shouldRenderInCurrentPass(pRegionLayout->zIndex))
-            {
-                return;
-            }
-
-            const std::optional<GameplayResolvedHudLayoutElement> resolvedRegion =
-                context.resolveHudLayoutElement(pRegionId, width, height, pRegionLayout->width, pRegionLayout->height);
-            const std::optional<GameplayResolvedHudLayoutElement> resolvedLevelHeader =
-                context.resolveHudLayoutElement(pLevelHeaderId, width, height, pLevelLayout->width, pLevelLayout->height);
-
-            if (!resolvedRegion.has_value() || !resolvedLevelHeader.has_value())
-            {
-                return;
-            }
-
-            const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-            const float nameWidth =
-                std::max(0.0f, resolvedLevelHeader->x - resolvedRegion->x - 6.0f * resolvedRegion->scale);
-            const std::vector<CharacterSkillUiRow> displayRows =
-                rows.empty() ? std::vector<CharacterSkillUiRow>{{"", "None", "", false}} : rows;
-
-            for (size_t rowIndex = 0; rowIndex < displayRows.size(); ++rowIndex)
-            {
-                const CharacterSkillUiRow &row = displayRows[rowIndex];
-                const uint32_t textColorAbgr = row.upgradeable ? GameplayUiSkin::Learnable : GameplayUiSkin::Ivory;
-
-                UiLayoutManager::LayoutElement nameLayout = {};
-                nameLayout.fontName = "Lucida";
-                nameLayout.textScale = 1.0f;
-                const std::string localizedLabel = context.localizeHudText(row.label);
-                const float textWidth = context.measureHudTextWidth("Lucida", localizedLabel);
-                if (textWidth > 0)
-                {
-                    nameLayout.textScale = std::min(1.0f, (nameWidth / resolvedRegion->scale - 1.0f) / textWidth);
-                }
-                nameLayout.textColorAbgr = textColorAbgr;
-                nameLayout.textAlignX = UiLayoutManager::TextAlignX::Left;
-                nameLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
-                GameplayResolvedHudLayoutElement nameResolved = {};
-                nameResolved.x = resolvedRegion->x;
-                nameResolved.y = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
-                nameResolved.width = nameWidth;
-                nameResolved.height = rowHeightPixels;
-                nameResolved.scale = resolvedRegion->scale;
-                context.renderLayoutLabel(nameLayout, nameResolved, localizedLabel, false,
-                    skillViewport ? &*skillViewport : nullptr);
-
-                if (!row.level.empty())
-                {
-                    UiLayoutManager::LayoutElement levelLayout = {};
-                    levelLayout.fontName = "Lucida";
-                    levelLayout.textScale = 1.0f;
-                    levelLayout.textColorAbgr = textColorAbgr;
-                    levelLayout.textAlignX = UiLayoutManager::TextAlignX::Right;
-                    levelLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
-                    GameplayResolvedHudLayoutElement levelResolved = {};
-                    levelResolved.x = resolvedLevelHeader->x;
-                    levelResolved.y = nameResolved.y;
-                    levelResolved.width = resolvedLevelHeader->width;
-                    levelResolved.height = rowHeightPixels;
-                    levelResolved.scale = resolvedLevelHeader->scale;
-                    context.renderLayoutLabel(levelLayout, levelResolved, row.level, false,
-                        skillViewport ? &*skillViewport : nullptr);
-                }
-            }
+            const char *pRegionId;
+            const char *pLevelHeaderId;
+            std::span<const CharacterSkillUiRow> rows;
+            GameplayResolvedHudLayoutElement names = {};
+            GameplayResolvedHudLayoutElement levels = {};
+            bool render = false;
         };
 
-    renderSkillGroup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows);
-    renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
-    renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
-    renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
+        SkillGroup groups[] = {
+            {"CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows},
+            {"CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows},
+            {"CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows},
+            {"CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows},
+        };
+
+        const CharacterSkillUiRow emptyRow{"", "None", "", false};
+        float narrowestNameColumn = std::numeric_limits<float>::max();
+        bool renderSkillRows = false;
+        for (SkillGroup &group : groups)
+        {
+            const UiLayoutManager::LayoutElement *pRegionLayout = context.findHudLayoutElement(group.pRegionId);
+            const UiLayoutManager::LayoutElement *pLevelLayout = context.findHudLayoutElement(group.pLevelHeaderId);
+
+            if (pRegionLayout == nullptr || pLevelLayout == nullptr || !hasVisibleCharacterAncestors(*pRegionLayout))
+            {
+                continue;
+            }
+
+            const std::optional<GameplayResolvedHudLayoutElement> region = context.resolveHudLayoutElement(
+                group.pRegionId, width, height, pRegionLayout->width, pRegionLayout->height);
+            const std::optional<GameplayResolvedHudLayoutElement> resolvedLevelHeader =
+                context.resolveHudLayoutElement(
+                    group.pLevelHeaderId, width, height, pLevelLayout->width, pLevelLayout->height);
+
+            if (!region || region->scale <= 0.0f || !resolvedLevelHeader || resolvedLevelHeader->scale <= 0.0f)
+            {
+                continue;
+            }
+
+            group.names = *region;
+            group.names.width = std::max(0.0f, resolvedLevelHeader->x - region->x - 6.0f * region->scale);
+            group.names.height = skillRowHeight * region->scale;
+            group.levels = *resolvedLevelHeader;
+            group.levels.height = group.names.height;
+            if (group.rows.empty())
+            {
+                group.rows = std::span<const CharacterSkillUiRow>{&emptyRow, 1};
+            }
+            group.render = shouldRenderInCurrentPass(pRegionLayout->zIndex);
+            renderSkillRows |= group.render;
+            narrowestNameColumn = std::min(narrowestNameColumn, group.names.width / group.names.scale);
+        }
+
+        if (renderSkillRows)
+        {
+            constexpr const char *pSkillFontName = "Lucida";
+            const std::optional<GameplayHudFontHandle> font = context.findHudFont(pSkillFontName);
+            float textScale = 1.0f;
+            const auto fitText = [&context, &font, &textScale](const std::string &label, float columnWidth)
+            {
+                const float textWidth = font ? context.measureHudTextWidth(*font, context.localizeHudText(label)) : 0;
+                if (textWidth > 0.0f)
+                {
+                    textScale = std::min(textScale, (columnWidth - 1.0f) / textWidth);
+                }
+            };
+
+            // Include skills the selected character hasn't learned so switching characters keeps the same scale.
+            for (const std::string &skillName : allCanonicalSkillNames())
+            {
+                for (SkillMastery mastery :
+                    {SkillMastery::Normal, SkillMastery::Expert, SkillMastery::Master, SkillMastery::Grandmaster})
+                {
+                    fitText(characterSkillLabel(skillName, mastery), narrowestNameColumn);
+                }
+            }
+            fitText(emptyRow.label, narrowestNameColumn);
+            for (const SkillGroup &group : groups)
+            {
+                if (group.names.height <= 0.0f)
+                {
+                    continue;
+                }
+
+                for (const CharacterSkillUiRow &row : group.rows)
+                {
+                    fitText(row.label, group.names.width / group.names.scale);
+                    if (!row.level.empty())
+                    {
+                        fitText(row.level, group.levels.width / group.levels.scale);
+                    }
+                }
+            }
+
+            UiLayoutManager::LayoutElement label = {};
+            label.fontName = pSkillFontName;
+            label.textScale = textScale;
+            label.textAlignY = UiLayoutManager::TextAlignY::Middle;
+            const GameplayResolvedHudLayoutElement *pClip = skillViewport ? &*skillViewport : nullptr;
+            for (const SkillGroup &group : groups)
+            {
+                if (!group.render)
+                {
+                    continue;
+                }
+
+                GameplayResolvedHudLayoutElement nameRect = group.names;
+                GameplayResolvedHudLayoutElement levelRect = group.levels;
+                for (size_t rowIndex = 0; rowIndex < group.rows.size(); ++rowIndex)
+                {
+                    const CharacterSkillUiRow &row = group.rows[rowIndex];
+                    nameRect.y = group.names.y + static_cast<float>(rowIndex) * group.names.height;
+                    levelRect.y = nameRect.y;
+                    label.textColorAbgr = row.upgradeable ? GameplayUiSkin::Learnable : GameplayUiSkin::Ivory;
+                    label.textAlignX = UiLayoutManager::TextAlignX::Left;
+                    context.renderLayoutLabel(label, nameRect, row.label, false, pClip);
+                    if (!row.level.empty())
+                    {
+                        label.textAlignX = UiLayoutManager::TextAlignX::Right;
+                        context.renderLayoutLabel(label, levelRect, row.level, false, pClip);
+                    }
+                }
+            }
+        }
+    }
 
     if (!renderAboveHud && characterScreen.page == GameplayUiController::CharacterPage::Skills && skillViewport)
     {

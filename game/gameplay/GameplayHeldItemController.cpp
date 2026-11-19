@@ -36,9 +36,7 @@ std::string eventGrantedItemStatusName(const InventoryItem &item, const ItemTabl
         return "item";
     }
 
-    if (!pItemDefinition->unidentifiedName.empty()
-        && pItemDefinition->unidentifiedName != "0"
-        && pItemDefinition->unidentifiedName != "N / A")
+    if (ItemRuntime::requiresIdentification(*pItemDefinition))
     {
         return pItemDefinition->unidentifiedName;
     }

@@ -59,6 +59,7 @@ enum class EventDialogActionKind
     Mm9RudeSkillTrainerBack,
     Mm9RudeTransportRoute,
     Mm9RudeTransportBack,
+    NpcOfferLodging,
 };
 
 enum class EventDialogParticipantVisual

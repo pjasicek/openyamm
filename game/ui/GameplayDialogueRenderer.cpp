@@ -50,7 +50,7 @@ std::optional<std::string> pendingInputPromptHint(const GameplayScreenRuntime &v
         return std::nullopt;
     }
 
-    return std::string("Answer: _");
+    return view.localizeHudText("Answer: _");
 }
 
 constexpr uint16_t HudViewId = 2;
@@ -256,6 +256,24 @@ struct DialogueBodyTextMetrics
     float fontScale = 1.0f;
 };
 
+void renderFittedDialogueLabel(
+    GameplayScreenRuntime &view,
+    const GameplayScreenRuntime::HudLayoutElement &layout,
+    GameplayScreenRuntime::ResolvedHudLayoutElement resolved,
+    const std::string &label)
+{
+    const std::string localizedLabel = view.localizeHudText(label);
+    const float textWidth = view.measureHudTextWidth(layout.fontName, localizedLabel);
+    const float paddedWidth = textWidth + std::abs(layout.textPadX) * 2.0f;
+    const float textScale = std::max(0.1f, layout.textScale);
+    // Word wrapping leaves an overwide word intact. Fit that line before the HUD label clamps it.
+    if (resolved.width > 0.0f && paddedWidth * textScale * resolved.scale > resolved.width)
+    {
+        resolved.scale = resolved.width / (paddedWidth * textScale);
+    }
+    view.renderLayoutLabel(layout, resolved, label);
+}
+
 float renderWrappedCenteredDialogueTitle(
     GameplayScreenRuntime &view,
     const GameplayScreenRuntime::HudLayoutElement &layout,
@@ -286,7 +304,7 @@ float renderWrappedCenteredDialogueTitle(
         GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = resolved;
         resolvedLine.y = startY + static_cast<float>(lineIndex) * textLayout.lineAdvance;
         resolvedLine.height = textLayout.lineHeight;
-        view.renderLayoutLabel(lineLayout, resolvedLine, textLayout.lines[lineIndex]);
+        renderFittedDialogueLabel(view, lineLayout, resolvedLine, textLayout.lines[lineIndex]);
     }
 
     return textLayout.height;
@@ -1991,7 +2009,8 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                             GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = resolvedRow;
                             resolvedLine.y = lineY;
                             resolvedLine.height = topicLineHeight;
-                            view.renderLayoutLabel(
+                            renderFittedDialogueLabel(
+                                view,
                                 isHovered ? hoveredTopicRowLayout : *pTopicRowLayout,
                                 resolvedLine,
                                 wrappedLine);

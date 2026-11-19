@@ -77,16 +77,6 @@ std::vector<float> boxBlurred(const std::vector<float> &values, int side, int ra
     return result;
 }
 
-float boundedFloat(const YAML::Node &node, const char *pName, float fallback, float min, float max)
-{
-    const float value = node[pName] ? node[pName].as<float>() : fallback;
-    if (!std::isfinite(value) || value < min || value > max)
-    {
-        throw std::runtime_error(std::string("invalid terrain material ") + pName);
-    }
-    return value;
-}
-
 // RGBA8 mip chain by 2x2 averaging, for the weight images.
 std::vector<std::vector<uint8_t>> rgbaMipChain(std::vector<uint8_t> pixels, int size)
 {
@@ -138,159 +128,6 @@ bgfx::TextureHandle createRgbaTexture(int width, int height, const std::vector<s
 }
 }
 
-std::optional<OutdoorTerrainMaterialConfig> loadOutdoorTerrainMaterialConfig(
-    const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error)
-{
-    error.clear();
-    OutdoorTerrainMaterialConfig config;
-    config.directory = "worlds/" + map.worldId + "/terrain_materials/";
-    const std::string path = config.directory + std::filesystem::path(map.fileName).stem().string() + ".yml";
-    const std::optional<std::string> text = assets.readTextFile(path);
-    if (!text)
-    {
-        error = "missing " + path + " (tools/terrain_materials.py weights)";
-        return std::nullopt;
-    }
-    try
-    {
-        const YAML::Node root = YAML::Load(*text);
-        if (root["version"].as<int>() != 1)
-        {
-            throw std::runtime_error("expected terrain material version 1");
-        }
-        config.texelsPerCell = root["texels_per_cell"].as<int>();
-        if (config.texelsPerCell < 1 || config.texelsPerCell > 32
-            || (config.texelsPerCell & (config.texelsPerCell - 1)) != 0)
-        {
-            throw std::runtime_error("texels_per_cell must be a power of two up to 32");
-        }
-        for (const YAML::Node &file : root["weights"])
-        {
-            const std::string name = file.as<std::string>();
-            if (name.empty() || std::filesystem::path(name).filename().string() != name)
-            {
-                throw std::runtime_error("weight images must be local filenames");
-            }
-            config.weightFiles.push_back(name);
-        }
-        config.weightedLayers = root["weighted_layers"].as<int>();
-        if (config.weightFiles.empty() || config.weightFiles.size() > 2
-            || config.weightedLayers < 1 || config.weightedLayers > int(config.weightFiles.size() * 4))
-        {
-            throw std::runtime_error("expected one or two weight images covering the weighted layers");
-        }
-        const YAML::Node layers = root["layers"];
-        if (!layers.IsSequence() || layers.size() < size_t(config.weightedLayers)
-            || layers.size() > OutdoorTerrainMaterialConfig::MaxLayers)
-        {
-            throw std::runtime_error("expected the weighted layers plus an optional slope layer, at most 8");
-        }
-        for (const YAML::Node &node : layers)
-        {
-            OutdoorTerrainMaterialLayer layer;
-            layer.name = node["name"].as<std::string>();
-            layer.library = node["library"].as<std::string>();
-            layer.tint = node["tint"].as<std::array<float, 3>>();
-            layer.cliffTint = node["cliff_tint"] ? node["cliff_tint"].as<std::array<float, 3>>() : layer.tint;
-            for (float value : {layer.tint[0], layer.tint[1], layer.tint[2], layer.cliffTint[0], layer.cliffTint[1],
-                     layer.cliffTint[2]})
-            {
-                if (!std::isfinite(value) || value < 0.0f || value > 4.0f)
-                {
-                    throw std::runtime_error("invalid terrain material tint");
-                }
-            }
-            layer.repeat = boundedFloat(node, "repeat", 512.0f, 32.0f, 8192.0f);
-            layer.heightContrast = boundedFloat(node, "height_contrast", 0.35f, 0.01f, 1.0f);
-            layer.normalStrength = boundedFloat(node, "normal_strength", 1.0f, 0.0f, 3.0f);
-            layer.cavity = boundedFloat(node, "cavity", 0.0f, 0.0f, 1.0f);
-            layer.macroBrightness = boundedFloat(node, "macro_brightness", 0.15f, 0.0f, 1.0f);
-            layer.variant = node["variant"].as<int>(-1);
-            layer.variantAmount = boundedFloat(node, "variant_amount", 0.5f, 0.0f, 1.0f);
-            layer.fringe = boundedFloat(node, "fringe", 1.0f, 0.0f, 4.0f);
-            layer.pools = node["pools"].as<bool>(false);
-            layer.meadow = boundedFloat(node, "meadow", 0.0f, 0.0f, 2.0f);
-            if (node["macro_tint"])
-            {
-                layer.macroTint = node["macro_tint"].as<std::array<float, 3>>();
-                for (float value : layer.macroTint)
-                {
-                    if (!std::isfinite(value) || value < 0.0f || value > 3.0f)
-                    {
-                        throw std::runtime_error("invalid terrain material macro_tint");
-                    }
-                }
-            }
-            config.layers.push_back(std::move(layer));
-        }
-        for (const OutdoorTerrainMaterialLayer &layer : config.layers)
-        {
-            if (layer.variant < -1 || layer.variant >= int(config.layers.size()))
-            {
-                throw std::runtime_error("terrain material variant must name a layer");
-            }
-        }
-        if (const YAML::Node slope = root["slope"])
-        {
-            config.slopeLayer = slope["layer"].as<int>();
-            config.slopeStart = boundedFloat(slope, "start", 0.3f, 0.0f, 1.0f);
-            config.slopeEnd = boundedFloat(slope, "end", 0.5f, 0.0f, 1.0f);
-            if (config.slopeLayer < 0 || config.slopeLayer >= int(config.layers.size())
-                || config.slopeEnd <= config.slopeStart)
-            {
-                throw std::runtime_error("invalid slope layer");
-            }
-        }
-        config.smoothing = boundedFloat(root, "smoothing", 1.0f, 0.0f, 1.0f);
-        if (const YAML::Node fringe = root["fringe"])
-        {
-            config.fringeStrength = boundedFloat(fringe, "strength", 0.0f, 0.0f, 4.0f);
-            config.fringeScale = boundedFloat(fringe, "scale", 2048.0f, 256.0f, 65536.0f);
-        }
-        if (const YAML::Node meadow = root["meadow"])
-        {
-            config.meadowDry = meadow["dry"].as<std::array<float, 3>>();
-            config.meadowLush = meadow["lush"].as<std::array<float, 3>>();
-            for (float value : {config.meadowDry[0], config.meadowDry[1], config.meadowDry[2], config.meadowLush[0],
-                     config.meadowLush[1], config.meadowLush[2]})
-            {
-                if (!std::isfinite(value) || value < 0.0f || value > 2.0f)
-                {
-                    throw std::runtime_error("invalid terrain meadow tint");
-                }
-            }
-        }
-        if (const YAML::Node shoreNode = root["shore"])
-        {
-            OutdoorTerrainMaterialShore shore;
-            shore.file = shoreNode["file"].as<std::string>();
-            if (shore.file.empty() || std::filesystem::path(shore.file).filename().string() != shore.file)
-            {
-                throw std::runtime_error("the shore image must be a local filename");
-            }
-            shore.range = boundedFloat(shoreNode, "range", 1024.0f, 64.0f, 16384.0f);
-            shore.beachSlope = boundedFloat(shoreNode, "beach_slope", 0.3f, 0.0f, 2.0f);
-            shore.beachBlend = boundedFloat(shoreNode, "beach_blend", 192.0f, 16.0f, 2048.0f);
-            shore.seabedSlope = boundedFloat(shoreNode, "seabed_slope", 0.5f, 0.01f, 4.0f);
-            shore.seabedDepth = boundedFloat(shoreNode, "seabed_depth", 160.0f, 8.0f, 2048.0f);
-            shore.opaqueDepth = boundedFloat(shoreNode, "opaque_depth", 72.0f, 8.0f, 2048.0f);
-            shore.detailDepth = boundedFloat(shoreNode, "detail_depth", 24.0f, 0.0f, shore.opaqueDepth);
-            shore.layer = shoreNode["layer"] ? shoreNode["layer"].as<int>() : -1;
-            if (shore.layer >= int(config.layers.size()))
-            {
-                throw std::runtime_error("shore layer out of range");
-            }
-            config.shore = shore;
-        }
-        return config;
-    }
-    catch (const std::exception &exception)
-    {
-        error = path + ": " + exception.what();
-        return std::nullopt;
-    }
-}
-
 struct OutdoorTerrainMaterials::SourceImages
 {
     // albedo_height and normal_ao_rough: one cooked layer per configured material, in configuration order.
@@ -311,7 +148,8 @@ struct OutdoorTerrainMaterials::SourceImages
     std::string error;
 };
 
-OutdoorTerrainMaterials::SourceImages OutdoorTerrainMaterials::loadSourceImages(const Engine::AssetFileSystem &assets,
+OutdoorTerrainMaterials::SourceImages OutdoorTerrainMaterials::loadSourceImages(
+    const Engine::AssetFileSystem &assets, const OutdoorMapData &map,
     const OutdoorTerrainMaterialConfig &config, bool renderedWater)
 {
     SourceImages images;
@@ -413,23 +251,12 @@ OutdoorTerrainMaterials::SourceImages OutdoorTerrainMaterials::loadSourceImages(
     });
     if (config.shore && renderedWater)
     {
-        const std::string path = config.directory + config.shore->file;
-        tasks.push_back([&assets, &images, path, size](std::string &error)
+        if (!map.waterDepth || map.waterDepth->shoreSize != size)
         {
-            Engine::BinaryAssetCache cache;
-            const std::optional<Engine::ImagePixelsBgra> image = Engine::loadImageAssetPixelsBgra(assets, path, cache);
-            if (!image || image->width != size || image->height != size)
-            {
-                error = "terrain shore distance must be " + std::to_string(size) + " pixels square: " + path;
-                return;
-            }
-            images.shore.resize(size_t(size) * size);
-            for (size_t index = 0; index < images.shore.size(); ++index)
-            {
-                // Grayscale images decode with their intensity in red.
-                images.shore[index] = image->pixels[index * 4 + 2];
-            }
-        });
+            images.error = "terrain shore data changed; reload the map before rebuilding its materials";
+            return images;
+        }
+        images.shore = map.waterDepth->shore;
         // The caustic webs, stacked vertically in one image: one array layer each, with their own mip chains.
         tasks.push_back([&assets, &images](std::string &error)
         {
@@ -526,13 +353,13 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
         return false;
     }
     m_stats = {};
-    const SourceImages images = loadSourceImages(assets, config, renderedWater);
+    const SourceImages images = loadSourceImages(assets, map, config, renderedWater);
     error = images.error;
     if (!error.empty() || !createMaterialArrays(images, error) || !createWeights(images, config, error)
         || !createCellTextures(map, tiles) || !createBakedNormals(map, pBakedLighting)
         || !createShore(images, config, renderedWater, error)
         || !createMesh(map, tiles, config, subdivision,
-            m_shoreDistance.empty() ? std::nullopt : config.shore))
+            renderedWater && map.waterDepth ? config.shore : std::nullopt))
     {
         if (error.empty())
         {
@@ -590,8 +417,6 @@ bool OutdoorTerrainMaterials::initialize(const Engine::AssetFileSystem &assets, 
     m_shoreValues = {config.shore ? config.shore->range : 1.0f, seabed() ? 1.0f : 0.0f,
         config.shore ? config.shore->detailDepth / config.shore->seabedSlope : 0.0f,
         config.shore ? float(config.shore->layer) : -1.0f};
-    m_shoreDistance.clear();
-    m_shoreDistance.shrink_to_fit();
     m_weightLayers.clear();
     m_weightLayers.shrink_to_fit();
     return true;
@@ -627,8 +452,6 @@ void OutdoorTerrainMaterials::shutdown(bool destroyResources)
     m_seabedMapping = {};
     m_opaqueWaterDepth = 0.0f;
     m_waterGeometry.clear();
-    m_shoreDistance.clear();
-    m_shoreSize = 0;
     m_weightLayers.clear();
     m_weightSize = 0;
     for (bgfx::UniformHandle &handle : m_samplers)
@@ -730,12 +553,6 @@ bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const Outd
     {
         size = MapCells * config.texelsPerCell;
         encoded = images.shore;
-        m_shoreDistance.resize(encoded.size());
-        for (size_t index = 0; index < encoded.size(); ++index)
-        {
-            m_shoreDistance[index] = (float(encoded[index]) - 128.0f) / 127.0f * config.shore->range;
-        }
-        m_shoreSize = size;
         const int side = images.causticsSide;
         const std::vector<std::vector<uint8_t>> &levels = images.causticsLevels;
         size_t bytes = 0;
@@ -767,22 +584,6 @@ bool OutdoorTerrainMaterials::createShore(const SourceImages &images, const Outd
     return bgfx::isValid(m_shore);
 }
 
-float OutdoorTerrainMaterials::shoreDistance(float x, float y) const
-{
-    const float texelsPerUnit = float(m_shoreSize) / (float(MapCells) * float(OutdoorMapData::TerrainTileSize));
-    const float u = std::clamp((x + 32768.0f) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
-    const float v = std::clamp((32768.0f - y) * texelsPerUnit - 0.5f, 0.0f, float(m_shoreSize - 1));
-    const int u0 = int(u);
-    const int v0 = int(v);
-    const int u1 = std::min(u0 + 1, m_shoreSize - 1);
-    const int v1 = std::min(v0 + 1, m_shoreSize - 1);
-    const auto at = [&](int column, int row)
-    {
-        return m_shoreDistance[size_t(row) * m_shoreSize + column];
-    };
-    return std::lerp(std::lerp(at(u0, v0), at(u1, v0), u - u0), std::lerp(at(u0, v1), at(u1, v1), u - u0), v - v0);
-}
-
 bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     const std::array<OutdoorTerrainTile, 256> &tiles, const OutdoorTerrainMaterialConfig &config,
     uint32_t subdivision, const std::optional<OutdoorTerrainMaterialShore> &shore)
@@ -804,107 +605,14 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
     {
         return tiles[map.tileMap[size_t(cellY * MapCells + cellX)]];
     };
-    // Water level at every native vertex: the native height where an open-water cell touches it, carried over the
-    // land side of shore cells and spread two cells further for shores away from open water and for the beaches.
-    // Sloping rivers keep their slope.
-    const float noLevel = std::numeric_limits<float>::quiet_NaN();
-    std::vector<float> levels(size_t(MapCells) * MapCells, noLevel);
-    const auto nativeVertex = [&](int x, int y)
-    {
-        return float(map.heightMap[size_t(y * MapCells + x)] * OutdoorMapData::TerrainHeightScale);
-    };
-    const auto cornerIndex = [](int cellX, int cellY, int corner)
-    {
-        return size_t((cellY + corner / 2) * MapCells + cellX + corner % 2);
-    };
-    // The cell's water level at (u, v) inside it, bilinear between its corners; NaN away from water.
     const auto cellLevel = [&](int cellX, int cellY, float u, float v)
     {
-        std::array<float, 4> corners = {};
-        float lowest = noLevel;
-        for (int corner = 0; corner < 4; ++corner)
-        {
-            corners[size_t(corner)] = levels[cornerIndex(cellX, cellY, corner)];
-            if (!std::isnan(corners[size_t(corner)]) && (std::isnan(lowest) || corners[size_t(corner)] < lowest))
-            {
-                lowest = corners[size_t(corner)];
-            }
-        }
-        for (float &corner : corners)
-        {
-            corner = std::isnan(corner) ? lowest : corner;
-        }
-        return std::lerp(std::lerp(corners[0], corners[1], u), std::lerp(corners[2], corners[3], u), v);
+        return map.waterDepth->cellLevel(cellX, cellY, u, v);
     };
     if (shore)
     {
-        for (int cellY = 0; cellY < GridCells; ++cellY)
-        {
-            for (int cellX = 0; cellX < GridCells; ++cellX)
-            {
-                const OutdoorTerrainTile &tile = cellTile(cellX, cellY);
-                if (tile.valid && tile.liquid == LiquidKind::Water && !tile.transitionOverlay)
-                {
-                    for (int corner = 0; corner < 4; ++corner)
-                    {
-                        levels[cornerIndex(cellX, cellY, corner)] =
-                            nativeVertex(cellX + corner % 2, cellY + corner / 2);
-                    }
-                }
-            }
-        }
-        for (int cellY = 0; cellY < GridCells; ++cellY)
-        {
-            for (int cellX = 0; cellX < GridCells; ++cellX)
-            {
-                const OutdoorTerrainTile &tile = cellTile(cellX, cellY);
-                if (!tile.valid || tile.liquid != LiquidKind::Water || !tile.transitionOverlay)
-                {
-                    continue;
-                }
-                float lowest = noLevel;
-                for (int corner = 0; corner < 4; ++corner)
-                {
-                    const float level = levels[cornerIndex(cellX, cellY, corner)];
-                    lowest = std::isnan(lowest) || level < lowest ? level : lowest;
-                }
-                // Shore cells away from open water take the nearby water's level from the spreading below.
-                if (std::isnan(lowest))
-                {
-                    continue;
-                }
-                for (int corner = 0; corner < 4; ++corner)
-                {
-                    float &level = levels[cornerIndex(cellX, cellY, corner)];
-                    level = std::isnan(level) ? lowest : level;
-                }
-            }
-        }
-        for (int pass = 0; pass < 2; ++pass)
-        {
-            const std::vector<float> previous = levels;
-            for (int y = 0; y < MapCells; ++y)
-            {
-                for (int x = 0; x < MapCells; ++x)
-                {
-                    float &level = levels[size_t(y * MapCells + x)];
-                    for (int dy = -1; dy <= 1 && std::isnan(level); ++dy)
-                    {
-                        for (int dx = -1; dx <= 1; ++dx)
-                        {
-                            const float neighbour = previous[size_t(std::clamp(y + dy, 0, MapCells - 1) * MapCells
-                                + std::clamp(x + dx, 0, MapCells - 1))];
-                            if (!std::isnan(neighbour) && (std::isnan(level) || neighbour < level))
-                            {
-                                level = neighbour;
-                            }
-                        }
-                    }
-                }
-            }
-        }
         // The rendered surface meets the water exactly at the waterline: a gentle beach above it and a sloping
-        // seabed below. Only the render changes; collision keeps the native heights.
+        // seabed below. Movement samples the same water levels and shore slope from the CPU map data.
         for (int j = 0; j < side; ++j)
         {
             for (int i = 0; i < side; ++i)
@@ -917,11 +625,13 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                 {
                     continue;
                 }
-                const float distance = shoreDistance(float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing);
+                const float distance = map.waterDepth->shoreDistance(
+                    float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing);
                 float &height = heights[size_t(j) * side + i];
                 if (distance < 0.0f)
                 {
-                    height = level - std::min(-distance * shore->seabedSlope, shore->seabedDepth);
+                    height = level - std::min(-distance * map.waterDepth->seabedSlope,
+                        std::max(map.waterDepth->renderedSeabedDepth, OutdoorWaterDepthData::WadingDepth));
                 }
                 // Land well below the level lies past a drop (a high lake's rim, a waterfall), not on this shore;
                 // the smoothed surface stays within 32 units of the native one.
@@ -1188,7 +898,8 @@ bool OutdoorTerrainMaterials::createMesh(const OutdoorMapData &map,
                     const int j = cellY * steps + subY;
                     const float level = cellLevel(cellX, cellY, float(subX) / float(steps), float(subY) / float(steps));
                     if (!std::isnan(level) && height(i, j) < level
-                        && shoreDistance(float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing) < 0.0f)
+                        && map.waterDepth->shoreDistance(
+                            float(i) * spacing - 32768.0f, 32768.0f - float(j) * spacing) < 0.0f)
                     {
                         return true;
                     }

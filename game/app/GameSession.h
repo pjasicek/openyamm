@@ -68,6 +68,7 @@ class GameSession
 {
 public:
     GameSession();
+    ~GameSession();
 
     using SaveGameToPathCallback = std::function<bool(
         const std::filesystem::path &,

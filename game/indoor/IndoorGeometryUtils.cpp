@@ -2030,7 +2030,9 @@ IndoorCeilingSample sampleIndoorCeiling(
                 continue;
             }
 
-            const float height = calculateIndoorFaceHeight(*pGeometry, x, y);
+            // Edge slack can include points beyond a sloped face's high or low edge.
+            const float height = std::clamp(
+                calculateIndoorFaceHeight(*pGeometry, x, y), pGeometry->minZ, pGeometry->maxZ);
 
             if (height <= z + GeometryEpsilon)
             {
@@ -2165,7 +2167,10 @@ std::optional<int16_t> findIndoorSectorForPoint(
 
                 if (pGeometry == nullptr
                     || hasFaceAttribute(pGeometry->attributes, FaceAttribute::Untouchable)
-                    || !faceCanDefineFloorHeight(*pGeometry)
+                    // Horizontal portals also bound rooms above pits. Their facet type can be
+                    // Ceiling, so floor-only filtering loses the upper room over an open trapdoor.
+                    || (!faceCanDefineFloorHeight(*pGeometry)
+                        && !(pGeometry->isPortal && std::fabs(pGeometry->normal.z) > GeometryEpsilon))
                     || point.x < pGeometry->minX - FloorSlack
                     || point.x > pGeometry->maxX + FloorSlack
                     || point.y < pGeometry->minY - FloorSlack

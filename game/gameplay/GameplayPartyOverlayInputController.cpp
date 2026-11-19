@@ -41,6 +41,25 @@ constexpr float MaxUiScale = 8.0f;
 constexpr uint32_t DaderossLetterDeliveredQBit = 4;
 constexpr uint32_t EmeraldIslandFinishedQBit = 519;
 
+bool canUseInventoryItemByDoubleClick(InventoryItemUseAction action)
+{
+    switch (action)
+    {
+        case InventoryItemUseAction::LearnSpell:
+        case InventoryItemUseAction::CastScroll:
+        case InventoryItemUseAction::ReadMessageScroll:
+        case InventoryItemUseAction::UseDimensionDoorScroll:
+        case InventoryItemUseAction::ConsumePotion:
+        case InventoryItemUseAction::UseHorseshoe:
+        case InventoryItemUseAction::UseGenieLamp:
+        case InventoryItemUseAction::UseDeckOfFate:
+        case InventoryItemUseAction::EatFoodItem:
+            return true;
+        default:
+            return false;
+    }
+}
+
 void latchGameplayMenuEscape(GameplayScreenRuntime &context)
 {
     context.interactionState().menuToggleLatch = true;
@@ -1679,7 +1698,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const uint64_t nowTicks = SDL_GetTicks();
 
     GameplayUiController::HeldInventoryItemState &heldInventoryItem = context.heldInventoryItem();
-    heldInventoryItem.bookDoubleClick.update(selectedPartyMemberIndex, nowTicks, input.pointerX, input.pointerY);
+    heldInventoryItem.doubleClick.update(selectedPartyMemberIndex, nowTicks, input.pointerX, input.pointerY);
 
     if (!heldInventoryItem.active || isReadOnlyAdventurersInnView
         || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
@@ -1687,7 +1706,26 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         || input.mobileTouchDragStarted || input.mobileTouchDragActive || input.mobileTouchDragReleased
         || input.action(KeyboardAction::CharCycle).pressed)
     {
-        heldInventoryItem.bookDoubleClick.cancel();
+        heldInventoryItem.doubleClick.cancel();
+    }
+
+    if (context.readableScrollOverlayReadOnly().staysOpen)
+    {
+        bool &clickLatch = context.interactionState().characterClickLatch;
+        const bool clickReleased = clickLatch && !input.leftMouseButton.held;
+        clickLatch = input.leftMouseButton.held;
+        const bool escapeHeld = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
+        if (escapeHeld || isScancodeNewlyPressed(context, input, SDL_SCANCODE_ESCAPE)
+            || clickReleased || input.rightMouseButton.pressed)
+        {
+            context.itemService().closeReadableScrollOverlay();
+            clickLatch = false;
+            if (escapeHeld)
+            {
+                context.interactionState().closeOverlayLatch = true;
+            }
+        }
+        return;
     }
 
     if (pParty == nullptr
@@ -2580,13 +2618,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             float activationX,
             float activationY)
         {
-            const bool readHeldBook = target.type == GameplayCharacterPointerTargetType::InventoryCell
-                && context.heldInventoryItem().active && context.heldInventoryItem().bookDoubleClick.pending()
+            const bool useHeldItem = target.type == GameplayCharacterPointerTargetType::InventoryCell
+                && context.heldInventoryItem().active && context.heldInventoryItem().doubleClick.pending()
                 && target.gridX >= context.heldInventoryItem().item.gridX
                 && target.gridX < context.heldInventoryItem().item.gridX + context.heldInventoryItem().item.width
                 && target.gridY >= context.heldInventoryItem().item.gridY
                 && target.gridY < context.heldInventoryItem().item.gridY + context.heldInventoryItem().item.height;
-            context.heldInventoryItem().bookDoubleClick.cancel();
+            context.heldInventoryItem().doubleClick.cancel();
             const bool isInventorySpellTargetMode =
                 context.utilitySpellOverlayReadOnly().active
                 && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
@@ -2911,18 +2949,21 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             const size_t memberIndex = selectedPartyMemberIndex;
 
-            if (readHeldBook)
+            if (useHeldItem)
             {
-                const InventoryItem originalBook = context.heldInventoryItem().item;
                 context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
 
-                // A refused book belongs back in the cell vacated by the first click.
+                GameplayUiController::ReadableScrollOverlayState &scrollOverlay = context.readableScrollOverlay();
+                scrollOverlay.staysOpen = scrollOverlay.active;
+
+                // Return unconsumed items to the cell vacated by the first click.
                 if (context.heldInventoryItem().active)
                 {
+                    const InventoryItem item = context.heldInventoryItem().item;
                     std::optional<InventoryItem> replacedItem;
 
                     if (pParty->tryPlaceItemInMemberInventoryCell(
-                            memberIndex, originalBook, originalBook.gridX, originalBook.gridY, replacedItem))
+                            memberIndex, item, item.gridX, item.gridY, replacedItem))
                     {
                         if (replacedItem.has_value())
                         {
@@ -3283,14 +3324,20 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             context.heldInventoryItem().grabOffsetX = activationX - itemRect.x;
             context.heldInventoryItem().grabOffsetY = activationY - itemRect.y;
 
-            if (!input.mobileTouchDragStarted
-                && InventoryItemUseRuntime::classifyItemUse(
-                    heldItem,
-                    *context.itemTable(),
-                    context.mergedPotionSettingTable(),
-                    context.mergedReagentSettingTable()) == InventoryItemUseAction::LearnSpell)
+            if (input.mobileTouchDragStarted)
             {
-                context.heldInventoryItem().bookDoubleClick.arm(
+                return;
+            }
+
+            const InventoryItemUseAction useAction = InventoryItemUseRuntime::classifyItemUse(
+                heldItem,
+                *context.itemTable(),
+                context.mergedPotionSettingTable(),
+                context.mergedReagentSettingTable());
+
+            if (canUseInventoryItemByDoubleClick(useAction))
+            {
+                context.heldInventoryItem().doubleClick.arm(
                     memberIndex, SDL_GetTicks(), activationX, activationY, 6.0f * gridMetrics.scale);
             }
         };

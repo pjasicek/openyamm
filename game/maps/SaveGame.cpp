@@ -1,11 +1,14 @@
 #include "game/maps/SaveGame.h"
 
+#include "game/FaceEnums.h"
 #include "game/events/EvtEnums.h"
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/ChestRuntime.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
+#include <array>
 #include <bitset>
 #include <cctype>
 #include <cmath>
@@ -4177,6 +4180,97 @@ void migrateLegacySnakeTempleLift(GameSaveData &data)
     }
 }
 
+void migrateGloamingBoatFloorCollision(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "d03.blv" && name != "mm7:d03.blv" && name != "world.mm7.map.d03") || !snapshot.mapDeltaData)
+        {
+            return;
+        }
+
+        // Saves cache the old flags on the lava polygons hidden under the three hulls.
+        std::vector<uint32_t> &attributes = snapshot.mapDeltaData->faceAttributes;
+        constexpr uint32_t OriginalFloor = faceAttributeBit(FaceAttribute::Fluid)
+            | faceAttributeBit(FaceAttribute::XYPlane);
+        for (const size_t face : {607u, 612u, 2082u, 2285u})
+        {
+            if (face < attributes.size()
+                && (attributes[face] & ~faceAttributeBit(FaceAttribute::SeenByParty)) == OriginalFloor)
+            {
+                attributes[face] |= faceAttributeBit(FaceAttribute::Untouchable);
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
+void migrateWallsOfMistLichJarChest(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "7d11.blv" && name != "mm7:7d11.blv" && name != "world.mm7.map.7d11")
+            || !snapshot.mapDeltaData || snapshot.mapDeltaData->chests.empty())
+        {
+            return;
+        }
+
+        // A saved chest retains its authored item records even after its cached loot is taken.
+        constexpr size_t ItemRecordSize = 36;
+        constexpr std::array<uint8_t, ItemRecordSize> JarRecord = {0x89, 0x05};
+        constexpr std::array<uint8_t, ItemRecordSize> EmptyRecord = {};
+        constexpr size_t FifthRecordOffset = 4 * ItemRecordSize;
+        std::vector<uint8_t> &rawItems = snapshot.mapDeltaData->chests.front().rawItems;
+        if (rawItems.size() < FifthRecordOffset + ItemRecordSize
+            || !std::equal(EmptyRecord.begin(), EmptyRecord.end(), rawItems.begin() + FifthRecordOffset))
+        {
+            return;
+        }
+
+        for (size_t offset = 0; offset < FifthRecordOffset; offset += ItemRecordSize)
+        {
+            if (!std::equal(JarRecord.begin(), JarRecord.end(), rawItems.begin() + offset))
+            {
+                return;
+            }
+        }
+
+        std::copy(JarRecord.begin(), JarRecord.end(), rawItems.begin() + FifthRecordOffset);
+        std::vector<std::optional<GameplayChestViewState>> &views = snapshot.worldRuntime.materializedChestViews;
+        if (!views.empty() && views.front())
+        {
+            GameplayChestViewState &view = *views.front();
+            GameplayChestItemState jar = {};
+            jar.itemId = jar.item.objectDescriptionId = 1417;
+            jar.quantity = 1;
+            jar.height = jar.item.height = 2;
+            if (!tryPlaceChestItemAt(view, jar, 0, 0))
+            {
+                view.hiddenItems.push_back(jar);
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion)
 {
     if (sourceSaveVersion >= SaveVersionConsumedCorpseMarkers)
@@ -4414,6 +4508,8 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     migrateLegacyConsumedCorpseMarkers(data, version);
     migrateLegacyNpcRosters(data);
     migrateLegacySnakeTempleLift(data);
+    migrateGloamingBoatFloorCollision(data);
+    migrateWallsOfMistLichJarChest(data);
     if (version < SaveVersionPartyAutonotes)
     {
         migrateLegacyAutonotes(data);

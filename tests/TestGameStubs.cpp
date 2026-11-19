@@ -11,9 +11,8 @@
 
 namespace OpenYAMM::Game
 {
-void GameMechanics::bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
+void GameMechanics::bindClassMultiplierTable(const GameSession &, const ClassMultiplierTable *)
 {
-    (void)pClassMultiplierTable;
 }
 
 bool GameMechanics::characterRangedAttackHitsArmorClass(

@@ -25,20 +25,25 @@ end
 local darkPrompt =
     "\"You cannot see me, hear me or touch me.  I lie behind the stars and alter what is real, " ..
     "I am what you really fear, Close your eyes and come I near. What am I?\""
-askPasswordDoor(61, 61, darkPrompt, {"dark", "darkness"})
+askPasswordDoor(61, 61, darkPrompt, {
+    "dark", "darkness",
+    "тьма", "Тьма", "ТЬМА",
+    "темнота", "Темнота", "ТЕМНОТА",
+    "тёмнота", "Тёмнота", "ТЁМНОТА",
+})
 
 askPasswordDoor(
     62,
     62,
     "\"I go through an apple, or point out your way, I fit in a bow, then a target, to stay. What am I?\"",
-    {"arrow", "an arrow"})
+    {"arrow", "an arrow", "стрела", "Стрела", "СТРЕЛА"})
 
 local timePrompt =
     "\"What consumes rocks, levels mountains, destroys wood, pushes the clouds across the sky, " ..
     "and can make a young one old?\""
-askPasswordDoor(63, 63, timePrompt, {"time"})
+askPasswordDoor(63, 63, timePrompt, {"time", "время", "Время", "ВРЕМЯ"})
 
 local fishPrompt =
     "\"Alive without breath, as cold as death, never thirsty ever drinking, all in mail never clinking, " ..
     "ever travelling, never walking, mouth ever moving, never talking.  What am I? \""
-askPasswordDoor(64, 64, fishPrompt, {"fish", "a fish"})
+askPasswordDoor(64, 64, fishPrompt, {"fish", "a fish", "рыба", "Рыба", "РЫБА"})

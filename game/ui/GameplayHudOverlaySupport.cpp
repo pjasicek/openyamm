@@ -768,37 +768,34 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
                 if (row.canonicalName == "Blaster"
                     && context.settingsSnapshot().blasterSkillScaling == BlasterSkillScalingMode::ScalingDamage)
                 {
-                    overlay.body =
+                    overlay.body = context.localizeHudText(
                         "Blaster weapons provide an accurate ranged attack. With scaling damage enabled, only "
-                        "Grandmaster rank adds damage per skill point.";
-                    expertDescription = "Skill added to Attack Bonus (double effect)";
-                    masterDescription = "Skill added to Attack Bonus (triple effect)";
-                    grandmasterDescription =
-                        "Skill added to Attack Bonus (quintuple effect); +1 damage per skill point";
+                        "Grandmaster rank adds damage per skill point.");
+                    grandmasterDescription += "; " + context.localizeHudText("+1 damage per skill point");
                 }
 
-                overlay.normal.text = "Normal: " + normalDescription;
+                overlay.normal.text = context.localizeHudText("Normal") + ": " + normalDescription;
                 overlay.normal.availability = skillMasteryAvailability(
                     context.classSkillTable(),
                     pCharacter,
                     row.canonicalName,
                     SkillMastery::Normal);
                 overlay.normal.visible = !normalDescription.empty();
-                overlay.expert.text = "Expert: " + expertDescription;
+                overlay.expert.text = context.localizeHudText("Expert") + ": " + expertDescription;
                 overlay.expert.availability = skillMasteryAvailability(
                     context.classSkillTable(),
                     pCharacter,
                     row.canonicalName,
                     SkillMastery::Expert);
                 overlay.expert.visible = !expertDescription.empty();
-                overlay.master.text = "Master: " + masterDescription;
+                overlay.master.text = context.localizeHudText("Master") + ": " + masterDescription;
                 overlay.master.availability = skillMasteryAvailability(
                     context.classSkillTable(),
                     pCharacter,
                     row.canonicalName,
                     SkillMastery::Master);
                 overlay.master.visible = !masterDescription.empty();
-                overlay.grandmaster.text = "Grandmaster: " + grandmasterDescription;
+                overlay.grandmaster.text = context.localizeHudText("Grandmaster") + ": " + grandmasterDescription;
                 overlay.grandmaster.availability = skillMasteryAvailability(
                     context.classSkillTable(),
                     pCharacter,

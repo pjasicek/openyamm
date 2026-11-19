@@ -193,6 +193,11 @@ GameSession::GameSession()
     m_gameplayUiController.bindExternalState(&m_gameplayScreenState.uiState());
 }
 
+GameSession::~GameSession()
+{
+    GameMechanics::bindClassMultiplierTable(*this, nullptr);
+}
+
 void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
 {
     m_pDataRepository = pDataRepository;
@@ -204,6 +209,7 @@ void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
             ? &pDataRepository->localizationCatalog()
             : nullptr);
     GameMechanics::bindClassMultiplierTable(
+        *this,
         pDataRepository != nullptr && pDataRepository->isBound() ? &pDataRepository->classMultiplierTable() : nullptr);
 
     if (m_pDataRepository != nullptr && m_pDataRepository->isBound())

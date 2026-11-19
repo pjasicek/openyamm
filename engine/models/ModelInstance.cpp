@@ -77,6 +77,8 @@ ModelInstanceHandle ModelInstanceSystem::create(
     slot.transitionElapsed = 0.0f;
     slot.transitionDuration = 0.0f;
     slot.transitionShown = 0.0f;
+    // A new pose can repeat the matrix revision of the previous occupant of this slot.
+    slot.pickingBoundsRevision = UINT64_MAX;
     slot.rootTransform = rootTransform;
     slot.asset = std::move(asset);
     slot.deformationBounds.reset();

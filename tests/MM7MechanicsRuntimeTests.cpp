@@ -886,6 +886,46 @@ TEST_CASE("hireling magic bonus increases real spell power")
     CHECK(party.characterBuff(0, CharacterBuffId::Bless)->power > originalPower);
 }
 
+TEST_CASE("Walls of Mist saves gain one additional lich jar without refilling looted chests")
+{
+    GameSaveData save = {};
+    save.currentSceneKind = SceneKind::Indoor;
+    save.mapFileName = "7d11.blv";
+    save.hasIndoorSceneState = true;
+    MapDeltaChest &legacyChest = save.indoorScene.mapDeltaData.emplace().chests.emplace_back();
+    legacyChest.rawItems.resize(140 * 36);
+    for (size_t offset = 0; offset < 4 * 36; offset += 36)
+    {
+        legacyChest.rawItems[offset] = 0x89;
+        legacyChest.rawItems[offset + 1] = 0x05;
+    }
+    save.indoorSceneStates["world.mm7.map.7d11"] = save.indoorScene;
+    GameplayChestViewState &lootedChest =
+        save.indoorScene.worldRuntime.materializedChestViews.emplace_back().emplace();
+    lootedChest.gridWidth = 9;
+    lootedChest.gridHeight = 9;
+
+    const std::filesystem::path path = std::filesystem::temp_directory_path() / "openyamm_walls_of_mist_jars.oysav";
+    std::string error;
+    REQUIRE_MESSAGE(saveGameDataToPath(path, save, error), error.c_str());
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error.c_str());
+    const GameplayChestViewState &restoredChest = *loaded->indoorScene.worldRuntime.materializedChestViews.front();
+    REQUIRE_EQ(restoredChest.items.size(), 1u);
+    CHECK_EQ(restoredChest.items.front().itemId, 1417u);
+    CHECK_EQ(restoredChest.items.front().quantity, 1u);
+    const IndoorSceneRuntime::Snapshot &unopened = loaded->indoorSceneStates.at("world.mm7.map.7d11");
+    CHECK(unopened.worldRuntime.materializedChestViews.empty());
+    CHECK_EQ(unopened.mapDeltaData->chests.front().rawItems[4 * 36], 0x89u);
+
+    REQUIRE_MESSAGE(saveGameDataToPath(path, *loaded, error), error.c_str());
+    const std::optional<GameSaveData> reloaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(reloaded.has_value(), error.c_str());
+    CHECK_EQ(reloaded->indoorScene.worldRuntime.materializedChestViews.front()->items.size(), 1u);
+}
+
 TEST_CASE("hireling bonuses are rebuilt after a disk save and never applied twice")
 {
     Party party = makeOneMemberParty();

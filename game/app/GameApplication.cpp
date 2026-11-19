@@ -38,6 +38,7 @@
 #include "game/ui/screens/WinGameScreen.h"
 #include "engine/BgfxContext.h"
 #include "engine/TextTable.h"
+#include "engine/Utf8.h"
 
 #include <imgui.h>
 #include <backends/imgui_impl_sdl3.h>
@@ -2126,11 +2127,6 @@ std::vector<DebugAwardEntry> loadDebugAwardEntries(const Engine::AssetFileSystem
     }
 
     return entries;
-}
-
-std::string normalizePromptAnswer(const std::string &value)
-{
-    return toLowerCopy(trimCopy(value));
 }
 
 std::string traceInputPromptQuoted(const std::string &value)
@@ -6512,10 +6508,10 @@ bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
 
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
-        if (event.text.text != nullptr && m_pendingInputText.size() < MaxPendingInputLength)
+        if (event.text.text != nullptr && Engine::utf8Length(m_pendingInputText) < MaxPendingInputLength)
         {
-            const size_t remaining = MaxPendingInputLength - m_pendingInputText.size();
-            m_pendingInputText.append(event.text.text, std::min(remaining, std::strlen(event.text.text)));
+            const size_t remaining = MaxPendingInputLength - Engine::utf8Length(m_pendingInputText);
+            m_pendingInputText += Engine::truncateUtf8(event.text.text, remaining);
             GAMEPLAY_DEBUG_TRACE(
                 "input_prompt_text_input text=" + traceInputPromptQuoted(event.text.text)
                 + " current=" + traceInputPromptQuoted(m_pendingInputText));
@@ -6550,10 +6546,7 @@ bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
             return true;
 
         case SDLK_BACKSPACE:
-            if (!m_pendingInputText.empty())
-            {
-                m_pendingInputText.pop_back();
-            }
+            Engine::eraseLastUtf8CodePoint(m_pendingInputText);
             return true;
 
         default:
@@ -6657,7 +6650,8 @@ void GameApplication::updatePendingInputPrompt()
         }
     }
 
-    const std::string statusText = "Answer: " + m_pendingInputText + "_";
+    const std::string statusText = m_gameDataLoader.getLocalizationCatalog().format(
+        "Answer: {answer}_", {{"answer", m_pendingInputText}});
 
     if (statusText != m_pendingInputStatusText)
     {
@@ -6694,8 +6688,6 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
         return;
     }
 
-    const std::string normalizedInput = normalizePromptAnswer(submittedInput);
-
     bool matchedAnswer = false;
     size_t matchedAnswerIndex = 0;
     const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
@@ -6703,9 +6695,7 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     for (size_t answerIndex = 0; answerIndex < answers.size(); ++answerIndex)
     {
         const std::string &answer = answers[answerIndex];
-        const std::string normalizedAnswer = normalizePromptAnswer(answer);
-
-        if (!answer.empty() && normalizedAnswer == normalizedInput)
+        if (m_gameDataLoader.getLocalizationCatalog().matchesAnswer(answer, submittedInput))
         {
             matchedAnswer = true;
             matchedAnswerIndex = answerIndex;
@@ -11310,16 +11300,7 @@ bool GameApplication::processPendingArcomageGame()
         return false;
     }
 
-    Party *pParty = nullptr;
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        pParty = &m_pOutdoorPartyRuntime->party();
-    }
-    else if (m_gameSession.partyState().has_value())
-    {
-        pParty = &*m_gameSession.partyState();
-    }
+    const Party *pParty = m_gameplayController.party();
 
     if (pParty == nullptr)
     {
@@ -11849,16 +11830,7 @@ void GameApplication::handleCompletedArcomageScreen()
     }
 
     const ArcomageState &state = pArcomageScreen->state();
-    Party *pParty = nullptr;
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        pParty = &m_pOutdoorPartyRuntime->party();
-    }
-    else if (m_gameSession.partyState().has_value())
-    {
-        pParty = &*m_gameSession.partyState();
-    }
+    Party *pParty = m_gameplayController.party();
 
     std::optional<std::string> arcomageStatusText;
 
@@ -11890,14 +11862,7 @@ void GameApplication::handleCompletedArcomageScreen()
             pParty->recordArcomageLoss();
         }
 
-        if (m_pOutdoorPartyRuntime != nullptr)
-        {
-            synchronizeSessionFromRuntime();
-        }
-        else
-        {
-            m_gameSession.setPartyState(*pParty);
-        }
+        synchronizeSessionFromRuntime();
     }
 
     m_screenManager.setActiveScreen(nullptr);
@@ -11909,10 +11874,7 @@ void GameApplication::handleCompletedArcomageScreen()
             pEventRuntimeState->lastActivationResult = *arcomageStatusText;
         }
 
-        if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
-        {
-            m_outdoorGameView.showStatusBarEvent(*arcomageStatusText, 4.0f);
-        }
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(*arcomageStatusText, 4.0f);
     }
 
     if (m_pMapSceneRuntime != nullptr)

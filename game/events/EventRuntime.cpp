@@ -6566,6 +6566,28 @@ int luaSetMonsterGroup(lua_State *pLuaState)
     return 0;
 }
 
+int luaGetNpcGreeting(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const EventRuntime *pEventRuntime = readableEventRuntime(pLuaState);
+    const NpcDialogTable *pNpcDialogTable = pEventRuntime != nullptr ? pEventRuntime->npcDialogTable() : nullptr;
+    const NpcEntry *pNpc = pNpcDialogTable != nullptr ? pNpcDialogTable->getNpc(npcId) : nullptr;
+    uint32_t greetingId = pNpc != nullptr ? pNpc->greetId : 0;
+
+    if (pRuntimeState != nullptr && pRuntimeState->npcGreetingOverrides.contains(npcId))
+    {
+        const uint32_t overrideId = pRuntimeState->npcGreetingOverrides.at(npcId);
+        if (overrideId != 0)
+        {
+            greetingId = overrideId;
+        }
+    }
+
+    lua_pushinteger(pLuaState, greetingId);
+    return 1;
+}
+
 int luaSetNpcGreeting(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -8430,6 +8452,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetNPCGroupNews", luaSetNpcGroupNews);
     registerLuaFunction(pLuaState, "SetMonsterGroup", luaSetMonsterGroup);
     registerLuaFunction(pLuaState, "SetNPCItem", luaSetNpcItem);
+    registerLuaFunction(pLuaState, "GetNPCGreeting", luaGetNpcGreeting);
     registerLuaFunction(pLuaState, "SetNPCGreeting", luaSetNpcGreeting);
     registerLuaFunction(pLuaState, "SetNPCName", luaSetNpcName);
     registerLuaFunction(pLuaState, "SetNPCPicture", luaSetNpcPicture);

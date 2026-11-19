@@ -197,6 +197,8 @@ add_library(openyamm_game STATIC
     outdoor/OutdoorTerrainMaterials.cpp
     outdoor/OutdoorRenderer.cpp
     outdoor/OutdoorGeometryUtils.cpp
+    outdoor/OutdoorTerrainMaterialConfig.cpp
+    outdoor/OutdoorWaterDepthData.cpp
     outdoor/OutdoorMeadow.cpp
     outdoor/OutdoorMovementController.cpp
     outdoor/OutdoorMovementDriver.cpp

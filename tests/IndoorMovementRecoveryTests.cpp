@@ -247,4 +247,55 @@ TEST_CASE("indoor floor correction checks actual headroom below a ceiling")
     }
 }
 
+TEST_CASE("shadow guild open spike pit admits walking and falling through its ceiling portal")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "6d08.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapDeltaData.has_value());
+    IndoorMapData map = *loaded.indoorMapData;
+    REQUIRE_GT(map.faces.size(), 373u);
+    REQUIRE(map.faces[373].isPortal);
+    // Preserve the ceiling facet observed in the failing runtime trace; imports can also mark it as a floor.
+    map.faces[373].facetType = 5;
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    bool foundTrapdoor = false;
+    for (const MapDeltaDoor &door : loaded.indoorMapDeltaData->doors)
+    {
+        if (door.doorId == 2)
+        {
+            // The mechanism's Closed endpoint retracts the plate and exposes portal 373.
+            RuntimeMechanismState &trapdoor = events->mechanisms[door.doorId];
+            trapdoor.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+            trapdoor.currentDistance = float(door.moveLength);
+            foundTrapdoor = true;
+        }
+    }
+    REQUIRE(foundTrapdoor);
+
+    for (float speed : {96.0f, 384.0f, 768.0f})
+    {
+        CAPTURE(speed);
+        IndoorMovementController controller(map, &loaded.indoorMapDeltaData, &events);
+        const IndoorBodyDimensions body = {};
+        IndoorMoveState state = controller.initializeStateFromEyePosition(-1481, -1018, 110, body);
+        REQUIRE(state.grounded);
+        const int stepCount = int(std::ceil(258.0f / speed * 128.0f));
+        for (int step = 0; step < stepCount; ++step)
+        {
+            state = controller.resolveMove(state, body, 0, speed, false, 1.0f / 128.0f);
+        }
+        REQUIRE_GT(state.y, -800.0f);
+        for (int step = 0; step < 256; ++step)
+        {
+            state = controller.resolveMove(state, body, 0, 0, false, 1.0f / 128.0f);
+        }
+        CHECK(state.grounded);
+        CHECK_EQ(state.footZ, doctest::Approx(-512.0f));
+        CHECK_EQ(state.sectorId, 33);
+    }
+}
+
 TEST_SUITE_END();

@@ -830,8 +830,6 @@ constexpr float ChestTrapCenterSpriteZOffset = 32.0f;
 constexpr float OeTurnAwayFromWaterAngleRadians = Pi / 32.0f;
 constexpr int DaggerWoundIslandMapId = 1;
 constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
-constexpr uint32_t GoldHeapSmallItemId = 187;
-constexpr uint32_t GoldHeapLargeItemId = 189;
 constexpr float WorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
 constexpr float WorldItemThrowSpeed = 200.0f;
 constexpr int MonsterDeathDropMinThrowSpeed = 200;
@@ -1287,9 +1285,57 @@ bool readInt32FromBytes(const std::vector<uint8_t> &bytes, size_t offset, int32_
     return true;
 }
 
-bool isGoldHeapItemId(uint32_t itemId)
+void migrateLegacyPlacedGold(
+    const MapDeltaData &mapDeltaData,
+    const ItemTable &itemTable,
+    std::vector<OutdoorWorldRuntime::WorldItemState> &worldItems)
 {
-    return itemId >= GoldHeapSmallItemId && itemId <= GoldHeapLargeItemId;
+    // Older snapshots discarded the amount for placed gold outside the base MM8 ID range.
+    for (OutdoorWorldRuntime::WorldItemState &item : worldItems)
+    {
+        if (item.isGold || item.goldAmount != 0 || item.spawnedByPlayer || item.isExpired
+            || item.item.objectDescriptionId == 0 || (item.attributes & SpriteAttrTemporary) != 0)
+        {
+            continue;
+        }
+
+        const ItemDefinition *pDefinition = itemTable.get(item.item.objectDescriptionId);
+        if (pDefinition == nullptr || !pDefinition->isGold())
+        {
+            continue;
+        }
+
+        int32_t amount = 0;
+        for (const MapDeltaSpriteObject &source : mapDeltaData.spriteObjects)
+        {
+            int32_t sourceItemId = 0;
+            int32_t sourceAmount = 0;
+            if (item.attributes != source.attributes
+                || item.x != float(source.x) || item.y != float(source.y) || item.z != float(source.z)
+                || item.initialX != float(source.initialX) || item.initialY != float(source.initialY)
+                || item.initialZ != float(source.initialZ)
+                || !readInt32FromBytes(source.rawContainingItem, 0x00, sourceItemId)
+                || uint32_t(sourceItemId) != pDefinition->itemId
+                || !readInt32FromBytes(source.rawContainingItem, 0x0c, sourceAmount)
+                || sourceAmount <= 0)
+            {
+                continue;
+            }
+
+            if (amount > 0 && amount != sourceAmount)
+            {
+                amount = 0;
+                break;
+            }
+            amount = sourceAmount;
+        }
+
+        if (amount > 0)
+        {
+            item.isGold = true;
+            item.goldAmount = uint32_t(amount);
+        }
+    }
 }
 
 std::string debugStringOrNone(const std::string &value)
@@ -5413,7 +5459,7 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
     worldItem.worldItemId = m_nextWorldItemId++;
     worldItem.item = treasure->item;
     worldItem.goldAmount = treasure->goldAmount;
-    worldItem.isGold = treasure->isGold && isGoldHeapItemId(treasure->item.objectDescriptionId);
+    worldItem.isGold = treasure->isGold;
     worldItem.objectDescriptionId = objectDescriptionId;
     worldItem.objectSpriteId = objectSpriteId;
     worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
@@ -5500,10 +5546,11 @@ void OutdoorWorldRuntime::materializeMapDeltaWorldItems()
         worldItem.item.quantity = 1;
         worldItem.item.width = pItemDefinition->inventoryWidth;
         worldItem.item.height = pItemDefinition->inventoryHeight;
-        worldItem.goldAmount = isGoldHeapItemId(worldItem.item.objectDescriptionId)
-            ? static_cast<uint32_t>(std::max(0, rawGoldAmount))
-            : 0;
-        worldItem.isGold = worldItem.goldAmount > 0 && isGoldHeapItemId(worldItem.item.objectDescriptionId);
+        worldItem.isGold = pItemDefinition->isGold() && rawGoldAmount > 0;
+        if (worldItem.isGold)
+        {
+            worldItem.goldAmount = static_cast<uint32_t>(rawGoldAmount);
+        }
         worldItem.objectDescriptionId = objectDescriptionId;
         worldItem.objectSpriteId = objectSpriteId;
         worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
@@ -7418,6 +7465,10 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_corpseLootPending = true;
     m_activeCorpseView = snapshot.activeCorpseView;
     m_worldItems = snapshot.worldItems;
+    if (m_pOutdoorMapDeltaData != nullptr && m_pItemTable != nullptr)
+    {
+        migrateLegacyPlacedGold(*m_pOutdoorMapDeltaData, *m_pItemTable, m_worldItems);
+    }
     m_nextWorldItemId = snapshot.nextWorldItemId;
     m_searchableLootPropState.searchedSourceIds = {
         snapshot.searchedLootPropSourceIds.begin(),
@@ -18272,8 +18323,8 @@ bool OutdoorWorldRuntime::summonEventPayload(
             worldItem.item.quantity = 1;
             worldItem.item.width = pItemDefinition->inventoryWidth;
             worldItem.item.height = pItemDefinition->inventoryHeight;
-            worldItem.goldAmount = isGoldHeapItemId(worldItem.item.objectDescriptionId) ? 1u : 0u;
-            worldItem.isGold = worldItem.goldAmount > 0 && isGoldHeapItemId(worldItem.item.objectDescriptionId);
+            worldItem.isGold = pItemDefinition->isGold();
+            worldItem.goldAmount = worldItem.isGold ? 1u : 0u;
         }
 
         if (speed > 0)

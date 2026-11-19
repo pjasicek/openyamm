@@ -239,6 +239,35 @@ TEST_CASE("poison and disease impair rest rather than dealing periodic damage")
     }
 }
 
+TEST_CASE("full rest wakes an entirely sleeping insane party without curing insanity")
+{
+    using namespace OpenYAMM::Game;
+    Party party;
+    party.seed(createRegressionPartySeed());
+
+    for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
+    {
+        REQUIRE(party.applyMemberCondition(memberIndex, CharacterCondition::Insane, 100.0f));
+        REQUIRE(party.applyMemberCondition(memberIndex, CharacterCondition::Asleep, 110.0f));
+        REQUIRE_FALSE(GameMechanics::canAct(*party.member(memberIndex)));
+        CHECK(GameMechanics::displayedCondition(*party.member(memberIndex)) == CharacterCondition::Asleep);
+    }
+
+    party.advanceTimedStates(8.0f * 60.0f * 60.0f);
+    party.restAndHealAll();
+
+    for (const Character &member : party.members())
+    {
+        CHECK_FALSE(member.conditions.test(static_cast<size_t>(CharacterCondition::Asleep)));
+        CHECK_EQ(member.conditionStartGameMinutes[static_cast<size_t>(CharacterCondition::Asleep)], 0.0f);
+        CHECK(member.conditions.test(static_cast<size_t>(CharacterCondition::Insane)));
+        CHECK(GameMechanics::displayedCondition(member) == CharacterCondition::Insane);
+        CHECK(GameMechanics::canAct(member));
+        CHECK_EQ(member.recoverySecondsRemaining, 0.0f);
+        CHECK_EQ(member.spellPoints, 0);
+    }
+}
+
 TEST_CASE("default party seed only creates the first test member")
 {
     OpenYAMM::Game::Party party = {};

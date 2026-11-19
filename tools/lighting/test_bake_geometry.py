@@ -1,6 +1,17 @@
 import unittest
 
-from bake_geometry import face_basis, pack_lightmap_charts, rle_bgra
+from bake_geometry import face_basis, pack_lightmap_charts, rle_bgra, surface_key
+
+
+class SurfaceIdentityTests(unittest.TestCase):
+    def test_rotated_loop_keeps_material_sampling(self):
+        points = [(0, 0, 0), (2, 0, 0), (0, 2, 0)]
+        uvs = [(0, 0), (1, 0), (0, 1)]
+        key = surface_key(points, 'Stone', uvs)
+        self.assertEqual(key, surface_key(points[1:] + points[:1], 'stone', uvs[1:] + uvs[:1]))
+        self.assertNotEqual(key, surface_key(points[::-1], 'stone', uvs[::-1]))
+        self.assertNotEqual(key, surface_key(points, 'wood', uvs))
+        self.assertNotEqual(key, surface_key(points, 'stone', [(u + 1, v) for u, v in uvs]))
 
 
 class FaceBasisTests(unittest.TestCase):

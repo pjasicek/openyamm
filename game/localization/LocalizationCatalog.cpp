@@ -1,6 +1,7 @@
 #include "game/localization/LocalizationCatalog.h"
 
 #include "engine/AssetFileSystem.h"
+#include "engine/Utf8.h"
 #include "game/StringUtils.h"
 
 #include <yaml-cpp/yaml.h>
@@ -13,6 +14,45 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+std::vector<uint32_t> normalizedAnswer(const std::string &text)
+{
+    std::vector<uint32_t> result;
+    for (const Engine::Utf8CodePoint &character : Engine::decodeUtf8(text))
+    {
+        uint32_t value = character.value;
+        if ((value >= 'A' && value <= 'Z') || (value >= 0x0410 && value <= 0x042f))
+        {
+            value += 32;
+        }
+        else if (value == 0x0401)
+        {
+            value = 0x0451; // Cyrillic Yo.
+        }
+        result.push_back(value);
+    }
+
+    const auto isSpace = [](uint32_t value)
+    {
+        return value == ' ' || (value >= '\t' && value <= '\r');
+    };
+    const auto first = std::find_if_not(result.begin(), result.end(), isSpace);
+    const auto last = std::find_if_not(result.rbegin(), result.rend(), isSpace).base();
+    return first < last ? std::vector<uint32_t>(first, last) : std::vector<uint32_t>{};
+}
+}
+
+bool LocalizationCatalog::matchesAnswer(const std::string &source, const std::string &input) const
+{
+    const std::vector<uint32_t> normalizedInput = normalizedAnswer(input);
+    if (normalizedInput.empty())
+    {
+        return false;
+    }
+    return normalizedInput == normalizedAnswer(source) || normalizedInput == normalizedAnswer(translate(source));
+}
+
 bool LocalizationCatalog::load(const Engine::AssetFileSystem &assetFileSystem, const std::string &language)
 {
     m_language = toLowerCopy(language) == "ru" ? "ru" : "en";

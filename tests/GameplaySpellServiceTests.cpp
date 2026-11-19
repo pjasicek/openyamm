@@ -1,12 +1,44 @@
 #include "engine/AssetFileSystem.h"
 #include "game/app/GameSession.h"
 #include "game/data/GameDataLoader.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/party/SpellIds.h"
 #include "tests/PartySpellTestHarness.h"
 
 #include <doctest/doctest.h>
 
 #include <filesystem>
+
+TEST_CASE("class resource formulas release the table when its game session ends")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+
+    Game::Character knight;
+    knight.className = "Knight";
+    knight.level = 1;
+    knight.endurance = 10;
+    const int defaultHealth = Game::GameMechanics::calculateBaseCharacterMaxHealth(knight);
+    const int classHealth = Game::GameMechanics::calculateBaseCharacterMaxHealth(knight, &data.classMultiplierTable());
+    REQUIRE_NE(defaultHealth, classHealth);
+
+    {
+        Game::GameSession session;
+        session.bindDataRepository(&data);
+        {
+            Game::GameSession unboundSession;
+        }
+        CHECK_EQ(Game::GameMechanics::calculateBaseCharacterMaxHealth(knight), classHealth);
+    }
+
+    CHECK_EQ(Game::GameMechanics::calculateBaseCharacterMaxHealth(knight), defaultHealth);
+}
 
 TEST_CASE("Gameplay pause freezes party recovery together with actors and resumes without catch-up")
 {

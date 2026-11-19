@@ -24,5 +24,62 @@
     "terrain_size": 1024,
     "units_per_texel": 32,
     "world": "mm7"
+  },
+  "runtime_lighting": {
+    "profile": {
+      "world": "mm7",
+      "map": "7out03.odm",
+      "revealed_cogs": [
+        17
+      ],
+      "point_lights": [
+        {
+          "color_abgr": 4280034867,
+          "position": [
+            14180,
+            -21620,
+            210
+          ],
+          "radius": 300
+        },
+        {
+          "color_abgr": 4280034867,
+          "position": [
+            14208,
+            -21540,
+            180
+          ],
+          "radius": 240
+        }
+      ]
+    },
+    "retained_sha256": "dc4a828dfddfad745a5c3def1cfb894200fb73c935c0f851d3a2c32f45d36737",
+    "revealed_receivers": [
+      [
+        106,
+        34
+      ],
+      [
+        106,
+        35
+      ],
+      [
+        106,
+        36
+      ],
+      [
+        106,
+        37
+      ],
+      [
+        106,
+        38
+      ],
+      [
+        106,
+        39
+      ]
+    ],
+    "producer_sha256": "381c528fd2dca0e58556ee4768877316d24bebde94bad94f64d34b4090646239"
   }
 }

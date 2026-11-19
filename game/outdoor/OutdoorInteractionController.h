@@ -284,9 +284,11 @@ private:
     static std::optional<GameplayEventTargetContextActionMetadata> resolveContextActionMetadata(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
-    static bool inspectEventIsHintOnly(
+    static bool inspectEventIsHintOnly(const OutdoorGameView &view, uint16_t eventId);
+    static bool outdoorFaceIsInteractionActivatable(
         const OutdoorGameView &view,
-        const OutdoorGameView::InspectHit &inspectHit);
+        uint32_t attributes,
+        uint16_t eventId);
     static bool hitTestDecorationBillboard(
         OutdoorGameView &view,
         const DecorationBillboard &billboard,

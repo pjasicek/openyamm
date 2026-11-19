@@ -7,7 +7,7 @@
 namespace OpenYAMM::Game
 {
 // Lives with the held item, so replacing or consuming that item also cancels the gesture.
-class InventoryBookDoubleClick
+class InventoryItemDoubleClick
 {
 public:
     void arm(size_t memberIndex, uint64_t ticks, float x, float y, float tolerance)

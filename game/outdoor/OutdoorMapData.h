@@ -4,6 +4,7 @@
 
 #include "game/maps/OutdoorSceneProfile.h"
 #include "game/outdoor/OutdoorNavigationData.h"
+#include "game/outdoor/OutdoorWaterDepthData.h"
 #include "game/outdoor/OutdoorRenderData.h"
 #include "game/outdoor/OutdoorLightingData.h"
 #include "game/outdoor/OutdoorMechanismAudio.h"
@@ -266,6 +267,7 @@ struct OutdoorMapData
     std::vector<uint8_t> heightMap;
     std::vector<uint8_t> tileMap;
     std::vector<uint8_t> attributeMap;
+    std::optional<OutdoorWaterDepthData> waterDepth;
     std::vector<uint32_t> someOtherMap;
     std::vector<uint16_t> normalMap;
     std::vector<float> normals;

@@ -133,6 +133,7 @@ struct HouseEntry
     std::string enterText;
     std::vector<std::string> offeredSkills;
     std::vector<uint32_t> residentNpcIds;
+    uint32_t restHostNpcId = 0;
     std::vector<TransportRoute> transportRoutes;
     std::optional<ArcomageRule> arcomageRule;
     uint32_t rawExtraExitPictureIndex = 0;

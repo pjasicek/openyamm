@@ -34,19 +34,9 @@ inline DialogueTitleTextLayout resolveDialogueTitleTextLayout(
         return result;
     }
 
-    float fontScale = scale * std::max(0.1f, layout.textScale);
-
-    if (fontScale < 1.0f)
-    {
-        fontScale = std::max(0.5f, fontScale);
-    }
-    else if (std::abs(fontScale - std::round(fontScale)) <= 0.1f)
-    {
-        fontScale = std::round(fontScale);
-    }
-
-    const float textWidth = std::max(0.0f, width - std::abs(layout.textPadX * scale) * 2.0f);
-    result.lines = view.wrapHudTextToWidth(*font, label, textWidth / std::max(1.0f, fontScale));
+    const float fontScale = scale * std::max(0.1f, layout.textScale);
+    const float textWidth = std::max(0.0f, width / fontScale - std::abs(layout.textPadX) * 2.0f);
+    result.lines = view.wrapHudTextToWidth(*font, view.localizeHudText(label), textWidth);
 
     if (result.lines.empty())
     {

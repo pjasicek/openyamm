@@ -2747,6 +2747,33 @@ TEST_CASE("sandro thant throne room residents")
     CHECK_FALSE(dialogHasActionLabel(dialog, "Brekish Onefang"));
 }
 
+TEST_CASE("the Harmondale butler offers free inn rest in the throne room")
+{
+    constexpr uint32_t ButlerNpcId = 397;
+    constexpr uint32_t HarmondaleTavernHouseId = 240;
+    constexpr uint32_t HarmondaleThroneRoomHouseId = 1169;
+    constexpr const char *pRestLabel = "Would you like to rest?";
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    CHECK_FALSE(dialogHasActionLabel(harness.openNpcDialogue(ButlerNpcId, HarmondaleTavernHouseId), pRestLabel));
+
+    harness.eventRuntimeState().npcHouseOverrides[ButlerNpcId] = HarmondaleThroneRoomHouseId;
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(HarmondaleThroneRoomHouseId);
+    REQUIRE_EQ(dialog.sourceId, ButlerNpcId);
+    const std::optional<size_t> restIndex = findActionIndexByLabel(dialog, pRestLabel);
+    REQUIRE(restIndex.has_value());
+
+    const int goldBeforeRest = harness.party().gold();
+    const int foodBeforeRest = harness.party().food();
+    const OpenYAMM::Game::GameplayDialogController::Result result = harness.executeActiveDialogAction(*restIndex);
+    CHECK(result.shouldCloseActiveDialog);
+    REQUIRE(result.pendingInnRest.has_value());
+    CHECK_EQ(result.pendingInnRest->houseId, HarmondaleThroneRoomHouseId);
+    CHECK_EQ(harness.party().gold(), goldBeforeRest);
+    CHECK_EQ(harness.party().food(), foodBeforeRest);
+}
+
 TEST_CASE("throne room sentence clears fines without hiding residents by default")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -7942,11 +7969,15 @@ TEST_CASE("MM7 promotion sidecars still accept later recruits alongside promoted
     REQUIRE(harness.party().setMemberClassName(1, "Wizard"));
     REQUIRE(harness.party().setMemberClassName(2, "PriestDark"));
     REQUIRE(harness.party().setMemberClassName(3, "Cleric"));
-    REQUIRE(harness.party().grantItemToMember(1, 1417));
+    for (size_t memberIndex = 0; memberIndex < harness.party().members().size(); ++memberIndex)
+    {
+        REQUIRE(harness.party().grantItemToMember(memberIndex, 1417));
+    }
+    REQUIRE(harness.party().grantItemToMember(0, 1417));
     REQUIRE(harness.executeGlobalEvent(847));
     CHECK_EQ(harness.party().member(0)->className, "Lich");
     CHECK_EQ(harness.party().member(1)->className, "Lich");
-    CHECK_EQ(harness.party().inventoryItemCount(1417), 0);
+    CHECK_EQ(harness.party().inventoryItemCount(1417), 1);
 
     // Priest quest was completed earlier; the old unique quest item is no longer needed.
     harness.party().setQuestBit(1607, true);

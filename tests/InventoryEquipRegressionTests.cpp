@@ -466,6 +466,36 @@ TEST_CASE("inventory item use Letter for YOU reads Verdant greeting without cons
     CHECK_FALSE(result.speechId.has_value());
 }
 
+TEST_CASE("localized Genie Lamp is consumed and rewards the targeted party member")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::string> row(17);
+    row[0] = "1418";
+    row[1] = "7item260";
+    row[2] = "Лампа Джинна";
+    row[4] = "N / A";
+    row[5] = "Misc";
+
+    OpenYAMM::Game::ItemTable items;
+    REQUIRE(items.load(assets, {row}, {}));
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::InventoryItem lamp = {};
+    lamp.objectDescriptionId = 1418;
+
+    const OpenYAMM::Game::InventoryItemUseResult result =
+        OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 1, lamp, items, nullptr);
+
+    REQUIRE(result.handled);
+    CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseGenieLamp);
+    CHECK(result.consumed);
+    CHECK_EQ(party.member(1)->permanentBonuses.might, 1);
+    CHECK_EQ(party.member(0)->permanentBonuses.might, 0);
+}
+
 TEST_CASE("inventory item use Deck of Fate applies MMerge month and week reward")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1047,6 +1077,33 @@ TEST_CASE("Power enchant raises effective level and resources only while equippe
     CHECK_EQ(removed.level.actual, baseline.level.actual);
     CHECK_EQ(removed.health.maximum, baseline.health.maximum);
     CHECK_EQ(removed.spellPoints.maximum, baseline.spellPoints.maximum);
+}
+
+TEST_CASE("MM7 Sun and Moon cloaks boost their magic school while equipped and intact")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeRegressionParty(gameData);
+    Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment = {};
+    pMember->equipmentRuntime = {};
+    pMember->skills["LightMagic"] = {"LightMagic", 9, SkillMastery::Master};
+    pMember->skills["DarkMagic"] = {"DarkMagic", 7, SkillMastery::Master};
+
+    pMember->equipment.cloak = 1349;
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("LightMagic"), 4);
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 0);
+
+    pMember->equipment.cloak = 1350;
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("LightMagic"), 0);
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 3);
+
+    pMember->equipmentRuntime.cloak.broken = true;
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 0);
 }
 
 TEST_CASE("special antidotes enchant blocks poison application")

@@ -338,6 +338,55 @@ TEST_CASE("alchemy bench fills bottles and leaves non-reacting items in place")
     CHECK(pCureDisease->masteryAllows);
 }
 
+TEST_CASE("Clanker's Amulet adds 15 potion power without changing alchemy mastery")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const AlchemyBenchTables tables = benchTables(gameData);
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 2, SkillMastery::Normal);
+
+    const AlchemyRecipe recipe = {BottleItemId, WidowsweepBerriesItemId};
+    InventoryItem bottle = InventoryItemMixingRuntime::makeBottleItem(tables.itemTable, BottleItemId);
+    REQUIRE(party.member(0)->addInventoryItemAt(bottle, 0, 0));
+    addItem(party, 0, WidowsweepBerriesItemId);
+    const AlchemyPreview withoutAmulet = AlchemyBenchRuntime::preview(party, recipe, tables, unlocked({}));
+    REQUIRE(withoutAmulet.outcome == AlchemyPreviewOutcome::Known);
+
+    InventoryItem amulet = {};
+    amulet.objectDescriptionId = 1339;
+    amulet.identified = true;
+    std::optional<InventoryItem> heldReplacement;
+    REQUIRE(party.tryEquipItemOnMember(0, EquipmentSlot::Amulet, amulet, std::nullopt, false, heldReplacement));
+    const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(party);
+    CHECK_EQ(alchemist.level, 17u);
+    CHECK(alchemist.mastery == SkillMastery::Normal);
+    const uint16_t boostedPower = withoutAmulet.resultPower + 15;
+
+    SUBCASE("bench preview and brew")
+    {
+        CHECK_EQ(AlchemyBenchRuntime::preview(party, recipe, tables, unlocked({})).resultPower, boostedPower);
+        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(party, recipe, tables);
+        REQUIRE(outcome.result.success);
+        CHECK_EQ(outcome.resultItem.standardEnchantPower, boostedPower);
+    }
+
+    SUBCASE("inventory brew")
+    {
+        InventoryItem reagent = {};
+        reagent.objectDescriptionId = WidowsweepBerriesItemId;
+        const InventoryItemMixResult outcome = InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party, 0, reagent, 0, 0, tables.itemTable, tables.potionMixingTable,
+            tables.potionSettingTable, tables.reagentSettingTable, &tables.potionNoteTable);
+        REQUIRE(outcome.success);
+        const InventoryItem *pPotion = party.member(0)->inventoryItemAt(0, 0);
+        REQUIRE(pPotion != nullptr);
+        CHECK_EQ(pPotion->standardEnchantPower, boostedPower);
+    }
+
+    REQUIRE(party.takeEquippedItemFromMember(0, EquipmentSlot::Amulet, amulet));
+    CHECK_EQ(AlchemyBenchRuntime::resolveAlchemist(party).level, 2u);
+}
+
 TEST_CASE("alchemy bench counts pairs of the same item")
 {
     const std::vector<AlchemyIngredient> ingredients = {{CureWoundsItemId, AlchemyIngredientKind::Potion, 5, 0}};

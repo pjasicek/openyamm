@@ -43,6 +43,11 @@ constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;
 constexpr int DefaultJournalMapZoomStep = 0;
 constexpr float OeRestHostileAlertDistance = 5120.0f;
+constexpr int InnRestMinutesPerDay = 24 * 60;
+constexpr int InnRestDawnHour = 5;
+constexpr uint32_t DeyjaTavernHouseId = 111;
+constexpr uint32_t PitTavernHouseId = 114;
+constexpr uint32_t MountNighonTavernHouseId = 116;
 constexpr float DimensionDoorTileSize = 512.0f;
 
 struct DimensionDoorRadiusTrigger
@@ -1516,10 +1521,31 @@ void GameplayScreenRuntime::startRestAction(GameplayUiController::RestMode mode,
     beginRestAction(mode, minutes, true, false);
 }
 
-void GameplayScreenRuntime::startInnRest(float durationMinutes)
+void GameplayScreenRuntime::startInnRest(uint32_t houseId)
 {
+    const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const int currentMinute = static_cast<int>(std::floor(pWorldRuntime->gameMinutes()));
+    const int currentMinuteOfDay = (currentMinute % InnRestMinutesPerDay + InnRestMinutesPerDay)
+        % InnRestMinutesPerDay;
+    int minutesUntilDawn = InnRestDawnHour * 60 - currentMinuteOfDay;
+    if (minutesUntilDawn <= 0)
+    {
+        minutesUntilDawn += InnRestMinutesPerDay;
+    }
+
+    int durationMinutes = minutesUntilDawn + 60;
+    if (houseId == DeyjaTavernHouseId || houseId == PitTavernHouseId || houseId == MountNighonTavernHouseId)
+    {
+        durationMinutes += 12 * 60;
+    }
+
     openRestOverlay(false);
-    beginRestAction(GameplayUiController::RestMode::Heal, durationMinutes, false, true);
+    beginRestAction(GameplayUiController::RestMode::Heal, static_cast<float>(durationMinutes), false, true);
 }
 
 void GameplayScreenRuntime::openSpellbookOverlay()
@@ -2288,7 +2314,6 @@ void GameplayScreenRuntime::executeActiveDialogAction(
     const ActiveDialogContextBuilder &contextBuilder,
     const ActiveDialogActionCallback &beforeCloseContinuation,
     const DialogueCloseCallback &closeActiveDialog,
-    const ActiveDialogActionCallback &afterCloseContinuation,
     const PendingEventDialogPresenter &presentPendingEventDialogCallback)
 {
     if (!contextBuilder)
@@ -2324,11 +2349,11 @@ void GameplayScreenRuntime::executeActiveDialogAction(
     else
     {
         closeActiveDialogActionResult(result, closeActiveDialog);
-    }
 
-    if (afterCloseContinuation)
-    {
-        afterCloseContinuation(result);
+        if (result.pendingInnRest.has_value())
+        {
+            startInnRest(result.pendingInnRest->houseId);
+        }
     }
 
     if (!mapMovePending)
@@ -2527,7 +2552,11 @@ void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 
 void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
-    heldInventoryItem().bookDoubleClick.cancel();
+    heldInventoryItem().doubleClick.cancel();
+    if (readableScrollOverlayReadOnly().staysOpen)
+    {
+        itemService().closeReadableScrollOverlay();
+    }
     interactionState().characterClickLatch = false;
     interactionState().characterMemberCycleLatch = false;
     interactionState().characterPressedTarget = {};

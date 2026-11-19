@@ -16,7 +16,6 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
-#include <cctype>
 #include <cmath>
 #include <sstream>
 #include <utility>
@@ -113,31 +112,6 @@ const char *scenarioDialogActionKindName(EventDialogActionKind kind)
     }
 
     return "unknown";
-}
-
-std::string normalizeScenarioPromptAnswer(const std::string &value)
-{
-    size_t first = 0;
-    while (first < value.size() && std::isspace(static_cast<unsigned char>(value[first])) != 0)
-    {
-        ++first;
-    }
-
-    size_t last = value.size();
-    while (last > first && std::isspace(static_cast<unsigned char>(value[last - 1])) != 0)
-    {
-        --last;
-    }
-
-    std::string normalized;
-    normalized.reserve(last - first);
-
-    for (size_t index = first; index < last; ++index)
-    {
-        normalized.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(value[index]))));
-    }
-
-    return normalized;
 }
 
 uint64_t fnv1aUpdate(uint64_t hash, const std::string &text)
@@ -1560,10 +1534,7 @@ ScenarioInteractionResult ScenarioRuntimeDriver::pickCenterInteractionTarget(boo
 
     GameplayWorldPickRequest pickRequest = buildCenterPickRequest();
     pickRequest.ignoreActors = ignoreActors;
-    const IMapSceneRuntime *pSceneRuntime = ScenarioGameApplicationAccess::mapSceneRuntime(m_application);
-    result.hit = pSceneRuntime != nullptr && pSceneRuntime->kind() == SceneKind::Indoor
-        ? pWorldRuntime->pickKeyboardInteractionTarget(pickRequest)
-        : pWorldRuntime->pickMouseInteractionTarget(pickRequest);
+    result.hit = pWorldRuntime->pickKeyboardInteractionTarget(pickRequest);
     result.picked = result.hit.hasHit;
     return result;
 }
@@ -1834,11 +1805,11 @@ bool ScenarioRuntimeDriver::answerPendingInputPrompt(
     result.prompt = activeInputPromptSnapshot();
     result.selectedContinueStep = prompt.continueStep;
 
-    const std::string normalizedInput = normalizeScenarioPromptAnswer(text);
+    const LocalizationCatalog &catalog = ScenarioGameApplicationAccess::gameDataLoader(m_application)
+        .getLocalizationCatalog();
     for (size_t answerIndex = 0; answerIndex < prompt.answers.size(); ++answerIndex)
     {
-        const std::string normalizedAnswer = normalizeScenarioPromptAnswer(prompt.answers[answerIndex]);
-        if (!prompt.answers[answerIndex].empty() && normalizedAnswer == normalizedInput)
+        if (catalog.matchesAnswer(prompt.answers[answerIndex], text))
         {
             result.matched = true;
             result.matchedIndex = answerIndex;

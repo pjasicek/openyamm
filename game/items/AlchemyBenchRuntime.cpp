@@ -211,10 +211,14 @@ AlchemistInfo AlchemyBenchRuntime::resolveAlchemist(const Party &party)
     const Character *pMember = alchemist.memberIndex ? party.member(*alchemist.memberIndex) : nullptr;
     const CharacterSkill *pSkill = pMember != nullptr ? pMember->findSkill("Alchemy") : nullptr;
 
+    if (pMember != nullptr)
+    {
+        alchemist.level = InventoryItemMixingRuntime::effectiveAlchemyLevel(*pMember);
+    }
+
     if (pSkill != nullptr)
     {
         alchemist.mastery = pSkill->mastery;
-        alchemist.level = pSkill->level;
     }
 
     return alchemist;

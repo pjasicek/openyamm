@@ -1297,6 +1297,28 @@ bool HouseTable::applyHouseRules(
     const MergedTransportLocationTable &transportLocations,
     const MapStats &mapStats)
 {
+    const MergedHouseRuleSection *pRestHosts = findHouseRuleSection(houseRules, "Free lodging");
+    if (pRestHosts != nullptr)
+    {
+        for (const std::vector<int32_t> &row : pRestHosts->numericRows)
+        {
+            if (row.size() != 2 || row[0] <= 0 || row[1] <= 0)
+            {
+                std::cerr << "invalid free lodging rule (expected house id and NPC id)\n";
+                return false;
+            }
+
+            const auto houseIt = m_entries.find(static_cast<uint32_t>(row[0]));
+            if (houseIt == m_entries.end())
+            {
+                std::cerr << "free lodging references unknown house " << row[0] << '\n';
+                return false;
+            }
+
+            houseIt->second.restHostNpcId = static_cast<uint32_t>(row[1]);
+        }
+    }
+
     for (auto &[houseId, entry] : m_entries)
     {
         (void)houseId;

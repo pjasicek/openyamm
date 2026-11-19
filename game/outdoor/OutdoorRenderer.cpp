@@ -4537,8 +4537,6 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
     {
         view.m_cachedOutdoorDynamicLightEmitters = dynamicLightEmitters;
         view.m_pCachedOutdoorLightingData = pLightingData;
-        view.m_outdoorBModelLightingRuntime.build(dynamicLightEmitters, fxClusterThreshold);
-
         if (pLightingData != nullptr)
         {
             std::vector<WorldFxLightEmitter> objectLightEmitters = dynamicLightEmitters;
@@ -4557,16 +4555,20 @@ void OutdoorRenderer::renderWorldPasses(OutdoorGameView &view, uint16_t viewWidt
                 emitter.z = source.position[2];
                 emitter.radius = source.radius;
                 emitter.colorAbgr = source.effectiveColorAbgr;
-                emitter.kind = RenderLightKind::Static;
+                // Paired pages contain sun and sky only. Authored point lights are still live surface lights.
+                emitter.kind = pLightingData->hasBakedSources() ? RenderLightKind::Decoration : RenderLightKind::Static;
                 emitter.stableId = 0x90000000u ^ source.sourceObjectIndex;
                 objectLightEmitters.push_back(emitter);
             }
 
             view.m_outdoorLightingRuntime.build(objectLightEmitters, fxClusterThreshold);
+            view.m_outdoorBModelLightingRuntime.build(
+                pLightingData->hasBakedSources() ? objectLightEmitters : dynamicLightEmitters, fxClusterThreshold);
         }
         else
         {
             view.m_outdoorLightingRuntime.build(dynamicLightEmitters, fxClusterThreshold);
+            view.m_outdoorBModelLightingRuntime.build(dynamicLightEmitters, fxClusterThreshold);
         }
 
         view.m_outdoorLightingRuntimesInitialized = true;

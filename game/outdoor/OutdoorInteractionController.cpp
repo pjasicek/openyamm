@@ -92,14 +92,6 @@ bool outdoorFaceHasClickableAttribute(uint32_t attributes)
     return hasFaceAttribute(attributes, FaceAttribute::Clickable);
 }
 
-bool outdoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
-{
-    return eventId != 0
-        && outdoorFaceHasClickableAttribute(attributes)
-        && !outdoorFaceHasHintAttribute(attributes)
-        && !outdoorFaceHasInvisibleAttribute(attributes);
-}
-
 uint16_t resolveOutdoorEntityScriptEventId(const OutdoorEntity &entity)
 {
     return entity.scriptEventId();
@@ -1380,14 +1372,6 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
         {
             OutdoorInteractionController::closeActiveEventDialog(view);
         },
-        [&view](const GameplayDialogController::Result &result)
-        {
-            if (result.pendingInnRest.has_value())
-            {
-                view.m_gameSession.gameplayScreenRuntime().startInnRest(
-                    view.innRestDurationMinutes(result.pendingInnRest->houseId));
-            }
-        },
         [&view](size_t previousMessageCount, bool allowNpcFallbackContent)
         {
             OutdoorInteractionController::presentPendingEventDialog(
@@ -1734,18 +1718,9 @@ std::optional<GameplayEventTargetContextActionMetadata> OutdoorInteractionContro
     return toGameplayContextActionMetadata(*metadata);
 }
 
-bool OutdoorInteractionController::inspectEventIsHintOnly(
-    const OutdoorGameView &view,
-    const OutdoorGameView::InspectHit &inspectHit)
+bool OutdoorInteractionController::inspectEventIsHintOnly(const OutdoorGameView &view, uint16_t eventId)
 {
-    if (view.m_pOutdoorSceneRuntime == nullptr)
-    {
-        return false;
-    }
-
-    const uint16_t eventId = inspectEventId(view, inspectHit);
-
-    if (eventId == 0)
+    if (eventId == 0 || view.m_pOutdoorSceneRuntime == nullptr)
     {
         return false;
     }
@@ -1767,6 +1742,18 @@ bool OutdoorInteractionController::inspectEventIsHintOnly(
         view.m_pOutdoorSceneRuntime->globalEventProgram();
 
     return globalEventProgram && globalEventProgram->isHintOnlyEvent(eventId);
+}
+
+bool OutdoorInteractionController::outdoorFaceIsInteractionActivatable(
+    const OutdoorGameView &view,
+    uint32_t attributes,
+    uint16_t eventId)
+{
+    return eventId != 0
+        && outdoorFaceHasClickableAttribute(attributes)
+        && !outdoorFaceHasHintAttribute(attributes)
+        && !outdoorFaceHasInvisibleAttribute(attributes)
+        && !inspectEventIsHintOnly(view, eventId);
 }
 
 
@@ -2034,7 +2021,7 @@ GameplayWorldHit OutdoorInteractionController::translateInspectHitToGameplayWorl
     eventTargetHit.distance = inspectHit.distance;
     eventTargetHit.openedChestIds = resolveOpenedChestIds(view, inspectHit);
     eventTargetHit.contextActionMetadata = resolveContextActionMetadata(view, inspectHit);
-    eventTargetHit.hintOnlyEvent = inspectEventIsHintOnly(view, inspectHit);
+    eventTargetHit.hintOnlyEvent = inspectEventIsHintOnly(view, inspectEventId(view, inspectHit));
 
     if (inspectHit.kind == "face")
     {
@@ -2573,6 +2560,15 @@ GameplayWorldHit OutdoorInteractionController::pickKeyboardInteractionTarget(
     const OutdoorMapData &outdoorMapData,
     const GameplayWorldPickRequest &request)
 {
+    // Closely spaced controls must follow the aim before the nearby-object search.
+    const GameplayWorldHit aimedHit = pickCurrentInteractionTarget(view, outdoorMapData, request);
+
+    if (view.m_pOutdoorWorldRuntime != nullptr
+        && view.m_pOutdoorWorldRuntime->canActivateWorldHit(aimedHit, GameplayInteractionMethod::Keyboard))
+    {
+        return aimedHit;
+    }
+
     OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
         view,
         request.viewWidth,
@@ -3462,7 +3458,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     : 0;
                 cogTriggeredNumber = runtimeEventId != 0 ? runtimeEventId : cogTriggeredNumber;
 
-                if (!outdoorFaceIsInteractionActivatable(effectiveAttributes, cogTriggeredNumber))
+                if (!outdoorFaceIsInteractionActivatable(view, effectiveAttributes, cogTriggeredNumber))
                 {
                     continue;
                 }
@@ -3549,7 +3545,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                         ? runtimeInteractionEventId
                         : cogTriggeredNumber;
 
-                    if (!outdoorFaceIsInteractionActivatable(effectiveAttributes, cogTriggeredNumber))
+                    if (!outdoorFaceIsInteractionActivatable(view, effectiveAttributes, cogTriggeredNumber))
                     {
                         continue;
                     }
@@ -4526,6 +4522,8 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
     if (view.m_keyboardInteractionFaceCandidateRevision != interactionCandidateRevision)
     {
         view.m_keyboardInteractionFaceCandidates.clear();
+        const MapDeltaData *pMapDeltaData =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
         std::vector<uint16_t> runtimeEventIds(outdoorMapData.bmodels.size(), 0);
 
         if (pEventRuntimeState != nullptr)
@@ -4542,19 +4540,24 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
             }
         }
 
+        size_t flattenedFaceIndex = 0;
         for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
         {
             const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
 
-            for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+            for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex, ++flattenedFaceIndex)
             {
                 const OutdoorBModelFace &face = bModel.faces[faceIndex];
                 const uint16_t eventId =
                     runtimeEventIds[bModelIndex] != 0 ? runtimeEventIds[bModelIndex] : face.cogTriggeredNumber;
+                const uint32_t attributes =
+                    pMapDeltaData != nullptr && flattenedFaceIndex < pMapDeltaData->faceAttributes.size()
+                        ? pMapDeltaData->faceAttributes[flattenedFaceIndex]
+                        : face.attributes;
 
-                if (face.vertexIndices.size() >= 3 && outdoorFaceIsInteractionActivatable(face.attributes, eventId))
+                if (face.vertexIndices.size() >= 3 && outdoorFaceIsInteractionActivatable(view, attributes, eventId))
                 {
-                    view.m_keyboardInteractionFaceCandidates.push_back({bModelIndex, faceIndex, eventId});
+                    view.m_keyboardInteractionFaceCandidates.push_back({bModelIndex, faceIndex, eventId, attributes});
                 }
             }
         }
@@ -4665,7 +4668,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
         hit.faceIndex = candidate.faceIndex;
         hit.textureName = face.textureName;
         hit.distance = *faceDistance;
-        hit.attributes = face.attributes;
+        hit.attributes = candidate.attributes;
         hit.bitmapIndex = face.bitmapIndex;
         hit.cogNumber = face.cogNumber;
         hit.cogTriggeredNumber = cogTriggeredNumber;
@@ -5305,7 +5308,7 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
     }
     else if (inspectHit.kind == "face")
     {
-        if (!outdoorFaceIsInteractionActivatable(inspectHit.attributes, inspectHit.cogTriggeredNumber))
+        if (!outdoorFaceIsInteractionActivatable(view, inspectHit.attributes, inspectHit.cogTriggeredNumber))
         {
             pEventRuntimeState->lastActivationResult = "face target is hover-only or non-clickable";
             return false;
@@ -5580,7 +5583,7 @@ bool OutdoorInteractionController::canActivateEventTargetInspectEvent(
 
     if (inspectHit.kind == "face")
     {
-        return outdoorFaceIsInteractionActivatable(inspectHit.attributes, inspectHit.cogTriggeredNumber);
+        return outdoorFaceIsInteractionActivatable(view, inspectHit.attributes, inspectHit.cogTriggeredNumber);
     }
 
     return false;

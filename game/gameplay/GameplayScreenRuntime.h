@@ -205,7 +205,6 @@ public:
     void openRestOverlay(bool enforceWorldRestrictions = true);
     void beginRestAction(GameplayUiController::RestMode mode, float minutes, bool consumeFood, bool innRest);
     void startRestAction(GameplayUiController::RestMode mode, float minutes);
-    void startInnRest(float durationMinutes);
     void openSpellbookOverlay();
     void openChestTransferInventoryOverlay();
     void toggleCharacterInventoryScreen();
@@ -260,7 +259,6 @@ public:
         const ActiveDialogContextBuilder &contextBuilder,
         const ActiveDialogActionCallback &beforeCloseContinuation = {},
         const DialogueCloseCallback &closeActiveDialog = {},
-        const ActiveDialogActionCallback &afterCloseContinuation = {},
         const PendingEventDialogPresenter &presentPendingEventDialogCallback = {});
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
@@ -493,6 +491,8 @@ public:
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
 private:
+    void startInnRest(uint32_t houseId);
+
     struct DelayedSpeechReaction
     {
         size_t memberIndex = 0;

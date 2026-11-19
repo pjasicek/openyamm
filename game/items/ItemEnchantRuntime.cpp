@@ -1245,6 +1245,18 @@ void applyRareItemBonus(Character &member, uint32_t itemId)
             member.featherFalling = true;
             break;
 
+        case 1339:
+            addSkillBonus(member, "Alchemy", 15);
+            break;
+
+        case 1349: // Sun Cloak
+            addHalfLearnedSkillBonus(member, "LightMagic");
+            break;
+
+        case 1350: // Moon Cloak
+            addHalfLearnedSkillBonus(member, "DarkMagic");
+            break;
+
         case 2020:
             member.vampiricHealFraction = std::max(member.vampiricHealFraction, 0.2f);
             break;

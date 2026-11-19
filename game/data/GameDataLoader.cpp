@@ -2484,6 +2484,18 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (m_language != "en")
+    {
+        std::vector<std::vector<std::string>> sourceRows;
+        if (!loadTextTableRows(assetFileSystem, engineDataTablePath("map_stats.txt"), sourceRows))
+        {
+            return false;
+        }
+
+        // Map event hints and transition labels also use the original map names.
+        registerLocalizedTableTranslations(m_localizationCatalog, sourceRows, rows, {1});
+    }
+
     std::vector<std::pair<std::string, std::string>> worldMapFiles;
 
     for (const char *pWorldId : {"mm6", "mm7", "mm8"})
@@ -4496,7 +4508,17 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 
     std::vector<std::vector<std::string>> itemEffectRows;
 
-    if (!composeKeyedAppendTableRows({}, itemEffectContributions, itemEffectRows, compositionError))
+    const std::string itemEffectsPath = engineDataTablePath("item_effects.txt");
+    std::vector<std::vector<std::string>> baseItemEffectRows;
+
+    if (assetFileSystem.exists(itemEffectsPath)
+        && !loadTextTableRows(assetFileSystem, itemEffectsPath, baseItemEffectRows))
+    {
+        std::cerr << "Failed to read item effects: " << itemEffectsPath << '\n';
+        return false;
+    }
+
+    if (!composeKeyedAppendTableRows(baseItemEffectRows, itemEffectContributions, itemEffectRows, compositionError))
     {
         std::cerr << "Failed to compose item effect table: " << compositionError << '\n';
         return false;

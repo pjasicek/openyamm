@@ -702,10 +702,22 @@ TEST_CASE("outdoor refill preserves storage inventory and grid without preservin
     CHECK(nextRefill.materializedChestViews[2]->items.empty());
 }
 
-TEST_CASE("New Sorpigal bridge storage policy preserves only native chests two and three")
+TEST_CASE("New Sorpigal tavern storage policy preserves relocated inventories two and three")
 {
     using namespace OpenYAMM::Game;
     OutdoorSceneData scene = loadOutdoorScene("assets_dev/worlds/mm6/maps/oute3.scene.yml");
+    // Native ODM events are cleared at load; interaction must be declared in the scene.
+    for (size_t modelIndex : {90u, 91u})
+    {
+        const uint16_t eventId = modelIndex == 90 ? 501 : 502;
+        const size_t boundFaces = std::count_if(
+            scene.interactiveFaces.begin(), scene.interactiveFaces.end(),
+            [modelIndex, eventId](const OutdoorSceneInteractiveFace &face)
+            {
+                return face.bmodelIndex == modelIndex && face.cogTriggeredNumber == eventId;
+            });
+        CHECK(boundFaces == 5);
+    }
     const std::vector<MapDeltaChest> originalChests = scene.initialState.chests;
     std::ifstream overlayFile(std::filesystem::path(OPENYAMM_SOURCE_DIR)
         / "assets_dev/worlds/mm6/maps/oute3.scene.2.yml");

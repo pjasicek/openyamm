@@ -39,7 +39,8 @@ public:
     static void activatePartyPortrait(
         GameplayScreenRuntime &context,
         size_t memberIndex,
-        const GameplayPartyPortraitInputConfig &config);
+        const GameplayPartyPortraitInputConfig &config,
+        bool pointerActivation);
 
     static void handlePartyPortraitInput(
         GameplayScreenRuntime &context,

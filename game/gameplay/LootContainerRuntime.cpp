@@ -1,6 +1,5 @@
 #include "game/gameplay/LootContainerRuntime.h"
 
-#include "game/StringUtils.h"
 #include "game/events/EvtEnums.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/ItemTable.h"
@@ -47,7 +46,7 @@ uint32_t findGoldHeapItemId(const ItemTable *pItemTable)
 
     for (const ItemDefinition &item : pItemTable->entries())
     {
-        if (toLowerCopy(item.equipStat) == "gold")
+        if (item.isGold())
         {
             return item.itemId;
         }

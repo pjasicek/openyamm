@@ -843,6 +843,43 @@ TEST_CASE("ModelAnimation picking rays meet the coarsest LOD triangles, not thei
     CHECK_FALSE(instances.pickRay(handle, {0, -7.5f, 0}, {-1, 0, 0}));
 }
 
+TEST_CASE("ModelAnimation picking uses the current placement after reusing an instance slot")
+{
+    using namespace OpenYAMM::Engine;
+    std::shared_ptr<ModelAsset> asset = makeAnimatedAsset();
+    asset->nodes[1].meshIndex = 0;
+    ModelPrimitive primitive;
+    primitive.vertices = {{{0, -10, -10}}, {{0, 10, -10}}, {{0, 0, 10}}};
+    primitive.indices = {0, 1, 2};
+    asset->meshes.resize(1);
+    asset->meshes[0].primitives.push_back(std::move(primitive));
+
+    ModelInstanceSystem instances;
+    ModelTransform placement;
+    placement.translation = {100, 0, 0};
+    const ModelInstanceHandle first = instances.create(asset, placement);
+    const std::optional<float> firstHit = instances.pickRay(first, {0, 0, 0}, {1, 0, 0});
+    REQUIRE(firstHit);
+    CHECK(*firstHit == doctest::Approx(100));
+
+    SUBCASE("destroy the instance")
+    {
+        REQUIRE(instances.destroy(first));
+    }
+    SUBCASE("clear the instance system")
+    {
+        instances.clear();
+    }
+
+    placement.translation = {200, 40, 0};
+    const ModelInstanceHandle replacement = instances.create(asset, placement);
+    REQUIRE(replacement.index == first.index);
+    CHECK_FALSE(instances.pickRay(replacement, {0, 0, 0}, {1, 0, 0}));
+    const std::optional<float> replacementHit = instances.pickRay(replacement, {0, 40, 0}, {1, 0, 0});
+    REQUIRE(replacementHit);
+    CHECK(*replacementHit == doctest::Approx(200));
+}
+
 TEST_CASE("ModelAnimation skinning applies inverse bind, all influences, morphs and root placement")
 {
     using namespace OpenYAMM::Engine;
