@@ -6,6 +6,7 @@ FetchContent_GetProperties(imgui SOURCE_DIR OPENYAMM_IMGUI_SOURCE_DIR)
 FetchContent_GetProperties(bgfx SOURCE_DIR OPENYAMM_BGFX_FETCH_SOURCE_DIR)
 
 add_library(openyamm_game STATIC
+    ui/GameplayHeldItemCursor.cpp
     render/RuntimeShader.cpp
     render/CinematicGrading.cpp
     render/WaterRenderer.cpp
@@ -286,6 +287,7 @@ add_library(openyamm_game STATIC
     outdoor/TerrainDecorationData.cpp
     outdoor/TerrainDecorationRenderer.cpp
     outdoor/OutdoorTerrainMaterials.cpp
+    outdoor/OutdoorWaterDepthLoader.cpp
     outdoor/OutdoorRenderer.cpp
     outdoor/OutdoorMeadow.cpp
     outdoor/OutdoorMovementDriver.cpp
@@ -306,7 +308,6 @@ add_library(openyamm_game STATIC
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
-    render/TerrainMaterialConfig.cpp
     render/TerrainMaterialSet.cpp
     tables/PortraitFxEventTable.cpp
     tables/PotionMixingTable.cpp
@@ -493,6 +494,8 @@ if (OPENYAMM_BUILD_DESKTOP_EXECUTABLE)
     )
 
     target_compile_features(openyamm PRIVATE cxx_std_20)
+    set(OPENYAMM_DESKTOP_OUTPUT_NAME "openyamm" CACHE STRING "Desktop executable filename without extension")
+    set_target_properties(openyamm PROPERTIES OUTPUT_NAME "${OPENYAMM_DESKTOP_OUTPUT_NAME}")
 
     if (APPLE)
         include(AppleBundle)

@@ -178,6 +178,8 @@ struct MapDeltaSpriteObject
 
 struct MapDeltaChest
 {
+    // Authored map policy, read from current content rather than saved chest state.
+    bool preserveOnRefill = false;
     uint16_t chestTypeId = 0;
     uint16_t flags = 0;
     std::vector<uint8_t> rawItems;

@@ -1,4 +1,12 @@
--- MMMerge map supplement: Castle Alamos password plate.
+-- Castle Alamos password plate and memory crystal pickup.
+
+ReplaceMapEvent(59, "Memory Crystal Beta", function()
+    if IsQBitSet(QBit(1078)) then return end
+    SetQBit(QBit(1078))
+    evt.SetSprite(394, 1, "crysdisc")
+    AddValue(InventoryItem(2171), 2171) -- Memory Crystal Beta
+    SetQBit(QBit(1216)) -- Quest item bits for seer
+end, "Memory Crystal Beta")
 
 ReplaceMapEvent(69, nil, function(continueStep)
     if continueStep == 4 then
@@ -8,7 +16,7 @@ ReplaceMapEvent(69, nil, function(continueStep)
     end
 
     if continueStep == 23 then
-        SetValue(MapVar(6), 1)
+        SetValue(MapVar(8), 1)
         evt.StatusText("Ok!")
         return
     end
@@ -17,7 +25,8 @@ ReplaceMapEvent(69, nil, function(continueStep)
         return
     end
 
-    if IsAtLeast(MapVar(6), 1) then
+    -- MapVar(6) records reading the fifth-letter clue, not solving the password.
+    if IsAtLeast(MapVar(8), 1) then
         return
     end
 

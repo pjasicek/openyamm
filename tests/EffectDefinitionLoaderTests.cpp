@@ -560,6 +560,15 @@ TEST_CASE("Projectile effect bindings name existing effects and resolve monster 
     REQUIRE(pFireBolt != nullptr);
     CHECK_EQ(pFireBolt->flight, "openyamm:fx/projectile/fire_bolt");
     CHECK_EQ(pFireBolt->impact, "openyamm:fx/impact/fire_small");
+    for (ProjectileRecipe recipe : {ProjectileRecipe::LightBolt, ProjectileRecipe::MonsterLightBolt})
+    {
+        const Game::ProjectileEffectBinding *pLightBolt = bindings.find(recipe, "");
+        REQUIRE(pLightBolt != nullptr);
+        CHECK_FALSE(pLightBolt->flight.empty());
+        CHECK_FALSE(pLightBolt->impact.empty());
+        CHECK(library.find(pLightBolt->flight) != nullptr);
+        CHECK(library.find(pLightBolt->impact) != nullptr);
+    }
     CHECK(bindings.contains(ProjectileRecipe::MindBlast));
     CHECK(bindings.contains(ProjectileRecipe::Sparks));
     CHECK(bindings.contains(ProjectileRecipe::Arrow));

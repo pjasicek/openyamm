@@ -175,6 +175,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     .turnBasedPhysicsStep = input.turnBasedPhysicsStep,
                     .movementSpeedScale = input.movementSpeedScale,
                     .flyHeightDelta = allowCameraMovementInput ? flyHeightDelta : 0.0f,
+
                 };
                 if (view.m_pOutdoorSceneRuntime != nullptr)
                 {

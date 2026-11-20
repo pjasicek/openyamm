@@ -12,6 +12,36 @@ and the 315° sun with lighter shadows. The previously tested Android package pr
 
 ## Rebuild
 
+The Hidden Tomb local-light repair retains the installed sun/sky bake, including every existing compressed
+page and probe sample. It adds two live point lights and receivers for the initially hidden passage.
+The paired-source renderer applies these point lights at runtime, including at night.
+
+Generate the paired repair into a review folder, then install its recipe and lighting file together.
+
+```sh
+python tools/lighting/patch_runtime_lights.py   --source assets_dev/worlds/mm7/maps/7out03.lighting   --profile tools/lighting/baked_outdoors/profiles/mm7_7out03_lights.json   --output output/hidden_tomb_repair
+```
+
+Run against the original unmodified bake. The tool rejects an already patched bake.
+Its recipe records the retained bake SHA-256, the local-light profile and the six added receivers.
+It does not require the missing original BMPs because the existing illumination is retained.
+
+Profiles with `material_source: "runtime"` read the project's BC7 OYTEX surface textures and the map's
+terrain material configuration, weight images, layer tints, cavity settings and slope blending.
+This mode requires Pillow, PyYAML and zstandard in Blender's Python environment. With packages supplied
+through PYTHONPATH, use Blender's --python-use-system-env option. --asset-python selects the helper
+interpreter; Windows defaults to Blender's bundled Python. --assets can select an isolated resource tree.
+Terrain bounce colour approximates the diffuse material; runtime anti-tiling, macro variation and detail
+normal/specular effects are excluded. Native receiver geometry and normals remain the bake contract.
+
+For the Paradise Valley chest, tools/fix_mm6_paradise_valley_chest.py --map <copy.odm> translates only
+model 26. After baking that copy, repair_paradise_chest_lighting.py merges its eleven face charts,
+the two 512-unit terrain regions and their probes into the original bake. Supply --original, --rebake,
+--map and --output. The original ODM must sit beside --original with the same stem.
+Geometry identity and unchanged probe coverage outside the regions are checked. The resulting recipe
+records both input hashes and the rebake recipe; install the translated ODM and the new lighting/recipe
+together. Unaffected lightmap samples and probes are retained.
+
 Run from the repository root. Requires Blender with Cycles and NumPy, and `/usr/bin/python3` with
 PyYAML for reading authoritative scene metadata. Tested with Blender 5.2.2 LTS, CPU, 16 worker threads.
 No Blender MCP connection, downloaded environment image or purchased assets are required.

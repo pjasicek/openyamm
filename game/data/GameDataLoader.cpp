@@ -4659,9 +4659,17 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
         }
     }
 
+    std::vector<std::vector<std::string>> baseItemEffectRows;
+    const std::string itemEffectsPath = engineDataTablePath("item_effects.txt");
+    if (assetFileSystem.exists(itemEffectsPath)
+        && !loadTextTableRows(assetFileSystem, itemEffectsPath, baseItemEffectRows))
+    {
+        std::cerr << "Failed to read base item effects: " << itemEffectsPath << '\n';
+        return false;
+    }
     std::vector<std::vector<std::string>> itemEffectRows;
 
-    if (!composeKeyedAppendTableRows({}, itemEffectContributions, itemEffectRows, compositionError))
+    if (!composeKeyedAppendTableRows(baseItemEffectRows, itemEffectContributions, itemEffectRows, compositionError))
     {
         std::cerr << "Failed to compose item effect table: " << compositionError << '\n';
         return false;

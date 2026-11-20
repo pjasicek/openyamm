@@ -17,6 +17,7 @@
 #include <cstdio>
 #include <cstring>
 #include <iostream>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <string_view>
@@ -1930,7 +1931,9 @@ std::string GameplayHudCommon::clampHudTextToWidth(
 {
     std::string clampedText = text;
 
-    while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth)
+    // Scaling and padding can round an exact fit down by a few floating-point units.
+    const float widthTolerance = std::max(1.0f, std::abs(maxWidth)) * 4 * std::numeric_limits<float>::epsilon();
+    while (!clampedText.empty() && measureHudTextWidth(font, clampedText) > maxWidth + widthTolerance)
     {
         Engine::Utf8::popBack(clampedText);
     }
@@ -2057,7 +2060,13 @@ void GameplayHudCommon::renderLayoutLabel(
 
     if (!pFont->smooth && fontScale >= 1.0f)
     {
-        fontScale = snappedHudFontScale(fontScale);
+        const float snappedScale = snappedHudFontScale(fontScale);
+        const float textWidth = measureHudTextWidth(*pFont, label);
+        const float paddedTextWidth = textWidth + std::abs(layout.textPadX) * 2.0f;
+        if (paddedTextWidth * snappedScale <= resolved.width)
+        {
+            fontScale = snappedScale;
+        }
     }
 
     const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;

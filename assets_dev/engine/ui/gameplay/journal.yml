@@ -455,7 +455,7 @@ elements:
       align_y: middle
       scale: 1
       color: '#e4c793'
-    notes: Keep recreated Book2. Fit long titles only down to 22.4 logical; preserve native title binding.
+    notes: Keep recreated Book2. Fit the complete localized map title to the available width; preserve native title binding.
   - id: JournalMapCoordinatesText
     anchor: top_left
     offset_x: 131
@@ -575,6 +575,104 @@ elements:
     notes: 'APPROVED DESIGN DRAFT: preserve action. Shared renderer must draw plate, live label and icon children;
       use semantic state colours and disabled plate from design/button_states.yml. No legacy animated texture-name
       override.'
+  - id: JournalMapAddNoteButton
+    anchor: top_left
+    offset_x: 473
+    offset_y: 158
+    width: 78
+    height: 40
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      disabled: obsidian_journal_page_disabled
+    text:
+      value: Add pin
+      font: Fondamento
+      scale: 0.42
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+  - id: JournalMapEditNoteButton
+    anchor: top_left
+    offset_x: 473
+    offset_y: 208
+    width: 78
+    height: 40
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      disabled: obsidian_journal_page_disabled
+    text:
+      value: Edit pin
+      font: Fondamento
+      scale: 0.42
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+  - id: JournalMapDeleteNoteButton
+    anchor: top_left
+    offset_x: 473
+    offset_y: 258
+    width: 78
+    height: 40
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+      disabled: obsidian_journal_page_disabled
+    text:
+      value: Delete
+      font: Fondamento
+      scale: 0.42
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+  - id: JournalMapSaveNoteButton
+    anchor: top_left
+    offset_x: 473
+    offset_y: 158
+    width: 78
+    height: 40
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+    text:
+      value: Save pin
+      font: Fondamento
+      scale: 0.42
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
+  - id: JournalMapCancelNoteButton
+    anchor: top_left
+    offset_x: 473
+    offset_y: 208
+    width: 78
+    height: 40
+    z_index: 30
+    interactive: true
+    asset:
+      default: obsidian_journal_page_normal
+      highlighted: obsidian_journal_page_hover
+      pressed: obsidian_journal_page_pressed
+    text:
+      value: Cancel
+      font: Fondamento
+      scale: 0.42
+      color: '#e8d1a4'
+      align_x: center
+      align_y: middle
   - id: JournalPrevPageButton
     anchor: top_left
     offset_x: 489.066667

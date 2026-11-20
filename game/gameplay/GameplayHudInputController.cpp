@@ -9,6 +9,7 @@
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/SpellIds.h"
 
 #include <SDL3/SDL.h>
@@ -130,7 +131,8 @@ bool pointerInsideHudElement(
 void GameplayHudInputController::activatePartyPortrait(
     GameplayScreenRuntime &context,
     size_t memberIndex,
-    const GameplayPartyPortraitInputConfig &config)
+    const GameplayPartyPortraitInputConfig &config,
+    bool pointerActivation)
 {
     if (config.onPortraitActivated && config.onPortraitActivated(memberIndex))
     {
@@ -148,6 +150,19 @@ void GameplayHudInputController::activatePartyPortrait(
         const bool switchCharacterOnFailedPlacement =
             context.characterScreenReadOnly().open
             && context.characterScreenReadOnly().page == GameplayUiController::CharacterPage::Inventory;
+
+        const ItemTable *pItemTable = context.itemTable();
+        if (pointerActivation && switchCharacterOnFailedPlacement && pItemTable != nullptr
+            && InventoryItemUseRuntime::classifyItemUse(
+                context.heldInventoryItem().item,
+                *pItemTable,
+                context.mergedPotionSettingTable(),
+                context.mergedReagentSettingTable()) == InventoryItemUseAction::UseGenieLamp
+            && context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true))
+        {
+            context.interactionState().lastPartyPortraitClickedIndex.reset();
+            return;
+        }
 
         if (context.tryAutoPlaceHeldInventoryItemOnPartyMember(memberIndex, !switchCharacterOnFailedPlacement))
         {
@@ -347,7 +362,7 @@ void GameplayHudInputController::handlePartyPortraitInput(
             config.screenWidth, config.screenHeight, config.pointerX, config.pointerY);
         if (memberIndex && context.heldInventoryItem().active)
         {
-            activatePartyPortrait(context, *memberIndex, config);
+            activatePartyPortrait(context, *memberIndex, config, true);
         }
         return;
     }
@@ -402,7 +417,7 @@ void GameplayHudInputController::handlePartyPortraitInput(
                 return;
             }
 
-            GameplayHudInputController::activatePartyPortrait(context, *memberIndex, config);
+            activatePartyPortrait(context, *memberIndex, config, true);
         });
 }
 

@@ -11076,8 +11076,12 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         context.renderLayoutLabel(promptLayout, promptRect, Engine::tr("Select item target  LMB cast  Esc cancel"));
     }
 
+    float commonSkillTextScale = 1.0f;
+    float commonSkillNameWidth = std::numeric_limits<float>::max();
+    bool measureSkillRows = true;
     const auto renderSkillGroup =
-        [&context, width, height, &hasVisibleCharacterAncestors, &shouldRenderInCurrentPass, skillRowHeight, &skillViewport](
+        [&context, width, height, &hasVisibleCharacterAncestors, &shouldRenderInCurrentPass, skillRowHeight,
+         &skillViewport, &commonSkillTextScale, &commonSkillNameWidth, &measureSkillRows](
             const char *pRegionId,
             const char *pLevelHeaderId,
             const std::vector<CharacterSkillUiRow> &rows)
@@ -11132,14 +11136,27 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     ? defaultNameWidth
                     : std::clamp(raiseCostLeft - nameLeft - 6.0f * resolvedRegion->scale, 0.0f, defaultNameWidth);
 
+                if (measureSkillRows)
+                {
+                    const float width = std::max(0.0f, nameWidth / resolvedRegion->scale - 1.0f);
+                    commonSkillNameWidth = std::min(commonSkillNameWidth, width);
+                    const float labelWidth = context.measureHudTextWidth("Lucida", row.label);
+                    if (labelWidth > 0.0f)
+                    {
+                        commonSkillTextScale = std::min(commonSkillTextScale, width / labelWidth);
+                    }
+                    const float levelWidth = context.measureHudTextWidth("Lucida", row.level);
+                    if (levelWidth > 0.0f)
+                    {
+                        commonSkillTextScale = std::min(commonSkillTextScale,
+                            resolvedLevelHeader->width / resolvedLevelHeader->scale / levelWidth);
+                    }
+                    continue;
+                }
+
                 UiLayoutManager::LayoutElement nameLayout = {};
                 nameLayout.fontName = "Lucida";
-                nameLayout.textScale = 1.0f;
-                const float textWidth = context.measureHudTextWidth("Lucida", row.label);
-                if (textWidth > 0)
-                {
-                    nameLayout.textScale = std::min(1.0f, (nameWidth / resolvedRegion->scale - 1.0f) / textWidth);
-                }
+                nameLayout.textScale = commonSkillTextScale;
                 nameLayout.textColorAbgr = textColorAbgr;
                 nameLayout.textAlignX = UiLayoutManager::TextAlignX::Left;
                 nameLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
@@ -11179,7 +11196,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                 {
                     UiLayoutManager::LayoutElement levelLayout = {};
                     levelLayout.fontName = "Lucida";
-                    levelLayout.textScale = 1.0f;
+                    levelLayout.textScale = commonSkillTextScale;
                     levelLayout.textColorAbgr = textColorAbgr;
                     levelLayout.textAlignX = UiLayoutManager::TextAlignX::Right;
                     levelLayout.textAlignY = UiLayoutManager::TextAlignY::Middle;
@@ -11195,6 +11212,32 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
             }
         };
 
+    renderSkillGroup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows);
+    renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
+    renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
+    renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
+    renderSkillGroup("CharacterSkillsTechListRegion", "CharacterSkillsTechLevelHeader", skillUiData.techRows);
+
+    // Include unlearned skills and every mastery so a character switch keeps the same reading size.
+    if (pCharacter != nullptr)
+    {
+        for (const std::string &skillName : allCanonicalSkillNames())
+        {
+            for (const SkillMastery mastery :
+                {SkillMastery::Normal, SkillMastery::Expert, SkillMastery::Master, SkillMastery::Grandmaster})
+            {
+                const std::string label = characterSkillRowLabel(
+                    gameRulesFor(context.partyReadOnly()).skills.skillDisplayName(*pCharacter, skillName), mastery);
+                const float width = context.measureHudTextWidth("Lucida", label);
+                if (width > 0.0f)
+                {
+                    commonSkillTextScale = std::min(commonSkillTextScale, commonSkillNameWidth / width);
+                }
+            }
+        }
+    }
+    commonSkillTextScale = std::clamp(commonSkillTextScale, 0.1f, 1.0f);
+    measureSkillRows = false;
     renderSkillGroup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows);
     renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
     renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);

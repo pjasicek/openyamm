@@ -633,6 +633,13 @@ struct GameApplicationTestAccess
         application.m_gameSession.gameplayScreenRuntime().closeRestOverlay();
     }
 
+    static void startEightHourRest(GameApplication &application)
+    {
+        GameplayScreenRuntime &runtime = application.m_gameSession.gameplayScreenRuntime();
+        runtime.openRestOverlay();
+        runtime.startRestAction(GameplayUiController::RestMode::Heal, 8.0f * 60.0f);
+    }
+
     static const EventDialogContent &activeEventDialog(const GameApplication &application)
     {
         return application.m_gameSession.gameplayScreenRuntime().activeEventDialog();
@@ -7903,7 +7910,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     }
 
     const std::string mapFileName = "out01.odm";
-    const std::optional<MapAssetInfo> &selectedMap = gameDataLoader.getSelectedMap();
 
     if (suiteName != "indoor")
     {
@@ -7919,15 +7925,20 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             return 1;
         }
 
-        if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+        const std::optional<MapAssetInfo> &initialMap = gameDataLoader.getSelectedMap();
+        if (!initialMap || !initialMap->outdoorMapData || !initialMap->outdoorMapDeltaData)
         {
             std::cerr << "Regression suite failed: selected map is not an outdoor map\n";
             return 1;
         }
     }
 
+    // Cases load other maps through the shared loader. Keep the Dagger Wound fixture alive and unchanged;
+    // a reference to its optional follows replacements and may become empty after a failed load.
+    const std::optional<MapAssetInfo> selectedMap = gameDataLoader.getSelectedMap();
     int passedCount = 0;
     int failedCount = 0;
+    int skippedCount = 0;
     const char *pFilter = std::getenv("OPENYAMM_REGRESSION_FILTER");
     const std::string caseFilter = pFilter != nullptr ? pFilter : "";
 
@@ -7941,6 +7952,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             if (!caseFilter.empty() && caseName.find(caseFilter) == std::string::npos)
             {
+                return;
+            }
+
+            const bool missingMm8Models = caseName.starts_with("mm8_")
+                && caseName.find("_actor_models_") != std::string::npos
+                && !assetFileSystem.exists("worlds/mm8/models/actors.yml");
+            const bool missingMm9 = caseName == "outdoor_thjorad_destructible_trigger_destroys_cavein"
+                && !assetFileSystem.exists("worlds/mm9/world.yml");
+            if (missingMm8Models || missingMm9)
+            {
+                std::cout << "[SKIP] " << caseName << " - optional "
+                    << (missingMm9 ? "MM9 world" : "MM8 model") << " package is not installed\n";
+                ++skippedCount;
                 return;
             }
 
@@ -14647,7 +14671,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         std::string invalidError;
         if (invalidFx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), nullptr, invalidError)
-            || invalidError.find("valid standing sprite") == std::string::npos)
+            || fx.actorModelsConfigured() || invalidError.find("valid standing sprite") == std::string::npos)
         {
             failure = "native scaling silently accepted missing sprite-frame data";
             return false;
@@ -14655,6 +14679,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         if (!fx.configureActorModels(assetFileSystem, "worlds/mm6/models/actors.yml",
                 gameDataLoader.getMonsterTable(), &frames, failure))
         {
+            return false;
+        }
+        if (!fx.actorModelsConfigured())
+        {
+            failure = "actor model configuration did not commit after a valid retry";
             return false;
         }
         fx.syncActorModels(scenario.world);
@@ -20281,7 +20310,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 runtime.partyRuntime().teleportPartyPosition(-661.0f, -1059.0f, -39.0f);
 
                 const IndoorSceneRuntime::Snapshot snapshot = runtime.snapshot();
-                const std::filesystem::path savePath = "/tmp/openyamm_indoor_runtime_roundtrip.oysav";
+                const std::filesystem::path savePath =
+                    std::filesystem::temp_directory_path() / "openyamm_indoor_runtime_roundtrip.oysav";
                 GameSaveData saveData = {};
                 saveData.currentSceneKind = SceneKind::Indoor;
                 saveData.mapFileName = loadedMap->map.fileName;
@@ -24252,7 +24282,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
-        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+            << " skipped=" << skippedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
 
@@ -24342,7 +24373,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 }
             }
 
-            const std::filesystem::path savePath = "/tmp/openyamm_destructible_roundtrip.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_destructible_roundtrip.oysav";
             GameSaveData saveData = {};
             saveData.currentSceneKind = SceneKind::Outdoor;
             saveData.mapFileName = modifiedMap.map.fileName;
@@ -24890,7 +24922,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
-        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+            << " skipped=" << skippedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
 
@@ -33350,7 +33383,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             saveData.cameraYawRadians = 1.25f;
             saveData.cameraPitchRadians = -0.45f;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_save_roundtrip.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_save_roundtrip.oysav";
             std::string error;
 
             if (!saveGameDataToPath(savePath, saveData, error))
@@ -35132,6 +35166,75 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_eight_hour_rest_wakes_entire_sleeping_insane_party",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(
+                    out02ViewSession, assetFileSystem, "out02.odm", true, failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out02ViewSession.application;
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+            if (pWorld == nullptr || pPartyRuntime == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            party.addFood(100);
+            party.clearPartyBuff(PartyBuffId::Fly);
+            const float initialGameMinutes = pWorld->gameMinutes();
+            for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
+            {
+                if (!party.applyMemberCondition(memberIndex, CharacterCondition::Insane, initialGameMinutes)
+                    || !party.applyMemberCondition(memberIndex, CharacterCondition::Asleep, initialGameMinutes)
+                    || GameMechanics::canAct(*party.member(memberIndex)))
+                {
+                    failure = "could not prepare sleeping insane party";
+                    return false;
+                }
+            }
+
+            GameApplicationTestAccess::startEightHourRest(application);
+            if (!GameApplicationTestAccess::isRestScreenActive(application)
+                || GameApplicationTestAccess::restRemainingMinutes(application) != 480.0f)
+            {
+                failure = "eight-hour healing rest did not start";
+                return false;
+            }
+
+            for (int frame = 0; frame < 180 && GameApplicationTestAccess::isRestScreenActive(application); ++frame)
+            {
+                GameApplicationTestAccess::updateRestScreen(application, 1.0f / 60.0f);
+            }
+            if (GameApplicationTestAccess::isRestScreenActive(application)
+                || std::abs(pWorld->gameMinutes() - initialGameMinutes - 480.0f) > 0.1f)
+            {
+                failure = "eight-hour healing rest did not complete";
+                return false;
+            }
+
+            GameApplicationTestAccess::gameSession(application).gameplayScreenRuntime().syncPartyConditionPortraits();
+            for (const Character &member : party.members())
+            {
+                if (member.conditions.test(static_cast<size_t>(CharacterCondition::Asleep))
+                    || !member.conditions.test(static_cast<size_t>(CharacterCondition::Insane))
+                    || !GameMechanics::canAct(member)
+                    || member.portraitState == PortraitId::Sleep)
+                {
+                    failure = "completed eight-hour rest left an insane member asleep or unable to act";
+                    return false;
+                }
+            }
+            return true;
+        }
+    );
+
+    runCase(
         "app_tavern_rent_room_closes_dialog_runs_rest_ui_and_wakes_at_6am",
         [&](std::string &failure)
         {
@@ -35195,15 +35298,18 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            // The house lists its residents first: the innkeep's services are behind the first one.
-            GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
-            GameApplicationTestAccess::executeActiveDialogAction(application);
+            const EventDialogContent &lobby = GameApplicationTestAccess::activeEventDialog(application);
+            if (!lobby.actions.empty() && lobby.actions.front().kind == EventDialogActionKind::HouseProprietor)
+            {
+                GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
+                GameApplicationTestAccess::executeActiveDialogAction(application);
+            }
 
             const EventDialogContent &dialog = GameApplicationTestAccess::activeEventDialog(application);
-            const std::string expectedRoomActionLabel =
-                "Rent room for " + std::to_string(PriceCalculator::tavernRoomPrice(pActiveMember, *pTavernHouse)) + " gold";
-
-            if (dialog.actions.empty() || dialog.actions.front().label != expectedRoomActionLabel)
+            if (dialog.actions.empty()
+                || dialog.actions.front().kind != EventDialogActionKind::HouseService
+                || dialog.actions.front().id != static_cast<uint32_t>(HouseActionId::TavernRentRoom)
+                || !dialog.actions.front().enabled)
             {
                 failure = "tavern dialog did not expose rent room as the first action";
                 return false;
@@ -35894,7 +36000,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplication &application = out02ViewSession.application;
 
-            const std::filesystem::path autosavePath = "/tmp/openyamm_edge_travel_cancel_autosave.oysav";
+            const std::filesystem::path autosavePath =
+                std::filesystem::temp_directory_path() / "openyamm_edge_travel_cancel_autosave.oysav";
             std::error_code removeError;
             std::filesystem::remove(autosavePath, removeError);
             GameApplicationTestAccess::setAutosavePath(application, autosavePath);
@@ -36150,7 +36257,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const uint32_t qbitRawId = 458768;
             pEventRuntimeState->variables[qbitRawId] = 7;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_quicksave_state.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_quicksave_state.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -36335,7 +36443,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             // Departed NPCs are global state, kept by the party.
             GameApplicationTestAccess::outdoorPartyRuntime(application)->party().setNpcUnavailable(28, true);
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_empty_house.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_empty_house.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -37284,6 +37393,87 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_sorpigal_storage_chests_survive_refill_and_save_roundtrip",
+        [&](std::string &failure)
+        {
+            SharedHeadlessApplicationSession storageSession(m_config);
+            if (!prepareSharedHeadlessGameApplication(
+                    storageSession, assetFileSystem, "oute3.odm", false, failure))
+            {
+                return false;
+            }
+            GameApplication &application = storageSession.application;
+            OutdoorWorldRuntime &world = *GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorWorldRuntime::Snapshot state = world.snapshot();
+            if (state.chests.size() <= 3)
+            {
+                failure = "tavern storage chests are missing";
+                return false;
+            }
+            state.materializedChestViews.resize(state.chests.size());
+            state.openedChestFlags.resize(state.chests.size());
+            for (uint32_t chestId : {1u, 2u, 3u})
+            {
+                GameplayChestViewState view;
+                view.chestId = chestId;
+                view.gridWidth = 9;
+                view.gridHeight = 9;
+                state.materializedChestViews[chestId] = view;
+                state.openedChestFlags[chestId] = 1;
+                state.chests[chestId].flags = 6;
+            }
+            GameplayChestItemState item;
+            item.item = ItemGenerator::makeInventoryItem(
+                1, GameApplicationTestAccess::gameDataLoader(application).getItemTable(),
+                ItemGenerationMode::ChestLoot);
+            item.itemId = item.item.objectDescriptionId;
+            item.quantity = 1;
+            item.gridX = 2;
+            item.gridY = 3;
+            state.materializedChestViews[2]->items.push_back(item);
+            const int32_t previousRespawnCount = state.locationInfo.respawnCount;
+            state.locationInfo.lastRespawnDay = 1;
+            state.gameMinutes = 2000.0f * 24.0f * 60.0f;
+            world.restoreSnapshot(state);
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "oute3.odm", failure))
+            {
+                return false;
+            }
+            const auto storageIsIntact = [&]()
+            {
+                const OutdoorWorldRuntime::Snapshot current =
+                    GameApplicationTestAccess::outdoorWorldRuntime(application)->snapshot();
+                return current.locationInfo.respawnCount == previousRespawnCount + 1
+                    && current.materializedChestViews.size() > 3
+                    && !current.materializedChestViews[1]
+                    && current.materializedChestViews[2] && current.materializedChestViews[3]
+                    && current.materializedChestViews[2]->items.size() == 1
+                    && current.materializedChestViews[2]->items[0].itemId == item.itemId
+                    && current.materializedChestViews[2]->items[0].gridX == 2
+                    && current.materializedChestViews[2]->items[0].gridY == 3
+                    && current.materializedChestViews[3]->items.empty();
+            };
+            if (!storageIsIntact())
+            {
+                failure = "map refill did not preserve both storage chests while resetting ordinary loot";
+                return false;
+            }
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_sorpigal_storage.oysav";
+            const bool saved = GameApplicationTestAccess::quickSaveToPath(application, savePath);
+            const bool loaded = saved && GameApplicationTestAccess::quickLoadFromPath(application, savePath, true);
+            std::error_code removeError;
+            std::filesystem::remove(savePath, removeError);
+            if (!loaded || !storageIsIntact())
+            {
+                failure = "storage chest inventory did not survive application save/load";
+                return false;
+            }
+            return true;
+        }
+    );
+
+    runCase(
         "app_quicksave_quickload_preserves_visited_map_runtime_state",
         [&](std::string &failure)
         {
@@ -37323,7 +37513,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             pOut02State->variables[0x2345u] = 88;
 
-            const std::filesystem::path savePath = "/tmp/openyamm_app_cross_map.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_cross_map.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -37382,7 +37573,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplication &application = out01QuicksaveSession.application;
             GameApplicationTestAccess::setIndoorCameraAngles(application, 2.5f, -0.3f);
-            const std::filesystem::path savePath = "/tmp/openyamm_app_indoor_camera.oysav";
+            const std::filesystem::path savePath =
+                std::filesystem::temp_directory_path() / "openyamm_app_indoor_camera.oysav";
 
             if (!GameApplicationTestAccess::quickSaveToPath(application, savePath))
             {
@@ -38214,7 +38406,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         }
     );
 
-    std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
+    std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount
+        << " skipped=" << skippedCount << '\n';
     return failedCount == 0 ? 0 : 1;
 }
 }

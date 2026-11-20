@@ -173,6 +173,7 @@ std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTab
         pItemTable != nullptr ? pItemTable->get(item.itemId) : nullptr;
 
     return pItemDefinition != nullptr ? ItemRuntime::foundItemName(*pItemDefinition) : Engine::tr("item");
+
 }
 
 InventoryItem normalizedCorpseInventoryItem(const GameplayChestItemState &item)

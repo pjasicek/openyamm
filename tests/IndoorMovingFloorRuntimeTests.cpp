@@ -3,6 +3,8 @@
 #include "engine/AssetFileSystem.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/indoor/IndoorGeometryUtils.h"
+#include "game/maps/SaveGame.h"
 #include "game/scene/IndoorSceneRuntime.h"
 
 #include <array>
@@ -11,6 +13,58 @@
 #include <utility>
 
 using namespace OpenYAMM::Game;
+
+TEST_CASE("legacy Snake Temple saves keep the rear lift wall closed throughout its travel")
+{
+    MapDeltaDoor door;
+    door.doorId = 3;
+    door.directionZ = -65536;
+    door.moveLength = 696;
+    door.state = 1;
+    door.timeSinceTriggered = 1234;
+    door.numVertices = door.numOffsets = 6;
+    door.vertexIds = {848, 844, 853, 845, 857, 847};
+    door.xOffsets = {-1152, -1280, -1028, -1280, -1280, -1028};
+    door.yOffsets = {1152, 1152, 1408, 1280, 1408, 1152};
+    door.zOffsets = {700, 700, 700, 700, 700, 700};
+    IndoorSceneRuntime::Snapshot snapshot;
+    snapshot.mapDeltaData.emplace();
+    snapshot.mapDeltaData->doors.push_back(door);
+    GameSaveData save;
+    save.mapFileName = "mm6:6t8.blv";
+    save.hasIndoorSceneState = true;
+    save.indoorScene = snapshot;
+    save.indoorSceneStates["6t8.blv"] = snapshot;
+    save.indoorSceneStates["mm6:6t8.blv"] = snapshot;
+    save.indoorSceneStates["mm7:6t8.blv"] = snapshot;
+
+    migrateLegacySnakeTempleLift(save);
+    migrateLegacySnakeTempleLift(save);
+    const auto checkLift = [](const IndoorSceneRuntime::Snapshot &state)
+    {
+        REQUIRE(state.mapDeltaData);
+        const MapDeltaDoor &lift = state.mapDeltaData->doors.front();
+        REQUIRE_EQ(lift.vertexIds.size(), 7u);
+        CHECK_EQ(lift.numVertices, 7);
+        CHECK_EQ(lift.numOffsets, 7);
+        CHECK_EQ(lift.state, 1);
+        CHECK_EQ(lift.timeSinceTriggered, 1234u);
+        CHECK_EQ(state.mapDeltaData->doorsData.size(), 28u);
+        for (const float distance : {0.0f, 174.0f, 348.0f, 522.0f, 696.0f})
+        {
+            std::vector<IndoorVertex> vertices(858);
+            vertices[821] = {-1152, 1408, 700};
+            applyIndoorMechanismDoorToVertices(lift, nullptr, distance, 1, vertices);
+            CHECK_EQ(vertices[821].z, vertices[853].z);
+            CHECK_EQ(vertices[821].z, vertices[857].z);
+            CHECK_EQ(vertices[821].z, 700 - int(distance));
+        }
+    };
+    checkLift(save.indoorScene);
+    checkLift(save.indoorSceneStates.at("6t8.blv"));
+    checkLift(save.indoorSceneStates.at("mm6:6t8.blv"));
+    CHECK_EQ(save.indoorSceneStates.at("mm7:6t8.blv").mapDeltaData->doors.front().vertexIds.size(), 6u);
+}
 
 TEST_CASE("Tsantsa pit floor carries the monsters standing on it and resting loot")
 {

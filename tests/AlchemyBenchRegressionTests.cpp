@@ -1,11 +1,17 @@
 #include "doctest/doctest.h"
 
 #include "game/items/AlchemyBenchRuntime.h"
+#include "game/items/ItemGenerator.h"
+#include "game/events/EventRuntime.h"
+#include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
 
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
+#include <cstring>
+#include <fstream>
+#include <iterator>
 #include <set>
 
 namespace
@@ -70,6 +76,7 @@ Party makeParty(const OpenYAMM::Tests::RegressionGameData &gameData, size_t memb
 
     Party party = {};
     party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
     party.seed(seed);
     return party;
 }
@@ -136,6 +143,77 @@ TEST_CASE("alchemy bench gathers ingredients from every pack")
     CHECK_EQ(ingredients[2].itemId, CureWoundsItemId);
     CHECK_EQ(ingredients[2].count, 2u);
     CHECK_EQ(ingredients[2].bestPower, 9u);
+}
+
+TEST_CASE("recharge potion mixes with cure poison in either order")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    constexpr uint32_t CurePoisonItemId = 226;
+    constexpr uint32_t RechargeItemId = 233;
+    constexpr uint32_t SwiftPotionItemId = 250;
+
+    for (const uint32_t heldItemId : {CurePoisonItemId, RechargeItemId})
+    {
+        CAPTURE(heldItemId);
+        InventoryItem heldItem = {};
+        heldItem.objectDescriptionId = heldItemId;
+        heldItem.standardEnchantPower = 12;
+        InventoryItem targetItem = {};
+        targetItem.objectDescriptionId = heldItemId == CurePoisonItemId ? RechargeItemId : CurePoisonItemId;
+        targetItem.standardEnchantPower = 8;
+
+        const InventoryItemMixResult result = InventoryItemMixingRuntime::mixItems(
+            heldItem, targetItem, SkillMastery::Grandmaster, 10,
+            gameData.itemTable, gameData.potionMixingTable,
+            gameData.mergedPotionSettingTable, gameData.mergedReagentSettingTable,
+            &gameData.potionNoteTable);
+
+        CHECK(result.handled);
+        CHECK(result.success);
+        CHECK_EQ(result.action, InventoryItemMixAction::PotionMix);
+        CHECK(result.heldItemConsumed);
+        CHECK(result.returnsBottle);
+        CHECK_EQ(targetItem.objectDescriptionId, SwiftPotionItemId);
+        CHECK_EQ(targetItem.standardEnchantPower, 10u);
+    }
+}
+
+TEST_CASE("pure luck mixes stoneskin with luck boost and records its recipe in either order")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    constexpr uint32_t StoneskinItemId = 234;
+    constexpr uint32_t LuckBoostItemId = 255;
+    constexpr uint32_t PureLuckItemId = 264;
+    constexpr uint32_t SwiftPotionItemId = 250;
+
+    for (const uint32_t heldItemId : {StoneskinItemId, LuckBoostItemId})
+    {
+        const uint32_t targetItemId = heldItemId == StoneskinItemId ? LuckBoostItemId : StoneskinItemId;
+        InventoryItem heldItem = {};
+        heldItem.objectDescriptionId = heldItemId;
+        heldItem.standardEnchantPower = 12;
+        InventoryItem targetItem = {};
+        targetItem.objectDescriptionId = targetItemId;
+        targetItem.standardEnchantPower = 8;
+        const InventoryItemMixResult result = InventoryItemMixingRuntime::mixItems(
+            heldItem, targetItem, SkillMastery::Grandmaster, 10,
+            gameData.itemTable, gameData.potionMixingTable,
+            gameData.mergedPotionSettingTable, gameData.mergedReagentSettingTable,
+            &gameData.potionNoteTable);
+
+        REQUIRE(result.success);
+        CHECK_EQ(targetItem.objectDescriptionId, PureLuckItemId);
+        CHECK_EQ(result.unlockedAutonoteId, 79u);
+    }
+
+    for (const uint32_t heldItemId : {StoneskinItemId, SwiftPotionItemId})
+    {
+        const uint32_t targetItemId = heldItemId == StoneskinItemId ? SwiftPotionItemId : StoneskinItemId;
+        const auto combination = gameData.potionMixingTable.potionCombination(heldItemId, targetItemId);
+        REQUIRE(combination.has_value());
+        CHECK_NE(combination->resultItemId, PureLuckItemId);
+        CHECK_FALSE(gameData.potionNoteTable.autonoteIdForMix(targetItemId, heldItemId).has_value());
+    }
 }
 
 TEST_CASE("alchemy bench book lists reagent recipes and only noted potion recipes")
@@ -300,6 +378,56 @@ TEST_CASE("alchemy bench fills bottles and leaves non-reacting items in place")
     REQUIRE(pCureDisease != nullptr);
     CHECK_EQ(pCureDisease->brewableCount, 1u);
     CHECK(pCureDisease->masteryAllows);
+}
+
+TEST_CASE("Clanker's Amulet adds 15 potion power without changing alchemy mastery")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const AlchemyBenchTables tables = benchTables(gameData);
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 2, SkillMastery::Normal);
+
+    const AlchemyRecipe recipe = {BottleItemId, WidowsweepBerriesItemId};
+    InventoryItem bottle = InventoryItemMixingRuntime::makeBottleItem(tables.itemTable, BottleItemId);
+    REQUIRE(party.member(0)->addInventoryItemAt(bottle, 0, 0));
+    addItem(party, 0, WidowsweepBerriesItemId);
+    const AlchemyPreview withoutAmulet = AlchemyBenchRuntime::preview(party, recipe, tables, unlocked({}));
+    REQUIRE(withoutAmulet.outcome == AlchemyPreviewOutcome::Known);
+
+    InventoryItem amulet = ItemGenerator::makeInventoryItem(1339, gameData.itemTable, ItemGenerationMode::ChestLoot);
+    REQUIRE_NE(amulet.standardEnchantId, 0u);
+    CHECK_EQ(amulet.standardEnchantPower, 15u);
+    amulet.identified = true;
+    std::optional<InventoryItem> heldReplacement;
+    REQUIRE(party.tryEquipItemOnMember(0, EquipmentSlot::Amulet, amulet, std::nullopt, false, heldReplacement));
+    const AlchemistInfo alchemist = AlchemyBenchRuntime::resolveAlchemist(party);
+    CHECK_EQ(alchemist.level, 17u);
+    CHECK(alchemist.mastery == SkillMastery::Normal);
+    const uint16_t boostedPower = withoutAmulet.resultPower + 15;
+
+    SUBCASE("bench preview and brew")
+    {
+        CHECK_EQ(AlchemyBenchRuntime::preview(party, recipe, tables, unlocked({})).resultPower, boostedPower);
+        const AlchemyMixOutcome outcome = AlchemyBenchRuntime::mix(party, recipe, tables);
+        REQUIRE(outcome.result.success);
+        CHECK_EQ(outcome.resultItem.standardEnchantPower, boostedPower);
+    }
+
+    SUBCASE("inventory brew")
+    {
+        InventoryItem reagent = {};
+        reagent.objectDescriptionId = WidowsweepBerriesItemId;
+        const InventoryItemMixResult outcome = InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party, 0, reagent, 0, 0, tables.itemTable, tables.potionMixingTable,
+            tables.potionSettingTable, tables.reagentSettingTable, &tables.potionNoteTable);
+        REQUIRE(outcome.success);
+        const InventoryItem *pPotion = party.member(0)->inventoryItemAt(0, 0);
+        REQUIRE(pPotion != nullptr);
+        CHECK_EQ(pPotion->standardEnchantPower, boostedPower);
+    }
+
+    REQUIRE(party.takeEquippedItemFromMember(0, EquipmentSlot::Amulet, amulet));
+    CHECK_EQ(AlchemyBenchRuntime::resolveAlchemist(party).level, 2u);
 }
 
 TEST_CASE("alchemy bench fills the bottle even when the reagent was picked first")
@@ -525,6 +653,64 @@ TEST_CASE("alchemy chain planner names the step that blocks a chain")
         .plan(HasteItemId, 1);
     CHECK_EQ(tooHard.block, AlchemyChainBlock::NeedsMastery);
     CHECK_EQ(tooHard.blockItemId, HasteItemId);
+}
+
+TEST_CASE("alchemy black potion discoveries survive a fresh map and a save round trip")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeParty(gameData, 1);
+    giveAlchemy(party, 0, 10, SkillMastery::Grandmaster);
+    const AlchemyBenchTables tables = benchTables(gameData);
+    EventRuntimeState mapState = {};
+    const std::vector<uint32_t> blackPotions = {266, 267, 268, 270};
+
+    for (uint32_t itemId : blackPotions)
+    {
+        const std::vector<uint32_t> notes = AlchemyBenchRuntime::potionNoteIds(itemId, tables);
+        REQUIRE_FALSE(notes.empty());
+        const auto found = std::find_if(gameData.potionNoteTable.entries().begin(),
+            gameData.potionNoteTable.entries().end(), [&notes](const PotionNoteTable::Entry &entry)
+            {
+                return entry.autonoteId == notes.front();
+            });
+        REQUIRE(found != gameData.potionNoteTable.entries().end());
+        addItem(party, 0, found->targetItemId);
+        addItem(party, 0, found->heldItemId);
+        const AlchemyMixOutcome outcome =
+            AlchemyBenchRuntime::mix(party, {found->targetItemId, found->heldItemId}, tables);
+        REQUIRE(outcome.result.success);
+        CHECK_EQ(outcome.resultItem.objectDescriptionId, itemId);
+        REQUIRE_NE(outcome.result.unlockedAutonoteId, 0u);
+        EventRuntime::setVariableValue(mapState,
+            EventRuntime::decodeVariable((outcome.result.unlockedAutonoteId << 16) | 0x00e1u), 1, &party, {0});
+    }
+
+    CHECK(mapState.variables.empty());
+    mapState = {};
+    for (uint32_t itemId : blackPotions)
+    {
+        const uint32_t noteId = AlchemyBenchRuntime::potionNoteIds(itemId, tables).front();
+        CHECK_NE(EventRuntime::getVariableValue(mapState,
+            EventRuntime::decodeVariable((noteId << 16) | 0x00dfu), &party), 0);
+    }
+
+    GameSaveData save = {};
+    save.party = party.snapshot();
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "openyamm_black_potion_discoveries.oysav";
+    std::string error;
+    REQUIRE(saveGameDataToPath(path, save, error));
+    const std::optional<GameSaveData> loaded = loadGameDataFromPath(path, error);
+    std::filesystem::remove(path);
+    REQUIRE_MESSAGE(loaded.has_value(), error);
+    Party restored = makeParty(gameData, 1);
+    restored.restoreSnapshot(loaded->party);
+    const AlchemyBook book = AlchemyBenchRuntime::buildBook(tables, {}, SkillMastery::Grandmaster,
+        [&restored](uint32_t noteId) { return restored.hasAutonote(noteId); });
+    for (uint32_t itemId : blackPotions)
+    {
+        CHECK(findEntry(book, itemId) != nullptr);
+    }
 }
 
 TEST_CASE("alchemy chain planner keeps carried mixed potions when asked and brews them fresh")

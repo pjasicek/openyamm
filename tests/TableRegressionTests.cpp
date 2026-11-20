@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/TextTable.h"
@@ -7,6 +8,7 @@
 #include "game/party/SkillData.h"
 #include "game/tables/MergedBaseTables.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpellTable.h"
 #include "game/tables/SpriteTables.h"
 
 #include "tests/RegressionGameData.h"
@@ -186,6 +188,7 @@ void checkFirstSpriteFrameTexture(
 
     const OpenYAMM::Game::ResolvedSpriteTexture texture = OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
     CHECK_EQ(texture.textureName, expectedTextureName);
+    // These names are import metadata. Projectile and impact presentation use the effect library.
 }
 }
 
@@ -543,7 +546,7 @@ TEST_CASE("gameplay trace writes only when settings-backed sink is enabled")
     buffer << input.rdbuf();
     CHECK(buffer.str().find("[GameplayTrace] enabled gameplay message") != std::string::npos);
     CHECK(buffer.str().find("disabled gameplay message") == std::string::npos);
-
+    input.close();
     std::filesystem::remove(path);
 }
 
@@ -567,7 +570,7 @@ TEST_CASE("combat trace writes only when settings-backed sink is enabled")
     buffer << input.rdbuf();
     CHECK(buffer.str().find("[CombatTrace] enabled message") != std::string::npos);
     CHECK(buffer.str().find("disabled message") == std::string::npos);
-
+    input.close();
     std::filesystem::remove(path);
 }
 
@@ -713,12 +716,7 @@ TEST_CASE("outdoor minimap icons are world-owned")
     {
         const std::filesystem::path iconPath = entry.first / entry.second;
         CHECK(std::filesystem::exists(iconPath));
-        CHECK_EQ(
-            std::filesystem::status(iconPath).permissions() & std::filesystem::perms::all,
-            std::filesystem::perms::owner_read
-                | std::filesystem::perms::owner_write
-                | std::filesystem::perms::group_read
-                | std::filesystem::perms::others_read);
+        CHECK(OpenYAMM::Tests::hasAssetFilePermissions(iconPath));
     }
 
     const char *engineForbiddenIcons[] = {
@@ -795,12 +793,7 @@ TEST_CASE("mm8 screen backgrounds remain the engine defaults")
         CHECK_FALSE(std::filesystem::exists(mm8Icons / expectedBackground.fileName));
         CHECK_EQ(std::filesystem::file_size(path), expectedBackground.fileSize);
         CHECK_EQ(fnv1a64(readSourceBinaryFile(path)), expectedBackground.fnvHash);
-        CHECK_EQ(
-            std::filesystem::status(path).permissions() & std::filesystem::perms::all,
-            std::filesystem::perms::owner_read
-                | std::filesystem::perms::owner_write
-                | std::filesystem::perms::group_read
-                | std::filesystem::perms::others_read);
+        CHECK(OpenYAMM::Tests::hasAssetFilePermissions(path));
     }
 }
 

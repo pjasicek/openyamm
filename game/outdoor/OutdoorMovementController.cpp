@@ -260,7 +260,32 @@ bool isOutdoorPositionWater(
     float x,
     float y)
 {
+    if (outdoorMapData.waterDepth)
+    {
+        const std::optional<float> depth = outdoorMapData.waterDepth->depth(x, y);
+        if (depth)
+        {
+            return *depth > 0.0f;
+        }
+    }
     return isOutdoorTerrainWater(outdoorMapData, x, y) || isOutdoorLandMaskWater(outdoorLandMask, x, y);
+}
+
+bool isOutdoorPositionDeepWater(
+    const OutdoorMapData &outdoorMapData,
+    const std::optional<std::vector<uint8_t>> &outdoorLandMask,
+    float x,
+    float y)
+{
+    if (outdoorMapData.waterDepth)
+    {
+        const std::optional<float> depth = outdoorMapData.waterDepth->depth(x, y);
+        if (depth)
+        {
+            return *depth > OutdoorWaterDepthData::WadingDepth;
+        }
+    }
+    return isOutdoorPositionWater(outdoorMapData, outdoorLandMask, x, y);
 }
 
 float pointSegmentDistanceSquared2d(
@@ -1568,16 +1593,19 @@ FloorSample queryFloorLevel(
     float y,
     float z,
     FloorSupportMode supportMode,
-    bool retainBModelEdgeSupport = false)
+    bool retainBModelEdgeSupport = false,
+    bool waterWalk = false)
 {
     const float effectiveMaxFloorRise = maxFloorRise;
     const uint8_t terrainFlags = bModelGround ? 0 : sampleOutdoorTerrainTileAttributes(outdoorMapData, x, y);
+    const std::optional<float> waterFloor = !bModelGround && outdoorMapData.waterDepth
+        ? outdoorMapData.waterDepth->movementHeight(x, y, waterWalk) : std::nullopt;
     const FloorSample terrainSample = {
         !bModelGround,
-        bModelGround ? 0.0f : sampleOutdoorRenderedTerrainHeight(outdoorMapData, x, y),
+        bModelGround ? 0.0f : waterFloor.value_or(sampleOutdoorRenderedTerrainHeight(outdoorMapData, x, y)),
         bModelGround ? 1.0f : sampleOutdoorTerrainNormalZ(outdoorMapData, x, y),
         false,
-        (terrainFlags & 0x02) != 0,
+        !bModelGround && isOutdoorPositionWater(outdoorMapData, std::nullopt, x, y),
         (terrainFlags & 0x01) != 0,
         0,
         0
@@ -1789,6 +1817,17 @@ OutdoorMoveState OutdoorMovementController::initializeState(float x, float y, fl
     return initializeStateForBody(x, y, footZHint, DefaultBodyRadius);
 }
 
+bool OutdoorMovementController::isInDeepWater(const OutdoorMoveState &state) const
+{
+    if (!state.supportOnWater)
+    {
+        return false;
+    }
+    // Native BModel pools are shallow; terrain water uses the shared rendered seabed depth.
+    return state.supportKind == OutdoorSupportKind::Terrain
+        && isOutdoorPositionDeepWater(*m_pOutdoorMapData, m_outdoorLandMask, state.x, state.y);
+}
+
 OutdoorMoveState OutdoorMovementController::initializeStateForBody(
     float x,
     float y,
@@ -1877,7 +1916,7 @@ OutdoorMoveState OutdoorMovementController::initializeStateForBody(
     state.supportOnWater = floor.hasFloor
         && (floor.isFluid
         || (!floor.fromBModel
-            && (isOutdoorTerrainWater(*m_pOutdoorMapData, x, y) || isOutdoorLandMaskWater(m_outdoorLandMask, x, y))));
+            && isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, x, y)));
     state.supportOnBurning = floor.hasFloor && floor.isBurning;
     state.airborne = state.footZ > groundZ + GroundSnapHeight;
     state.landedThisFrame = false;
@@ -1995,7 +2034,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
             state.y,
             state.footZ,
             FloorSupportMode::IncludeBModels,
-            retainBModelEdgeSupport);
+            retainBModelEdgeSupport,
+            waterWalkActive);
     const OutdoorFaceGeometryData *pCurrentBModelGeometry = currentFloor.fromBModel
         ? findFaceGeometry(currentFloor.bModelIndex, currentFloor.faceIndex)
         : nullptr;
@@ -2065,7 +2105,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
     }
     else if ((!partyAtHighSlope || currentFloor.fromBModel) &&
              (!partyNotTouchingFloor || (partyCloseToGround && partyInputSpeed.z <= 0.0f)) &&
-             !state.supportOnDeepWater() &&
+             !isInDeepWater(state) &&
+
              !state.supportOnBurning &&
              jumpRequested)
     {
@@ -2348,7 +2389,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 newPosLow.x,
                 newPosLow.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             const FloorSample allNewStepFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 bModelGround,
@@ -2360,7 +2401,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 newPosLow.x,
                 newPosLow.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             collectFaceCandidates(
                 newPosLow.x - std::max(bodyRadius, FloorCheckSlack),
                 passPosition.y - std::max(bodyRadius, FloorCheckSlack),
@@ -2378,7 +2419,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 newPosLow.x,
                 passPosition.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             const FloorSample xAdvanceStepFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 bModelGround,
@@ -2390,7 +2431,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 newPosLow.x,
                 passPosition.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             collectFaceCandidates(
                 passPosition.x - std::max(bodyRadius, FloorCheckSlack),
                 newPosLow.y - std::max(bodyRadius, FloorCheckSlack),
@@ -2408,7 +2449,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 passPosition.x,
                 newPosLow.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             const FloorSample yAdvanceStepFloor = queryFloorLevel(
                 *m_pOutdoorMapData,
                 bModelGround,
@@ -2420,7 +2461,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 passPosition.x,
                 newPosLow.y,
                 newPosLow.z,
-                FloorSupportMode::IncludeBModels);
+                FloorSupportMode::IncludeBModels, false, waterWalkActive);
             const std::optional<FloorSample> bModelStepFloor =
                 selectBModelStepFloor(
                     allNewStepFloor,
@@ -2457,11 +2498,11 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                 bool moveInX = true;
                 bool moveInY = true;
                 const bool currentOnWater =
-                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, passPosition.y);
+                    isOutdoorPositionDeepWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, passPosition.y);
                 const bool xAdvanceOnWater =
-                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, newPosLow.x, passPosition.y);
+                    isOutdoorPositionDeepWater(*m_pOutdoorMapData, m_outdoorLandMask, newPosLow.x, passPosition.y);
                 const bool yAdvanceOnWater =
-                    isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, newPosLow.y);
+                    isOutdoorPositionDeepWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, newPosLow.y);
                 const bool allowWaterEntry =
                     wasAirborne || flyingActive || !partyCloseToGround || waterWalkActive || currentOnWater;
                 const float maxSteepTerrainAdvanceHeight =
@@ -2813,7 +2854,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
         partyNewPosition.y,
         partyNewPosition.z,
         FloorSupportMode::IncludeBModels,
-        retainBModelEdgeSupport);
+        retainBModelEdgeSupport,
+        waterWalkActive);
 
     if (pDebugInfo != nullptr)
     {

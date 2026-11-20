@@ -76,7 +76,7 @@ def main():
     print('The producer rejects unsupported scene profiles, moving mechanisms and terrain overrides.', flush=True)
     if args.dry_run:
         for source in sources:
-            print(source.relative_to(ROOT))
+            print(source.relative_to(ROOT).as_posix())
         print('Enumeration only: no scene validation, bakes or installation performed.')
         return 0
 

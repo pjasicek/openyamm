@@ -19,10 +19,17 @@ namespace
 {
 constexpr int MinutesPerDay = 24 * 60;
 constexpr int DaysPerMonth = 28;
+constexpr uint32_t ToberskFruitItemId = 643;
 constexpr uint32_t GreenAppleItemId = 655;
+constexpr uint32_t Mm7RedAppleItemId = 1432;
+constexpr uint32_t Mm6AppleItemId = 2104;
 constexpr uint32_t HorseshoeItemId = 656;
-// A spell scroll casts at skill 7, Master, as in MMerge (ExtraEvents.lua PlayerCastSpell; the original games used 5).
+constexpr uint32_t Mm7HorseshoeItemId = 1448;
+constexpr uint32_t Mm6HorseshoeItemId = 2083;
+constexpr uint32_t GenieLampItemId = 1418;
+// A spell scroll casts at skill 7, Master, as in MMMerge.
 constexpr uint32_t ScrollSpellSkillLevel = 7;
+
 constexpr uint32_t DeckOfFateItemId = 2067;
 constexpr uint32_t ExtraPotionPlayerBitBase = 200000;
 
@@ -614,14 +621,11 @@ std::string itemCannotBeUsedStatusText(const ItemDefinition &itemDefinition)
     return Engine::tr("{item} can not be used that way", {{"item", itemDisplayNameForStatus(itemDefinition)}});
 }
 
-bool isFoodItem(const InventoryItem &item, const ItemDefinition &itemDefinition)
+bool isFoodItem(uint32_t itemId)
 {
-    // Whole names only: "Labyrinth Grapple" is a polearm, not an apple.
-    return item.objectDescriptionId == GreenAppleItemId
-        || itemNameEquals(itemDefinition, "apple")
-        || itemNameEquals(itemDefinition, "red apple")
-        || itemNameEquals(itemDefinition, "green apple")
-        || itemNameEquals(itemDefinition, "tobersk fruit");
+    return itemId == ToberskFruitItemId || itemId == GreenAppleItemId
+        || itemId == Mm7RedAppleItemId || itemId == Mm6AppleItemId;
+
 }
 
 std::optional<SoundId> instrumentSoundId(const ItemDefinition &itemDefinition)
@@ -964,12 +968,14 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::ReadMessageScroll;
     }
 
-    if (item.objectDescriptionId == HorseshoeItemId || itemNameEquals(*pItemDefinition, "horseshoe"))
+    if (item.objectDescriptionId == HorseshoeItemId
+        || item.objectDescriptionId == Mm7HorseshoeItemId
+        || item.objectDescriptionId == Mm6HorseshoeItemId)
     {
         return InventoryItemUseAction::UseHorseshoe;
     }
 
-    if (itemNameEquals(*pItemDefinition, "genie lamp"))
+    if (item.objectDescriptionId == GenieLampItemId)
     {
         return InventoryItemUseAction::UseGenieLamp;
     }
@@ -979,7 +985,7 @@ InventoryItemUseAction InventoryItemUseRuntime::classifyItemUse(
         return InventoryItemUseAction::UseDeckOfFate;
     }
 
-    if (isFoodItem(item, *pItemDefinition))
+    if (isFoodItem(item.objectDescriptionId))
     {
         return InventoryItemUseAction::EatFoodItem;
     }

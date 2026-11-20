@@ -58,6 +58,9 @@ add_library(openyamm_core STATIC
     ../game/events/MechanismDistance.cpp
     ../game/outdoor/OutdoorGeometryUtils.cpp
     ../game/outdoor/OutdoorMovementController.cpp
+    ../game/outdoor/OutdoorTerrainMaterialConfig.cpp
+    ../game/outdoor/OutdoorWaterDepthData.cpp
+    ../game/render/TerrainMaterialConfig.cpp
     ../game/outdoor/OutdoorPathfindingBuilder.cpp
     ../game/pathfinding/PathMap.cpp
     ../game/pathfinding/PathPlanner.cpp

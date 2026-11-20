@@ -7,6 +7,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/rules/GameRules.h"
+
 #include "game/tables/ChestTable.h"
 #include "game/tables/ItemTable.h"
 
@@ -334,6 +335,7 @@ bool readChestItemRecordInt32(
 
 // The size of a gold pile item: 0 small, 1 medium, 2 large.
 std::optional<int> goldPileSize(uint32_t itemId)
+
 {
     switch (itemId)
     {

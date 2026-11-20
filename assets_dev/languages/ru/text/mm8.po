@@ -7,1182 +7,1407 @@ msgstr ""
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
-# machine translation (Claude), review
-#: assets_dev/worlds/mm8/events/Global_mm8_promotions.lua:29
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\Global_mm8_promotions.lua:29
 msgid ""
 "The Necromancer in party slot {slot} needs a Lich Jar in their own inventory before the transformation can begin."
 msgstr ""
-"Некромант в ячейке отряда {slot} должен сам нести Сосуд Жизни Лича, чтобы начать превращение."
+"Прежде чем начнётся превращение в лича, некроманту на месте {slot} нужен сосуд лича в своём инвентаре."
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1248 assets_dev/worlds/mm8/events/maps/d05.lua:1264 assets_dev/worlds/mm8/events/maps/d05.lua:1280
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1248 assets_dev\worlds\mm8\events\maps\d05.lua:1264 assets_dev\worlds\mm8\events\maps\d05.lua:1280
 msgid "The button will not move"
-msgstr "Кнопка не поддается"
+msgstr "Кнопка не сдвинется с места"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1001 assets_dev/worlds/mm8/events/maps/d05.lua:1015 assets_dev/worlds/mm8/events/maps/d05.lua:1017
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1031 assets_dev/worlds/mm8/events/maps/d05.lua:1033 assets_dev/worlds/mm8/events/maps/d05.lua:1047
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1049 assets_dev/worlds/mm8/events/maps/d05.lua:1063 assets_dev/worlds/mm8/events/maps/d05.lua:1065
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1079 assets_dev/worlds/mm8/events/maps/d05.lua:1081 assets_dev/worlds/mm8/events/maps/d05.lua:1095
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1097 assets_dev/worlds/mm8/events/maps/d05.lua:1111 assets_dev/worlds/mm8/events/maps/d05.lua:1234
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1241 assets_dev/worlds/mm8/events/maps/d05.lua:1243 assets_dev/worlds/mm8/events/maps/d05.lua:1257
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1259 assets_dev/worlds/mm8/events/maps/d05.lua:1273 assets_dev/worlds/mm8/events/maps/d05.lua:1275
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1288 assets_dev/worlds/mm8/events/maps/d05.lua:244 assets_dev/worlds/mm8/events/maps/d05.lua:249
-#: assets_dev/worlds/mm8/events/maps/d05.lua:251 assets_dev/worlds/mm8/events/maps/d05.lua:256 assets_dev/worlds/mm8/events/maps/d05.lua:258
-#: assets_dev/worlds/mm8/events/maps/d05.lua:263 assets_dev/worlds/mm8/events/maps/d05.lua:265 assets_dev/worlds/mm8/events/maps/d05.lua:280
-#: assets_dev/worlds/mm8/events/maps/d05.lua:282 assets_dev/worlds/mm8/events/maps/d05.lua:287 assets_dev/worlds/mm8/events/maps/d05.lua:289
-#: assets_dev/worlds/mm8/events/maps/d05.lua:294 assets_dev/worlds/mm8/events/maps/d05.lua:296 assets_dev/worlds/mm8/events/maps/d05.lua:301
-#: assets_dev/worlds/mm8/events/maps/d05.lua:303 assets_dev/worlds/mm8/events/maps/d05.lua:308 assets_dev/worlds/mm8/events/maps/d05.lua:310
-#: assets_dev/worlds/mm8/events/maps/d05.lua:325 assets_dev/worlds/mm8/events/maps/d05.lua:327 assets_dev/worlds/mm8/events/maps/d05.lua:332
-#: assets_dev/worlds/mm8/events/maps/d05.lua:334 assets_dev/worlds/mm8/events/maps/d05.lua:339 assets_dev/worlds/mm8/events/maps/d05.lua:341
-#: assets_dev/worlds/mm8/events/maps/d05.lua:356 assets_dev/worlds/mm8/events/maps/d05.lua:358 assets_dev/worlds/mm8/events/maps/d05.lua:363
-#: assets_dev/worlds/mm8/events/maps/d05.lua:365 assets_dev/worlds/mm8/events/maps/d05.lua:380 assets_dev/worlds/mm8/events/maps/d05.lua:382
-#: assets_dev/worlds/mm8/events/maps/d05.lua:397 assets_dev/worlds/mm8/events/maps/d05.lua:399 assets_dev/worlds/mm8/events/maps/d05.lua:404
-#: assets_dev/worlds/mm8/events/maps/d05.lua:406 assets_dev/worlds/mm8/events/maps/d05.lua:421 assets_dev/worlds/mm8/events/maps/d05.lua:423
-#: assets_dev/worlds/mm8/events/maps/d05.lua:438 assets_dev/worlds/mm8/events/maps/d05.lua:440 assets_dev/worlds/mm8/events/maps/d05.lua:455
-#: assets_dev/worlds/mm8/events/maps/d05.lua:457 assets_dev/worlds/mm8/events/maps/d05.lua:472 assets_dev/worlds/mm8/events/maps/d05.lua:474
-#: assets_dev/worlds/mm8/events/maps/d05.lua:479 assets_dev/worlds/mm8/events/maps/d05.lua:481 assets_dev/worlds/mm8/events/maps/d05.lua:486
-#: assets_dev/worlds/mm8/events/maps/d05.lua:488 assets_dev/worlds/mm8/events/maps/d05.lua:497 assets_dev/worlds/mm8/events/maps/d05.lua:499
-#: assets_dev/worlds/mm8/events/maps/d05.lua:522 assets_dev/worlds/mm8/events/maps/d05.lua:524 assets_dev/worlds/mm8/events/maps/d05.lua:547
-#: assets_dev/worlds/mm8/events/maps/d05.lua:549 assets_dev/worlds/mm8/events/maps/d05.lua:559 assets_dev/worlds/mm8/events/maps/d05.lua:561
-#: assets_dev/worlds/mm8/events/maps/d05.lua:576 assets_dev/worlds/mm8/events/maps/d05.lua:578 assets_dev/worlds/mm8/events/maps/d05.lua:593
-#: assets_dev/worlds/mm8/events/maps/d05.lua:595 assets_dev/worlds/mm8/events/maps/d05.lua:600 assets_dev/worlds/mm8/events/maps/d05.lua:602
-#: assets_dev/worlds/mm8/events/maps/d05.lua:617 assets_dev/worlds/mm8/events/maps/d05.lua:619 assets_dev/worlds/mm8/events/maps/d05.lua:634
-#: assets_dev/worlds/mm8/events/maps/d05.lua:636 assets_dev/worlds/mm8/events/maps/d05.lua:651 assets_dev/worlds/mm8/events/maps/d05.lua:653
-#: assets_dev/worlds/mm8/events/maps/d05.lua:666 assets_dev/worlds/mm8/events/maps/d05.lua:668 assets_dev/worlds/mm8/events/maps/d05.lua:699
-#: assets_dev/worlds/mm8/events/maps/d05.lua:701 assets_dev/worlds/mm8/events/maps/d05.lua:732 assets_dev/worlds/mm8/events/maps/d05.lua:734
-#: assets_dev/worlds/mm8/events/maps/d05.lua:747 assets_dev/worlds/mm8/events/maps/d05.lua:749 assets_dev/worlds/mm8/events/maps/d05.lua:780
-#: assets_dev/worlds/mm8/events/maps/d05.lua:782 assets_dev/worlds/mm8/events/maps/d05.lua:795 assets_dev/worlds/mm8/events/maps/d05.lua:797
-#: assets_dev/worlds/mm8/events/maps/d05.lua:812 assets_dev/worlds/mm8/events/maps/d05.lua:814 assets_dev/worlds/mm8/events/maps/d05.lua:829
-#: assets_dev/worlds/mm8/events/maps/d05.lua:831 assets_dev/worlds/mm8/events/maps/d05.lua:846 assets_dev/worlds/mm8/events/maps/d05.lua:848
-#: assets_dev/worlds/mm8/events/maps/d05.lua:863 assets_dev/worlds/mm8/events/maps/d05.lua:985 assets_dev/worlds/mm8/events/maps/d05.lua:999
-#: assets_dev/worlds/mm8/events/maps/d12.lua:183 assets_dev/worlds/mm8/events/maps/d12.lua:186 assets_dev/worlds/mm8/events/maps/d19.lua:200
-#: assets_dev/worlds/mm8/events/maps/d19.lua:202 assets_dev/worlds/mm8/events/maps/d19.lua:204 assets_dev/worlds/mm8/events/maps/d19.lua:206
-#: assets_dev/worlds/mm8/events/maps/d19.lua:208 assets_dev/worlds/mm8/events/maps/d19.lua:211 assets_dev/worlds/mm8/events/maps/d19.lua:239
-#: assets_dev/worlds/mm8/events/maps/d19.lua:250 assets_dev/worlds/mm8/events/maps/d19.lua:252 assets_dev/worlds/mm8/events/maps/d19.lua:263
-#: assets_dev/worlds/mm8/events/maps/d20.lua:158 assets_dev/worlds/mm8/events/maps/d20.lua:161 assets_dev/worlds/mm8/events/maps/d20.lua:163
-#: assets_dev/worlds/mm8/events/maps/d20.lua:166 assets_dev/worlds/mm8/events/maps/d25.lua:150 assets_dev/worlds/mm8/events/maps/d25.lua:152
-#: assets_dev/worlds/mm8/events/maps/d29.lua:144 assets_dev/worlds/mm8/events/maps/d29.lua:147 assets_dev/worlds/mm8/events/maps/d29.lua:153
-#: assets_dev/worlds/mm8/events/maps/d29.lua:159 assets_dev/worlds/mm8/events/maps/d35.lua:275 assets_dev/worlds/mm8/events/maps/d35.lua:278
-#: assets_dev/worlds/mm8/events/maps/d35.lua:290 assets_dev/worlds/mm8/events/maps/d35.lua:293 assets_dev/worlds/mm8/events/maps/d35.lua:300
-#: assets_dev/worlds/mm8/events/maps/d35.lua:303 assets_dev/worlds/mm8/events/maps/d35.lua:315 assets_dev/worlds/mm8/events/maps/d35.lua:318
-#: assets_dev/worlds/mm8/events/maps/d37.lua:332 assets_dev/worlds/mm8/events/maps/d37.lua:335
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1001 assets_dev\worlds\mm8\events\maps\d05.lua:1015 assets_dev\worlds\mm8\events\maps\d05.lua:1017
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1031 assets_dev\worlds\mm8\events\maps\d05.lua:1033 assets_dev\worlds\mm8\events\maps\d05.lua:1047
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1049 assets_dev\worlds\mm8\events\maps\d05.lua:1063 assets_dev\worlds\mm8\events\maps\d05.lua:1065
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1079 assets_dev\worlds\mm8\events\maps\d05.lua:1081 assets_dev\worlds\mm8\events\maps\d05.lua:1095
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1097 assets_dev\worlds\mm8\events\maps\d05.lua:1111 assets_dev\worlds\mm8\events\maps\d05.lua:1234
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1241 assets_dev\worlds\mm8\events\maps\d05.lua:1243 assets_dev\worlds\mm8\events\maps\d05.lua:1257
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1259 assets_dev\worlds\mm8\events\maps\d05.lua:1273 assets_dev\worlds\mm8\events\maps\d05.lua:1275
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1288 assets_dev\worlds\mm8\events\maps\d05.lua:244 assets_dev\worlds\mm8\events\maps\d05.lua:249
+#: assets_dev\worlds\mm8\events\maps\d05.lua:251 assets_dev\worlds\mm8\events\maps\d05.lua:256 assets_dev\worlds\mm8\events\maps\d05.lua:258
+#: assets_dev\worlds\mm8\events\maps\d05.lua:263 assets_dev\worlds\mm8\events\maps\d05.lua:265 assets_dev\worlds\mm8\events\maps\d05.lua:280
+#: assets_dev\worlds\mm8\events\maps\d05.lua:282 assets_dev\worlds\mm8\events\maps\d05.lua:287 assets_dev\worlds\mm8\events\maps\d05.lua:289
+#: assets_dev\worlds\mm8\events\maps\d05.lua:294 assets_dev\worlds\mm8\events\maps\d05.lua:296 assets_dev\worlds\mm8\events\maps\d05.lua:301
+#: assets_dev\worlds\mm8\events\maps\d05.lua:303 assets_dev\worlds\mm8\events\maps\d05.lua:308 assets_dev\worlds\mm8\events\maps\d05.lua:310
+#: assets_dev\worlds\mm8\events\maps\d05.lua:325 assets_dev\worlds\mm8\events\maps\d05.lua:327 assets_dev\worlds\mm8\events\maps\d05.lua:332
+#: assets_dev\worlds\mm8\events\maps\d05.lua:334 assets_dev\worlds\mm8\events\maps\d05.lua:339 assets_dev\worlds\mm8\events\maps\d05.lua:341
+#: assets_dev\worlds\mm8\events\maps\d05.lua:356 assets_dev\worlds\mm8\events\maps\d05.lua:358 assets_dev\worlds\mm8\events\maps\d05.lua:363
+#: assets_dev\worlds\mm8\events\maps\d05.lua:365 assets_dev\worlds\mm8\events\maps\d05.lua:380 assets_dev\worlds\mm8\events\maps\d05.lua:382
+#: assets_dev\worlds\mm8\events\maps\d05.lua:397 assets_dev\worlds\mm8\events\maps\d05.lua:399 assets_dev\worlds\mm8\events\maps\d05.lua:404
+#: assets_dev\worlds\mm8\events\maps\d05.lua:406 assets_dev\worlds\mm8\events\maps\d05.lua:421 assets_dev\worlds\mm8\events\maps\d05.lua:423
+#: assets_dev\worlds\mm8\events\maps\d05.lua:438 assets_dev\worlds\mm8\events\maps\d05.lua:440 assets_dev\worlds\mm8\events\maps\d05.lua:455
+#: assets_dev\worlds\mm8\events\maps\d05.lua:457 assets_dev\worlds\mm8\events\maps\d05.lua:472 assets_dev\worlds\mm8\events\maps\d05.lua:474
+#: assets_dev\worlds\mm8\events\maps\d05.lua:479 assets_dev\worlds\mm8\events\maps\d05.lua:481 assets_dev\worlds\mm8\events\maps\d05.lua:486
+#: assets_dev\worlds\mm8\events\maps\d05.lua:488 assets_dev\worlds\mm8\events\maps\d05.lua:497 assets_dev\worlds\mm8\events\maps\d05.lua:499
+#: assets_dev\worlds\mm8\events\maps\d05.lua:522 assets_dev\worlds\mm8\events\maps\d05.lua:524 assets_dev\worlds\mm8\events\maps\d05.lua:547
+#: assets_dev\worlds\mm8\events\maps\d05.lua:549 assets_dev\worlds\mm8\events\maps\d05.lua:559 assets_dev\worlds\mm8\events\maps\d05.lua:561
+#: assets_dev\worlds\mm8\events\maps\d05.lua:576 assets_dev\worlds\mm8\events\maps\d05.lua:578 assets_dev\worlds\mm8\events\maps\d05.lua:593
+#: assets_dev\worlds\mm8\events\maps\d05.lua:595 assets_dev\worlds\mm8\events\maps\d05.lua:600 assets_dev\worlds\mm8\events\maps\d05.lua:602
+#: assets_dev\worlds\mm8\events\maps\d05.lua:617 assets_dev\worlds\mm8\events\maps\d05.lua:619 assets_dev\worlds\mm8\events\maps\d05.lua:634
+#: assets_dev\worlds\mm8\events\maps\d05.lua:636 assets_dev\worlds\mm8\events\maps\d05.lua:651 assets_dev\worlds\mm8\events\maps\d05.lua:653
+#: assets_dev\worlds\mm8\events\maps\d05.lua:666 assets_dev\worlds\mm8\events\maps\d05.lua:668 assets_dev\worlds\mm8\events\maps\d05.lua:699
+#: assets_dev\worlds\mm8\events\maps\d05.lua:701 assets_dev\worlds\mm8\events\maps\d05.lua:732 assets_dev\worlds\mm8\events\maps\d05.lua:734
+#: assets_dev\worlds\mm8\events\maps\d05.lua:747 assets_dev\worlds\mm8\events\maps\d05.lua:749 assets_dev\worlds\mm8\events\maps\d05.lua:780
+#: assets_dev\worlds\mm8\events\maps\d05.lua:782 assets_dev\worlds\mm8\events\maps\d05.lua:795 assets_dev\worlds\mm8\events\maps\d05.lua:797
+#: assets_dev\worlds\mm8\events\maps\d05.lua:812 assets_dev\worlds\mm8\events\maps\d05.lua:814 assets_dev\worlds\mm8\events\maps\d05.lua:829
+#: assets_dev\worlds\mm8\events\maps\d05.lua:831 assets_dev\worlds\mm8\events\maps\d05.lua:846 assets_dev\worlds\mm8\events\maps\d05.lua:848
+#: assets_dev\worlds\mm8\events\maps\d05.lua:863 assets_dev\worlds\mm8\events\maps\d05.lua:985 assets_dev\worlds\mm8\events\maps\d05.lua:999
+#: assets_dev\worlds\mm8\events\maps\d12.lua:183 assets_dev\worlds\mm8\events\maps\d12.lua:186 assets_dev\worlds\mm8\events\maps\d19.lua:200
+#: assets_dev\worlds\mm8\events\maps\d19.lua:202 assets_dev\worlds\mm8\events\maps\d19.lua:204 assets_dev\worlds\mm8\events\maps\d19.lua:206
+#: assets_dev\worlds\mm8\events\maps\d19.lua:208 assets_dev\worlds\mm8\events\maps\d19.lua:211 assets_dev\worlds\mm8\events\maps\d19.lua:239
+#: assets_dev\worlds\mm8\events\maps\d19.lua:250 assets_dev\worlds\mm8\events\maps\d19.lua:252 assets_dev\worlds\mm8\events\maps\d19.lua:263
+#: assets_dev\worlds\mm8\events\maps\d20.lua:158 assets_dev\worlds\mm8\events\maps\d20.lua:161 assets_dev\worlds\mm8\events\maps\d20.lua:163
+#: assets_dev\worlds\mm8\events\maps\d20.lua:166 assets_dev\worlds\mm8\events\maps\d25.lua:150 assets_dev\worlds\mm8\events\maps\d25.lua:152
+#: assets_dev\worlds\mm8\events\maps\d29.lua:144 assets_dev\worlds\mm8\events\maps\d29.lua:147 assets_dev\worlds\mm8\events\maps\d29.lua:153
+#: assets_dev\worlds\mm8\events\maps\d29.lua:159 assets_dev\worlds\mm8\events\maps\d35.lua:275 assets_dev\worlds\mm8\events\maps\d35.lua:278
+#: assets_dev\worlds\mm8\events\maps\d35.lua:290 assets_dev\worlds\mm8\events\maps\d35.lua:293 assets_dev\worlds\mm8\events\maps\d35.lua:300
+#: assets_dev\worlds\mm8\events\maps\d35.lua:303 assets_dev\worlds\mm8\events\maps\d35.lua:315 assets_dev\worlds\mm8\events\maps\d35.lua:318
+#: assets_dev\worlds\mm8\events\maps\d37.lua:332 assets_dev\worlds\mm8\events\maps\d37.lua:335
 msgid "Button"
 msgstr "Кнопка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1193 assets_dev/worlds/mm8/events/maps/d05.lua:1195 assets_dev/worlds/mm8/events/maps/d05.lua:1197
-#: assets_dev/worlds/mm8/events/maps/d05.lua:1199 assets_dev/worlds/mm8/events/maps/d05.lua:896 assets_dev/worlds/mm8/events/maps/d05.lua:898
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1193 assets_dev\worlds\mm8\events\maps\d05.lua:1195 assets_dev\worlds\mm8\events\maps\d05.lua:1197
+#: assets_dev\worlds\mm8\events\maps\d05.lua:1199 assets_dev\worlds\mm8\events\maps\d05.lua:896 assets_dev\worlds\mm8\events\maps\d05.lua:898
 msgid "Leave the Abandoned Temple"
-msgstr "Покинуть Заброшенный Храм"
+msgstr "Выход: Заброшенный храм"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d06.lua:349 assets_dev/worlds/mm8/events/maps/d06.lua:357 assets_dev/worlds/mm8/events/maps/d12.lua:161
-#: assets_dev/worlds/mm8/events/maps/d12.lua:168 assets_dev/worlds/mm8/events/maps/d12.lua:170 assets_dev/worlds/mm8/events/maps/d12.lua:181
+#: assets_dev\worlds\mm8\events\maps\d06.lua:349 assets_dev\worlds\mm8\events\maps\d06.lua:357 assets_dev\worlds\mm8\events\maps\d12.lua:161
+#: assets_dev\worlds\mm8\events\maps\d12.lua:168 assets_dev\worlds\mm8\events\maps\d12.lua:170 assets_dev\worlds\mm8\events\maps\d12.lua:181
 msgid "Key Hole"
 msgstr "Замочная скважина"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d06.lua:352 assets_dev/worlds/mm8/events/maps/d06.lua:390
+#: assets_dev\worlds\mm8\events\maps\d06.lua:352 assets_dev\worlds\mm8\events\maps\d06.lua:390
 msgid "You don't have the Key"
 msgstr "У вас нет ключа"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d06.lua:444 assets_dev/worlds/mm8/events/maps/d34.lua:414
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d06.lua:444 assets_dev\worlds\mm8\events\maps\d34.lua:414
 msgid "Submarine"
-msgstr "Подводная Лодка"
+msgstr "Подводная лодка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d06.lua:446 assets_dev/worlds/mm8/events/maps/d06.lua:454 assets_dev/worlds/mm8/events/maps/d06_mmmerge.lua:16
-#: assets_dev/worlds/mm8/events/maps/d34.lua:416 assets_dev/worlds/mm8/events/maps/d34.lua:423 assets_dev/worlds/mm8/events/maps/d34_mmmerge.lua:5
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d06.lua:446 assets_dev\worlds\mm8\events\maps\d06.lua:454 assets_dev\worlds\mm8\events\maps\d06_mmmerge.lua:16
+#: assets_dev\worlds\mm8\events\maps\d34.lua:416 assets_dev\worlds\mm8\events\maps\d34.lua:423 assets_dev\worlds\mm8\events\maps\d34_mmmerge.lua:5
 msgid "Enter the Submarine"
-msgstr "Вход в подводную лодку"
+msgstr "Вход: Подводная лодка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d06.lua:471 assets_dev/worlds/mm8/events/maps/d06.lua:473
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d06.lua:471 assets_dev\worlds\mm8\events\maps\d06.lua:473
 msgid "Leave the Regnan Pirate Outpost"
-msgstr "Покинуть заставу регнанских пиратов"
+msgstr "Выход: Пиратский аванпост"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d07.lua:531 assets_dev/worlds/mm8/events/maps/d07.lua:533
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d07.lua:531 assets_dev\worlds\mm8\events\maps\d07.lua:533
 msgid "Leave Smuggler's Cove"
-msgstr "Покинуть Бухту Контрабандистов"
+msgstr "Выход: Бухта контрабандистов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d08.lua:134 assets_dev/worlds/mm8/events/maps/out02.lua:924
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d08.lua:134 assets_dev\worlds\mm8\events\maps\out02.lua:924
 msgid "You have killed all of the Dire Wolves"
-msgstr "Вы убили всех матерых волков"
+msgstr "Вы уничтожили всех ужасных волков"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d08.lua:427 assets_dev/worlds/mm8/events/maps/d08.lua:429
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d08.lua:427 assets_dev\worlds\mm8\events\maps\d08.lua:429
 msgid "Leave the Dire Wolf Den"
-msgstr "Покинуть Волчье Логово"
+msgstr "Выход: Логово гигантского волка"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d09.lua:134 assets_dev/worlds/mm8/events/maps/d09.lua:140 assets_dev/worlds/mm8/events/maps/d09.lua:503
-#: assets_dev/worlds/mm8/events/maps/d09.lua:529 assets_dev/worlds/mm8/events/maps/d09.lua:531 assets_dev/worlds/mm8/events/maps/d09.lua:535
-#: assets_dev/worlds/mm8/events/maps/d09.lua:537 assets_dev/worlds/mm8/events/maps/d09.lua:563 assets_dev/worlds/mm8/events/maps/d09.lua:565
-#: assets_dev/worlds/mm8/events/maps/d09.lua:591 assets_dev/worlds/mm8/events/maps/d09.lua:593 assets_dev/worlds/mm8/events/maps/d09.lua:619
-#: assets_dev/worlds/mm8/events/maps/d09.lua:621 assets_dev/worlds/mm8/events/maps/d09.lua:647 assets_dev/worlds/mm8/events/maps/d09.lua:649
-#: assets_dev/worlds/mm8/events/maps/d09.lua:653 assets_dev/worlds/mm8/events/maps/d09.lua:655 assets_dev/worlds/mm8/events/maps/d09.lua:657
-#: assets_dev/worlds/mm8/events/maps/d09.lua:659 assets_dev/worlds/mm8/events/maps/d09.lua:661 assets_dev/worlds/mm8/events/maps/d09.lua:663
-#: assets_dev/worlds/mm8/events/maps/d09.lua:665 assets_dev/worlds/mm8/events/maps/d09.lua:667 assets_dev/worlds/mm8/events/maps/d09.lua:669
-#: assets_dev/worlds/mm8/events/maps/d09.lua:671 assets_dev/worlds/mm8/events/maps/d09.lua:673 assets_dev/worlds/mm8/events/maps/d09.lua:675
-#: assets_dev/worlds/mm8/events/maps/d09.lua:677 assets_dev/worlds/mm8/events/maps/d09.lua:679 assets_dev/worlds/mm8/events/maps/d16.lua:189
-#: assets_dev/worlds/mm8/events/maps/d16.lua:191 assets_dev/worlds/mm8/events/maps/d16.lua:475 assets_dev/worlds/mm8/events/maps/d20.lua:496
-#: assets_dev/worlds/mm8/events/maps/d20.lua:515 assets_dev/worlds/mm8/events/maps/d20.lua:517 assets_dev/worlds/mm8/events/maps/d20.lua:536
-#: assets_dev/worlds/mm8/events/maps/d20.lua:538 assets_dev/worlds/mm8/events/maps/d20.lua:557 assets_dev/worlds/mm8/events/maps/d20.lua:559
-#: assets_dev/worlds/mm8/events/maps/d20.lua:578 assets_dev/worlds/mm8/events/maps/d40.lua:476 assets_dev/worlds/mm8/events/maps/d40.lua:497
-#: assets_dev/worlds/mm8/events/maps/d40.lua:499 assets_dev/worlds/mm8/events/maps/d40.lua:520 assets_dev/worlds/mm8/events/maps/d40.lua:522
-#: assets_dev/worlds/mm8/events/maps/d40.lua:543 assets_dev/worlds/mm8/events/maps/d40.lua:545 assets_dev/worlds/mm8/events/maps/d40.lua:566
-#: assets_dev/worlds/mm8/events/maps/d40.lua:568 assets_dev/worlds/mm8/events/maps/d40.lua:589 assets_dev/worlds/mm8/events/maps/d40.lua:591
-#: assets_dev/worlds/mm8/events/maps/d40.lua:612 assets_dev/worlds/mm8/events/maps/d40.lua:614 assets_dev/worlds/mm8/events/maps/d40.lua:635
-#: assets_dev/worlds/mm8/events/maps/d40.lua:637 assets_dev/worlds/mm8/events/maps/d40.lua:658 assets_dev/worlds/mm8/events/maps/d40.lua:660
-#: assets_dev/worlds/mm8/events/maps/d40.lua:681 assets_dev/worlds/mm8/events/maps/d40.lua:683 assets_dev/worlds/mm8/events/maps/d40.lua:704
-#: assets_dev/worlds/mm8/events/maps/d40.lua:706 assets_dev/worlds/mm8/events/maps/d40.lua:708 assets_dev/worlds/mm8/events/maps/d44.lua:475
-#: assets_dev/worlds/mm8/events/maps/d44.lua:496
+#: assets_dev\worlds\mm8\events\maps\d09.lua:134 assets_dev\worlds\mm8\events\maps\d09.lua:140 assets_dev\worlds\mm8\events\maps\d09.lua:503
+#: assets_dev\worlds\mm8\events\maps\d09.lua:529 assets_dev\worlds\mm8\events\maps\d09.lua:531 assets_dev\worlds\mm8\events\maps\d09.lua:535
+#: assets_dev\worlds\mm8\events\maps\d09.lua:537 assets_dev\worlds\mm8\events\maps\d09.lua:563 assets_dev\worlds\mm8\events\maps\d09.lua:565
+#: assets_dev\worlds\mm8\events\maps\d09.lua:591 assets_dev\worlds\mm8\events\maps\d09.lua:593 assets_dev\worlds\mm8\events\maps\d09.lua:619
+#: assets_dev\worlds\mm8\events\maps\d09.lua:621 assets_dev\worlds\mm8\events\maps\d09.lua:647 assets_dev\worlds\mm8\events\maps\d09.lua:649
+#: assets_dev\worlds\mm8\events\maps\d09.lua:653 assets_dev\worlds\mm8\events\maps\d09.lua:655 assets_dev\worlds\mm8\events\maps\d09.lua:657
+#: assets_dev\worlds\mm8\events\maps\d09.lua:659 assets_dev\worlds\mm8\events\maps\d09.lua:661 assets_dev\worlds\mm8\events\maps\d09.lua:663
+#: assets_dev\worlds\mm8\events\maps\d09.lua:665 assets_dev\worlds\mm8\events\maps\d09.lua:667 assets_dev\worlds\mm8\events\maps\d09.lua:669
+#: assets_dev\worlds\mm8\events\maps\d09.lua:671 assets_dev\worlds\mm8\events\maps\d09.lua:673 assets_dev\worlds\mm8\events\maps\d09.lua:675
+#: assets_dev\worlds\mm8\events\maps\d09.lua:677 assets_dev\worlds\mm8\events\maps\d09.lua:679 assets_dev\worlds\mm8\events\maps\d16.lua:189
+#: assets_dev\worlds\mm8\events\maps\d16.lua:191 assets_dev\worlds\mm8\events\maps\d16.lua:475 assets_dev\worlds\mm8\events\maps\d20.lua:496
+#: assets_dev\worlds\mm8\events\maps\d20.lua:515 assets_dev\worlds\mm8\events\maps\d20.lua:517 assets_dev\worlds\mm8\events\maps\d20.lua:536
+#: assets_dev\worlds\mm8\events\maps\d20.lua:538 assets_dev\worlds\mm8\events\maps\d20.lua:557 assets_dev\worlds\mm8\events\maps\d20.lua:559
+#: assets_dev\worlds\mm8\events\maps\d20.lua:578 assets_dev\worlds\mm8\events\maps\d40.lua:476 assets_dev\worlds\mm8\events\maps\d40.lua:497
+#: assets_dev\worlds\mm8\events\maps\d40.lua:499 assets_dev\worlds\mm8\events\maps\d40.lua:520 assets_dev\worlds\mm8\events\maps\d40.lua:522
+#: assets_dev\worlds\mm8\events\maps\d40.lua:543 assets_dev\worlds\mm8\events\maps\d40.lua:545 assets_dev\worlds\mm8\events\maps\d40.lua:566
+#: assets_dev\worlds\mm8\events\maps\d40.lua:568 assets_dev\worlds\mm8\events\maps\d40.lua:589 assets_dev\worlds\mm8\events\maps\d40.lua:591
+#: assets_dev\worlds\mm8\events\maps\d40.lua:612 assets_dev\worlds\mm8\events\maps\d40.lua:614 assets_dev\worlds\mm8\events\maps\d40.lua:635
+#: assets_dev\worlds\mm8\events\maps\d40.lua:637 assets_dev\worlds\mm8\events\maps\d40.lua:658 assets_dev\worlds\mm8\events\maps\d40.lua:660
+#: assets_dev\worlds\mm8\events\maps\d40.lua:681 assets_dev\worlds\mm8\events\maps\d40.lua:683 assets_dev\worlds\mm8\events\maps\d40.lua:704
+#: assets_dev\worlds\mm8\events\maps\d40.lua:706 assets_dev\worlds\mm8\events\maps\d40.lua:708 assets_dev\worlds\mm8\events\maps\d44.lua:475
+#: assets_dev\worlds\mm8\events\maps\d44.lua:496
 msgid "Bookshelf"
 msgstr "Книжная полка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d09.lua:681 assets_dev/worlds/mm8/events/maps/d09.lua:683 assets_dev/worlds/mm8/events/maps/d09.lua:685
-#: assets_dev/worlds/mm8/events/maps/d09.lua:687
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d09.lua:681 assets_dev\worlds\mm8\events\maps\d09.lua:683 assets_dev\worlds\mm8\events\maps\d09.lua:685
+#: assets_dev\worlds\mm8\events\maps\d09.lua:687
 msgid "Leave Merchant House of Alvar"
-msgstr "Покинуть Торговый Дом Альвара"
+msgstr "Выход: Торговый дом Альвара"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d10.lua:905 assets_dev/worlds/mm8/events/maps/d10.lua:907 assets_dev/worlds/mm8/events/maps/d10.lua:909
-#: assets_dev/worlds/mm8/events/maps/d10.lua:913
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d10.lua:905 assets_dev\worlds\mm8\events\maps\d10.lua:907 assets_dev\worlds\mm8\events\maps\d10.lua:909
+#: assets_dev\worlds\mm8\events\maps\d10.lua:913
 msgid "Leave Escaton's Crystal"
-msgstr "Покинуть Кристалл Эскатона"
+msgstr "Выход: Кристалл Эскатона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d11.lua:412 assets_dev/worlds/mm8/events/maps/d11.lua:414 assets_dev/worlds/mm8/events/maps/d11.lua:416
-#: assets_dev/worlds/mm8/events/maps/d11.lua:418 assets_dev/worlds/mm8/events/maps/d11.lua:420 assets_dev/worlds/mm8/events/maps/d11.lua:422
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d11.lua:412 assets_dev\worlds\mm8\events\maps\d11.lua:414 assets_dev\worlds\mm8\events\maps\d11.lua:416
+#: assets_dev\worlds\mm8\events\maps\d11.lua:418 assets_dev\worlds\mm8\events\maps\d11.lua:420 assets_dev\worlds\mm8\events\maps\d11.lua:422
 msgid "Leave the Wasp Nest"
-msgstr "Покинуть Осиное Гнездо"
+msgstr "Выход: Осиное гнездо"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d12.lua:146
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d12.lua:146
 msgid "You have Killed all of the Ogres"
-msgstr "Все огры перебиты"
+msgstr "Вы уничтожили всех огров"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d12.lua:490 assets_dev/worlds/mm8/events/maps/d12.lua:492
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d12.lua:490 assets_dev\worlds\mm8\events\maps\d12.lua:492
 msgid "Leave the Ogre Raiding Fortress"
-msgstr "Покинуть Форт Огрских Разбойников"
+msgstr "Выход: Крепость Огра"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d13.lua:1045 assets_dev/worlds/mm8/events/maps/d13.lua:1047
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d13.lua:1045 assets_dev\worlds\mm8\events\maps\d13.lua:1047
 msgid "Leave the Troll Tomb"
-msgstr "Покинуть Могильник Троллей"
+msgstr "Выход: Гробница троллей"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d13.lua:604
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d13.lua:604
 msgid "Vilebite is now at rest !"
-msgstr "Зубарь упокоился с миром!"
+msgstr "Вайлбайт теперь ушел из жизни!"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d14.lua:449 assets_dev/worlds/mm8/events/maps/d14.lua:451
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d14.lua:449 assets_dev\worlds\mm8\events\maps\d14.lua:451
 msgid "Leave the Cyclops Larder"
-msgstr "Покинуть Кладовую Циклопов"
+msgstr "Выход: «Кладовая Циклопа»"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d15.lua:419 assets_dev/worlds/mm8/events/maps/d15.lua:421 assets_dev/worlds/mm8/events/maps/d15.lua:423
-#: assets_dev/worlds/mm8/events/maps/d15.lua:425
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d15.lua:419 assets_dev\worlds\mm8\events\maps\d15.lua:421 assets_dev\worlds\mm8\events\maps\d15.lua:423
+#: assets_dev\worlds\mm8\events\maps\d15.lua:425
 msgid "Leave the Chain of Fire"
-msgstr "Покинуть Огненную Цепь"
+msgstr "Выход: Цепь огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d16.lua:168 assets_dev/worlds/mm8/events/maps/out05.lua:415 assets_dev/worlds/mm8/events/maps/out05_mmmerge.lua:21
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d16.lua:168 assets_dev\worlds\mm8\events\maps\out05.lua:415 assets_dev\worlds\mm8\events\maps\out05_mmmerge.lua:21
 msgid "You have killed all of the Dragon Hunters"
-msgstr "Вы перебили всех Охотников на Драконов"
+msgstr "Вы уничтожили всех охотников на драконов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d16.lua:497 assets_dev/worlds/mm8/events/maps/d16.lua:499
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d16.lua:497 assets_dev\worlds\mm8\events\maps\d16.lua:499
 msgid "Leave the Dragon Hunter's Camp"
-msgstr "Покинуть Лагерь Охотников на Драконов"
+msgstr "Выход: Лагерь охотников на драконов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d17.lua:139 assets_dev/worlds/mm8/events/maps/out05.lua:381 assets_dev/worlds/mm8/events/maps/out05_mmmerge.lua:12
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d17.lua:139 assets_dev\worlds\mm8\events\maps\out05.lua:381 assets_dev\worlds\mm8\events\maps\out05_mmmerge.lua:12
 msgid "You have killed all of the Dragons"
-msgstr "Вы перебили всех Драконов"
+msgstr "Вы уничтожили всех драконов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d17.lua:268 assets_dev/worlds/mm8/events/maps/d17.lua:270
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d17.lua:268 assets_dev\worlds\mm8\events\maps\d17.lua:270
 msgid "Leave the dragon cave"
-msgstr "Покинуть драконью пещеру"
+msgstr "Выход: Пещера Дракона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d18.lua:437 assets_dev/worlds/mm8/events/maps/d18.lua:439
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d18.lua:437 assets_dev\worlds\mm8\events\maps\d18.lua:439
 msgid "Leave the Naga Vault"
-msgstr "Покинуть Святилище Нагов"
+msgstr "Выход: Хранилище Нага"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:262
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d19.lua:262
 msgid "The Door will not move"
-msgstr "Дверь неподвижна"
+msgstr "Дверь не сдвигается с места"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:265 assets_dev/worlds/mm8/events/maps/d19.lua:292 assets_dev/worlds/mm8/events/maps/d19.lua:294
-#: assets_dev/worlds/mm8/events/maps/d19.lua:322 assets_dev/worlds/mm8/events/maps/d19.lua:324 assets_dev/worlds/mm8/events/maps/d19.lua:351
-#: assets_dev/worlds/mm8/events/maps/d19.lua:353 assets_dev/worlds/mm8/events/maps/d19.lua:381 assets_dev/worlds/mm8/events/maps/d19.lua:383
-#: assets_dev/worlds/mm8/events/maps/d19.lua:411 assets_dev/worlds/mm8/events/maps/d24.lua:231 assets_dev/worlds/mm8/events/maps/d24.lua:277
-#: assets_dev/worlds/mm8/events/maps/d24.lua:279 assets_dev/worlds/mm8/events/maps/d24.lua:285 assets_dev/worlds/mm8/events/maps/d24.lua:287
-#: assets_dev/worlds/mm8/events/maps/d24.lua:296 assets_dev/worlds/mm8/events/maps/d24.lua:298 assets_dev/worlds/mm8/events/maps/d24.lua:307
-#: assets_dev/worlds/mm8/events/maps/d24.lua:309 assets_dev/worlds/mm8/events/maps/d24.lua:315 assets_dev/worlds/mm8/events/maps/d24.lua:317
-#: assets_dev/worlds/mm8/events/maps/d24.lua:329 assets_dev/worlds/mm8/events/maps/d24.lua:331 assets_dev/worlds/mm8/events/maps/d24.lua:343
-#: assets_dev/worlds/mm8/events/maps/d24.lua:345 assets_dev/worlds/mm8/events/maps/d24.lua:357 assets_dev/worlds/mm8/events/maps/d24.lua:359
-#: assets_dev/worlds/mm8/events/maps/d24.lua:368 assets_dev/worlds/mm8/events/maps/d24.lua:370 assets_dev/worlds/mm8/events/maps/d24.lua:379
-#: assets_dev/worlds/mm8/events/maps/d24.lua:381 assets_dev/worlds/mm8/events/maps/d24.lua:390 assets_dev/worlds/mm8/events/maps/d24.lua:392
-#: assets_dev/worlds/mm8/events/maps/d24.lua:423 assets_dev/worlds/mm8/events/maps/d25.lua:366 assets_dev/worlds/mm8/events/maps/d25.lua:369
-#: assets_dev/worlds/mm8/events/maps/d35.lua:250 assets_dev/worlds/mm8/events/maps/d35.lua:253 assets_dev/worlds/mm8/events/maps/d35.lua:255
-#: assets_dev/worlds/mm8/events/maps/d35.lua:258 assets_dev/worlds/mm8/events/maps/d35.lua:260 assets_dev/worlds/mm8/events/maps/d35.lua:263
-#: assets_dev/worlds/mm8/events/maps/d35.lua:265 assets_dev/worlds/mm8/events/maps/d35.lua:268 assets_dev/worlds/mm8/events/maps/d35.lua:270
-#: assets_dev/worlds/mm8/events/maps/d35.lua:273 assets_dev/worlds/mm8/events/maps/d35.lua:280 assets_dev/worlds/mm8/events/maps/d35.lua:283
-#: assets_dev/worlds/mm8/events/maps/d35.lua:285 assets_dev/worlds/mm8/events/maps/d35.lua:288 assets_dev/worlds/mm8/events/maps/d35.lua:295
-#: assets_dev/worlds/mm8/events/maps/d35.lua:298 assets_dev/worlds/mm8/events/maps/d35.lua:305 assets_dev/worlds/mm8/events/maps/d35.lua:308
-#: assets_dev/worlds/mm8/events/maps/d35.lua:310 assets_dev/worlds/mm8/events/maps/d35.lua:313
+#: assets_dev\worlds\mm8\events\maps\d19.lua:265 assets_dev\worlds\mm8\events\maps\d19.lua:292 assets_dev\worlds\mm8\events\maps\d19.lua:294
+#: assets_dev\worlds\mm8\events\maps\d19.lua:322 assets_dev\worlds\mm8\events\maps\d19.lua:324 assets_dev\worlds\mm8\events\maps\d19.lua:351
+#: assets_dev\worlds\mm8\events\maps\d19.lua:353 assets_dev\worlds\mm8\events\maps\d19.lua:381 assets_dev\worlds\mm8\events\maps\d19.lua:383
+#: assets_dev\worlds\mm8\events\maps\d19.lua:411 assets_dev\worlds\mm8\events\maps\d24.lua:231 assets_dev\worlds\mm8\events\maps\d24.lua:277
+#: assets_dev\worlds\mm8\events\maps\d24.lua:279 assets_dev\worlds\mm8\events\maps\d24.lua:285 assets_dev\worlds\mm8\events\maps\d24.lua:287
+#: assets_dev\worlds\mm8\events\maps\d24.lua:296 assets_dev\worlds\mm8\events\maps\d24.lua:298 assets_dev\worlds\mm8\events\maps\d24.lua:307
+#: assets_dev\worlds\mm8\events\maps\d24.lua:309 assets_dev\worlds\mm8\events\maps\d24.lua:315 assets_dev\worlds\mm8\events\maps\d24.lua:317
+#: assets_dev\worlds\mm8\events\maps\d24.lua:329 assets_dev\worlds\mm8\events\maps\d24.lua:331 assets_dev\worlds\mm8\events\maps\d24.lua:343
+#: assets_dev\worlds\mm8\events\maps\d24.lua:345 assets_dev\worlds\mm8\events\maps\d24.lua:357 assets_dev\worlds\mm8\events\maps\d24.lua:359
+#: assets_dev\worlds\mm8\events\maps\d24.lua:368 assets_dev\worlds\mm8\events\maps\d24.lua:370 assets_dev\worlds\mm8\events\maps\d24.lua:379
+#: assets_dev\worlds\mm8\events\maps\d24.lua:381 assets_dev\worlds\mm8\events\maps\d24.lua:390 assets_dev\worlds\mm8\events\maps\d24.lua:392
+#: assets_dev\worlds\mm8\events\maps\d24.lua:423 assets_dev\worlds\mm8\events\maps\d25.lua:366 assets_dev\worlds\mm8\events\maps\d25.lua:369
+#: assets_dev\worlds\mm8\events\maps\d35.lua:250 assets_dev\worlds\mm8\events\maps\d35.lua:253 assets_dev\worlds\mm8\events\maps\d35.lua:255
+#: assets_dev\worlds\mm8\events\maps\d35.lua:258 assets_dev\worlds\mm8\events\maps\d35.lua:260 assets_dev\worlds\mm8\events\maps\d35.lua:263
+#: assets_dev\worlds\mm8\events\maps\d35.lua:265 assets_dev\worlds\mm8\events\maps\d35.lua:268 assets_dev\worlds\mm8\events\maps\d35.lua:270
+#: assets_dev\worlds\mm8\events\maps\d35.lua:273 assets_dev\worlds\mm8\events\maps\d35.lua:280 assets_dev\worlds\mm8\events\maps\d35.lua:283
+#: assets_dev\worlds\mm8\events\maps\d35.lua:285 assets_dev\worlds\mm8\events\maps\d35.lua:288 assets_dev\worlds\mm8\events\maps\d35.lua:295
+#: assets_dev\worlds\mm8\events\maps\d35.lua:298 assets_dev\worlds\mm8\events\maps\d35.lua:305 assets_dev\worlds\mm8\events\maps\d35.lua:308
+#: assets_dev\worlds\mm8\events\maps\d35.lua:310 assets_dev\worlds\mm8\events\maps\d35.lua:313
 msgid "Lever"
 msgstr "Рычаг"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:268 assets_dev/worlds/mm8/events/maps/d19.lua:271 assets_dev/worlds/mm8/events/maps/d19.lua:274
-#: assets_dev/worlds/mm8/events/maps/d19.lua:277 assets_dev/worlds/mm8/events/maps/d19.lua:280 assets_dev/worlds/mm8/events/maps/d19.lua:291
-#: assets_dev/worlds/mm8/events/maps/d19.lua:296 assets_dev/worlds/mm8/events/maps/d19.lua:299 assets_dev/worlds/mm8/events/maps/d19.lua:302
-#: assets_dev/worlds/mm8/events/maps/d19.lua:305 assets_dev/worlds/mm8/events/maps/d19.lua:316 assets_dev/worlds/mm8/events/maps/d19.lua:319
-#: assets_dev/worlds/mm8/events/maps/d19.lua:326 assets_dev/worlds/mm8/events/maps/d19.lua:329 assets_dev/worlds/mm8/events/maps/d19.lua:332
-#: assets_dev/worlds/mm8/events/maps/d19.lua:335 assets_dev/worlds/mm8/events/maps/d19.lua:338 assets_dev/worlds/mm8/events/maps/d19.lua:348
-#: assets_dev/worlds/mm8/events/maps/d19.lua:355 assets_dev/worlds/mm8/events/maps/d19.lua:358 assets_dev/worlds/mm8/events/maps/d19.lua:369
-#: assets_dev/worlds/mm8/events/maps/d19.lua:372 assets_dev/worlds/mm8/events/maps/d19.lua:378 assets_dev/worlds/mm8/events/maps/d19.lua:385
-#: assets_dev/worlds/mm8/events/maps/d19.lua:388 assets_dev/worlds/mm8/events/maps/d19.lua:391 assets_dev/worlds/mm8/events/maps/d19.lua:402
-#: assets_dev/worlds/mm8/events/maps/d19.lua:405 assets_dev/worlds/mm8/events/maps/d19.lua:408
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d19.lua:268 assets_dev\worlds\mm8\events\maps\d19.lua:271 assets_dev\worlds\mm8\events\maps\d19.lua:274
+#: assets_dev\worlds\mm8\events\maps\d19.lua:277 assets_dev\worlds\mm8\events\maps\d19.lua:280 assets_dev\worlds\mm8\events\maps\d19.lua:291
+#: assets_dev\worlds\mm8\events\maps\d19.lua:296 assets_dev\worlds\mm8\events\maps\d19.lua:299 assets_dev\worlds\mm8\events\maps\d19.lua:302
+#: assets_dev\worlds\mm8\events\maps\d19.lua:305 assets_dev\worlds\mm8\events\maps\d19.lua:316 assets_dev\worlds\mm8\events\maps\d19.lua:319
+#: assets_dev\worlds\mm8\events\maps\d19.lua:326 assets_dev\worlds\mm8\events\maps\d19.lua:329 assets_dev\worlds\mm8\events\maps\d19.lua:332
+#: assets_dev\worlds\mm8\events\maps\d19.lua:335 assets_dev\worlds\mm8\events\maps\d19.lua:338 assets_dev\worlds\mm8\events\maps\d19.lua:348
+#: assets_dev\worlds\mm8\events\maps\d19.lua:355 assets_dev\worlds\mm8\events\maps\d19.lua:358 assets_dev\worlds\mm8\events\maps\d19.lua:369
+#: assets_dev\worlds\mm8\events\maps\d19.lua:372 assets_dev\worlds\mm8\events\maps\d19.lua:378 assets_dev\worlds\mm8\events\maps\d19.lua:385
+#: assets_dev\worlds\mm8\events\maps\d19.lua:388 assets_dev\worlds\mm8\events\maps\d19.lua:391 assets_dev\worlds\mm8\events\maps\d19.lua:402
+#: assets_dev\worlds\mm8\events\maps\d19.lua:405 assets_dev\worlds\mm8\events\maps\d19.lua:408
 msgid "The lever will not move"
-msgstr "Рычаг неподвижен"
+msgstr "Рычаг не сдвигается с места"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:413 assets_dev/worlds/mm8/events/maps/d19.lua:425
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d19.lua:413 assets_dev\worlds\mm8\events\maps\d19.lua:425
 msgid "Door Beam"
-msgstr "Перекладина"
+msgstr "Дверная балка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:415
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d19.lua:415
 msgid "The Beam will not move"
-msgstr "Перекладина неподвижна"
+msgstr "Балка не сдвинется с места"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d19.lua:965 assets_dev/worlds/mm8/events/maps/d19.lua:967
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d19.lua:965 assets_dev\worlds\mm8\events\maps\d19.lua:967
 msgid "Leave the Necromancers' Guild"
-msgstr "Покинуть Гильдию Некромантов"
+msgstr "Выход: Гильдия некромантов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d20.lua:492 assets_dev/worlds/mm8/events/maps/d20.lua:494 assets_dev/worlds/mm8/events/maps/d35.lua:474
-#: assets_dev/worlds/mm8/events/maps/d35.lua:476 assets_dev/worlds/mm8/events/maps/elema.lua:230 assets_dev/worlds/mm8/events/maps/elema.lua:238
-#: assets_dev/worlds/mm8/events/maps/eleme.lua:515 assets_dev/worlds/mm8/events/maps/eleme.lua:523 assets_dev/worlds/mm8/events/maps/elemf.lua:219
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:227 assets_dev/worlds/mm8/events/maps/elemw.lua:213 assets_dev/worlds/mm8/events/maps/elemw.lua:221
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d20.lua:492 assets_dev\worlds\mm8\events\maps\d20.lua:494 assets_dev\worlds\mm8\events\maps\d35.lua:474
+#: assets_dev\worlds\mm8\events\maps\d35.lua:476 assets_dev\worlds\mm8\events\maps\elema.lua:230 assets_dev\worlds\mm8\events\maps\elema.lua:238
+#: assets_dev\worlds\mm8\events\maps\eleme.lua:515 assets_dev\worlds\mm8\events\maps\eleme.lua:523 assets_dev\worlds\mm8\events\maps\elemf.lua:219
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:227 assets_dev\worlds\mm8\events\maps\elemw.lua:213 assets_dev\worlds\mm8\events\maps\elemw.lua:221
 msgid "Take a Drink"
-msgstr "Выпить напиток"
+msgstr "Выпить"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d20.lua:493
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d20.lua:493
 msgid "Refreshing !"
+msgstr "Как приятно!"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d20.lua:580 assets_dev\worlds\mm8\events\maps\d20.lua:582
+msgid "Leave the Mad Necromancer's Lab"
+msgstr "Выход: Лаборатория Безумного Некроманта"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d21.lua:412 assets_dev\worlds\mm8\events\maps\d21.lua:414
+msgid "Leave the Vampire Crypt"
+msgstr "Выход: Гробница вампира"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d22.lua:514 assets_dev\worlds\mm8\events\maps\d22.lua:516
+msgid "Leave the Temple of the Sun"
+msgstr "Выход: Храм Солнца"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d23.lua:443 assets_dev\worlds\mm8\events\maps\d23.lua:445
+msgid "Leave the Druid Circle"
+msgstr "Выход: Круг друидов"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d24.lua:130 assets_dev\worlds\mm8\events\maps\d24.lua:931 assets_dev\worlds\mm8\events\maps\d24.lua:937
+#: assets_dev\worlds\mm8\events\maps\d24.lua:939
+msgid "Guild of Mind"
+msgstr "Гильдия разума"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d24.lua:791 assets_dev\worlds\mm8\events\maps\d24.lua:799
+msgid "Drink from the Fountain"
+msgstr "Выпить из фонтана"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d24.lua:797
+msgid "Your wounds begin to heal"
+msgstr "Твои раны начинают заживать"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d24.lua:941 assets_dev\worlds\mm8\events\maps\d24.lua:943 assets_dev\worlds\mm8\events\maps\d24.lua:945
+#: assets_dev\worlds\mm8\events\maps\d24.lua:947
+msgid "Leave Balthazar Lair"
+msgstr "Выход: Логово Бальтазара"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d25.lua:451 assets_dev\worlds\mm8\events\maps\d25.lua:453 assets_dev\worlds\mm8\events\maps\d25.lua:455
+#: assets_dev\worlds\mm8\events\maps\d25.lua:457 assets_dev\worlds\mm8\events\maps\d25.lua:459 assets_dev\worlds\mm8\events\maps\d25.lua:461
+#: assets_dev\worlds\mm8\events\maps\d25.lua:463 assets_dev\worlds\mm8\events\maps\d25.lua:465
+msgid "Leave the Barbarian Fortress"
+msgstr "Выход: Крепость варваров"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d26.lua:463 assets_dev\worlds\mm8\events\maps\d26.lua:465
+msgid "Leave the Crypt of Korbu"
+msgstr "Выход: Усыпальница Корбу"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d27.lua:478 assets_dev\worlds\mm8\events\maps\d27.lua:480
+msgid "Leave the Castle Air"
+msgstr "Выход: Воздушный замок"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d28.lua:416 assets_dev\worlds\mm8\events\maps\d28.lua:418
+msgid "Leave the Tomb of Lord Brinne"
+msgstr "Выход: Гробница лорда Бринна"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d29.lua:454 assets_dev\worlds\mm8\events\maps\d29.lua:456
+msgid "Leave the Castle of Fire"
+msgstr "Выход: Огненный замок"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d30.lua:415 assets_dev\worlds\mm8\events\maps\d30.lua:417
+msgid "Leave the War Camp"
+msgstr "Выход: Военный лагерь"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d31.lua:138 assets_dev\worlds\mm8\events\maps\d31.lua:140 assets_dev\worlds\mm8\events\maps\d31.lua:142
+#: assets_dev\worlds\mm8\events\maps\d31.lua:144 assets_dev\worlds\mm8\events\maps\d31.lua:146 assets_dev\worlds\mm8\events\maps\d31.lua:148
+#: assets_dev\worlds\mm8\events\maps\d31.lua:150 assets_dev\worlds\mm8\events\maps\d31.lua:152
+msgid "Lift"
+msgstr "Лифт"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d31.lua:451 assets_dev\worlds\mm8\events\maps\d31.lua:453 assets_dev\worlds\mm8\events\maps\d31.lua:455
+#: assets_dev\worlds\mm8\events\maps\d31.lua:457
+msgid "Leave the Pirate Stronghold"
+msgstr "Выход: Пиратская крепость"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d32.lua:488 assets_dev\worlds\mm8\events\maps\d32.lua:497 assets_dev\worlds\mm8\events\maps\d32.lua:506
+#: assets_dev\worlds\mm8\events\maps\d32.lua:515
+msgid "The ship begins to sink"
+msgstr "Корабль начинает тонуть"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d32.lua:523 assets_dev\worlds\mm8\events\maps\d32.lua:525 assets_dev\worlds\mm8\events\maps\d32.lua:527
+#: assets_dev\worlds\mm8\events\maps\d32.lua:529
+msgid "Leave the Abandoned Pirate Keep"
+msgstr "Выход: Заброшенная пиратская крепость"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d33.lua:413 assets_dev\worlds\mm8\events\maps\d33.lua:415 assets_dev\worlds\mm8\events\maps\d33.lua:417
+#: assets_dev\worlds\mm8\events\maps\d33.lua:419 assets_dev\worlds\mm8\events\maps\d33.lua:421 assets_dev\worlds\mm8\events\maps\d33.lua:428
+#: assets_dev\worlds\mm8\events\maps\d33.lua:430 assets_dev\worlds\mm8\events\maps\d33.lua:437
+msgid "Leave the Passage Under Regna"
+msgstr "Выход: Проход под Регной"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d34.lua:425 assets_dev\worlds\mm8\events\maps\d34.lua:427
+msgid "Leave the Small Sub Pen"
+msgstr "Выход: Малый док подводных лодок"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d35.lua:475 assets_dev\worlds\mm8\events\maps\elema.lua:237 assets_dev\worlds\mm8\events\maps\eleme.lua:522
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:226 assets_dev\worlds\mm8\events\maps\elemw.lua:220 assets_dev\worlds\mm8\events\maps\out01.lua:387
+#: assets_dev\worlds\mm8\events\maps\out01.lua:397 assets_dev\worlds\mm8\events\maps\out01.lua:403 assets_dev\worlds\mm8\events\maps\out01.lua:406
+#: assets_dev\worlds\mm8\events\maps\out01.lua:413 assets_dev\worlds\mm8\events\maps\out01.lua:417 assets_dev\worlds\mm8\events\maps\out01.lua:427
+#: assets_dev\worlds\mm8\events\maps\out02.lua:863 assets_dev\worlds\mm8\events\maps\out02.lua:872 assets_dev\worlds\mm8\events\maps\out02.lua:880
+#: assets_dev\worlds\mm8\events\maps\out02.lua:883 assets_dev\worlds\mm8\events\maps\out02.lua:886 assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:11
+#: assets_dev\worlds\mm8\events\maps\out03.lua:446 assets_dev\worlds\mm8\events\maps\out03.lua:456 assets_dev\worlds\mm8\events\maps\out03.lua:460
+#: assets_dev\worlds\mm8\events\maps\out03.lua:473 assets_dev\worlds\mm8\events\maps\out04.lua:269 assets_dev\worlds\mm8\events\maps\out04.lua:275
+#: assets_dev\worlds\mm8\events\maps\out04.lua:278 assets_dev\worlds\mm8\events\maps\out04.lua:286 assets_dev\worlds\mm8\events\maps\out04.lua:290
+#: assets_dev\worlds\mm8\events\maps\out05.lua:314 assets_dev\worlds\mm8\events\maps\out05.lua:317 assets_dev\worlds\mm8\events\maps\out05.lua:325
+#: assets_dev\worlds\mm8\events\maps\out05.lua:335 assets_dev\worlds\mm8\events\maps\out05.lua:345 assets_dev\worlds\mm8\events\maps\out06.lua:423
+#: assets_dev\worlds\mm8\events\maps\out06.lua:429 assets_dev\worlds\mm8\events\maps\out06.lua:432 assets_dev\worlds\mm8\events\maps\out06.lua:440
+#: assets_dev\worlds\mm8\events\maps\out06.lua:444 assets_dev\worlds\mm8\events\maps\out06.lua:457 assets_dev\worlds\mm8\events\maps\out07.lua:268
+#: assets_dev\worlds\mm8\events\maps\out07.lua:272 assets_dev\worlds\mm8\events\maps\out08.lua:231 assets_dev\worlds\mm8\events\maps\out08.lua:234
+#: assets_dev\worlds\mm8\events\maps\out08.lua:241 assets_dev\worlds\mm8\events\maps\out08.lua:250 assets_dev\worlds\mm8\events\maps\out08.lua:254
+#: assets_dev\worlds\mm8\events\maps\out13.lua:303 assets_dev\worlds\mm8\events\maps\out13.lua:307 assets_dev\worlds\mm8\events\maps\out13.lua:311
+#: assets_dev\worlds\mm8\events\maps\out13.lua:315
+msgid "Refreshing"
 msgstr "Освежает!"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d20.lua:580 assets_dev/worlds/mm8/events/maps/d20.lua:582
-msgid "Leave the Mad Necromancer's Lab"
-msgstr "Покинуть Лабораторию Безумного Некроманта"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d21.lua:412 assets_dev/worlds/mm8/events/maps/d21.lua:414
-msgid "Leave the Vampire Crypt"
-msgstr "Покинуть Вампирский Склеп"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d22.lua:514 assets_dev/worlds/mm8/events/maps/d22.lua:516
-msgid "Leave the Temple of the Sun"
-msgstr "Покинуть Храм Солнца"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d23.lua:443 assets_dev/worlds/mm8/events/maps/d23.lua:445
-msgid "Leave the Druid Circle"
-msgstr "Покинуть Друидский Круг"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d24.lua:791 assets_dev/worlds/mm8/events/maps/d24.lua:799
-msgid "Drink from the Fountain"
-msgstr "Напиться из фонтана"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d24.lua:797
-msgid "Your wounds begin to heal"
-msgstr "Ваши раны начинают затягиваться"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d24.lua:941 assets_dev/worlds/mm8/events/maps/d24.lua:943 assets_dev/worlds/mm8/events/maps/d24.lua:945
-#: assets_dev/worlds/mm8/events/maps/d24.lua:947
-msgid "Leave Balthazar Lair"
-msgstr "Покинуть Бальтазарову Пещеру"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d25.lua:451 assets_dev/worlds/mm8/events/maps/d25.lua:453 assets_dev/worlds/mm8/events/maps/d25.lua:455
-#: assets_dev/worlds/mm8/events/maps/d25.lua:457 assets_dev/worlds/mm8/events/maps/d25.lua:459 assets_dev/worlds/mm8/events/maps/d25.lua:461
-#: assets_dev/worlds/mm8/events/maps/d25.lua:463 assets_dev/worlds/mm8/events/maps/d25.lua:465
-msgid "Leave the Barbarian Fortress"
-msgstr "Покинуть Крепость Варваров"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d26.lua:463 assets_dev/worlds/mm8/events/maps/d26.lua:465
-msgid "Leave the Crypt of Korbu"
-msgstr "Покинуть Склеп Корбу"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d27.lua:478 assets_dev/worlds/mm8/events/maps/d27.lua:480
-msgid "Leave the Castle Air"
-msgstr "Покинуть Воздушный Замок"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d28.lua:416 assets_dev/worlds/mm8/events/maps/d28.lua:418
-msgid "Leave the Tomb of Lord Brinne"
-msgstr "Покинуть Гробницу Лорда Брина"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d29.lua:454 assets_dev/worlds/mm8/events/maps/d29.lua:456
-msgid "Leave the Castle of Fire"
-msgstr "Покинуть Огненный Замок"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d30.lua:415 assets_dev/worlds/mm8/events/maps/d30.lua:417
-msgid "Leave the War Camp"
-msgstr "Покинуть Военный Лагерь"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d31.lua:138 assets_dev/worlds/mm8/events/maps/d31.lua:140 assets_dev/worlds/mm8/events/maps/d31.lua:142
-#: assets_dev/worlds/mm8/events/maps/d31.lua:144 assets_dev/worlds/mm8/events/maps/d31.lua:146 assets_dev/worlds/mm8/events/maps/d31.lua:148
-#: assets_dev/worlds/mm8/events/maps/d31.lua:150 assets_dev/worlds/mm8/events/maps/d31.lua:152
-msgid "Lift"
-msgstr "Подъемник"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d31.lua:451 assets_dev/worlds/mm8/events/maps/d31.lua:453 assets_dev/worlds/mm8/events/maps/d31.lua:455
-#: assets_dev/worlds/mm8/events/maps/d31.lua:457
-msgid "Leave the Pirate Stronghold"
-msgstr "Покинуть Пиратскую Цитадель"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d32.lua:488 assets_dev/worlds/mm8/events/maps/d32.lua:497 assets_dev/worlds/mm8/events/maps/d32.lua:506
-#: assets_dev/worlds/mm8/events/maps/d32.lua:515
-msgid "The ship begins to sink"
-msgstr "Корабль начинает погружаться"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d32.lua:523 assets_dev/worlds/mm8/events/maps/d32.lua:525 assets_dev/worlds/mm8/events/maps/d32.lua:527
-#: assets_dev/worlds/mm8/events/maps/d32.lua:529
-msgid "Leave the Abandoned Pirate Keep"
-msgstr "Покинуть Заброшенный Пиратский Форт"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d33.lua:413 assets_dev/worlds/mm8/events/maps/d33.lua:415 assets_dev/worlds/mm8/events/maps/d33.lua:417
-#: assets_dev/worlds/mm8/events/maps/d33.lua:419 assets_dev/worlds/mm8/events/maps/d33.lua:421 assets_dev/worlds/mm8/events/maps/d33.lua:428
-#: assets_dev/worlds/mm8/events/maps/d33.lua:430 assets_dev/worlds/mm8/events/maps/d33.lua:437
-msgid "Leave the Passage Under Regna"
-msgstr "Покинуть Коридор под Регной"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d34.lua:425 assets_dev/worlds/mm8/events/maps/d34.lua:427
-msgid "Leave the Small Sub Pen"
-msgstr "Покинуть Док"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d35.lua:475 assets_dev/worlds/mm8/events/maps/elema.lua:237 assets_dev/worlds/mm8/events/maps/eleme.lua:522
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:226 assets_dev/worlds/mm8/events/maps/elemw.lua:220 assets_dev/worlds/mm8/events/maps/out01.lua:387
-#: assets_dev/worlds/mm8/events/maps/out01.lua:397 assets_dev/worlds/mm8/events/maps/out01.lua:403 assets_dev/worlds/mm8/events/maps/out01.lua:406
-#: assets_dev/worlds/mm8/events/maps/out01.lua:413 assets_dev/worlds/mm8/events/maps/out01.lua:417 assets_dev/worlds/mm8/events/maps/out01.lua:427
-#: assets_dev/worlds/mm8/events/maps/out02.lua:863 assets_dev/worlds/mm8/events/maps/out02.lua:872 assets_dev/worlds/mm8/events/maps/out02.lua:880
-#: assets_dev/worlds/mm8/events/maps/out02.lua:883 assets_dev/worlds/mm8/events/maps/out02.lua:886 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:11
-#: assets_dev/worlds/mm8/events/maps/out03.lua:446 assets_dev/worlds/mm8/events/maps/out03.lua:456 assets_dev/worlds/mm8/events/maps/out03.lua:460
-#: assets_dev/worlds/mm8/events/maps/out03.lua:473 assets_dev/worlds/mm8/events/maps/out04.lua:269 assets_dev/worlds/mm8/events/maps/out04.lua:275
-#: assets_dev/worlds/mm8/events/maps/out04.lua:278 assets_dev/worlds/mm8/events/maps/out04.lua:286 assets_dev/worlds/mm8/events/maps/out04.lua:290
-#: assets_dev/worlds/mm8/events/maps/out05.lua:314 assets_dev/worlds/mm8/events/maps/out05.lua:317 assets_dev/worlds/mm8/events/maps/out05.lua:325
-#: assets_dev/worlds/mm8/events/maps/out05.lua:335 assets_dev/worlds/mm8/events/maps/out05.lua:345 assets_dev/worlds/mm8/events/maps/out06.lua:423
-#: assets_dev/worlds/mm8/events/maps/out06.lua:429 assets_dev/worlds/mm8/events/maps/out06.lua:432 assets_dev/worlds/mm8/events/maps/out06.lua:440
-#: assets_dev/worlds/mm8/events/maps/out06.lua:444 assets_dev/worlds/mm8/events/maps/out06.lua:457 assets_dev/worlds/mm8/events/maps/out07.lua:268
-#: assets_dev/worlds/mm8/events/maps/out07.lua:272 assets_dev/worlds/mm8/events/maps/out08.lua:231 assets_dev/worlds/mm8/events/maps/out08.lua:234
-#: assets_dev/worlds/mm8/events/maps/out08.lua:241 assets_dev/worlds/mm8/events/maps/out08.lua:250 assets_dev/worlds/mm8/events/maps/out08.lua:254
-#: assets_dev/worlds/mm8/events/maps/out13.lua:303 assets_dev/worlds/mm8/events/maps/out13.lua:307 assets_dev/worlds/mm8/events/maps/out13.lua:311
-#: assets_dev/worlds/mm8/events/maps/out13.lua:315
-msgid "Refreshing"
-msgstr "Освежающий"
-
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d35.lua:478 assets_dev/worlds/mm8/events/maps/d35.lua:480
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d35.lua:478 assets_dev\worlds\mm8\events\maps\d35.lua:480
 msgid "Leave Escaton's Palace"
-msgstr "Покинуть Дворец Эскатона"
+msgstr "Выход: Дворец Эскатона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d36.lua:415 assets_dev/worlds/mm8/events/maps/d36.lua:417
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d36.lua:415 assets_dev\worlds\mm8\events\maps\d36.lua:417
 msgid "Leave the Prison of the Lord of Air"
-msgstr "Покинуть Тюрьму Повелителя Воздуха"
+msgstr "Выход: Тюрьма Повелителя Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d37.lua:421 assets_dev/worlds/mm8/events/maps/d37.lua:423
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d37.lua:421 assets_dev\worlds\mm8\events\maps\d37.lua:423
 msgid "Leave the Prison of the Lord of Fire"
-msgstr "Покинуть Тюрьму Повелителя Огня"
+msgstr "Выход: Тюрьма Повелителя Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d38.lua:415 assets_dev/worlds/mm8/events/maps/d38.lua:417
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d38.lua:415 assets_dev\worlds\mm8\events\maps\d38.lua:417
 msgid "Leave Prison of the Lord of Water"
-msgstr "Покинуть Тюрьму Повелителя Воды"
+msgstr "Выход: Тюрьма Повелителя Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d39.lua:430 assets_dev/worlds/mm8/events/maps/d39.lua:432
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d39.lua:430 assets_dev\worlds\mm8\events\maps\d39.lua:432
 msgid "Leave the Prison of the Lord of Earth"
-msgstr "Покинуть Тюрьму Повелителя Земли"
+msgstr "Выход: Тюрьма Повелителя Земли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d40.lua:490 assets_dev/worlds/mm8/events/maps/d40.lua:495 assets_dev/worlds/mm8/events/maps/d40.lua:513
-#: assets_dev/worlds/mm8/events/maps/d40.lua:518 assets_dev/worlds/mm8/events/maps/d40.lua:536 assets_dev/worlds/mm8/events/maps/d40.lua:541
-#: assets_dev/worlds/mm8/events/maps/d40.lua:559 assets_dev/worlds/mm8/events/maps/d40.lua:564 assets_dev/worlds/mm8/events/maps/d40.lua:582
-#: assets_dev/worlds/mm8/events/maps/d40.lua:587 assets_dev/worlds/mm8/events/maps/d40.lua:605 assets_dev/worlds/mm8/events/maps/d40.lua:610
-#: assets_dev/worlds/mm8/events/maps/d40.lua:628 assets_dev/worlds/mm8/events/maps/d40.lua:633 assets_dev/worlds/mm8/events/maps/d40.lua:651
-#: assets_dev/worlds/mm8/events/maps/d40.lua:656 assets_dev/worlds/mm8/events/maps/d40.lua:674 assets_dev/worlds/mm8/events/maps/d40.lua:679
-#: assets_dev/worlds/mm8/events/maps/d40.lua:697 assets_dev/worlds/mm8/events/maps/d40.lua:702 assets_dev/worlds/mm8/events/maps/d40.lua:707
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d40.lua:490 assets_dev\worlds\mm8\events\maps\d40.lua:495 assets_dev\worlds\mm8\events\maps\d40.lua:513
+#: assets_dev\worlds\mm8\events\maps\d40.lua:518 assets_dev\worlds\mm8\events\maps\d40.lua:536 assets_dev\worlds\mm8\events\maps\d40.lua:541
+#: assets_dev\worlds\mm8\events\maps\d40.lua:559 assets_dev\worlds\mm8\events\maps\d40.lua:564 assets_dev\worlds\mm8\events\maps\d40.lua:582
+#: assets_dev\worlds\mm8\events\maps\d40.lua:587 assets_dev\worlds\mm8\events\maps\d40.lua:605 assets_dev\worlds\mm8\events\maps\d40.lua:610
+#: assets_dev\worlds\mm8\events\maps\d40.lua:628 assets_dev\worlds\mm8\events\maps\d40.lua:633 assets_dev\worlds\mm8\events\maps\d40.lua:651
+#: assets_dev\worlds\mm8\events\maps\d40.lua:656 assets_dev\worlds\mm8\events\maps\d40.lua:674 assets_dev\worlds\mm8\events\maps\d40.lua:679
+#: assets_dev\worlds\mm8\events\maps\d40.lua:697 assets_dev\worlds\mm8\events\maps\d40.lua:702 assets_dev\worlds\mm8\events\maps\d40.lua:707
 msgid "You found nothing of interest"
-msgstr "Вы не нашли ничего интересного"
+msgstr "Вы ничего интересного не нашли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d40.lua:710 assets_dev/worlds/mm8/events/maps/d40.lua:712
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d40.lua:710 assets_dev\worlds\mm8\events\maps\d40.lua:712
 msgid "Leave the Uplifted Library"
-msgstr "Покинуть Верхнюю Библиотеку"
+msgstr "Выход: Вознесённая библиотека"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d41.lua:415 assets_dev/worlds/mm8/events/maps/d41.lua:417
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d41.lua:415 assets_dev\worlds\mm8\events\maps\d41.lua:417
 msgid "Leave the Dark Dwarf Compound"
-msgstr "Покинуть Постройку Темных Гномов"
+msgstr "Выход: Поселение тёмных гномов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d42.lua:406 assets_dev/worlds/mm8/events/maps/d42.lua:408
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d42.lua:406 assets_dev\worlds\mm8\events\maps\d42.lua:408
 msgid "Talk to the Arena Master"
-msgstr "Поговорить с распорядителем"
+msgstr "Поговорите с управляющим ареной"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d42.lua:434 assets_dev/worlds/mm8/events/maps/d42.lua:436 assets_dev/worlds/mm8/events/maps/d42_mmmerge.lua:13
-#: assets_dev/worlds/mm8/events/maps/d42_mmmerge.lua:14
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d42.lua:434 assets_dev\worlds\mm8\events\maps\d42.lua:436 assets_dev\worlds\mm8\events\maps\d42_mmmerge.lua:13
+#: assets_dev\worlds\mm8\events\maps\d42_mmmerge.lua:14
 msgid "Leave the Arena"
-msgstr "Покинуть Арену"
+msgstr "Выход: «Арена»"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d43.lua:135
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d43.lua:135
 msgid "You have Killed all of the Basilisks in this Ancient Troll Home"
-msgstr "Вы перебили всех василисков в этом древнем доме."
+msgstr "Вы уничтожили всех василисков в этом древнем жилище троллей"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d43.lua:420 assets_dev/worlds/mm8/events/maps/d43.lua:422
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d43.lua:420 assets_dev\worlds\mm8\events\maps\d43.lua:422
 msgid "Leave the Ancient Troll Home"
-msgstr "Покинуть Древний Дом Троллей"
+msgstr "Выход: Дом древнего тролля"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d44.lua:489 assets_dev/worlds/mm8/events/maps/d44.lua:494
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d44.lua:489 assets_dev\worlds\mm8\events\maps\d44.lua:494
 msgid "You found nothing useful"
-msgstr "Вы не нашли ничего полезного"
+msgstr "Вы ничего полезного не нашли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d44.lua:498 assets_dev/worlds/mm8/events/maps/d44.lua:500
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d44.lua:498 assets_dev\worlds\mm8\events\maps\d44.lua:500
 msgid "Leave the Grand Temple of Eep"
-msgstr "Покинуть Великий Храм Иипа"
+msgstr "Выход: Великий храм Ипа"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d45.lua:436 assets_dev/worlds/mm8/events/maps/d45.lua:438
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d45.lua:436 assets_dev\worlds\mm8\events\maps\d45.lua:438
 msgid "Leave the Chapel of Eep"
-msgstr "Покинуть Молельню Иипа"
+msgstr "Выход: Часовня Ип"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d46.lua:490 assets_dev/worlds/mm8/events/maps/d46.lua:492
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d46.lua:490 assets_dev\worlds\mm8\events\maps\d46.lua:492
 msgid "Leave the Church of Eep"
-msgstr "Покинуть Церковь Иипа"
+msgstr "Выход: Церковь Ипа"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d47.lua:417 assets_dev/worlds/mm8/events/maps/d47.lua:419
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d47.lua:417 assets_dev\worlds\mm8\events\maps\d47.lua:419
 msgid "Leave Old Loeb's Cave"
-msgstr "Покинуть Пещеру Старого Лёба"
+msgstr "Выход: Пещера старого Лёба"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d48.lua:417 assets_dev/worlds/mm8/events/maps/d48.lua:419
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d48.lua:417 assets_dev\worlds\mm8\events\maps\d48.lua:419
 msgid "Leave Ilsingore's Cave"
-msgstr "Покинуть Пещеру Илсингора"
+msgstr "Выход: Пещера Илсингора"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d49.lua:417 assets_dev/worlds/mm8/events/maps/d49.lua:419
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d49.lua:417 assets_dev\worlds\mm8\events\maps\d49.lua:419
 msgid "Leave Yaardrake's Cave"
-msgstr "Покинуть Пещеру Яардракона"
+msgstr "Выход: Пещера Яардрейка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/d50.lua:425 assets_dev/worlds/mm8/events/maps/d50.lua:427
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\d50.lua:425 assets_dev\worlds\mm8\events\maps\d50.lua:427
 msgid "Leave New World Computing"
-msgstr "Покинуть New World Computing"
+msgstr "Выход: New World Computing"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elema.lua:226
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elema.lua:226
 msgid "Raven Man Nest"
-msgstr "Гнездо Людей-Воронов"
+msgstr "Гнездо людей-воронов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elema.lua:228
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elema.lua:228
 msgid "Gate out of the Plane of Air"
-msgstr "Телепортироваться из Измерения Воздуха"
+msgstr "Врата из Плана Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elema.lua:233
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elema.lua:233
 msgid "Air Resistance +10 (Permanent)"
-msgstr "Устойчивость к Воздуху +10 (Навсегда)"
+msgstr "Сопротивление воздуха +10 (постоянное)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elema.lua:240 assets_dev/worlds/mm8/events/maps/elema.lua:242
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elema.lua:240 assets_dev\worlds\mm8\events\maps\elema.lua:242
 msgid "Enter the Castle of Air"
-msgstr "Войти в Воздушный Замок"
+msgstr "Вход: Замок Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elema.lua:244 assets_dev/worlds/mm8/events/maps/elema.lua:246
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elema.lua:244 assets_dev\worlds\mm8\events\maps\elema.lua:246
 msgid "Leave the Plane of Air"
-msgstr "Покинуть Измерение Воздуха"
+msgstr "Выход из Плана Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/eleme.lua:513
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\eleme.lua:513
 msgid "Gate out of the Plane of Earth"
-msgstr "Телепортироваться из Измерения Земли"
+msgstr "Выход: План Земли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/eleme.lua:518
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\eleme.lua:518
 msgid "Earth Resistance +10 (Permanent)"
-msgstr "Устойчивость к Земле +10 (Навсегда)"
+msgstr "Сопротивление Земле +10 (постоянное)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/eleme.lua:525 assets_dev/worlds/mm8/events/maps/eleme.lua:527
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\eleme.lua:525 assets_dev\worlds\mm8\events\maps\eleme.lua:527
 msgid "Leave the Plane of Earth"
-msgstr "Покинуть Измерение Земли"
+msgstr "Выход: План Земли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:217
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:217
 msgid "Gate out of the Plane of Fire"
-msgstr "Телепортироваться из Измерения Огня"
+msgstr "Врата из Плана Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:222
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:222
 msgid "Fire Resistance +25 (Temporary)"
-msgstr "Устойчивость к Огню +25 (Временно)"
+msgstr "Огнестойкость +25 (временная)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:241 assets_dev/worlds/mm8/events/maps/elemf.lua:243
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:241 assets_dev\worlds\mm8\events\maps\elemf.lua:243
 msgid "Enter the Castle of Fire"
-msgstr "Войти в Огненный Замок"
+msgstr "Вход: Огненный замок"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:245 assets_dev/worlds/mm8/events/maps/elemf.lua:247
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:245 assets_dev\worlds\mm8\events\maps\elemf.lua:247
 msgid "Enter the War Camp"
-msgstr "Войти в Военный Лагерь"
+msgstr "Вход: Военный лагерь"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemf.lua:249 assets_dev/worlds/mm8/events/maps/elemf.lua:251
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemf.lua:249 assets_dev\worlds\mm8\events\maps\elemf.lua:251
 msgid "Leave the Plane of Fire"
-msgstr "Покинуть Измерение Огня"
+msgstr "Выход из Плана Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemw.lua:211
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemw.lua:211
 msgid "Gate out of the Plane of Water"
-msgstr "Телепортироваться из Измерения Воды"
+msgstr "Врата из Плана Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemw.lua:216
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemw.lua:216
 msgid "Water Resistance +10 (Permanent)"
-msgstr "Устойчивость к Воде +10 (Навсегда)"
+msgstr "Водостойкость +10 (постоянная)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/elemw.lua:223 assets_dev/worlds/mm8/events/maps/elemw.lua:225
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\elemw.lua:223 assets_dev\worlds\mm8\events\maps\elemw.lua:225
 msgid "Leave the Plane of Water"
-msgstr "Покинуть Измерение Воды"
+msgstr "Выход из Плана Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:104 assets_dev/worlds/mm8/events/maps/out01.lua:383
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:104 assets_dev\worlds\mm8\events\maps\out01.lua:383
 msgid "Intellect +15 (Temporary)"
-msgstr "Интеллект +15 (Временно)"
+msgstr "Интеллект +15 (временно)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:105 assets_dev/worlds/mm8/events/maps/out01.lua:393
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:105 assets_dev\worlds\mm8\events\maps\out01.lua:393
 msgid "Luck +2 (Permanent)"
-msgstr "Удача +2 (Навсегда)"
+msgstr "Удача +2 (постоянно)"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:348 assets_dev/worlds/mm8/events/maps/out01.lua:350 assets_dev/worlds/mm8/events/maps/out01.lua:352
-#: assets_dev/worlds/mm8/events/maps/out01.lua:354 assets_dev/worlds/mm8/events/maps/out01.lua:356 assets_dev/worlds/mm8/events/maps/out01.lua:358
-#: assets_dev/worlds/mm8/events/maps/out01.lua:360 assets_dev/worlds/mm8/events/maps/out01.lua:362 assets_dev/worlds/mm8/events/maps/out01.lua:364
-#: assets_dev/worlds/mm8/events/maps/out01.lua:366 assets_dev/worlds/mm8/events/maps/out01.lua:368 assets_dev/worlds/mm8/events/maps/out01.lua:370
-#: assets_dev/worlds/mm8/events/maps/out01.lua:372 assets_dev/worlds/mm8/events/maps/out01.lua:374 assets_dev/worlds/mm8/events/maps/out01.lua:376
-#: assets_dev/worlds/mm8/events/maps/out01.lua:378 assets_dev/worlds/mm8/events/maps/out08.lua:166 assets_dev/worlds/mm8/events/maps/out08.lua:168
+#: assets_dev\worlds\mm8\events\maps\out01.lua:348 assets_dev\worlds\mm8\events\maps\out01.lua:350 assets_dev\worlds\mm8\events\maps\out01.lua:352
+#: assets_dev\worlds\mm8\events\maps\out01.lua:354 assets_dev\worlds\mm8\events\maps\out01.lua:356 assets_dev\worlds\mm8\events\maps\out01.lua:358
+#: assets_dev\worlds\mm8\events\maps\out01.lua:360 assets_dev\worlds\mm8\events\maps\out01.lua:362 assets_dev\worlds\mm8\events\maps\out01.lua:364
+#: assets_dev\worlds\mm8\events\maps\out01.lua:366 assets_dev\worlds\mm8\events\maps\out01.lua:368 assets_dev\worlds\mm8\events\maps\out01.lua:370
+#: assets_dev\worlds\mm8\events\maps\out01.lua:372 assets_dev\worlds\mm8\events\maps\out01.lua:374 assets_dev\worlds\mm8\events\maps\out01.lua:376
+#: assets_dev\worlds\mm8\events\maps\out01.lua:378 assets_dev\worlds\mm8\events\maps\out08.lua:166 assets_dev\worlds\mm8\events\maps\out08.lua:168
 msgid "Open Crate"
 msgstr "Открыть ящик"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:380 assets_dev/worlds/mm8/events/maps/out01.lua:388 assets_dev/worlds/mm8/events/maps/out01.lua:390
-#: assets_dev/worlds/mm8/events/maps/out01.lua:398 assets_dev/worlds/mm8/events/maps/out01.lua:400 assets_dev/worlds/mm8/events/maps/out01.lua:418
-#: assets_dev/worlds/mm8/events/maps/out02.lua:856 assets_dev/worlds/mm8/events/maps/out02.lua:864 assets_dev/worlds/mm8/events/maps/out02.lua:866
-#: assets_dev/worlds/mm8/events/maps/out02.lua:869 assets_dev/worlds/mm8/events/maps/out02.lua:871 assets_dev/worlds/mm8/events/maps/out02.lua:873
-#: assets_dev/worlds/mm8/events/maps/out03.lua:439 assets_dev/worlds/mm8/events/maps/out03.lua:447 assets_dev/worlds/mm8/events/maps/out03.lua:449
-#: assets_dev/worlds/mm8/events/maps/out03.lua:457 assets_dev/worlds/mm8/events/maps/out03.lua:459 assets_dev/worlds/mm8/events/maps/out03.lua:461
-#: assets_dev/worlds/mm8/events/maps/out04.lua:262 assets_dev/worlds/mm8/events/maps/out04.lua:270 assets_dev/worlds/mm8/events/maps/out04.lua:272
-#: assets_dev/worlds/mm8/events/maps/out04.lua:287 assets_dev/worlds/mm8/events/maps/out04.lua:289 assets_dev/worlds/mm8/events/maps/out04.lua:291
-#: assets_dev/worlds/mm8/events/maps/out05.lua:311 assets_dev/worlds/mm8/events/maps/out05.lua:326 assets_dev/worlds/mm8/events/maps/out05.lua:328
-#: assets_dev/worlds/mm8/events/maps/out05.lua:336 assets_dev/worlds/mm8/events/maps/out05.lua:338 assets_dev/worlds/mm8/events/maps/out05.lua:346
-#: assets_dev/worlds/mm8/events/maps/out06.lua:416 assets_dev/worlds/mm8/events/maps/out06.lua:424 assets_dev/worlds/mm8/events/maps/out06.lua:426
-#: assets_dev/worlds/mm8/events/maps/out06.lua:441 assets_dev/worlds/mm8/events/maps/out06.lua:443 assets_dev/worlds/mm8/events/maps/out06.lua:445
-#: assets_dev/worlds/mm8/events/maps/out07.lua:254 assets_dev/worlds/mm8/events/maps/out07.lua:259 assets_dev/worlds/mm8/events/maps/out07.lua:261
-#: assets_dev/worlds/mm8/events/maps/out07.lua:269 assets_dev/worlds/mm8/events/maps/out07.lua:271 assets_dev/worlds/mm8/events/maps/out07.lua:273
-#: assets_dev/worlds/mm8/events/maps/out08.lua:228 assets_dev/worlds/mm8/events/maps/out08.lua:242 assets_dev/worlds/mm8/events/maps/out08.lua:244
-#: assets_dev/worlds/mm8/events/maps/out08.lua:251 assets_dev/worlds/mm8/events/maps/out08.lua:253 assets_dev/worlds/mm8/events/maps/out08.lua:255
-#: assets_dev/worlds/mm8/events/maps/out13.lua:296 assets_dev/worlds/mm8/events/maps/out13.lua:304 assets_dev/worlds/mm8/events/maps/out13.lua:306
-#: assets_dev/worlds/mm8/events/maps/out13.lua:308 assets_dev/worlds/mm8/events/maps/out13.lua:310 assets_dev/worlds/mm8/events/maps/out13.lua:312
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:380 assets_dev\worlds\mm8\events\maps\out01.lua:388 assets_dev\worlds\mm8\events\maps\out01.lua:390
+#: assets_dev\worlds\mm8\events\maps\out01.lua:398 assets_dev\worlds\mm8\events\maps\out01.lua:400 assets_dev\worlds\mm8\events\maps\out01.lua:418
+#: assets_dev\worlds\mm8\events\maps\out02.lua:856 assets_dev\worlds\mm8\events\maps\out02.lua:864 assets_dev\worlds\mm8\events\maps\out02.lua:866
+#: assets_dev\worlds\mm8\events\maps\out02.lua:869 assets_dev\worlds\mm8\events\maps\out02.lua:871 assets_dev\worlds\mm8\events\maps\out02.lua:873
+#: assets_dev\worlds\mm8\events\maps\out03.lua:439 assets_dev\worlds\mm8\events\maps\out03.lua:447 assets_dev\worlds\mm8\events\maps\out03.lua:449
+#: assets_dev\worlds\mm8\events\maps\out03.lua:457 assets_dev\worlds\mm8\events\maps\out03.lua:459 assets_dev\worlds\mm8\events\maps\out03.lua:461
+#: assets_dev\worlds\mm8\events\maps\out04.lua:262 assets_dev\worlds\mm8\events\maps\out04.lua:270 assets_dev\worlds\mm8\events\maps\out04.lua:272
+#: assets_dev\worlds\mm8\events\maps\out04.lua:287 assets_dev\worlds\mm8\events\maps\out04.lua:289 assets_dev\worlds\mm8\events\maps\out04.lua:291
+#: assets_dev\worlds\mm8\events\maps\out05.lua:311 assets_dev\worlds\mm8\events\maps\out05.lua:326 assets_dev\worlds\mm8\events\maps\out05.lua:328
+#: assets_dev\worlds\mm8\events\maps\out05.lua:336 assets_dev\worlds\mm8\events\maps\out05.lua:338 assets_dev\worlds\mm8\events\maps\out05.lua:346
+#: assets_dev\worlds\mm8\events\maps\out06.lua:416 assets_dev\worlds\mm8\events\maps\out06.lua:424 assets_dev\worlds\mm8\events\maps\out06.lua:426
+#: assets_dev\worlds\mm8\events\maps\out06.lua:441 assets_dev\worlds\mm8\events\maps\out06.lua:443 assets_dev\worlds\mm8\events\maps\out06.lua:445
+#: assets_dev\worlds\mm8\events\maps\out07.lua:254 assets_dev\worlds\mm8\events\maps\out07.lua:259 assets_dev\worlds\mm8\events\maps\out07.lua:261
+#: assets_dev\worlds\mm8\events\maps\out07.lua:269 assets_dev\worlds\mm8\events\maps\out07.lua:271 assets_dev\worlds\mm8\events\maps\out07.lua:273
+#: assets_dev\worlds\mm8\events\maps\out08.lua:228 assets_dev\worlds\mm8\events\maps\out08.lua:242 assets_dev\worlds\mm8\events\maps\out08.lua:244
+#: assets_dev\worlds\mm8\events\maps\out08.lua:251 assets_dev\worlds\mm8\events\maps\out08.lua:253 assets_dev\worlds\mm8\events\maps\out08.lua:255
+#: assets_dev\worlds\mm8\events\maps\out13.lua:296 assets_dev\worlds\mm8\events\maps\out13.lua:304 assets_dev\worlds\mm8\events\maps\out13.lua:306
+#: assets_dev\worlds\mm8\events\maps\out13.lua:308 assets_dev\worlds\mm8\events\maps\out13.lua:310 assets_dev\worlds\mm8\events\maps\out13.lua:312
 msgid "Drink from the well"
-msgstr "Попить из колодца"
+msgstr "Выпить из колодца"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:420 assets_dev/worlds/mm8/events/maps/out01.lua:428 assets_dev/worlds/mm8/events/maps/out02.lua:875
-#: assets_dev/worlds/mm8/events/maps/out02.lua:893 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:18 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:6
-#: assets_dev/worlds/mm8/events/maps/out03.lua:463 assets_dev/worlds/mm8/events/maps/out03.lua:474 assets_dev/worlds/mm8/events/maps/out06.lua:447
-#: assets_dev/worlds/mm8/events/maps/out06.lua:458 assets_dev/worlds/mm8/events/maps/out13.lua:314 assets_dev/worlds/mm8/events/maps/out13.lua:318
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:420 assets_dev\worlds\mm8\events\maps\out01.lua:428 assets_dev\worlds\mm8\events\maps\out02.lua:875
+#: assets_dev\worlds\mm8\events\maps\out02.lua:893 assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:18 assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:6
+#: assets_dev\worlds\mm8\events\maps\out03.lua:463 assets_dev\worlds\mm8\events\maps\out03.lua:474 assets_dev\worlds\mm8\events\maps\out06.lua:447
+#: assets_dev\worlds\mm8\events\maps\out06.lua:458 assets_dev\worlds\mm8\events\maps\out13.lua:314 assets_dev\worlds\mm8\events\maps\out13.lua:318
 msgid "Drink from the fountain"
-msgstr "Попить из фонтана"
+msgstr "Выпить из фонтана"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:423
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:423
 msgid "Your Wounds begin to Heal"
-msgstr "Ваши раны затягиваются"
+msgstr "Твои раны начинают заживать"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:432
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:432
 msgid "summerday"
-msgstr "инныйденьлета"
+msgstr "ерединылета"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:511
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:511
 msgid "Regnan Pirate Outpost"
-msgstr "Застава Регнанских пиратов"
+msgstr "Пиратская застава Регны"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:515
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:515
 msgid "Gate to the Plane of Earth"
-msgstr "Врата в Измерение Огня"
+msgstr "Врата в План Земли"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:517 assets_dev/worlds/mm8/events/maps/out01.lua:519 assets_dev/worlds/mm8/events/maps/out01.lua:521
+#: assets_dev\worlds\mm8\events\maps\out01.lua:517 assets_dev\worlds\mm8\events\maps\out01.lua:519 assets_dev\worlds\mm8\events\maps\out01.lua:521
 msgid "Pirate Ship"
 msgstr "Пиратский корабль"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:523
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:523
 msgid "Landing Craft"
-msgstr "Десантная шлюпка"
+msgstr "Шлюпка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:541 assets_dev/worlds/mm8/events/maps/out01.lua:751 assets_dev/worlds/mm8/events/maps/out01.lua:768
-#: assets_dev/worlds/mm8/events/maps/out01.lua:781
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:541 assets_dev\worlds\mm8\events\maps\out01.lua:751 assets_dev\worlds\mm8\events\maps\out01.lua:768
+#: assets_dev\worlds\mm8\events\maps\out01.lua:781
 msgid "You need a power stone to operate this teleporter"
-msgstr "Чтобы включить телепортатор, вам нужен Камень Силы"
+msgstr "Для активации телепорта нужен камень силы"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:608 assets_dev/worlds/mm8/events/maps/out01.lua:611 assets_dev/worlds/mm8/events/maps/out01.lua:613
-#: assets_dev/worlds/mm8/events/maps/out01.lua:616 assets_dev/worlds/mm8/events/maps/out01.lua:618 assets_dev/worlds/mm8/events/maps/out01.lua:621
-#: assets_dev/worlds/mm8/events/maps/out01.lua:634 assets_dev/worlds/mm8/events/maps/out01.lua:637 assets_dev/worlds/mm8/events/maps/out01.lua:639
-#: assets_dev/worlds/mm8/events/maps/out01.lua:642
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:608 assets_dev\worlds\mm8\events\maps\out01.lua:611 assets_dev\worlds\mm8\events\maps\out01.lua:613
+#: assets_dev\worlds\mm8\events\maps\out01.lua:616 assets_dev\worlds\mm8\events\maps\out01.lua:618 assets_dev\worlds\mm8\events\maps\out01.lua:621
+#: assets_dev\worlds\mm8\events\maps\out01.lua:634 assets_dev\worlds\mm8\events\maps\out01.lua:637 assets_dev\worlds\mm8\events\maps\out01.lua:639
+#: assets_dev\worlds\mm8\events\maps\out01.lua:642
 msgid "Fire the Cannon !"
-msgstr "Огонь!"
+msgstr "Выстрелить из пушки!"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:745 assets_dev/worlds/mm8/events/maps/out02.lua:1114 assets_dev/worlds/mm8/events/maps/out08.lua:286
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:745 assets_dev\worlds\mm8\events\maps\out02.lua:1114 assets_dev\worlds\mm8\events\maps\out08.lua:286
 msgid "Sealed Crate"
-msgstr "Ящик запечатан"
+msgstr "Запечатанный ящик"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:836 assets_dev/worlds/mm8/events/maps/out01.lua:857
+#: assets_dev\worlds\mm8\events\maps\out01.lua:461 assets_dev\worlds\mm8\events\maps\out01.lua:463 assets_dev\worlds\mm8\events\maps\out01.lua:465
+#: assets_dev\worlds\mm8\events\maps\out01.lua:78
+msgid "Cures and Curses"
+msgstr "Лечим и Калечим"
+
+# imported from LocRU_Maslyonok_anims (MMMerge localization)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:836 assets_dev\worlds\mm8\events\maps\out01.lua:857
 msgid "Palm tree"
 msgstr "Пальма"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:875 assets_dev/worlds/mm8/events/maps/out01.lua:881 assets_dev/worlds/mm8/events/maps/out01.lua:883
-#: assets_dev/worlds/mm8/events/maps/out01.lua:889 assets_dev/worlds/mm8/events/maps/out02.lua:1295 assets_dev/worlds/mm8/events/maps/out02.lua:1301
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:875 assets_dev\worlds\mm8\events\maps\out01.lua:881 assets_dev\worlds\mm8\events\maps\out01.lua:883
+#: assets_dev\worlds\mm8\events\maps\out01.lua:889 assets_dev\worlds\mm8\events\maps\out02.lua:1295 assets_dev\worlds\mm8\events\maps\out02.lua:1301
 msgid "Buoy"
-msgstr "Бакен"
+msgstr "Буй"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:897 assets_dev/worlds/mm8/events/maps/out01.lua:899 assets_dev/worlds/mm8/events/maps/out01.lua:909
-#: assets_dev/worlds/mm8/events/maps/out01.lua:911
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:897 assets_dev\worlds\mm8\events\maps\out01.lua:899 assets_dev\worlds\mm8\events\maps\out01.lua:909
+#: assets_dev\worlds\mm8\events\maps\out01.lua:911
 msgid "Enter the Abandoned Temple"
-msgstr "Войти в Заброшенный Храм"
+msgstr "Вход: Заброшенный храм"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:901 assets_dev/worlds/mm8/events/maps/out01.lua:903
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:901 assets_dev\worlds\mm8\events\maps\out01.lua:903
 msgid "Enter the Regnan Pirate Outpost"
-msgstr "Войти на Заставу Регнанских Пиратов"
+msgstr "Вход: Пиратский аванпост"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:905 assets_dev/worlds/mm8/events/maps/out01.lua:907
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:905 assets_dev\worlds\mm8\events\maps\out01.lua:907
 msgid "Enter the Uplifted Library"
-msgstr "Войти в Верхнюю Библиотеку"
+msgstr "Вход: Вознесённая библиотека"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out01.lua:913 assets_dev/worlds/mm8/events/maps/out01.lua:915
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out01.lua:913 assets_dev\worlds\mm8\events\maps\out01.lua:915
 msgid "Enter the Plane of Earth"
-msgstr "Войти на Измерение Земли"
+msgstr "Вход: План Земли"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1110
+#: assets_dev\worlds\mm8\events\maps\out02.lua:106 assets_dev\worlds\mm8\events\maps\out02.lua:1076 assets_dev\worlds\mm8\events\maps\out02.lua:1082
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1084
+msgid "Self Guild"
+msgstr "Гильдия"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1110
 msgid "The Tomb of Lord Brinne"
-msgstr "Гробница лорда Брина"
+msgstr "Гробница лорда Бринна"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1244 assets_dev/worlds/mm8/events/maps/out13.lua:494
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1244 assets_dev\worlds\mm8\events\maps\out13.lua:494
 msgid "The door is locked"
 msgstr "Дверь заперта"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1270 assets_dev/worlds/mm8/events/maps/out02.lua:1293 assets_dev/worlds/mm8/events/maps/out04.lua:226
-#: assets_dev/worlds/mm8/events/maps/out04.lua:228 assets_dev/worlds/mm8/events/maps/out04.lua:381 assets_dev/worlds/mm8/events/maps/out04.lua:395
-#: assets_dev/worlds/mm8/events/maps/out08.lua:178 assets_dev/worlds/mm8/events/maps/out08.lua:180
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1270 assets_dev\worlds\mm8\events\maps\out02.lua:1293 assets_dev\worlds\mm8\events\maps\out04.lua:226
+#: assets_dev\worlds\mm8\events\maps\out04.lua:228 assets_dev\worlds\mm8\events\maps\out04.lua:381 assets_dev\worlds\mm8\events\maps\out04.lua:395
+#: assets_dev\worlds\mm8\events\maps\out08.lua:178 assets_dev\worlds\mm8\events\maps\out08.lua:180
 msgid "Rock"
 msgstr "Камень"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:128 assets_dev/worlds/mm8/events/maps/out02.lua:859
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:128 assets_dev\worlds\mm8\events\maps\out02.lua:859
 msgid "Might +25 (Temporary)"
-msgstr "Сила +25 (Временно)"
+msgstr "Сила +25 (временно)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1303 assets_dev/worlds/mm8/events/maps/out02.lua:1305
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1303 assets_dev\worlds\mm8\events\maps\out02.lua:1305
 msgid "Enter Smuggler's Cove"
-msgstr "Войти в Бухту Контрабандистов"
+msgstr "Вход: Бухта контрабандистов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1307 assets_dev/worlds/mm8/events/maps/out02.lua:1309
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1307 assets_dev\worlds\mm8\events\maps\out02.lua:1309
 msgid "Enter the Dire Wolf Den"
-msgstr "Войти в Волчье Логово"
+msgstr "Вход: Логово гигантского волка"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1311 assets_dev/worlds/mm8/events/maps/out02.lua:1317 assets_dev/worlds/mm8/events/maps/out02.lua:1328
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1330
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1311 assets_dev\worlds\mm8\events\maps\out02.lua:1317 assets_dev\worlds\mm8\events\maps\out02.lua:1328
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1330
 msgid "Enter the Merchant House of Alvar"
-msgstr "Войти в Торговый Дом Альвара"
+msgstr "Вход: Торговый дом Альвара"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1319 assets_dev/worlds/mm8/events/maps/out02.lua:1326 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:32
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:218 assets_dev/worlds/mm8/events/maps/pbp.lua:220
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1319 assets_dev\worlds\mm8\events\maps\out02.lua:1326 assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:32
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:218 assets_dev\worlds\mm8\events\maps\pbp.lua:220
 msgid "Enter Escaton's Crystal"
-msgstr "Войти в Кристалл Эскатона"
+msgstr "Вход: Кристалл Эскатона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1332 assets_dev/worlds/mm8/events/maps/out02.lua:1334
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1332 assets_dev\worlds\mm8\events\maps\out02.lua:1334
 msgid "Enter the Tomb of Lord Brinne"
-msgstr "Войти в Гробницу лорда Брина"
+msgstr "Вход: Гробница лорда Бринна"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1336 assets_dev/worlds/mm8/events/maps/out02.lua:1338
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1336 assets_dev\worlds\mm8\events\maps\out02.lua:1338
 msgid "Enter the Chapel of Eep"
-msgstr "Войти в Молельню Иипа"
+msgstr "Вход: Часовня Ип"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:1116 assets_dev/worlds/mm8/events/maps/out02.lua:839 assets_dev/worlds/mm8/events/maps/out02.lua:854
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:1116 assets_dev\worlds\mm8\events\maps\out02.lua:839 assets_dev\worlds\mm8\events\maps\out02.lua:854
 msgid "The Vault of Time"
-msgstr "Капсула Времени"
+msgstr "Хранилище времени"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:867 assets_dev/worlds/mm8/events/maps/out07.lua:255
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:867 assets_dev\worlds\mm8\events\maps\out07.lua:255
 msgid "That was not so refreshing"
-msgstr "Не слишком-то освежает"
+msgstr "Это было не так уж и приятно"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:903
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:903
 msgid "The Invaders have been defeated!"
-msgstr "Вторжение остановлено!"
+msgstr "Захватчики разгромлены!"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out02.lua:931
+msgid "ethesunsh"
+msgstr "ыхприсветес"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out02.lua:931
-msgid "ethesunsh"
-msgstr "исолнцакогд"
+#: assets_dev\worlds\mm8\events\maps\out02.lua:96 assets_dev\worlds\mm8\events\maps\out02.lua:976 assets_dev\worlds\mm8\events\maps\out02.lua:982
+#: assets_dev\worlds\mm8\events\maps\out02.lua:984
+msgid "Vexation's Hexes"
+msgstr "Вексатионовы Ведьмы"
 
 # machine translation (Claude), review
-#: assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:36 assets_dev/worlds/mm8/events/maps/out02_mmmerge.lua:38
+#: assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:36 assets_dev\worlds\mm8\events\maps\out02_mmmerge.lua:38
 msgid "Dimensional Travel"
 msgstr "Путешествие по измерениям"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:120 assets_dev/worlds/mm8/events/maps/out03.lua:442
+#: assets_dev\worlds\mm8\events\maps\out03.lua:104 assets_dev\worlds\mm8\events\maps\out03.lua:607 assets_dev\worlds\mm8\events\maps\out03.lua:609
+#: assets_dev\worlds\mm8\events\maps\out03.lua:611
+msgid "Elemental Guild"
+msgstr "Гильдия Стихий"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:120 assets_dev\worlds\mm8\events\maps\out03.lua:442
 msgid "Personality +25 (Temporary)"
-msgstr "Лидерство +25 (Временно)"
+msgstr "Харизма +25 (временно)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:121 assets_dev/worlds/mm8/events/maps/out03.lua:452
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:121 assets_dev\worlds\mm8\events\maps\out03.lua:452
 msgid "Might +2 (Permanent)"
-msgstr "Сила +2 (Навсегда)"
+msgstr "Сила +2 (постоянное)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:469 assets_dev/worlds/mm8/events/maps/out06.lua:453
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:469 assets_dev\worlds\mm8\events\maps\out06.lua:453
 msgid "You mind clears, and you recover some Mana"
-msgstr "Ваш разум светлеет, и вы восстанавливаете немного магии"
+msgstr "Ум проясняется, и вы восстанавливаете часть маны"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:490
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:490
 msgid "You have killed all of the Ogres"
-msgstr "Вы перебили всех огров"
+msgstr "Вы уничтожили всех огров"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:495
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:495
 msgid "ubjectsap"
-msgstr "хвещейявляе"
+msgstr "яетсясредис"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:700 assets_dev/worlds/mm8/events/maps/out03.lua:714 assets_dev/worlds/mm8/events/maps/out03.lua:716
-#: assets_dev/worlds/mm8/events/maps/out03.lua:739
+#: assets_dev\worlds\mm8\events\maps\out03.lua:700 assets_dev\worlds\mm8\events\maps\out03.lua:714 assets_dev\worlds\mm8\events\maps\out03.lua:716
+#: assets_dev\worlds\mm8\events\maps\out03.lua:739
 msgid "Pine tree"
 msgstr "Сосна"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:741 assets_dev/worlds/mm8/events/maps/out03.lua:743 assets_dev/worlds/mm8/events/maps/out03.lua:753
-#: assets_dev/worlds/mm8/events/maps/out03.lua:755
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:741 assets_dev\worlds\mm8\events\maps\out03.lua:743 assets_dev\worlds\mm8\events\maps\out03.lua:753
+#: assets_dev\worlds\mm8\events\maps\out03.lua:755
 msgid "Enter the Wasp Nest"
-msgstr "Войти в Осиное Гнездо"
+msgstr "Вход: Осиное гнездо"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:745 assets_dev/worlds/mm8/events/maps/out03.lua:747
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:745 assets_dev\worlds\mm8\events\maps\out03.lua:747
 msgid "Enter the Ogre Raiding Fort"
-msgstr "Войтти в Форт Огрских Разбойников"
+msgstr "Вход: Крепость Огра"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out03.lua:749 assets_dev/worlds/mm8/events/maps/out03.lua:751
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out03.lua:749 assets_dev\worlds\mm8\events\maps\out03.lua:751
 msgid "Enter the Dark Dwarf Compound"
-msgstr "Войти в Строение Темных Гномов"
+msgstr "Вход: Поселение тёмных гномов"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:295
+#: assets_dev\worlds\mm8\events\maps\out03.lua:524 assets_dev\worlds\mm8\events\maps\out03.lua:526 assets_dev\worlds\mm8\events\maps\out03.lua:528
+#: assets_dev\worlds\mm8\events\maps\out03.lua:95 assets_dev\worlds\mm8\events\maps\out04.lua:300 assets_dev\worlds\mm8\events\maps\out04.lua:302
+#: assets_dev\worlds\mm8\events\maps\out04.lua:304 assets_dev\worlds\mm8\events\maps\out04.lua:66
+msgid "Self Study"
+msgstr "Путь к Себе"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:295
 msgid "thornskey"
-msgstr "арыйключТорн"
+msgstr "ключстарого"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:330 assets_dev/worlds/mm8/events/maps/out06.lua:539 assets_dev/worlds/mm8/events/maps/out13.lua:383
+#: assets_dev\worlds\mm8\events\maps\out04.lua:330 assets_dev\worlds\mm8\events\maps\out06.lua:539 assets_dev\worlds\mm8\events\maps\out13.lua:383
 msgid "A Cave"
 msgstr "Пещера"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:332
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:332
 msgid "Gate to the Plane of Fire"
-msgstr "Врата в Измерение Огня"
+msgstr "Врата в План Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:334
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:334
 msgid "Destroyed Building"
-msgstr "Развалины здания"
+msgstr "Разрушенное здание"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:358 assets_dev/worlds/mm8/events/maps/out04.lua:379
+#: assets_dev\worlds\mm8\events\maps\out04.lua:358 assets_dev\worlds\mm8\events\maps\out04.lua:379
 msgid "Cactus"
 msgstr "Кактус"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:397 assets_dev/worlds/mm8/events/maps/out04.lua:399
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:397 assets_dev\worlds\mm8\events\maps\out04.lua:399
 msgid "Enter the Troll Tomb"
-msgstr "Войти в Могильник Троллей"
+msgstr "Вход: Гробница троллей"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:401 assets_dev/worlds/mm8/events/maps/out04.lua:403
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:401 assets_dev\worlds\mm8\events\maps\out04.lua:403
 msgid "Enter the Cyclops Larder"
-msgstr "Войти в Кладовую Циклопов"
+msgstr "Вход: «Кладовая Циклопа»"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:405 assets_dev/worlds/mm8/events/maps/out04.lua:407 assets_dev/worlds/mm8/events/maps/out04.lua:413
-#: assets_dev/worlds/mm8/events/maps/out04.lua:415
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:405 assets_dev\worlds\mm8\events\maps\out04.lua:407 assets_dev\worlds\mm8\events\maps\out04.lua:413
+#: assets_dev\worlds\mm8\events\maps\out04.lua:415
 msgid "Enter the Chain of Fire"
-msgstr "Войти в Огненную Цепь"
+msgstr "Вход: Цепь огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:409 assets_dev/worlds/mm8/events/maps/out04.lua:411
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:409 assets_dev\worlds\mm8\events\maps\out04.lua:411
 msgid "Enter the Plane of Fire"
-msgstr "Войти на Измерение Огня"
+msgstr "Вход: План Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:417 assets_dev/worlds/mm8/events/maps/out04.lua:419 assets_dev/worlds/mm8/events/maps/out06.lua:649
-#: assets_dev/worlds/mm8/events/maps/out06.lua:651 assets_dev/worlds/mm8/events/maps/out13.lua:520 assets_dev/worlds/mm8/events/maps/out13.lua:522
-#: assets_dev/worlds/mm8/events/maps/out13.lua:524 assets_dev/worlds/mm8/events/maps/out13.lua:526
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:417 assets_dev\worlds\mm8\events\maps\out04.lua:419 assets_dev\worlds\mm8\events\maps\out06.lua:649
+#: assets_dev\worlds\mm8\events\maps\out06.lua:651 assets_dev\worlds\mm8\events\maps\out13.lua:520 assets_dev\worlds\mm8\events\maps\out13.lua:522
+#: assets_dev\worlds\mm8\events\maps\out13.lua:524 assets_dev\worlds\mm8\events\maps\out13.lua:526
 msgid "Enter the Cave"
-msgstr "Войти в пещеру"
+msgstr "Вход в пещеру"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out04.lua:265 assets_dev/worlds/mm8/events/maps/out04.lua:78 assets_dev/worlds/mm8/events/maps/out08.lua:247
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out04.lua:265 assets_dev\worlds\mm8\events\maps\out04.lua:78 assets_dev\worlds\mm8\events\maps\out08.lua:247
 msgid "Endurance +2 (Permanent)"
-msgstr "Выносливость +2 (Навсегда)"
+msgstr "Выносливость +2 (постоянно)"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:271 assets_dev/worlds/mm8/events/maps/out05.lua:273
+#: assets_dev\worlds\mm8\events\maps\out05.lua:271 assets_dev\worlds\mm8\events\maps\out05.lua:273
 msgid "Flowers"
 msgstr "Цветы"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:439
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:439
 msgid "theunicornkin"
-msgstr "укороляедин"
+msgstr "корольедино"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:533 assets_dev/worlds/mm8/events/maps/out05.lua:535
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:533 assets_dev\worlds\mm8\events\maps\out05.lua:535
 msgid "Enter the Dragon Hunter's Camp"
-msgstr "Войти в Лагерь Охотников на Драконов"
+msgstr "Вход: Лагерь охотников на драконов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:537 assets_dev/worlds/mm8/events/maps/out05.lua:539
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:537 assets_dev\worlds\mm8\events\maps\out05.lua:539
 msgid "Enter the Dragon Cave"
-msgstr "Войти в Драконью Пещеру"
+msgstr "Вход: Пещера Дракона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:541 assets_dev/worlds/mm8/events/maps/out05.lua:543
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:541 assets_dev\worlds\mm8\events\maps\out05.lua:543
 msgid "Enter the Naga Vault"
-msgstr "Войти в Святилище Нагов"
+msgstr "Вход: Хранилище Нага"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:545 assets_dev/worlds/mm8/events/maps/out05.lua:547
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:545 assets_dev\worlds\mm8\events\maps\out05.lua:547
 msgid "Enter the Grand Temple of Eep"
-msgstr "Войти в Великий Храм Иипа"
+msgstr "Вход: Великий храм Ипа"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:331 assets_dev/worlds/mm8/events/maps/out05.lua:85
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:331 assets_dev\worlds\mm8\events\maps\out05.lua:85
 msgid "Fire Resistance +2 (Permanent)"
-msgstr "Устойчивость к Огню +2 (Навсегда)"
+msgstr "Огнестойкость +2 (постоянная)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out05.lua:341 assets_dev/worlds/mm8/events/maps/out05.lua:86
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out05.lua:341 assets_dev\worlds\mm8\events\maps\out05.lua:86
 msgid "Accuracy +2 (Permanent)"
-msgstr "Меткость +2 (Навсегда)"
+msgstr "Меткость +2 (постоянно)"
 
-# imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
-#: assets_dev/worlds/mm8/events/maps/out06.lua:102
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:102
 msgid "Mad Necromancer's Lab "
-msgstr "Лаборатория Безумного Некроманта "
+msgstr "Лаборатория Безумного Некроманта"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:107 assets_dev/worlds/mm8/events/maps/out06.lua:419
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:107 assets_dev\worlds\mm8\events\maps\out06.lua:419
 msgid "Intellect +2 (permanent)"
-msgstr "Интеллект +2 (Навсегда)"
+msgstr "Интеллект +2 (постоянно)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:462
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:462
 msgid "inesonmid"
-msgstr "астоитсамыйдл"
+msgstr "олнцавденьс"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:573 assets_dev/worlds/mm8/events/maps/out06.lua:594 assets_dev/worlds/mm8/events/maps/out06.lua:596
-#: assets_dev/worlds/mm8/events/maps/out06.lua:610 assets_dev/worlds/mm8/events/maps/out06.lua:612 assets_dev/worlds/mm8/events/maps/out06.lua:635
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:573 assets_dev\worlds\mm8\events\maps\out06.lua:594 assets_dev\worlds\mm8\events\maps\out06.lua:596
+#: assets_dev\worlds\mm8\events\maps\out06.lua:610 assets_dev\worlds\mm8\events\maps\out06.lua:612 assets_dev\worlds\mm8\events\maps\out06.lua:635
 msgid "Rune post"
-msgstr "Рунный Столб"
+msgstr "Столб с рунами"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:637 assets_dev/worlds/mm8/events/maps/out06.lua:639
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:637 assets_dev\worlds\mm8\events\maps\out06.lua:639
 msgid "Enter the Necromancers' Guild"
-msgstr "Войти в Гильдию Некромантов"
+msgstr "Вход: Гильдия некромантов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:641 assets_dev/worlds/mm8/events/maps/out06.lua:643
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:641 assets_dev\worlds\mm8\events\maps\out06.lua:643
 msgid "Enter the Mad Necromancer's Lab"
-msgstr "Войти в Лабораторию Безумного Некроманта"
+msgstr "Вход: Лаборатория Безумного Некроманта"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out06.lua:645 assets_dev/worlds/mm8/events/maps/out06.lua:647
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out06.lua:645 assets_dev\worlds\mm8\events\maps\out06.lua:647
 msgid "Enter the Vampire Crypt"
-msgstr "Войти в Вампирский Склеп"
+msgstr "Вход: Гробница вампира"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:334
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:334
 msgid "pearswhil"
-msgstr "етсяонвсияни"
+msgstr "воихподданн"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:351
+#: assets_dev\worlds\mm8\events\maps\out07.lua:351
 msgid "The Temple of the Sun"
 msgstr "Храм Солнца"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:353
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:353
 msgid "A Druid Circle"
-msgstr "Друидский Круг"
+msgstr "Круг друидов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:357
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:357
 msgid "Gate to the Plane of Air"
-msgstr "Врата в Измерение Воздуха"
+msgstr "Врата в План Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:486 assets_dev/worlds/mm8/events/maps/out07.lua:488
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:486 assets_dev\worlds\mm8\events\maps\out07.lua:488
 msgid "Enter the Temple of the Sun"
-msgstr "Войти в Храм Солнца"
+msgstr "Вход: Храм Солнца"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:490 assets_dev/worlds/mm8/events/maps/out07.lua:492
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:490 assets_dev\worlds\mm8\events\maps\out07.lua:492
 msgid "Enter the Druid Circle"
-msgstr "Войти в Друидский Круг"
+msgstr "Вход: Круг друидов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:494 assets_dev/worlds/mm8/events/maps/out07.lua:496
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:494 assets_dev\worlds\mm8\events\maps\out07.lua:496
 msgid "Enter the Plane of Air"
-msgstr "Войти на Измерение Воздуха"
+msgstr "Вход: План Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:498 assets_dev/worlds/mm8/events/maps/out07.lua:505
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:498 assets_dev\worlds\mm8\events\maps\out07.lua:505
 msgid "Enter the Ancient Troll Home"
-msgstr "Войти в Древний Дом Троллей"
+msgstr "Вход: Дом древнего тролля"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out07.lua:264 assets_dev/worlds/mm8/events/maps/out07.lua:73
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out07.lua:264 assets_dev\worlds\mm8\events\maps\out07.lua:73
 msgid "Personality +2 (Permanent)"
-msgstr "Лидерство +2 (Навсегда)"
+msgstr "Харизма +2 (постоянное)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:259
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:259
 msgid "amonghiss"
-msgstr "асредидруги"
+msgstr "торнаипоявл"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:284
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:284
 msgid "Gate to the Plane of Water"
-msgstr "Ворота на Измерение Воды"
+msgstr "Врата в План Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:305 assets_dev/worlds/mm8/events/maps/out08.lua:307 assets_dev/worlds/mm8/events/maps/out08.lua:317
-#: assets_dev/worlds/mm8/events/maps/out08.lua:319
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:305 assets_dev\worlds\mm8\events\maps\out08.lua:307 assets_dev\worlds\mm8\events\maps\out08.lua:317
+#: assets_dev\worlds\mm8\events\maps\out08.lua:319
 msgid "Enter the Balthazar Lair"
-msgstr "Войти в Бальтазарову Пещеру"
+msgstr "Вход: Логово Бальтазара"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:309 assets_dev/worlds/mm8/events/maps/out08.lua:311 assets_dev/worlds/mm8/events/maps/out08.lua:321
-#: assets_dev/worlds/mm8/events/maps/out08.lua:323 assets_dev/worlds/mm8/events/maps/out08.lua:325 assets_dev/worlds/mm8/events/maps/out08.lua:327
-#: assets_dev/worlds/mm8/events/maps/out08.lua:329 assets_dev/worlds/mm8/events/maps/out08.lua:331
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:309 assets_dev\worlds\mm8\events\maps\out08.lua:311 assets_dev\worlds\mm8\events\maps\out08.lua:321
+#: assets_dev\worlds\mm8\events\maps\out08.lua:323 assets_dev\worlds\mm8\events\maps\out08.lua:325 assets_dev\worlds\mm8\events\maps\out08.lua:327
+#: assets_dev\worlds\mm8\events\maps\out08.lua:329 assets_dev\worlds\mm8\events\maps\out08.lua:331
 msgid "Enter the Barbarian Fortress"
-msgstr "Войти в Крепость Варваров"
+msgstr "Вход: Крепость варваров"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:313 assets_dev/worlds/mm8/events/maps/out08.lua:315
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:313 assets_dev\worlds\mm8\events\maps\out08.lua:315
 msgid "Enter the Crypt of Korbu"
-msgstr "Войти в Склеп Корбу"
+msgstr "Вход: Усыпальница Корбу"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:333 assets_dev/worlds/mm8/events/maps/out08.lua:335
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:333 assets_dev\worlds\mm8\events\maps\out08.lua:335
 msgid "Enter the Plane of Water"
-msgstr "Войти на Измерение Воды"
+msgstr "Вход: План Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out08.lua:337 assets_dev/worlds/mm8/events/maps/out08.lua:339
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out08.lua:337 assets_dev\worlds\mm8\events\maps\out08.lua:339
 msgid "Enter the Church of Eep"
-msgstr "Войти в Церковь Иипа"
+msgstr "Вход: Церковь Ипа"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:322
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:322
 msgid "gholdsold"
-msgstr "ороговестьст"
+msgstr "роговхранит"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:379
+#: assets_dev\worlds\mm8\events\maps\out13.lua:379
 msgid "Tower"
 msgstr "Башня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:385
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:385
 msgid "Regnan Ship"
-msgstr "Регнанский корабль"
+msgstr "Корабль Регны"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:387
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:387
 msgid "Sunk Regnan Ship"
-msgstr "Потопить Регнанский корабль"
+msgstr "Затонувший корабль Регны"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:393 assets_dev/worlds/mm8/events/maps/out13.lua:407 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:18
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:393 assets_dev\worlds\mm8\events\maps\out13.lua:407 assets_dev\worlds\mm8\events\maps\out13_mmmerge.lua:18
 msgid "Fire the cannon !"
-msgstr "Огонь!"
+msgstr "Выстрелить из пушки!"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:399 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:9
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:399 assets_dev\worlds\mm8\events\maps\out13_mmmerge.lua:9
 msgid "You hear a low rumbling noise"
-msgstr "Вы слышите приглушенный рокот"
+msgstr "Слышен низкий гул"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:406 assets_dev/worlds/mm8/events/maps/out13_mmmerge.lua:17
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:406 assets_dev\worlds\mm8\events\maps\out13_mmmerge.lua:17
 msgid "You do not see the right kind of ammunition anywhere"
-msgstr "Вы не видите подходящего снаряда"
+msgstr "Нигде не найти подходящих патронов"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:504 assets_dev/worlds/mm8/events/maps/out13.lua:506
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:504 assets_dev\worlds\mm8\events\maps\out13.lua:506
 msgid "Enter the Pirate Stronghold"
-msgstr "Войти в Пиратскую Цитадель"
+msgstr "Вход: Пиратская крепость"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:508 assets_dev/worlds/mm8/events/maps/out13.lua:510
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:508 assets_dev\worlds\mm8\events\maps\out13.lua:510
 msgid "Enter the Abandoned Pirate Keep"
-msgstr "Войти в Заброшенный Пиратский Форт"
+msgstr "Вход: Заброшенная пиратская крепость"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:512 assets_dev/worlds/mm8/events/maps/out13.lua:518 assets_dev/worlds/mm8/events/maps/out13.lua:528
-#: assets_dev/worlds/mm8/events/maps/out13.lua:534
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:512 assets_dev\worlds\mm8\events\maps\out13.lua:518 assets_dev\worlds\mm8\events\maps\out13.lua:528
+#: assets_dev\worlds\mm8\events\maps\out13.lua:534
 msgid "Enter the Tower"
-msgstr "Войти в Башню"
+msgstr "Вход в башню"
 
 # imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/out13.lua:299 assets_dev/worlds/mm8/events/maps/out13.lua:91
+#: assets_dev\worlds\mm8\events\maps\out13.lua:351 assets_dev\worlds\mm8\events\maps\out13.lua:353 assets_dev\worlds\mm8\events\maps\out13.lua:355
+#: assets_dev\worlds\mm8\events\maps\out13.lua:76
+msgid "Protective Magic"
+msgstr "Защитная Магия"
+
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\out13.lua:299 assets_dev\worlds\mm8\events\maps\out13.lua:91
 msgid "Speed +2 (Permanent)"
-msgstr "Скорость +2 (Навсегда)"
+msgstr "Скорость +2 (постоянно)"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:168
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:168
 msgid "Prison of the Air Lord"
-msgstr "Тюрьма Повелителя Воздуха"
+msgstr "Темница Владыки Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:170
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:170
 msgid "Prison of the Earth Lord"
-msgstr "Тюрьма Повелителя Земли"
+msgstr "Темница Владыки Земли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:172
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:172
 msgid "Prison of the Fire Lord"
-msgstr "Тюрьма Повелителя Огня"
+msgstr "Темница Владыки Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:174
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:174
 msgid "Prison of the Water Lord"
-msgstr "Тюрьма Повелителя Воды"
+msgstr "Темница Владыки Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:178 assets_dev/worlds/mm8/events/maps/pbp.lua:180
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:178 assets_dev\worlds\mm8\events\maps\pbp.lua:180
 msgid "Enter Escaton's Palace"
-msgstr "Вход в Дворец Эскатона"
+msgstr "Вход: Дворец Эскатона"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:182 assets_dev/worlds/mm8/events/maps/pbp.lua:189 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:5
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:182 assets_dev\worlds\mm8\events\maps\pbp.lua:189 assets_dev\worlds\mm8\events\maps\pbp_mmmerge.lua:5
 msgid "Enter the Prison of the Air Lord"
-msgstr "Вход в тюрьму Повелителя Воздуха"
+msgstr "Вход: Тюрьма Повелителя Воздуха"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:191 assets_dev/worlds/mm8/events/maps/pbp.lua:198 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:10
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:191 assets_dev\worlds\mm8\events\maps\pbp.lua:198 assets_dev\worlds\mm8\events\maps\pbp_mmmerge.lua:10
 msgid "Enter the Prison of the Fire Lord"
-msgstr "Вход в тюрьму Повелителя Огня"
+msgstr "Вход: Тюрьма Повелителя Огня"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:200 assets_dev/worlds/mm8/events/maps/pbp.lua:207 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:15
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:200 assets_dev\worlds\mm8\events\maps\pbp.lua:207 assets_dev\worlds\mm8\events\maps\pbp_mmmerge.lua:15
 msgid "Enter the Prison of the Water Lord"
-msgstr "Вход в тюрьму Повелителя Воды"
+msgstr "Вход: Тюрьма Повелителя Воды"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:209 assets_dev/worlds/mm8/events/maps/pbp.lua:216 assets_dev/worlds/mm8/events/maps/pbp_mmmerge.lua:20
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:209 assets_dev\worlds\mm8\events\maps\pbp.lua:216 assets_dev\worlds\mm8\events\maps\pbp_mmmerge.lua:20
 msgid "Enter the Prison of the Earth Lord"
-msgstr "Вход в тюрьму Повелителя Земли"
+msgstr "Вход: Тюрьма Повелителя Земли"
 
-# imported from LocRU_Maslyonok_anims (MMMerge localization)
-#: assets_dev/worlds/mm8/events/maps/pbp.lua:222 assets_dev/worlds/mm8/events/maps/pbp.lua:226
+# imported from ru_local playtesting checkpoint 7429884d0 (AI-assisted translations)
+# machine translation (ru_local AI-assisted translations; partial playtesting)
+#: assets_dev\worlds\mm8\events\maps\pbp.lua:222 assets_dev\worlds\mm8\events\maps\pbp.lua:226
 msgid "A giant's sword"
-msgstr "Меч Гигантов"
+msgstr "Меч великана"
 
 # imported from engine_localization_ru_strings.tsv, engine_localization_ru_game_text.tsv
-#: assets_dev/worlds/mm8/world.yml:18
+#: assets_dev\worlds\mm8\world.yml:18
 msgid ""
 "Excellent work! By thwarting the Destroyer of Worlds, you have pulled your world from the brink of unending oblivion. Not only may life continue, but a new peace reigns over Jadame. The mighty alliance you forged will see to the land's restoration and eventual prosperity."
 msgstr ""

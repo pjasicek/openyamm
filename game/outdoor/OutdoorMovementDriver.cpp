@@ -791,7 +791,7 @@ const OutdoorMovementEffects &OutdoorMovementDriver::pendingEffects() const
 
 bool OutdoorMovementDriver::drowningHere() const
 {
-    return m_state.supportOnDeepWater()
+    return m_movementController.isInDeepWater(m_state)
         && !m_partyMovementState.waterWalk
         && !m_partyMovementState.flying
         && !m_levitateActive;

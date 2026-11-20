@@ -1920,14 +1920,9 @@ std::optional<std::filesystem::path> AssetFileSystem::resolvePhysicalPath(const 
 
     for (const std::string &resolvedPath : resolvedPaths)
     {
-        std::vector<std::string> physicalPathCandidates = {resolvedPath};
-
         const std::optional<std::string> caseInsensitivePath = findCaseInsensitiveVirtualPath(resolvedPath);
-
-        if (caseInsensitivePath && *caseInsensitivePath != resolvedPath)
-        {
-            physicalPathCandidates.push_back(*caseInsensitivePath);
-        }
+        // Preserve the stored spelling on case-insensitive host filesystems too.
+        const std::vector<std::string> physicalPathCandidates = {caseInsensitivePath.value_or(resolvedPath)};
 
         for (const SearchMount &searchMount : m_searchMounts)
         {

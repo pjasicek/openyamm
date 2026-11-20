@@ -83,6 +83,7 @@ add_executable(openyamm_unit_tests
     AlchemyBenchRegressionTests.cpp
     PotionUpkeepTests.cpp
     GameplayRuleRegressionTests.cpp
+    OutdoorWaterDepthTests.cpp
     GameInputSystemTests.cpp
     GlUniformCacheTests.cpp
     HudDrawListTests.cpp
@@ -124,6 +125,7 @@ add_executable(openyamm_unit_tests
     IndoorSectorFaceGridTests.cpp
     IndoorRenderRevisionTests.cpp
     InventoryEquipRegressionTests.cpp
+    InventoryItemDoubleClickTests.cpp
     LegacyLuaExportTests.cpp
     EventScriptingTests.cpp
     MapStatsRegressionTests.cpp
@@ -198,6 +200,7 @@ add_executable(openyamm_unit_tests
     RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
+    RussianLocalizationRegressionTests.cpp
     LocalizationTests.cpp
     TextTableTests.cpp
     Utf8TextTests.cpp
@@ -327,7 +330,6 @@ add_executable(openyamm_unit_tests
     ../game/maps/MapLayoutIdentity.cpp
     ../game/maps/SaveGame.cpp
     ../game/indoor/IndoorTerrainSurface.cpp
-    ../game/render/TerrainMaterialConfig.cpp
     ../game/maps/MapPresentation.cpp
     ../game/indoor/IndoorFaceDrawGroups.cpp
     ../game/indoor/IndoorLightingRuntime.cpp
@@ -481,6 +483,7 @@ add_executable(openyamm_unit_tests
     ../game/outdoor/OutdoorNavigationData.cpp
     ../game/outdoor/OutdoorRenderData.cpp
     ../game/outdoor/OutdoorMechanismRuntime.cpp
+    ../game/outdoor/OutdoorWaterDepthLoader.cpp
     ../game/outdoor/OutdoorMovementDriver.cpp
     ../game/outdoor/OutdoorPartyRuntime.cpp
     ../game/pathfinding/ActorPathRuntime.cpp
@@ -538,6 +541,8 @@ target_link_libraries(openyamm_unit_tests
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswresample.a"
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswscale.a"
         "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavutil.a"
+        $<$<PLATFORM_ID:Windows>:bcrypt>
+        $<$<PLATFORM_ID:Windows>:winhttp>
 )
 
 add_dependencies(openyamm_unit_tests openyamm_ffmpeg_build)

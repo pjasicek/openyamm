@@ -15,6 +15,7 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ClassMultiplierTable;
+class GameSession;
 class SpellTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
@@ -276,10 +277,12 @@ float ticksToRecoverySeconds(int ticks);
 class GameMechanics
 {
 public:
-    static void bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable);
+    static void bindClassMultiplierTable(
+        const GameSession &session, const ClassMultiplierTable *pClassMultiplierTable);
     static uint32_t maximumTrainableLevelFromExperience(
         const Character &character,
         const ExperienceRules &experienceRules = standardExperienceRules());
+
     static int calculateBaseCharacterMaxHealth(
         const Character &character,
         const ClassMultiplierTable *pClassMultiplierTable = nullptr);

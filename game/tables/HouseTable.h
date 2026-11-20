@@ -160,6 +160,7 @@ struct HouseEntry
     uint32_t priceQBit = 0;
     float priceAfterQBit = 0.0f;
     std::vector<uint32_t> residentNpcIds;
+    uint32_t restHostNpcId = 0;
     std::vector<TransportRoute> transportRoutes;
     std::optional<ArcomageRule> arcomageRule;
     uint32_t rawExtraExitPictureIndex = 0;

@@ -2838,6 +2838,11 @@ void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 
 void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
+    heldInventoryItem().doubleClick.cancel();
+    if (readableScrollOverlayReadOnly().staysUntilClick)
+    {
+        itemService().closeReadableScrollOverlay();
+    }
     interactionState().characterClickLatch = false;
     interactionState().characterMemberCycleLatch = false;
     interactionState().characterPressedTarget = {};

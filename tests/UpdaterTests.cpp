@@ -828,8 +828,9 @@ TEST_CASE("an empty installation installs the downloaded app's release with its 
 
 TEST_CASE("the packager writes the content format this binary reads")
 {
-    const std::string packager =
+    std::string packager =
         readFile(std::filesystem::path(OPENYAMM_SOURCE_DIR) / "tools" / "package_runtime_assets.py");
+    std::erase(packager, '\r');
     const std::string expected =
         "\nCONTENT_FORMAT = " + std::to_string(OpenYAMM::Engine::SupportedContentFormat) + "\n";
     CHECK(packager.find(expected) != std::string::npos);

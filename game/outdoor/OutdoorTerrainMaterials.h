@@ -4,7 +4,7 @@
 #include "game/maps/OutdoorTerrainTiles.h"
 #include "game/outdoor/OutdoorMapData.h"
 #include "game/render/LiquidKind.h"
-#include "game/render/TerrainMaterialConfig.h"
+#include "game/outdoor/OutdoorTerrainMaterialConfig.h"
 #include "game/render/TerrainMaterialSet.h"
 #include "game/render/WaterRenderer.h"
 
@@ -20,10 +20,6 @@
 namespace OpenYAMM::Game
 {
 struct OutdoorLightingData;
-
-// The map's material file (worlds/<world>/terrain_materials/<map>.yml); every map with terrain has one.
-std::optional<OutdoorTerrainMaterialConfig> loadOutdoorTerrainMaterialConfig(
-    const Engine::AssetFileSystem &assets, const OutdoorMapData &map, std::string &error);
 
 // The outdoor terrain: a subdivided smooth terrain mesh shaded from blended ground materials.
 class OutdoorTerrainMaterials

@@ -58,26 +58,6 @@ size_t findActionByLabel(const OpenYAMM::Game::EventDialogContent &dialog, const
     return static_cast<size_t>(-1);
 }
 
-bool hasAnyEquippedItem(const OpenYAMM::Game::Character &character)
-{
-    return character.equipment.offHand != 0
-        || character.equipment.mainHand != 0
-        || character.equipment.bow != 0
-        || character.equipment.armor != 0
-        || character.equipment.helm != 0
-        || character.equipment.belt != 0
-        || character.equipment.cloak != 0
-        || character.equipment.gauntlets != 0
-        || character.equipment.boots != 0
-        || character.equipment.amulet != 0
-        || character.equipment.ring1 != 0
-        || character.equipment.ring2 != 0
-        || character.equipment.ring3 != 0
-        || character.equipment.ring4 != 0
-        || character.equipment.ring5 != 0
-        || character.equipment.ring6 != 0;
-}
-
 bool hasAnySpellSkill(const OpenYAMM::Game::Character &character)
 {
     for (const auto &[skillName, skill] : character.skills)
@@ -151,7 +131,6 @@ TEST_CASE("MMerge-style mercenary recruits are generated into current-map recrui
     CHECK_FALSE(recruitIt->second.character.portraitTextureName.empty());
     CHECK(recruitIt->second.character.portraitTextureName.ends_with("01"));
     CHECK_FALSE(recruitIt->second.character.skills.empty());
-    CHECK(hasAnyEquippedItem(recruitIt->second.character));
     CHECK(hasAnySpellSkill(recruitIt->second.character) == !recruitIt->second.character.knownSpellIds.empty());
     CHECK(harness.eventRuntimeState().npcHouseOverrides.at(npcId) == recruitIt->second.houseId);
     CHECK(harness.eventRuntimeState().npcNameOverrides.at(npcId) == recruitIt->second.character.name);

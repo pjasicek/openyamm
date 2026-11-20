@@ -221,13 +221,14 @@ TEST_CASE("Obsidian arc antialiasing retains stroke coverage with a screen pixel
     }
 }
 
-TEST_CASE("Obsidian minimap and rest clocks share midnight noon and rounding rules")
+TEST_CASE("Obsidian minimap clock follows the English calendar format and rounding rules")
 {
     CHECK(formatGameplayClock(0) == "12:00 am");
     CHECK(formatGameplayClock(-1) == "12:00 am");
     CHECK(formatGameplayClock(570) == "9:30 am");
     CHECK(formatGameplayClock(719) == "11:59 am");
     CHECK(formatGameplayClock(720) == "12:00 pm");
+    CHECK(formatGameplayClock(969) == "4:09 pm");
     CHECK(formatGameplayClock(1439) == "11:59 pm");
     CHECK(formatGameplayClock(1439.6f) == "12:00 am");
     CHECK(formatGameplayClock(1440 + 570) == "9:30 am");

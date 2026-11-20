@@ -22,7 +22,7 @@
 #     permanent_resistance: {resistances: [..], amount: EXPR}
 #     age: {years: EXPR} | {younger: EXPR, clear_magic_age_first: true}
 #     level_modifier: N
-#   item: {action: recharge_wand | harden | temporary_special_enchant, enchant: SpecialItemEnchantKind}
+#   item: {action: recharge_wand | harden | temporary_special_enchant | permanent_special_enchant, enchant: SpecialItemEnchantKind}
 #                                     a potion poured onto an item instead of drunk
 #
 # EXPR: a number, {linear: [a, b]} for a + b*P, or {ceil_div: D} for ceil(P/D), where P is the potion power (at
@@ -196,7 +196,7 @@ potions:
       - cure: [Petrified]
   263:
     name: Slaying Potion
-    item: {action: temporary_special_enchant, enchant: DragonSlaying}
+    item: {action: permanent_special_enchant, enchant: DragonSlaying}
   264:
     name: Pure Luck
     once_per_character: true

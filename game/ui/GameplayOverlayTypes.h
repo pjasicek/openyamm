@@ -571,6 +571,11 @@ enum class GameplayJournalPointerTargetType
     NotesSearchField,
     MapZoomInButton,
     MapZoomOutButton,
+    MapAddNoteButton,
+    MapEditNoteButton,
+    MapDeleteNoteButton,
+    MapSaveNoteButton,
+    MapCancelNoteButton,
     MapNote,
     CloseButton
 };

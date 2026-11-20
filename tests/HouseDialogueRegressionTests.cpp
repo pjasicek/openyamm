@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "game/audio/SoundIds.h"
@@ -2749,6 +2750,33 @@ TEST_CASE("sandro thant throne room residents")
     CHECK_FALSE(dialogHasActionLabel(dialog, "Brekish Onefang"));
 }
 
+TEST_CASE("the Harmondale butler offers free inn rest in the throne room")
+{
+    constexpr uint32_t ButlerNpcId = 397;
+    constexpr uint32_t HarmondaleTavernHouseId = 240;
+    constexpr uint32_t HarmondaleThroneRoomHouseId = 1169;
+    constexpr const char *pRestLabel = "Would you like to rest?";
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    CHECK_FALSE(dialogHasActionLabel(harness.openNpcDialogue(ButlerNpcId, HarmondaleTavernHouseId), pRestLabel));
+
+    harness.eventRuntimeState().npcHouseOverrides[ButlerNpcId] = HarmondaleThroneRoomHouseId;
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(HarmondaleThroneRoomHouseId);
+    REQUIRE_EQ(dialog.sourceId, ButlerNpcId);
+    const std::optional<size_t> restIndex = findActionIndexByLabel(dialog, pRestLabel);
+    REQUIRE(restIndex.has_value());
+
+    const int goldBeforeRest = harness.party().gold();
+    const int foodBeforeRest = harness.party().food();
+    const OpenYAMM::Game::GameplayDialogController::Result result = harness.executeActiveDialogAction(*restIndex);
+    CHECK(result.shouldCloseActiveDialog);
+    REQUIRE(result.pendingInnRest.has_value());
+    CHECK_EQ(result.pendingInnRest->houseId, HarmondaleThroneRoomHouseId);
+    CHECK_EQ(harness.party().gold(), goldBeforeRest);
+    CHECK_EQ(harness.party().food(), foodBeforeRest);
+}
+
 TEST_CASE("throne room sentence clears fines without hiding residents by default")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -4077,17 +4105,11 @@ TEST_CASE("dwi temple proprietor portrait uses mm8 overlay icon")
         sourceRoot / "assets_dev/engine/icons_x2/NPC1130.png";
 
     REQUIRE(std::filesystem::exists(worldPortrait));
-    CHECK_FALSE(std::filesystem::exists(uppercaseWorldPortrait));
+    CHECK_FALSE(OpenYAMM::Tests::hasExactFileName(uppercaseWorldPortrait));
     CHECK_FALSE(std::filesystem::exists(enginePortrait));
     CHECK_FALSE(std::filesystem::exists(uppercaseEnginePortrait));
 
-    const std::filesystem::perms portraitPermissions = std::filesystem::status(worldPortrait).permissions();
-    CHECK_EQ(
-        portraitPermissions & std::filesystem::perms::all,
-        std::filesystem::perms::owner_read
-            | std::filesystem::perms::owner_write
-            | std::filesystem::perms::group_read
-            | std::filesystem::perms::others_read);
+    CHECK(OpenYAMM::Tests::hasAssetFilePermissions(worldPortrait));
 
     CHECK_EQ(fnv1a64(readBinaryFileBytes(worldPortrait)), 0x4503bad3e143623dull);
 }
@@ -4661,6 +4683,45 @@ TEST_CASE("mm6 skill guilds require membership and expose their original skills"
         pBerserkersFury->offeredSkills.begin(),
         pBerserkersFury->offeredSkills.end(),
         "Armsmaster") != pBerserkersFury->offeredSkills.end());
+}
+
+TEST_CASE("mm6 skill guild membership and services do not depend on translated names")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::array<uint16_t, 12> membershipVariables = {
+        0x8010u, 0x8010u, 0x8011u, 0x8011u, 0x8012u, 0x8012u,
+        0x8013u, 0x8014u, 0x8015u, 0x8014u, 0x8013u, 0x8015u};
+
+    for (size_t index = 0; index < membershipVariables.size(); ++index)
+    {
+        const uint32_t houseId = 191 + static_cast<uint32_t>(index);
+        CAPTURE(houseId);
+        const OpenYAMM::Game::HouseEntry *pHouse = gameData.houseTable.get(houseId);
+        REQUIRE(pHouse != nullptr);
+        OpenYAMM::Game::HouseEntry translatedHouse = *pHouse;
+        translatedHouse.name = "Translated guild name";
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+        const float openingMinutes = static_cast<float>(pHouse->openHour) * 60.0f;
+
+        for (bool isMember : {false, true})
+        {
+            CAPTURE(isMember);
+            harness.party().setEventVariableValue(membershipVariables[index], isMember ? 1 : 0);
+            const std::vector<OpenYAMM::Game::HouseActionOption> actions =
+                OpenYAMM::Game::buildHouseActionOptions(
+                    translatedHouse,
+                    &harness.party(),
+                    &gameData.classSkillTable,
+                    &harness.worldRuntime(),
+                    openingMinutes,
+                    OpenYAMM::Game::DialogueMenuId::None);
+            CHECK_FALSE(findHouseActionById(actions, OpenYAMM::Game::HouseActionId::GuildBuySpellbooks).has_value());
+            const std::optional<OpenYAMM::Game::HouseActionOption> learn =
+                findHouseActionById(actions, OpenYAMM::Game::HouseActionId::OpenLearnSkillsMenu);
+            REQUIRE(learn.has_value());
+            CHECK_EQ(learn->enabled, isMember);
+        }
+    }
 }
 
 TEST_CASE("dwi training service uses active member")
@@ -8648,11 +8709,15 @@ TEST_CASE("MM7 promotion sidecars still accept later recruits alongside promoted
     REQUIRE(harness.party().setMemberClassName(1, "Wizard"));
     REQUIRE(harness.party().setMemberClassName(2, "PriestDark"));
     REQUIRE(harness.party().setMemberClassName(3, "Cleric"));
-    REQUIRE(harness.party().grantItemToMember(1, 1417));
+    for (size_t memberIndex = 0; memberIndex < harness.party().members().size(); ++memberIndex)
+    {
+        REQUIRE(harness.party().grantItemToMember(memberIndex, 1417));
+    }
+    REQUIRE(harness.party().grantItemToMember(0, 1417));
     REQUIRE(harness.executeGlobalEvent(847));
     CHECK_EQ(harness.party().member(0)->className, "Lich");
     CHECK_EQ(harness.party().member(1)->className, "Lich");
-    CHECK_EQ(harness.party().inventoryItemCount(1417), 0);
+    CHECK_EQ(harness.party().inventoryItemCount(1417), 1);
 
     // Priest quest was completed earlier; the old unique quest item is no longer needed.
     harness.party().setQuestBit(1607, true);

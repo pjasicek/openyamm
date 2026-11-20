@@ -622,16 +622,18 @@ bool WorldFxSystem::configureActorModels(const Engine::AssetFileSystem &assets,
     {
         return true;
     }
-    m_actorModelsConfigured = true;
     m_pActorModelManifest = std::move(pManifest);
     for (const std::string &descriptor : eagerDescriptors)
     {
         if (m_pActorModelManifest != nullptr && m_pActorModelManifest->binds(descriptor)
             && !m_actorModelBindings.contains(descriptor) && !buildActorModelBinding(descriptor, error))
         {
+            m_actorModelBindings.clear();
+            m_pActorModelManifest.reset();
             return false;
         }
     }
+    m_actorModelsConfigured = true;
     return true;
 }
 

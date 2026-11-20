@@ -1,4 +1,7 @@
 #include "game/maps/SaveGame.h"
+#include "game/FaceEnums.h"
+
+#include "game/gameplay/ChestRuntime.h"
 
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
@@ -345,6 +348,16 @@ constexpr uint32_t SaveVersionPotionUpkeep = 191;
 // and "movement slowed" timers.
 constexpr uint32_t SaveVersionSoloArchetypes = 197;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
+// Explicit import copies made by tools/migrate_ru_local_save.py. Versions 89/90 of that branch diverged
+// from upstream: personal-note flags and the party's autonote map were appended to the v88 layout.
+constexpr char RuLocalSaveMagic[8] = {'O', 'Y', 'R', 'U', 'L', 'O', 'C', '\0'};
+
+bool supportedSaveMagic(const char *pMagic)
+{
+    return std::memcmp(pMagic, SaveMagic, sizeof(SaveMagic)) == 0
+        || std::memcmp(pMagic, RuLocalSaveMagic, sizeof(RuLocalSaveMagic)) == 0;
+}
+
 
 std::string toLowerCopy(const std::string &value)
 {
@@ -465,9 +478,25 @@ public:
         return m_bytes.size() - m_offset;
     }
 
-    void setVersion(uint32_t version)
+    void setVersion(uint32_t version, bool ruLocal = false)
     {
-        m_version = version;
+        m_ruLocalVersion = ruLocal ? version : 0;
+        m_version = ruLocal ? 88 : version;
+    }
+
+    uint32_t ruLocalVersion() const
+    {
+        return m_ruLocalVersion;
+    }
+
+    void recordRuLocalPersonalNote(const EventRuntimeState::RuntimeMapNote &note)
+    {
+        m_ruLocalPersonalNotes[toLowerCopy(note.mapFileName)].insert(note.id);
+    }
+
+    const std::unordered_map<std::string, std::unordered_set<uint32_t>> &ruLocalPersonalNotes() const
+    {
+        return m_ruLocalPersonalNotes;
     }
 
     uint32_t version() const
@@ -480,6 +509,8 @@ private:
     size_t m_offset = 0;
     bool m_failed = false;
     uint32_t m_version = SaveVersion;
+    uint32_t m_ruLocalVersion = 0;
+    std::unordered_map<std::string, std::unordered_set<uint32_t>> m_ruLocalPersonalNotes;
 };
 
 void writeValue(BinaryWriter &writer, const HiredNpcFollower &value);
@@ -2291,6 +2322,28 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     }
 }
 
+bool readRuLocalAutonotes(BinaryReader &reader, Party::Snapshot &value)
+{
+    if (reader.ruLocalVersion() < 90)
+    {
+        return true;
+    }
+
+    std::unordered_map<uint32_t, int32_t> notes;
+    if (!readValue(reader, notes))
+    {
+        return false;
+    }
+    for (const auto &[id, learned] : notes)
+    {
+        if (id != 0 && learned != 0)
+        {
+            value.autonotes.insert(id);
+        }
+    }
+    return true;
+}
+
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
 {
     return readValue(reader, value.members)
@@ -2345,7 +2398,8 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && (reader.version() < SaveVersionMm9Formation || readValue(reader, value.memberFormationCells))
         && (reader.version() < SaveVersionLastOutdoorMap || readValue(reader, value.lastOutdoorMapFileName))
         && readPouches(reader, value)
-        && migrateMm9HirelingStats(reader, value);
+        && migrateMm9HirelingStats(reader, value)
+        && readRuLocalAutonotes(reader, value);
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -3345,8 +3399,23 @@ bool readValue(BinaryReader &reader, EventRuntimeState::RuntimeMapNote &value)
         value.mapFileName.clear();
     }
 
-    return readValue(reader, value.text)
-        && readValue(reader, value.active);
+    if (!readValue(reader, value.text) || !readValue(reader, value.active))
+    {
+        return false;
+    }
+    if (reader.ruLocalVersion() >= 89)
+    {
+        bool personal = false;
+        if (!readValue(reader, personal))
+        {
+            return false;
+        }
+        if (personal)
+        {
+            reader.recordRuLocalPersonalNote(value);
+        }
+    }
+    return true;
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::ChestItemRequest &value)
@@ -6298,6 +6367,162 @@ void migrateLegacyMm6FaceTextureKeys(
     }
 }
 
+void migrateLegacySnakeTempleLift(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "6t8.blv" && name != "mm6:6t8.blv") || !snapshot.mapDeltaData)
+        {
+            return;
+        }
+
+        for (MapDeltaDoor &door : snapshot.mapDeltaData->doors)
+        {
+            // Match the old content exactly; preserve the saved mechanism state and progress.
+            if (door.doorId != 3 || door.moveLength != 696 || door.directionZ != -65536
+                || door.vertexIds != std::vector<uint16_t>{848, 844, 853, 845, 857, 847}
+                || door.xOffsets != std::vector<int16_t>{-1152, -1280, -1028, -1280, -1280, -1028}
+                || door.yOffsets != std::vector<int16_t>{1152, 1152, 1408, 1280, 1408, 1152}
+                || door.zOffsets != std::vector<int16_t>{700, 700, 700, 700, 700, 700})
+            {
+                continue;
+            }
+
+            // The shared lower corner of rear wall faces 490/779 must descend with the platform.
+            door.vertexIds.push_back(821);
+            door.xOffsets.push_back(-1152);
+            door.yOffsets.push_back(1408);
+            door.zOffsets.push_back(700);
+            door.numVertices = 7;
+            door.numOffsets = 7;
+
+            std::vector<int16_t> &raw = snapshot.mapDeltaData->doorsData;
+            raw.clear();
+            for (const MapDeltaDoor &savedDoor : snapshot.mapDeltaData->doors)
+            {
+                for (const uint16_t id : savedDoor.vertexIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                for (const uint16_t id : savedDoor.faceIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                for (const uint16_t id : savedDoor.sectorIds)
+                {
+                    raw.push_back(int16_t(id));
+                }
+                raw.insert(raw.end(), savedDoor.deltaUs.begin(), savedDoor.deltaUs.end());
+                raw.insert(raw.end(), savedDoor.deltaVs.begin(), savedDoor.deltaVs.end());
+                raw.insert(raw.end(), savedDoor.xOffsets.begin(), savedDoor.xOffsets.end());
+                raw.insert(raw.end(), savedDoor.yOffsets.begin(), savedDoor.yOffsets.end());
+                raw.insert(raw.end(), savedDoor.zOffsets.begin(), savedDoor.zOffsets.end());
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
+void migrateGloamingBoatFloorCollision(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "d03.blv" && name != "mm7:d03.blv" && name != "world.mm7.map.d03") || !snapshot.mapDeltaData)
+        {
+            return;
+        }
+
+        // Saves cache the old flags on the lava polygons hidden under the three hulls.
+        std::vector<uint32_t> &attributes = snapshot.mapDeltaData->faceAttributes;
+        constexpr uint32_t OriginalFloor = faceAttributeBit(FaceAttribute::Fluid)
+            | faceAttributeBit(FaceAttribute::XYPlane);
+        for (const size_t face : {607u, 612u, 2082u, 2285u})
+        {
+            if (face < attributes.size()
+                && (attributes[face] & ~faceAttributeBit(FaceAttribute::SeenByParty)) == OriginalFloor)
+            {
+                attributes[face] |= faceAttributeBit(FaceAttribute::Untouchable);
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
+void migrateWallsOfMistLichJarChest(GameSaveData &data)
+{
+    const auto migrateSnapshot = [](const std::string &mapName, IndoorSceneRuntime::Snapshot &snapshot)
+    {
+        const std::string name = toLowerCopy(mapName);
+        if ((name != "7d11.blv" && name != "mm7:7d11.blv" && name != "world.mm7.map.7d11")
+            || !snapshot.mapDeltaData || snapshot.mapDeltaData->chests.empty())
+        {
+            return;
+        }
+
+        // A saved chest retains its authored item records even after its cached loot is taken.
+        constexpr size_t ItemRecordSize = 36;
+        constexpr std::array<uint8_t, ItemRecordSize> JarRecord = {0x89, 0x05};
+        constexpr std::array<uint8_t, ItemRecordSize> EmptyRecord = {};
+        constexpr size_t FifthRecordOffset = 4 * ItemRecordSize;
+        std::vector<uint8_t> &rawItems = snapshot.mapDeltaData->chests.front().rawItems;
+        if (rawItems.size() < FifthRecordOffset + ItemRecordSize
+            || !std::equal(EmptyRecord.begin(), EmptyRecord.end(), rawItems.begin() + FifthRecordOffset))
+        {
+            return;
+        }
+
+        for (size_t offset = 0; offset < FifthRecordOffset; offset += ItemRecordSize)
+        {
+            if (!std::equal(JarRecord.begin(), JarRecord.end(), rawItems.begin() + offset))
+            {
+                return;
+            }
+        }
+
+        std::copy(JarRecord.begin(), JarRecord.end(), rawItems.begin() + FifthRecordOffset);
+        std::vector<std::optional<GameplayChestViewState>> &views = snapshot.worldRuntime.materializedChestViews;
+        if (!views.empty() && views.front())
+        {
+            GameplayChestViewState &view = *views.front();
+            GameplayChestItemState jar = {};
+            jar.itemId = jar.item.objectDescriptionId = 1417;
+            jar.quantity = 1;
+            jar.height = jar.item.height = 2;
+            if (!tryPlaceChestItemAt(view, jar, 0, 0))
+            {
+                view.hiddenItems.push_back(jar);
+            }
+        }
+    };
+
+    if (data.hasIndoorSceneState)
+    {
+        migrateSnapshot(data.mapFileName, data.indoorScene);
+    }
+    for (auto &[mapName, snapshot] : data.indoorSceneStates)
+    {
+        migrateSnapshot(mapName, snapshot);
+    }
+}
+
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion)
 {
     if (sourceSaveVersion >= SaveVersionConsumedCorpseMarkers)
@@ -6519,7 +6744,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     uint32_t version = 0;
 
     if (!reader.readBytes(magic, sizeof(magic))
-        || std::memcmp(magic, SaveMagic, sizeof(SaveMagic)) != 0
+        || !supportedSaveMagic(magic)
         || !reader.read(version))
     {
         error = "invalid save header";
@@ -6532,7 +6757,13 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    reader.setVersion(version);
+    const bool ruLocal = std::memcmp(magic, RuLocalSaveMagic, sizeof(RuLocalSaveMagic)) == 0;
+    if (ruLocal && (version < 89 || version > 90))
+    {
+        error = "unsupported ru_local import version";
+        return std::nullopt;
+    }
+    reader.setVersion(version, ruLocal);
 
     GameSaveData data = {};
     bool decoded = false;
@@ -6547,22 +6778,34 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (!decoded || reader.failed())
+    if (!decoded || reader.failed() || (ruLocal && reader.remainingBytes() != 0))
     {
         error = "save data is corrupted";
         return std::nullopt;
     }
 
-    migrateLegacyConsumedCorpseMarkers(data, version);
+    migrateLegacyConsumedCorpseMarkers(data, reader.version());
     migrateLegacyNpcRosters(data);
-    migrateLegacyMapAutonotes(data, version);
-    migrateLegacyMapHistory(data, version);
-    migrateLegacyHistoryNumbering(data, version);
-    migrateLegacyMapJournalNotes(data, version);
-    markLegacyCampFireDecorVars(data, version);
-    markLegacySmallBarrelDecorVars(data, version);
-    migrateLegacyLichImmunities(data, version);
-    data.sourceSaveVersion = version;
+    migrateLegacySnakeTempleLift(data);
+    migrateGloamingBoatFloorCollision(data);
+    migrateWallsOfMistLichJarChest(data);
+    migrateLegacyMapAutonotes(data, reader.version());
+    migrateLegacyMapHistory(data, reader.version());
+    migrateLegacyHistoryNumbering(data, reader.version());
+    migrateLegacyMapJournalNotes(data, reader.version());
+    for (JournalMapNote &note : data.party.journalMapNotes)
+    {
+        const auto map = reader.ruLocalPersonalNotes().find(toLowerCopy(note.mapFileName));
+        if (map != reader.ruLocalPersonalNotes().end() && map->second.contains(note.id))
+        {
+            note.personal = true;
+            note.listedWithTrainerNotes = false;
+        }
+    }
+    markLegacyCampFireDecorVars(data, reader.version());
+    markLegacySmallBarrelDecorVars(data, reader.version());
+    migrateLegacyLichImmunities(data, reader.version());
+    data.sourceSaveVersion = reader.version();
 
     return data;
 }
@@ -6764,7 +7007,7 @@ std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem
     uint32_t version = 0;
 
     if (!headerReader.readBytes(magic, sizeof(magic))
-        || std::memcmp(magic, SaveMagic, sizeof(SaveMagic)) != 0
+        || !supportedSaveMagic(magic)
         || !headerReader.read(version))
     {
         error = "invalid save header";
@@ -6811,7 +7054,13 @@ std::optional<GameSaveSummary> loadGameSaveSummaryFromPath(const std::filesystem
     std::vector<uint8_t> summaryBytes(summaryByteCount);
     input.read(reinterpret_cast<char *>(summaryBytes.data()), static_cast<std::streamsize>(summaryBytes.size()));
     BinaryReader reader(summaryBytes);
-    reader.setVersion(version);
+    const bool ruLocal = std::memcmp(magic, RuLocalSaveMagic, sizeof(RuLocalSaveMagic)) == 0;
+    if (ruLocal && (version < 89 || version > 90))
+    {
+        error = "unsupported ru_local import version";
+        return std::nullopt;
+    }
+    reader.setVersion(version, ruLocal);
     GameSaveSummary summary;
 
     if (static_cast<size_t>(input.gcount()) != summaryBytes.size()

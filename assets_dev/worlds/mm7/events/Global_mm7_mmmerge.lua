@@ -68,6 +68,17 @@ RegisterGlobalNpcEnterHook(65074, "MMMerge William Lasker topics", function(cont
     end
 end)
 
+RegisterGlobalNpcEnterHook(65075, "MM7 Alice Hargreaves greeting", function(context)
+    if context == nil or context.npcId ~= 393 then
+        return
+    end
+
+    local greetingId = IsQBitSet(QBit(612)) and 163 or 162
+    if evt.GetNPCGreeting(393) ~= greetingId then
+        evt.SetNPCGreeting(393, greetingId)
+    end
+end)
+
 ReplaceGlobalEvent(789, "MMMerge Dragon Hatchling", function()
     if MM7.GetCrossVar("DragonJoined", 0) ~= 0 then
         -- A dragon dismissed from the followers joins again.
@@ -858,49 +869,47 @@ end)
 
 ReplaceGlobalEvent(847, "MMMerge Lich promotion", function()
     local memberCount = evt.GetPartyMemberCount()
-    local promotedCount = 0
-    local honoraryCount = 0
-    local consumedJarCount = 0
+    local lichClasses = {43, 44, 47}
+    local jarItems = {}
 
-    for playerIndex = 0, memberCount - 1 do
-        local classId = GetPlayerClass(playerIndex)
-        local jarItem = 0
-
-        if PlayerHasItem(playerIndex, 1417) then
-            jarItem = 1417
-        elseif classId == 47 and PlayerHasItem(playerIndex, 628) then
-            jarItem = 628
-        end
-
-        if jarItem ~= 0 then
-            RemovePlayerItem(playerIndex, jarItem)
-            consumedJarCount = consumedJarCount + 1
-
-            if PlayerClassMatches(playerIndex, {43, 44, 47}) then
-                if ApplyLichTransformation(playerIndex) then
-                    promotedCount = promotedCount + 1
-                    ApplyPlayerRewards(playerIndex, {Experience = 40000})
-                end
-            else
-                honoraryCount = honoraryCount + 1
-
-                if not IsQBitSet(QBit(1624)) then
-                    ApplyPlayerRewards(playerIndex, {Experience = 40000})
-                end
-
-                MM7.AddPartyGold(1500)
-            end
-        end
-    end
-
-    if consumedJarCount == 0 then
+    if memberCount == 0 then
         MM7.PromotionMessage(Game.NPCText[1151])
         return
     end
 
+    for playerIndex = 0, memberCount - 1 do
+        if PlayerHasItem(playerIndex, 1417) then
+            jarItems[playerIndex] = 1417
+        elseif GetPlayerClass(playerIndex) == 47 and PlayerHasItem(playerIndex, 628) then
+            jarItems[playerIndex] = 628
+        else
+            MM7.PromotionMessage(Game.NPCText[1151])
+            return
+        end
+    end
+
+    local promoted = false
+
+    for playerIndex = 0, memberCount - 1 do
+        RemovePlayerItem(playerIndex, jarItems[playerIndex])
+
+        if PlayerClassMatches(playerIndex, lichClasses) then
+            if ApplyLichTransformation(playerIndex) then
+                promoted = true
+                ApplyPlayerRewards(playerIndex, {Experience = 40000})
+            end
+        else
+            if not IsQBitSet(QBit(1624)) then
+                ApplyPlayerRewards(playerIndex, {Experience = 40000})
+            end
+
+            MM7.AddPartyGold(1500)
+        end
+    end
+
     SetQBit(QBit(1624))
 
-    if promotedCount > 0 then
+    if promoted then
         SetQBit(QBit(1623))
     end
 
@@ -909,13 +918,7 @@ ReplaceGlobalEvent(847, "MMMerge Lich promotion", function()
     evt.SetNPCTopic(388, 0, 0)
     evt.SetNPCGreeting(388, 194)
 
-    if promotedCount > 0 then
-        MM7.PromotionMessage(Game.NPCText[1150])
-    elseif honoraryCount > 0 then
-        MM7.PromotionMessage(Game.NPCText[1150])
-    else
-        MM7.PromotionMessage(Game.NPCText[1151])
-    end
+    MM7.PromotionMessage(Game.NPCText[1150])
 end)
 
 ReplaceGlobalEvent(849, "MMMerge Great Druid promotion", function()

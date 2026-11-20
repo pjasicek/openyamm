@@ -33,6 +33,7 @@ enum class EventDialogActionKind
     HouseExtraExit,
     HouseResident,
     NpcTopic,
+    NpcOfferLodging,
     ArenaChallenge,
     NpcProfessionNews,
     NpcProfessionAction,

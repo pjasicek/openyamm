@@ -85,6 +85,7 @@ void appendLearnedEventEffect(
     if (pProgram == nullptr || !*pProgram)
     {
         return;
+
     }
 
     const std::optional<ScriptedEventProgram::LearnedEffect> effect =

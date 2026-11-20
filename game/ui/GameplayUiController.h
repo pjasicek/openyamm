@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/ui/InventoryItemDoubleClick.h"
+
 #include "engine/AssetFileSystem.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
@@ -148,6 +150,7 @@ public:
 
     struct HeldInventoryItemState
     {
+        InventoryItemDoubleClick doubleClick;
         bool active = false;
         InventoryItem item = {};
         uint8_t grabCellOffsetX = 0;

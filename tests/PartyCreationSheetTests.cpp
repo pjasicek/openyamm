@@ -23,6 +23,7 @@ struct StandardData
     {
         const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
         REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1, "mm6"));
+        loader.setActiveRuleset(RulesetDefinition{});
         REQUIRE(loader.loadForHeadlessGameplay(assets));
         data.bind(loader);
     }

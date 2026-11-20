@@ -1,0 +1,16 @@
+format_version: 1
+kind: "indoor_scene_overlay"
+source:
+  geometry_file: "d03.blv"
+
+initial_state:
+  face_attribute_overrides:
+    # Lava polygons covered by the three hulls are scenery, not walkable floors.
+    - face_index: 607
+      legacy_attributes: 536871184
+    - face_index: 612
+      legacy_attributes: 536871184
+    - face_index: 2082
+      legacy_attributes: 536871184
+    - face_index: 2285
+      legacy_attributes: 536871184

@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/AssetFileSystem.h"
@@ -482,7 +483,8 @@ TEST_CASE("map music starts after replacing an in-flight menu music decode")
     audioSystem.shutdown();
 }
 
-TEST_CASE("MM9 namespaced map music decodes and starts through the shared player")
+TEST_CASE("MM9 namespaced map music decodes and starts through the shared player"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;

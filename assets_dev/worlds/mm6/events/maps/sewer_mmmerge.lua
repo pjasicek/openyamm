@@ -1,6 +1,6 @@
 -- MMMerge map supplement: Free Haven sewer rescue follower state.
 
-ReplaceMapEvent(8, nil, function()
+ReplaceMapEvent(8, "Bed", function()
     if IsQBitSet(QBit(1194)) -- Captured the Prince of Thieves.
         or not IsQBitSet(QBit(1122)) then -- Capture the Prince of Thieves and bring him to Lord Stone.
         return
@@ -10,4 +10,4 @@ ReplaceMapEvent(8, nil, function()
     SetQBit(QBit(1194)) -- Captured the Prince of Thieves.
     AddFollowerNpc(802)
     evt.SpeakNPC(802)
-end)
+end, "Bed")

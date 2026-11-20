@@ -215,6 +215,65 @@ TEST_CASE("meditation regenerates mana on Merge five-minute game ticks")
     }
 }
 
+TEST_CASE("poison and disease impair rest rather than dealing periodic damage")
+{
+    using namespace OpenYAMM::Game;
+    for (CharacterCondition condition : {CharacterCondition::PoisonWeak, CharacterCondition::PoisonMedium,
+                                        CharacterCondition::PoisonSevere, CharacterCondition::DiseaseWeak,
+                                        CharacterCondition::DiseaseMedium, CharacterCondition::DiseaseSevere})
+    {
+        Party party;
+        party.seed(createRegressionPartySeed());
+        REQUIRE(party.applyMemberCondition(1, condition));
+        Character *pMember = party.member(1);
+        REQUIRE(pMember != nullptr);
+        const int healthBefore = pMember->health;
+        party.advanceTimedStates(3600.0f);
+        CHECK_EQ(pMember->health, healthBefore);
+        party.restAndHealAll();
+        const bool mild = condition == CharacterCondition::PoisonWeak || condition == CharacterCondition::DiseaseWeak;
+        const bool medium =
+            condition == CharacterCondition::PoisonMedium || condition == CharacterCondition::DiseaseMedium;
+        const int divisor = mild ? 2 : medium ? 3 : 4;
+        CHECK_EQ(pMember->health, std::max(1, Party::effectiveMaximumHealth(*pMember) / divisor));
+        CHECK_EQ(pMember->spellPoints, Party::effectiveMaximumSpellPoints(*pMember) / divisor);
+        CHECK(pMember->conditions.test(static_cast<size_t>(condition)));
+        REQUIRE(party.clearMemberCondition(1, condition));
+        party.restAndHealAll();
+        CHECK_EQ(pMember->health, Party::effectiveMaximumHealth(*pMember));
+        CHECK_EQ(pMember->spellPoints, Party::effectiveMaximumSpellPoints(*pMember));
+    }
+}
+
+TEST_CASE("full rest wakes an entirely sleeping insane party without curing insanity")
+{
+    using namespace OpenYAMM::Game;
+    Party party;
+    party.seed(createRegressionPartySeed());
+
+    for (size_t memberIndex = 0; memberIndex < party.memberCount(); ++memberIndex)
+    {
+        REQUIRE(party.applyMemberCondition(memberIndex, CharacterCondition::Insane, 100.0f));
+        REQUIRE(party.applyMemberCondition(memberIndex, CharacterCondition::Asleep, 110.0f));
+        REQUIRE_FALSE(GameMechanics::canAct(*party.member(memberIndex)));
+        CHECK(GameMechanics::displayedCondition(*party.member(memberIndex)) == CharacterCondition::Asleep);
+    }
+
+    party.advanceTimedStates(8.0f * 60.0f * 60.0f);
+    party.restAndHealAll();
+
+    for (const Character &member : party.members())
+    {
+        CHECK_FALSE(member.conditions.test(static_cast<size_t>(CharacterCondition::Asleep)));
+        CHECK_EQ(member.conditionStartGameMinutes[static_cast<size_t>(CharacterCondition::Asleep)], 0.0f);
+        CHECK(member.conditions.test(static_cast<size_t>(CharacterCondition::Insane)));
+        CHECK(GameMechanics::displayedCondition(member) == CharacterCondition::Insane);
+        CHECK(GameMechanics::canAct(member));
+        CHECK_EQ(member.recoverySecondsRemaining, 0.0f);
+        CHECK_EQ(member.spellPoints, 0);
+    }
+}
+
 TEST_CASE("days without rest weaken, then starve the party at each 3 AM dawn")
 {
     using namespace OpenYAMM::Game;

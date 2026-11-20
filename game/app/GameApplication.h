@@ -38,6 +38,7 @@
 #include "game/scene/IMapSceneRuntime.h"
 #include "game/ui/screens/LoadGameScreen.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
+#include "game/ui/GameplayHeldItemCursor.h"
 
 #include <array>
 #include <cstddef>
@@ -477,6 +478,7 @@ private:
     GameplayUiRuntime::HudDrawListStats m_loggedHudDrawListStats;
     uint32_t m_lastFramePerformanceLogTick = 0;
     DebugConsole m_debugConsole;
+    GameplayHeldItemCursor m_heldItemCursor;
     GameImGuiBgfxRenderer m_debugConsoleRenderer;
     bool m_debugConsoleRendererInitialized = false;
     bool m_debugConsoleFrameBegun = false;

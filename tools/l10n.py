@@ -77,6 +77,7 @@ TABLE_TEXT_COLUMNS = {
     "english/merchant.txt": (1, [1, 2, 3, 4]),
     "english/mm7_history.txt": (1, [1, 3]),
     "english/place_mon.txt": (1, [1]),
+    "english/pc_names.txt": (1, list(range(8))),
     "english/potion.txt": (1, [1, 2, 3]),
     "english/potnotes.txt": (1, [1, 2, 3]),
     "english/quests.txt": (1, [1]),
@@ -613,7 +614,17 @@ def extract_lua_file(template, path, domain):
 
     for match in re.finditer(LUA_TEXT_CALLS + r"\s*\(", text):
         end = _call_end(text, match.end() - 1)
-        shown.update(index for index, (start, _, _) in enumerate(literals) if match.end() <= start < end)
+        # A nested lookup's string is an identifier, not its displayed result:
+        # SetMessage(RulesTopic("topic_key") or "Fallback text").
+        cursor, depth = match.end(), 0
+        for index, (start, stop, _) in enumerate(literals):
+            if not match.end() <= start < end:
+                continue
+            between = re.sub(r"--[^\n]*", "", text[cursor:start])
+            depth += between.count("(") - between.count(")")
+            if depth == 0:
+                shown.add(index)
+            cursor = stop
     for match in re.finditer(LUA_REGISTER_CALLS + r"\s*\(\s*[\w.]+\s*,\s*", text):
         shown.update(index for index, (start, _, _) in enumerate(literals) if start == match.end())
     # The title after a handler (`end, "Title"`): an event's, which the indoor hover shows; a timer's, a load
@@ -704,7 +715,8 @@ def extract_table(template, path, skip, columns, domain="engine"):
             if column < len(row):
                 value = row[column].strip("\r")
                 if is_text(value) and not re.fullmatch(r"[\w.\-]*\d[\w.\-]*", value):
-                    template.add(domain, value.strip(), f"{relative(path)}:{line}")
+                    context = "character name" if path.name == "pc_names.txt" else ""
+                    template.add(domain, value.strip(), f"{relative(path)}:{line}", context=context)
 
 
 def extract_patch(template, path, table, domain="engine", positions=()):

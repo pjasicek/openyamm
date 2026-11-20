@@ -88,7 +88,7 @@ bool isWeaponItem(const ItemDefinition &itemDefinition)
 }
 
 // Potions poured onto a weapon or piece of equipment: Harden Item, and the weapon potions that add a temporary
-// special enchantment. Refused targets keep the potion, as in the original game.
+// special enchantment, or Slaying's permanent one. Refused targets keep the potion, as in the original game.
 InventoryItemMixResult applyEquipmentPotion(
     const InventoryItem &heldItem,
     InventoryItem &targetItem,
@@ -131,7 +131,8 @@ InventoryItemMixResult applyEquipmentPotion(
         return result;
     }
 
-    if (potionAction != PotionItemAction::TemporarySpecialEnchant)
+    if (potionAction != PotionItemAction::TemporarySpecialEnchant
+        && potionAction != PotionItemAction::PermanentSpecialEnchant)
     {
         return {};
     }
@@ -158,7 +159,8 @@ InventoryItemMixResult applyEquipmentPotion(
     // A zero duration would make the enchantment permanent, so a powerless potion still lasts 30 minutes.
     const uint16_t power = std::max<uint16_t>(1, itemPower(heldItem));
     targetItem.specialEnchantId = enchantId;
-    targetItem.temporaryBonusRemainingSeconds = static_cast<float>(power) * potionEffects.timedSecondsPerPower();
+    targetItem.temporaryBonusRemainingSeconds = potionAction == PotionItemAction::PermanentSpecialEnchant
+        ? 0.0f : static_cast<float>(power) * potionEffects.timedSecondsPerPower();
     result.success = true;
     result.heldItemConsumed = true;
     result.targetItemChanged = true;
@@ -272,9 +274,10 @@ InventoryItemMixResult InventoryItemMixingRuntime::mixItems(
     const MergedPotionSettingEntry *pHeldPotionSetting = potionSettingTable.getByItemId(heldItemId);
     const MergedPotionSettingEntry *pTargetPotionSetting = potionSettingTable.getByItemId(targetItemId);
 
-    if (potionItemAction(potionSettingTable, heldItemId) == PotionItemAction::RechargeWand)
+    if (potionItemAction(potionSettingTable, heldItemId) == PotionItemAction::RechargeWand
+        && isWandItem(*pTargetDefinition))
     {
-        if (!isWandItem(*pTargetDefinition) || targetItem.broken)
+        if (targetItem.broken)
         {
             return {};
         }

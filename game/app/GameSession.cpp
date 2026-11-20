@@ -217,12 +217,7 @@ GameSession::GameSession()
 
 GameSession::~GameSession()
 {
-    // The class multiplier table bound in bindDataRepository belongs to the repository, which may go before the
-    // next session binds its own.
-    if (m_pDataRepository != nullptr)
-    {
-        GameMechanics::bindClassMultiplierTable(nullptr);
-    }
+    GameMechanics::bindClassMultiplierTable(*this, nullptr);
 }
 
 void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
@@ -232,6 +227,7 @@ void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
     ++m_mm9QuestMarkerMapRevision;
     m_gameplayUiRuntime.bindDataRepository(pDataRepository);
     GameMechanics::bindClassMultiplierTable(
+        *this,
         pDataRepository != nullptr && pDataRepository->isBound() ? &pDataRepository->classMultiplierTable() : nullptr);
 
     if (m_pDataRepository != nullptr && m_pDataRepository->isBound())
@@ -1122,7 +1118,10 @@ void GameSession::updateGameplay(
         // Modal screens (inventory, dialogue, rest, menus) freeze party timers and physics like the original; outdoor
         // movement already returns early on the same flags.
         const bool worldMovementPaused =
-            rightMouseInspectPauseActive
+            pendingSpellTargetActive
+            || modalWorldInputBlocked
+            || m_sharedWorldInteractionBlockedThisFrame
+            || rightMouseInspectPauseActive
             || m_sharedInputFrameResult.journalInputConsumed
             || m_sharedInputFrameResult.worldInputBlocked;
         float worldMovementDeltaSeconds = worldMovementPaused ? 0.0f : deltaSeconds;

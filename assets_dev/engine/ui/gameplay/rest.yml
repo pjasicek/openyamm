@@ -154,7 +154,7 @@ elements:
   - id: RestWeekdayText
     anchor: top_left
     offset_x: 487.5
-    offset_y: 161
+    offset_y: 155
     width: 114.1
     height: 19
     z_index: 40
@@ -163,11 +163,12 @@ elements:
       font: Create
       align_x: center
       align_y: top
+      scale: 0.75
       color: '#e5dcc7'
   - id: RestTimeText
     anchor: top_left
     offset_x: 487.5
-    offset_y: 185
+    offset_y: 179
     width: 114.1
     height: 19
     z_index: 40
@@ -180,7 +181,7 @@ elements:
   - id: RestDayText
     anchor: top_left
     offset_x: 487.5
-    offset_y: 209
+    offset_y: 203
     width: 59.2
     height: 19
     z_index: 40
@@ -193,7 +194,7 @@ elements:
   - id: RestDayValueText
     anchor: top_left
     offset_x: 558.9
-    offset_y: 209
+    offset_y: 203
     width: 42.7
     height: 19
     z_index: 40
@@ -206,7 +207,7 @@ elements:
   - id: RestMonthText
     anchor: top_left
     offset_x: 487.5
-    offset_y: 233
+    offset_y: 227
     width: 59.2
     height: 19
     z_index: 40
@@ -219,7 +220,7 @@ elements:
   - id: RestMonthValueText
     anchor: top_left
     offset_x: 558.9
-    offset_y: 233
+    offset_y: 227
     width: 42.7
     height: 19
     z_index: 40
@@ -232,7 +233,7 @@ elements:
   - id: RestYearText
     anchor: top_left
     offset_x: 487.5
-    offset_y: 257
+    offset_y: 251
     width: 59.2
     height: 19
     z_index: 40
@@ -245,7 +246,7 @@ elements:
   - id: RestYearValueText
     anchor: top_left
     offset_x: 558.9
-    offset_y: 257
+    offset_y: 251
     width: 42.7
     height: 19
     z_index: 40

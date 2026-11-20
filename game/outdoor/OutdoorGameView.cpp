@@ -4256,6 +4256,7 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     screenRuntime.clearWorldStatusBarHoverText();
 }
 
+
 bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
 {
     if (m_pOutdoorPartyRuntime == nullptr)
@@ -4407,11 +4408,6 @@ GameplayUiController::HouseShopOverlayState &OutdoorGameView::houseShopOverlay()
 const GameplayUiController::HouseShopOverlayState &OutdoorGameView::houseShopOverlay() const
 {
     return m_gameSession.gameplayScreenRuntime().houseShopOverlay();
-}
-
-void OutdoorGameView::showStatusBarEvent(const std::string &text, float durationSeconds)
-{
-    setStatusBarEvent(text, durationSeconds);
 }
 
 void OutdoorGameView::setRenderLayers(const RenderLayers &layers)

@@ -1283,6 +1283,59 @@ bool readInt32FromBytes(const std::vector<uint8_t> &bytes, size_t offset, int32_
     return true;
 }
 
+void migrateLegacyPlacedGold(
+    const MapDeltaData &mapDeltaData,
+    const ItemTable &itemTable,
+    std::vector<OutdoorWorldRuntime::WorldItemState> &worldItems)
+{
+    // Older snapshots discarded the amount for placed gold outside the base MM8 ID range.
+    for (OutdoorWorldRuntime::WorldItemState &item : worldItems)
+    {
+        if (item.isGold || item.goldAmount != 0 || item.spawnedByPlayer || item.isExpired
+            || item.item.objectDescriptionId == 0 || (item.attributes & SpriteAttrTemporary) != 0)
+        {
+            continue;
+        }
+
+        const ItemDefinition *pDefinition = itemTable.get(item.item.objectDescriptionId);
+        if (pDefinition == nullptr || !pDefinition->isGold())
+        {
+            continue;
+        }
+
+        int32_t amount = 0;
+        for (const MapDeltaSpriteObject &source : mapDeltaData.spriteObjects)
+        {
+            int32_t sourceItemId = 0;
+            int32_t sourceAmount = 0;
+            if (item.attributes != source.attributes
+                || item.x != float(source.x) || item.y != float(source.y) || item.z != float(source.z)
+                || item.initialX != float(source.initialX) || item.initialY != float(source.initialY)
+                || item.initialZ != float(source.initialZ)
+                || !readInt32FromBytes(source.rawContainingItem, 0x00, sourceItemId)
+                || uint32_t(sourceItemId) != pDefinition->itemId
+                || !readInt32FromBytes(source.rawContainingItem, 0x0c, sourceAmount)
+                || sourceAmount <= 0)
+            {
+                continue;
+            }
+
+            if (amount > 0 && amount != sourceAmount)
+            {
+                amount = 0;
+                break;
+            }
+            amount = sourceAmount;
+        }
+
+        if (amount > 0)
+        {
+            item.isGold = true;
+            item.goldAmount = uint32_t(amount);
+        }
+    }
+}
+
 std::string debugStringOrNone(const std::string &value)
 {
     if (value.empty())
@@ -9199,6 +9252,10 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_corpseLootPending = true;
     m_activeCorpseView = snapshot.activeCorpseView;
     m_worldItems = snapshot.worldItems;
+    if (m_pOutdoorMapDeltaData != nullptr && m_pItemTable != nullptr)
+    {
+        migrateLegacyPlacedGold(*m_pOutdoorMapDeltaData, *m_pItemTable, m_worldItems);
+    }
     m_nextWorldItemId = snapshot.nextWorldItemId;
     settleRestingWorldItems();
     m_searchableLootPropState.searchedSourceIds = {

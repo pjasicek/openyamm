@@ -1,8 +1,16 @@
 {
-  "asset_helper_sha256": "21a30a76c9361bd6689ade3fb30d8d2118cf2781068d1cbff67950b4ba987373",
-  "backend": "5.2.2 LTS",
-  "geometry_helper_sha256": "5a4036d79fac68b786e3827cc8fa4f06c7ca2cb9272fdcdc09f874d296626f0d",
-  "producer_sha256": "d229a17cc2d06fc695c855365072484e2bf9c1fd6ed5d2a82487aa8b796873ec",
+  "asset_helper_sha256": "527cd61ed843013076fe65f35390d655364720e82c7376a2fca8971939939c81",
+  "backend": "5.3.0",
+  "geometry_helper_sha256": "936141ef9d32e25cc64c03d82f51c597c02ef631ae7735ef17dfd9fbb607c224",
+  "nonvisual_source_revalidation": {
+    "after_sha256": "714cdfcb1e45f73de173c8824a6ba8268eb41a1251d257d6af5da6b6bb01c787",
+    "before_revision": "7429884d0",
+    "before_sha256": "258c67c81ef057450930d6c258f3e3ea2ee1921f658757d4d86157267427e804",
+    "dependency": "worlds/mm7/maps/7out02.scene.yml",
+    "reason": "Only initial actor hostility fields changed; all visual scene data is identical.",
+    "retained_lighting_sha256": "a05d5ce4d8a9f9b169b34a95ef2cc93f333c91e19c6a268d70e96b0eb516cb11"
+  },
+  "producer_sha256": "1ba192956141d1c72be6752270713046a65fc5739a6b74256c78e5ef5827e5df",
   "profile": {
     "azimuth": 315,
     "building_page_size": 1024,

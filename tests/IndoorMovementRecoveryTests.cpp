@@ -911,4 +911,143 @@ TEST_CASE("monsters wedged against a tunnel's sloped side leave the crease and w
     }
 }
 
+TEST_CASE("alamos ramp seam releases an airborne party below the next floor")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "cd1.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    IndoorMovementController controller(*loaded.indoorMapData, &loaded.indoorMapDeltaData, &loaded.eventRuntimeState);
+    const IndoorBodyDimensions body = {};
+
+    // Saved at the corridor/ramp seam: rejecting every physics step used to preserve
+    // this upward velocity forever, blocking walking, falling and further jumps.
+    IndoorMoveState state = {};
+    state.x = -1229.6986083984375f;
+    state.y = 9217.0673828125f;
+    state.footZ = -840.734375f;
+    state.verticalVelocity = 460.0f;
+    state.sectorId = state.eyeSectorId = 115;
+    const IndoorMoveState resolved = controller.resolveMove(state, body, 0, 0, false, 1.0f / 128.0f);
+    CHECK(resolved.grounded);
+    CHECK_EQ(resolved.supportFaceIndex, 2605u);
+    CHECK_EQ(resolved.footZ, doctest::Approx(-833.0673828125f));
+    CHECK_EQ(resolved.verticalVelocity, 0.0f);
+
+    const IndoorMoveState jumped = controller.resolveMove(resolved, body, 0, 0, true, 1.0f / 128.0f);
+    CHECK_FALSE(jumped.grounded);
+    CHECK_GT(jumped.footZ, resolved.footZ);
+    CHECK_GT(jumped.verticalVelocity, 0.0f);
+
+    state = resolved;
+    for (int step = 0; step < 40; ++step)
+    {
+        state = controller.resolveMove(state, body, 0, 384, false, 1.0f / 128.0f);
+    }
+    CHECK_GT(state.y, 9325.0f);
+    const float junctionX = state.x;
+    for (int step = 0; step < 32; ++step)
+    {
+        state = controller.resolveMove(state, body, 384, 0, false, 1.0f / 128.0f);
+    }
+    CHECK_GT(state.x, junctionX + 80.0f);
+}
+
+TEST_CASE("indoor floor correction checks actual headroom below a ceiling")
+{
+    for (const int16_t ceilingHeight : {256, 150})
+    {
+        CAPTURE(ceilingHeight);
+        IndoorMapData map = recoveryRoom();
+        map.vertices.insert(map.vertices.end(), {
+            {-512, -512, ceilingHeight}, {-512, 512, ceilingHeight},
+            {512, 512, ceilingHeight}, {512, -512, ceilingHeight}
+        });
+        IndoorFace ceiling;
+        ceiling.vertexIndices = {8, 9, 10, 11};
+        ceiling.facetType = 5;
+        ceiling.roomNumber = 1;
+        map.faces.push_back(ceiling);
+        IndoorSector &sector = map.sectors[1];
+        sector.ceilingFaceIds = {2};
+        sector.ceilingCount = 1;
+        sector.faceIds.push_back(2);
+        sector.nonBspFaceIds.push_back(2);
+        sector.faceCount = sector.nonBspFaceCount = 3;
+        std::optional<MapDeltaData> delta = MapDeltaData{};
+        std::optional<EventRuntimeState> events = EventRuntimeState{};
+        IndoorMovementController controller(map, &delta, &events);
+        IndoorMoveState state = {};
+        state.x = 128.0f;
+        state.footZ = -4.0f;
+        state.verticalVelocity = 460.0f;
+        state.sectorId = state.eyeSectorId = 1;
+        const IndoorMoveState resolved = controller.resolveMove(state, {}, 0, 0, false, 1.0f / 128.0f);
+
+        if (ceilingHeight >= state.eyeHeight)
+        {
+            CHECK(resolved.grounded);
+            CHECK_EQ(resolved.footZ, 0.0f);
+            CHECK_EQ(resolved.verticalVelocity, 0.0f);
+        }
+        else
+        {
+            CHECK_FALSE(resolved.grounded);
+            CHECK_EQ(resolved.footZ, state.footZ);
+        }
+    }
+}
+
+TEST_CASE("shadow guild open spike pit admits walking and falling through its ceiling portal")
+{
+    using namespace OpenYAMM::Tests;
+    REQUIRE_MESSAGE(regressionMapLoaderLoaded(), regressionMapLoaderFailure());
+    GameDataLoader data = regressionMapLoader().gameDataLoader;
+    REQUIRE(data.loadMapByFileNameForHeadlessGameplay(regressionMapLoader().assetFileSystem, "6d08.blv"));
+    const MapAssetInfo &loaded = *data.getSelectedMap();
+    REQUIRE(loaded.indoorMapDeltaData.has_value());
+    IndoorMapData map = *loaded.indoorMapData;
+    REQUIRE_GT(map.faces.size(), 373u);
+    REQUIRE(map.faces[373].isPortal);
+    // Preserve the ceiling facet observed in the failing runtime trace; imports can also mark it as a floor.
+    map.faces[373].facetType = 5;
+    std::optional<EventRuntimeState> events = EventRuntimeState{};
+    bool foundTrapdoor = false;
+    for (const MapDeltaDoor &door : loaded.indoorMapDeltaData->doors)
+    {
+        if (door.doorId == 2)
+        {
+            // The mechanism's Closed endpoint retracts the plate and exposes portal 373.
+            RuntimeMechanismState &trapdoor = events->mechanisms[door.doorId];
+            trapdoor.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+            trapdoor.currentDistance = float(door.moveLength);
+            foundTrapdoor = true;
+        }
+    }
+    REQUIRE(foundTrapdoor);
+
+    for (float speed : {96.0f, 384.0f, 768.0f})
+    {
+        CAPTURE(speed);
+        IndoorMovementController controller(map, &loaded.indoorMapDeltaData, &events);
+        const IndoorBodyDimensions body = {};
+        IndoorMoveState state = controller.initializeStateFromEyePosition(-1481, -1018, 110, body);
+        REQUIRE(state.grounded);
+        const int stepCount = int(std::ceil(258.0f / speed * 128.0f));
+        for (int step = 0; step < stepCount; ++step)
+        {
+            state = controller.resolveMove(state, body, 0, speed, false, 1.0f / 128.0f);
+        }
+        REQUIRE_GT(state.y, -800.0f);
+        for (int step = 0; step < 256; ++step)
+        {
+            state = controller.resolveMove(state, body, 0, 0, false, 1.0f / 128.0f);
+        }
+        CHECK(state.grounded);
+        CHECK_EQ(state.footZ, doctest::Approx(-512.0f));
+        CHECK_EQ(state.sectorId, 33);
+    }
+}
+
 TEST_SUITE_END();

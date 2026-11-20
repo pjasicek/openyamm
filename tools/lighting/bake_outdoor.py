@@ -8,6 +8,7 @@ import csv
 import hashlib
 import json
 import math
+import os
 from pathlib import Path
 import struct
 import subprocess
@@ -22,8 +23,9 @@ from mathutils import Matrix, Vector
 ROOT = Path(__file__).resolve().parents[2]
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from bake_geometry import (TERRAIN_CELL_TRIANGLES, face_basis, fnv, pack_lightmap_charts, point_in_polygon, rgbm,
-                           rle_bgra, terrain_triangles_on_floors)
+                           rle_bgra, surface_key, terrain_triangles_on_floors)
 from bake_assets import bake_texture_paths, dependency_file, source_roots, texture_logical_scale
+from bake_assets import read_cooked_surface, runtime_surface_paths, runtime_terrain_albedo
 
 sys.path.insert(0, str(ROOT / 'util'))
 from map_export import parse_odm_file
@@ -110,9 +112,13 @@ def decoration_model_casters(game_binary, profile, out, dependency, assets, extr
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--profile', required=True, type=Path)
+    parser.add_argument('--assets', type=Path, default=ROOT / 'assets_dev')
     parser.add_argument('--output', required=True, type=Path)
     parser.add_argument('--azimuth', type=float)
     parser.add_argument('--samples', type=int)
+    parser.add_argument('--asset-python', type=Path,
+                        default=Path(sys.prefix) / 'bin/python.exe' if os.name == 'nt' else Path('/usr/bin/python3'),
+                        help='Python with PyYAML/Pillow for authoritative scene metadata and decoration export')
     parser.add_argument('--decoration-shadows', action=argparse.BooleanOptionalAction, default=None,
                         help='Bake static decoration shadows into the sun terms only: 3D decoration models '
                              '(engine/models/decorations.yml) as meshes, other decorations as sprite cards')
@@ -157,8 +163,8 @@ def main():
     native = parse_odm_file(source)['payload']
     # Read the same scene metadata as runtime; Blender does not bundle PyYAML.
     metadata = json.loads(subprocess.check_output([
-        '/usr/bin/python3', '-c',
-        'import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1]))))',
+        str(args.asset_python), '-c',
+        'import json,sys,yaml; print(json.dumps(yaml.safe_load(open(sys.argv[1], encoding="utf-8"))))',
         str(source.with_suffix('.scene.yml'))], text=True))
     if metadata.get('mechanisms') or metadata.get('scene_profile', 'classic_odm') != 'classic_odm':
         raise ValueError('This producer supports static ClassicOdm scenes; exclude moving mechanisms explicitly first')
@@ -167,6 +173,15 @@ def main():
     native['tile_set_lookup_indices'] = metadata['environment']['tile_set_lookup_indices']
     for override in metadata.get('bmodel_faces', {}).get('interactive_faces', []):
         native['bmodels'][override['bmodel_index']]['faces'][override['face_index']]['attributes'] = override['legacy_attributes']
+    # A static bake must describe the accessible state of an event-controlled entrance.
+    # Covers removed by the event cannot cast permanent shadows into the revealed room.
+    excluded_cogs = set(profile.get('excluded_cogs', []))
+    revealed_cogs = set(profile.get('revealed_cogs', []))
+    if excluded_cogs & revealed_cogs:
+        raise ValueError('A bake COG cannot be both excluded and revealed')
+    existing_cogs = {face['cog_number'] for model in native['bmodels'] for face in model['faces']}
+    if not (excluded_cogs | revealed_cogs) <= existing_cogs or 0 in excluded_cogs | revealed_cogs:
+        raise ValueError('Bake COG overrides must identify existing nonzero face groups')
     for key in ['building_page_size', 'terrain_size']:
         if not 64 <= profile[key] <= 4096 or profile[key] & (profile[key]-1):
             raise ValueError(key+' must be a power of two between 64 and 4096')
@@ -178,7 +193,7 @@ def main():
     def dependency(path):
         # Recorded relative to the runtime tree; source art in assets_source keeps the same relative path.
         base = next((root for root in source_roots(assets, extra_sources) if path.is_relative_to(root)), assets)
-        rel = str(path.relative_to(base))
+        rel = path.relative_to(base).as_posix()
         deps[rel] = fnv(path.read_bytes())
     dependency(source)
     dependency(source.with_suffix('.scene.yml'))
@@ -198,12 +213,13 @@ def main():
         recipe_data[stage+'_producer_sha256'] = hashlib.sha256(Path(__file__).read_bytes()).hexdigest()
         recipe_data[stage+'_backend'] = bpy.app.version_string
     (out / recipe.name).write_text(json.dumps(recipe_data, sort_keys=True, indent=2)+'\n')
-    deps[str(recipe.relative_to(assets))] = fnv((out / recipe.name).read_bytes())
+    deps[recipe.relative_to(assets).as_posix()] = fnv((out / recipe.name).read_bytes())
     bpy.ops.object.select_all(action='SELECT')
     bpy.ops.object.delete(use_global=False)
     scene = bpy.context.scene
     scene.render.engine = 'CYCLES'
     scene.cycles.samples = profile['samples']
+    scene.cycles.device = 'CPU'
     scene.cycles.seed = 17
     scene.cycles.max_bounces = 3
     scene.cycles.diffuse_bounces = 2
@@ -221,6 +237,13 @@ def main():
     sun.rotation_euler = (-toward_sun).to_track_quat('-Z', 'Y').to_euler()
     materials = {}
     texture_paths, terrain_paths = bake_texture_paths(assets, world, extra_sources)
+    runtime_materials = profile.get('material_source') == 'runtime'
+    if runtime_materials:
+        texture_paths = terrain_paths = runtime_surface_paths(assets, world)
+        import yaml
+        liquid_path = assets / 'engine/liquids/liquids.yml'
+        dependency(liquid_path)
+        liquids = yaml.safe_load(liquid_path.read_text(encoding='utf-8'))['liquids']
     def material(name, terrain=False):
         key = name.lower() + ('_terrain' if terrain else '')
         if key in materials:
@@ -231,11 +254,30 @@ def main():
         bsdf.inputs['Roughness'].default_value = 1
         bsdf.inputs['Specular IOR Level'].default_value = 0
         path = (terrain_paths if terrain else texture_paths).get(name.lower())
+        liquid = next((entry for entry in liquids
+                       if ('terrain' if terrain else 'face') in entry['applies_to']
+                       and (name.lower() in entry['match'].get('texture_names', [])
+                            or name.lower().startswith(tuple(entry['match'].get('texture_prefixes', []))))), None) \
+            if runtime_materials else None
+        if liquid and path is None:
+            bsdf.inputs['Base Color'].default_value = tuple((v / 255) ** 2.2 for v in liquid['color']) + (1,)
+            materials[key] = (mat, (64, 64))
+            return materials[key]
         if path is None:
             raise ValueError('Missing authoritative bake material: '+key)
         dependency(path)
-        original = bpy.data.images.load(str(path), check_existing=True)
-        image = original.copy()
+        if path.suffix == '.oytex':
+            decoded = read_cooked_surface(path)
+            original = bpy.data.images.new(key + '_decoded', *decoded.size)
+            decoded_pixels = np.asarray(decoded, dtype=np.float32)[::-1].copy() / 255
+            decoded_pixels[:, :, :3] = np.where(decoded_pixels[:, :, :3] <= .04045,
+                decoded_pixels[:, :, :3] / 12.92, ((decoded_pixels[:, :, :3] + .055) / 1.055) ** 2.4)
+            original.pixels.foreach_set(decoded_pixels.ravel())
+            original.update()
+        else:
+            original = bpy.data.images.load(str(path), check_existing=True)
+        # Blender Image.copy() resets generated OYTEX images to black. File-backed copies retain their pixels.
+        image = original if path.suffix == '.oytex' else original.copy()
         pixels = np.array(image.pixels[:], dtype=np.float32).reshape(-1,4)
         # Native non-sprite magenta color key, as in ImageAssetLoader. Terrain shore cutouts
         # expose animated water at runtime; use a low-reflectance static water color for bounce.
@@ -257,7 +299,7 @@ def main():
         mat.node_tree.links.new(uv.outputs['UV'], tex.inputs['Vector'])
         mat.node_tree.links.new(tex.outputs['Color'], bsdf.inputs['Base Color'])
         mat.node_tree.links.new(tex.outputs['Alpha'], bsdf.inputs['Alpha'])
-        scale = texture_logical_scale(path)
+        scale = 4 if runtime_materials else texture_logical_scale(path)
         materials[key] = (mat, (image.size[0] // scale, image.size[1] // scale))
         return materials[key]
 
@@ -266,6 +308,8 @@ def main():
     direct_pages = []
     records = []
     charts = []
+    unique_surfaces = {}
+    duplicate_surfaces = []
     groups = {}
     # A face that exactly repeats another (the same texture on the same corners, as Harmondale's two coincident bell
     # towers, OY-231) is charted once: both copies would shade each other black. The copy shares the chart.
@@ -277,7 +321,8 @@ def main():
                       for i in face['vertex_indices']]
             record = {'model': bi, 'face': fi, 'page': 65535, 'uvs': [(0,0)]*len(points)}
             records.append(record)
-            if len(points) < 3 or face['attributes'] & 0x2000 or not face['texture_name']:
+            invisible = face['attributes'] & 0x2000 and face['cog_number'] not in revealed_cogs
+            if len(points) < 3 or invisible or face['cog_number'] in excluded_cogs or not face['texture_name']:
                 continue
             corners = tuple(tuple(round(p[k]) for k in range(3)) for p in points)
             face_key = (face['texture_name'].lower(), tuple(sorted(corners)))
@@ -302,6 +347,12 @@ def main():
             mat, (tw, th) = material(face['texture_name'])
             tex_uv = [((u+face['texture_delta_u'])/tw, 1-(v+face['texture_delta_v'])/th)
                       for u,v in zip(face['texture_us'],face['texture_vs'])]
+            key = surface_key(points, face['texture_name'], tex_uv)
+            if key in unique_surfaces:
+                original, original_points = unique_surfaces[key]
+                duplicate_surfaces.append((record, points, original, original_points))
+                continue
+            unique_surfaces[key] = record, points
             charts.append({'record': record, 'points': points, 'coords': coords, 'lo': lo, 'span': span,
                            'size': (w, h), 'material_uvs': tex_uv, 'material': mat})
 
@@ -321,6 +372,12 @@ def main():
         record.update(page=charted['page'], uvs=[uv_at[corner] for corner in corners])
     if duplicate_faces:
         print('DUPLICATE FACES SHARING A CHART', len(duplicate_faces), flush=True)
+
+    # Coincident native models may own distinct events. Keep their receiver records,
+    # but do not let duplicate geometry occlude the surface during Cycles baking.
+    for record, points, original, original_points in duplicate_surfaces:
+        record.update(page=original['page'],
+                      uvs=[original['uvs'][original_points.index(point)] for point in points])
 
     # Each page is a mesh with split face vertices, retaining native triangle fans.
     def make_mesh(name, entries, dimensions):
@@ -361,6 +418,28 @@ def main():
     entries = []
     heights = native['height_map']
     terrain_size = profile['terrain_size']
+    ground_material = None
+    if runtime_materials:
+        colour = runtime_terrain_albedo(assets, world, map_name, heights, terrain_size, dependency)
+        ground_material = bpy.data.materials.new('mounted terrain diffuse')
+        ground_material.use_nodes = True
+        image = bpy.data.images.new('mounted terrain albedo', terrain_size, terrain_size)
+        rgba = np.ones((terrain_size, terrain_size, 4), dtype=np.float32)
+        rgba[:, :, :3] = np.where(colour[::-1] <= .04045, colour[::-1] / 12.92,
+                                  ((colour[::-1] + .055) / 1.055) ** 2.4)
+        image.pixels.foreach_set(rgba.ravel())
+        image.update()
+        nodes, links = ground_material.node_tree.nodes, ground_material.node_tree.links
+        texture = nodes.new('ShaderNodeTexImage')
+        texture.image = image
+        texture.extension = 'EXTEND'
+        uv = nodes.new('ShaderNodeUVMap')
+        uv.uv_map = 'material'
+        links.new(uv.outputs['UV'], texture.inputs['Vector'])
+        bsdf = nodes['Principled BSDF']
+        bsdf.inputs['Roughness'].default_value = 1
+        bsdf.inputs['Specular IOR Level'].default_value = 0
+        links.new(texture.outputs['Color'], bsdf.inputs['Base Color'])
     # Flat terrain triangles lying in the plane of a charted building floor go into their own object that bakes
     # into the terrain page but is invisible to other surfaces' rays: coinciding with the floor, they would shade
     # it black (Ravenshore's crystal plaza). Found again from the geometry on every bake.
@@ -374,8 +453,8 @@ def main():
             points = [Vector(((x-64)*512,(64-y)*512,heights[y*128+x]*32)) for x,y in corners]
             raw = native['tile_map'][gy*128+gx]
             ti = raw if raw < 90 else native['tile_set_lookup_indices'][(raw-90)//36]+(raw-90)%36
-            mat, _ = material(descriptors[ti]['texture_name'], terrain=True)
-            texcoords = [(0,1),(0,0),(1,1),(1,0)]
+            mat = ground_material if runtime_materials else material(descriptors[ti]['texture_name'], terrain=True)[0]
+            texcoords = [(x / 127, 1 - y / 127) for x, y in corners] if runtime_materials else [(0,1),(0,0),(1,1),(1,0)]
             light = [((x/127*(terrain_size-1)+.5)/terrain_size,
                       (y/127*(terrain_size-1)+.5)/terrain_size) for x,y in corners]
             for triangle, indices in enumerate(TERRAIN_CELL_TRIANGLES):
@@ -401,7 +480,7 @@ def main():
         effective_profile = out / 'effective_profile.json'
         effective_profile.write_text(json.dumps(profile, indent=2) + '\n')
         decoration_report = json.loads(subprocess.check_output([
-            '/usr/bin/python3', str(Path(__file__).with_name('bake_decorations.py')),
+            str(args.asset_python), str(Path(__file__).with_name('bake_decorations.py')),
             '--profile', str(effective_profile), '--output', str(out / 'decoration_masks'), '--assets', str(assets)],
             text=True))
         for path in decoration_report['dependencies']:
@@ -661,7 +740,8 @@ def main():
         if cursor != len(retained):
             raise ValueError('Invalid installed extension length')
         # The atlas bake keeps its provenance. Only the recipe hash and model probes change.
-        old_dependencies[str(recipe.relative_to(assets))] = deps[str(recipe.relative_to(assets))]
+        old_dependencies[recipe.relative_to(assets).as_posix()] = deps[
+            recipe.relative_to(assets).as_posix()]
         deps = old_dependencies
     faces = b''.join(struct.pack('<QIIHHI', (r['model']<<32)|r['face'], r['model'],r['face'],r['page'],
                                 int(r['page'] != 65535), sum(len(q['uvs']) for q in records[:i]))
@@ -680,7 +760,16 @@ def main():
     face_offset = page_offset + len(pages)*16
     vertex_offset = face_offset + len(faces)
     light_offset = vertex_offset + len(vertices)
-    pixel_offset = light_offset
+    lights = bytearray()
+    for index, light in enumerate(profile.get('point_lights', [])):
+        position = light['position']
+        radius = light['radius']
+        colour = light['color_abgr']
+        if len(position) != 3 or not all(math.isfinite(value) for value in position) or radius <= 0:
+            raise ValueError('Invalid authored point light')
+        lights += struct.pack('<II4fII6f6I', index, 0, *position, radius, colour, 3,
+                              0, 0, 0, 1, 90, 1, 0x3f800000, colour, 0, 0, 0, 0)
+    pixel_offset = light_offset + len(lights)
     payloads, page_records = bytearray(), bytearray()
     for w,h,data in pages:
         page_records += struct.pack('<IIII',w,h,pixel_offset+len(payloads),len(data))
@@ -711,7 +800,7 @@ def main():
     header[:8] = b'OYMLIT1\0'
     struct.pack_into('<IIQ',header,8,3,96,fnv(source.read_bytes()))
     struct.pack_into('<12I',header,24,len(native['bmodels']),len(records),len(pages),len(records),
-                     len(vertices)//12,0,page_offset,face_offset,vertex_offset,light_offset,pixel_offset,total)
+                     len(vertices)//12,len(lights)//80,page_offset,face_offset,vertex_offset,light_offset,pixel_offset,total)
     struct.pack_into('<II4f',header,72,0,1,-32768,32768,65024,-65024)
     output = out / (source.stem+'.lighting')
     if retained is not None:
@@ -728,7 +817,7 @@ def main():
         struct.pack_into('<I', prefix, 68, len(prefix) + len(extension))
     else:
         struct.pack_into('<I', header, 8, 5)
-        prefix = header+page_records+faces+vertices+payloads
+        prefix = header+page_records+faces+vertices+lights+payloads
     output.write_bytes(prefix+extension)
     stats['model_sun_direction'] = list(toward_sun)
     stats['model_direct_response'] = direct_response

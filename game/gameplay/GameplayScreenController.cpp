@@ -971,6 +971,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     const bool residentSelectionMode = isHouseOccupantSelectionMode(context.activeEventDialog());
     const bool spellbookActive = context.spellbookReadOnly().active;
     const bool characterScreenOpen = context.characterScreenReadOnly().open;
+    const bool readingScroll = context.readableScrollOverlayReadOnly().staysUntilClick;
     const bool restActive = context.restScreenState().active;
     const bool menuActive = context.menuScreenState().active;
     const bool controlsActive = context.controlsScreenState().active;
@@ -1003,6 +1004,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && config.width > 0
         && config.height > 0
         && !config.blockPortraitInput
+        && !readingScroll
         && !spellbookActive
         && !restActive
         && !menuActive
@@ -1052,8 +1054,10 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
 
     const bool canUsePartyNumberHotkeys =
         !config.blockPortraitInput
+        && !readingScroll
         && !GameplayUiController::characterScreenSearchActive(context.characterScreenReadOnly())
         && !GameplaySoloBarSelector::isOpen(context)
+
         && !spellbookActive
         && !restActive
         && !menuActive
@@ -1130,7 +1134,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         {
             if (isNumberHotkeyNewlyPressed(input, context.previousKeyboardState(), memberIndex) && !bagKeyTaken)
             {
-                GameplayHudInputController::activatePartyPortrait(context, memberIndex, portraitHotkeyConfig);
+                GameplayHudInputController::activatePartyPortrait(context, memberIndex, portraitHotkeyConfig, false);
             }
         }
     }
@@ -1215,6 +1219,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
 
     const bool canToggleJournal =
         !activeEventDialog
+        && !readingScroll
         && !hasActiveLootView
         && !restActive
         && !menuActive
@@ -1424,6 +1429,13 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
     // A scroll left open until a click keeps the world paused; the click (press and release) only closes it.
     if (readableScroll.active && readableScroll.staysUntilClick)
     {
+        if (config.pInputFrame != nullptr && config.pInputFrame->isScancodeHeld(SDL_SCANCODE_ESCAPE))
+        {
+            context.itemService().closeReadableScrollOverlay();
+            context.interactionState().closeOverlayLatch = true;
+            return {.blocked = true};
+        }
+
         const bool buttonHeld = config.pInputFrame != nullptr
             && (config.pInputFrame->leftMouseButton.held || config.pInputFrame->rightMouseButton.held);
 

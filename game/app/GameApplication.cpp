@@ -19,6 +19,7 @@
 #include "game/gameplay/ReputationRuntime.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/outdoor/OutdoorChestPersistence.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
@@ -2394,6 +2395,7 @@ std::string normalizePromptAnswer(const std::string &value)
     return Engine::Utf8::lower(trimCopy(value));
 }
 
+
 std::string traceInputPromptQuoted(const std::string &value)
 {
     std::string quoted = "\"";
@@ -2974,8 +2976,15 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
           [this](int width, int height, float mouseWheelDelta, float deltaSeconds)
           {
               renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+              m_heldItemCursor.update(
+                  !m_loadingOverlayActive
+                  && m_screenManager.activeScreen() == nullptr
+                  && m_gameSession.activeWorldRuntime() != nullptr
+                  && !m_debugConsole.enabled()
+                  && m_gameSession.gameplayUiController().heldInventoryItem().active);
               // The frame's HUD is drawn here, once, in the order it was submitted (devdocs/HUD_RENDERING.md).
               m_gameSession.gameplayUiRuntime().flushHudDrawList();
+
               drawLoadingOverlay();
               updateScreenshotCaptureFrame();
           },
@@ -9343,6 +9352,8 @@ bool GameApplication::applicationTextInputActive() const
     const GameplayUiController::SaveGameScreenState &saveGameScreen = gameplayScreenRuntime.saveGameScreenState();
 
     return (saveGameScreen.active && saveGameScreen.editActive)
+        || (gameplayScreenRuntime.journalScreenStateReadOnly().active
+            && gameplayScreenRuntime.journalScreenStateReadOnly().mapNoteEditing)
         || gameplayScreenRuntime.houseBankState().inputActive()
         || GameplayUiController::characterScreenSearchActive(gameplayScreenRuntime.characterScreenReadOnly())
         || GameplayUiController::journalSearchActive(gameplayScreenRuntime.journalScreenStateReadOnly())
@@ -9359,10 +9370,9 @@ bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
 
     if (event.type == SDL_EVENT_TEXT_INPUT)
     {
-        if (event.text.text != nullptr && m_pendingInputText.size() < MaxPendingInputLength)
+        if (event.text.text != nullptr && Engine::Utf8::length(m_pendingInputText) < MaxPendingInputLength)
         {
-            const size_t remaining = MaxPendingInputLength - m_pendingInputText.size();
-            m_pendingInputText.append(event.text.text, std::min(remaining, std::strlen(event.text.text)));
+            Engine::Utf8::appendPrintable(m_pendingInputText, event.text.text, MaxPendingInputLength);
             GAMEPLAY_DEBUG_TRACE(
                 "input_prompt_text_input text=" + traceInputPromptQuoted(event.text.text)
                 + " current=" + traceInputPromptQuoted(m_pendingInputText));
@@ -9397,10 +9407,7 @@ bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
             return true;
 
         case SDLK_BACKSPACE:
-            if (!m_pendingInputText.empty())
-            {
-                m_pendingInputText.pop_back();
-            }
+            Engine::Utf8::popBack(m_pendingInputText);
             return true;
 
         default:
@@ -9506,6 +9513,7 @@ void GameApplication::updatePendingInputPrompt()
 
     const std::string statusText = Engine::tr("Answer: {answer}_", {{"answer", m_pendingInputText}});
 
+
     if (statusText != m_pendingInputStatusText)
     {
         m_pendingInputStatusText = statusText;
@@ -9542,7 +9550,6 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     }
 
     const std::string normalizedInput = normalizePromptAnswer(submittedInput);
-
     bool matchedAnswer = false;
     size_t matchedAnswerIndex = 0;
     const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
@@ -9558,6 +9565,7 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
         if (!answer.empty()
             && (normalizedAnswer == normalizedInput
                 || normalizePromptAnswer(Engine::localize(answer, answerContext)) == normalizedInput))
+
         {
             matchedAnswer = true;
             matchedAnswerIndex = answerIndex;
@@ -10063,6 +10071,7 @@ void GameApplication::applyStartupDebugSettingsToActiveRuntime()
 
 void GameApplication::shutdownApplication()
 {
+    m_heldItemCursor.shutdown();
     if (!m_settings.exitPosePath.empty())
     {
         std::string message;
@@ -10071,6 +10080,7 @@ void GameApplication::shutdownApplication()
     }
 
     m_gameSession.playthroughStatistics().endPlaythrough();
+
     setGameplayProfilingEnabled(false);
     m_screenManager.setActiveScreen(nullptr);
     LoadGameScreen::stopSaveScan();
@@ -10137,6 +10147,7 @@ bool GameApplication::loadGameData(Engine::AssetFileSystem &assetFileSystem)
                                                   : m_config.installedContent.languageId);
     m_pUpdater = GameUpdater::create(m_settings.updateUrl, m_settings.keepModifiedPacks,
                                      m_config.installedContent.languageId);
+
 
     if (!m_gameAudioSystem.initializeMenuAudio(assetFileSystem))
     {
@@ -10801,6 +10812,11 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             m_pOutdoorWorldRuntime->restoreSnapshot(*pSavedOutdoorState);
         }
         OutdoorWorldRuntime::Snapshot outdoorTimeSnapshot = m_pOutdoorWorldRuntime->snapshot();
+        if (outdoorTimedRespawn && pSavedOutdoorState != nullptr && selectedMap->outdoorMapDeltaData)
+        {
+            preserveOutdoorStorageChests(
+                outdoorTimeSnapshot, *pSavedOutdoorState, selectedMap->outdoorMapDeltaData->chests);
+        }
         outdoorTimeSnapshot.gameMinutes = m_gameSession.gameMinutes();
         if (!restoreSavedOutdoorState || outdoorTimeSnapshot.locationInfo.lastRespawnDay <= 0)
         {
@@ -10830,6 +10846,12 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             outdoorTimeSnapshot.partiallyRevealedCells = pSavedOutdoorState->partiallyRevealedCells;
             if (outdoorTimeSnapshot.eventRuntimeState)
             {
+                // Map annotations are exploration knowledge and survive a population/loot refill.
+                if (pSavedOutdoorState->eventRuntimeState)
+                {
+                    outdoorTimeSnapshot.eventRuntimeState->runtimeMapNotes =
+                        pSavedOutdoorState->eventRuntimeState->runtimeMapNotes;
+                }
                 outdoorTimeSnapshot.eventRuntimeState->processedMapRespawnCount =
                     previousOutdoorProcessedRespawnCount;
             }
@@ -11117,6 +11139,12 @@ bool GameApplication::buildSelectedMapRuntime(bool initializeView)
             }
             if (indoorTimeSnapshot.eventRuntimeState)
             {
+                // Preserve the same exploration knowledge as the visible map outlines.
+                if (pSavedIndoorState->eventRuntimeState)
+                {
+                    indoorTimeSnapshot.eventRuntimeState->runtimeMapNotes =
+                        pSavedIndoorState->eventRuntimeState->runtimeMapNotes;
+                }
                 indoorTimeSnapshot.eventRuntimeState->processedMapRespawnCount =
                     previousIndoorProcessedRespawnCount;
             }
@@ -12517,11 +12545,13 @@ void GameApplication::updateQuickSaveInput()
     const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
 
     if (inputFrame.action(KeyboardAction::QuickSave).pressed)
+
     {
         m_pendingQuickSave = true;
     }
 
     if (inputFrame.action(KeyboardAction::QuickLoad).pressed)
+
     {
         m_pendingQuickLoad = true;
     }
@@ -12589,7 +12619,7 @@ void GameApplication::updateGameplayTraceSnapshotHotkeys()
     const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
     const bool startPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F3);
     const bool endPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F4);
-    const bool markerPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F5);
+    const bool markerPressed = inputFrame.isScancodeHeld(SDL_SCANCODE_F6);
     const bool forwardHeld =
         inputFrame.action(KeyboardAction::Forward).held
         || inputFrame.isScancodeHeld(SDL_SCANCODE_W);
@@ -13563,6 +13593,7 @@ void GameApplication::openLoadGameScreen(bool returnToGameplayMenu, const std::s
                 std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
             }
         });
+
 
 
     if (!m_mainMenuChildScreensPrepared)
@@ -15787,6 +15818,7 @@ bool GameApplication::processPendingArcomageGame()
         pParty = &*m_gameSession.partyState();
     }
 
+
     if (pParty == nullptr)
     {
         return false;
@@ -16517,6 +16549,7 @@ void GameApplication::handleCompletedArcomageScreen()
         pParty = &*m_gameSession.partyState();
     }
 
+
     std::optional<std::string> arcomageStatusText;
 
     if (pParty != nullptr && state.result.finished && state.result.winnerIndex.has_value())
@@ -16558,6 +16591,7 @@ void GameApplication::handleCompletedArcomageScreen()
         {
             m_gameSession.setPartyState(*pParty);
         }
+
     }
 
     m_screenManager.setActiveScreen(nullptr);
@@ -16588,6 +16622,7 @@ void GameApplication::handleCompletedArcomageScreen()
         {
             pEventRuntimeState->lastActivationResult = *arcomageStatusText;
         }
+
 
         screenRuntime.showHouseServiceMessage(houseId, *arcomageStatusText);
     }

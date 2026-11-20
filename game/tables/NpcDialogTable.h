@@ -82,6 +82,8 @@ public:
     bool loadGreetingsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadNewsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadGroupNewsFromRows(const std::vector<std::vector<std::string>> &rows);
+    static std::vector<std::vector<std::string>> normalizeTextRows(
+        const std::vector<std::vector<std::string>> &rows);
     bool loadTextsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadTopicsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadNpcRows(const std::vector<std::vector<std::string>> &rows);

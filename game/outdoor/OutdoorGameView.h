@@ -523,6 +523,7 @@ public:
         size_t bModelIndex = static_cast<size_t>(-1);
         size_t faceIndex = static_cast<size_t>(-1);
         uint16_t eventId = 0;
+        uint32_t attributes = 0;
     };
 
     enum class DecorationPickMode
@@ -627,7 +628,6 @@ public:
         bool fixedEvent = false;
     };
 
-    void showStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void showCombatStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void setMouseRotateSpeed(float speed);
     void setWalkSoundEnabled(bool active);

@@ -1223,7 +1223,7 @@ void NewGameScreen::ensurePcNamesLoaded()
                 // In the interface language where the language has the name (issue #31): the party keeps it.
                 if (!name.empty() && name != "*end")
                 {
-                    m_pcNameColumns[columnIndex].push_back(Engine::localizeKnown(name));
+                    m_pcNameColumns[columnIndex].push_back(Engine::localizeKnown(name, "character name"));
                 }
             }
         }

@@ -54,6 +54,24 @@ constexpr uint32_t EmeraldIslandFinishedQBit = 519;
 // MM9 key 28 (raw key + 90000): the Isle of Ashes cinema has sailed the party to Sturmford.
 constexpr uint32_t IsleOfAshesLeftQBit = 90028;
 
+bool canUseInventoryItemByDoubleClick(InventoryItemUseAction action)
+{
+    switch (action)
+    {
+        case InventoryItemUseAction::LearnSpell:
+        case InventoryItemUseAction::CastScroll:
+        case InventoryItemUseAction::ReadMessageScroll:
+        case InventoryItemUseAction::ConsumePotion:
+        case InventoryItemUseAction::UseHorseshoe:
+        case InventoryItemUseAction::UseGenieLamp:
+        case InventoryItemUseAction::UseDeckOfFate:
+        case InventoryItemUseAction::EatFoodItem:
+            return true;
+        default:
+            return false;
+    }
+}
+
 void latchGameplayMenuEscape(GameplayScreenRuntime &context)
 {
     context.interactionState().menuToggleLatch = true;
@@ -2390,6 +2408,18 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         };
     const uint64_t nowTicks = SDL_GetTicks();
 
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = context.heldInventoryItem();
+    heldInventoryItem.doubleClick.update(selectedPartyMemberIndex, nowTicks, input.pointerX, input.pointerY);
+
+    if (!heldInventoryItem.active || isReadOnlyAdventurersInnView
+        || context.characterScreenReadOnly().page != GameplayUiController::CharacterPage::Inventory
+        || context.utilitySpellOverlayReadOnly().active || input.rightMouseButton.pressed
+        || input.mobileTouchDragStarted || input.mobileTouchDragActive || input.mobileTouchDragReleased
+        || input.action(KeyboardAction::CharCycle).pressed)
+    {
+        heldInventoryItem.doubleClick.cancel();
+    }
+
     if (pParty == nullptr
         || context.isAdventurersInnCharacterSourceActive()
         || (context.interactionState().pendingCharacterDismissMemberIndex.has_value()
@@ -3642,6 +3672,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
          screenHeight,
          &clearPendingCharacterDismiss,
          &resolveCharacterInventoryGrid,
+         &input,
          isReadOnlyAdventurersInnView,
          selectedPartyMemberIndex,
          selectedPartyMemberCanAct,
@@ -3650,6 +3681,13 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             float activationX,
             float activationY)
         {
+            const bool useHeldItem = target.type == GameplayCharacterPointerTargetType::InventoryCell
+                && context.heldInventoryItem().active && context.heldInventoryItem().doubleClick.pending()
+                && target.gridX >= context.heldInventoryItem().item.gridX
+                && target.gridX < context.heldInventoryItem().item.gridX + context.heldInventoryItem().item.width
+                && target.gridY >= context.heldInventoryItem().item.gridY
+                && target.gridY < context.heldInventoryItem().item.gridY + context.heldInventoryItem().item.height;
+            context.heldInventoryItem().doubleClick.cancel();
             const bool isInventorySpellTargetMode =
                 context.utilitySpellOverlayReadOnly().active
                 && context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
@@ -4071,6 +4109,38 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
             const size_t memberIndex = selectedPartyMemberIndex;
 
+            if (useHeldItem)
+            {
+                context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
+
+                GameplayUiController::ReadableScrollOverlayState &scrollOverlay = context.readableScrollOverlay();
+                scrollOverlay.staysUntilClick = scrollOverlay.active;
+                scrollOverlay.heldByRightButton = false;
+                scrollOverlay.closeClickStarted = false;
+
+                // Return unconsumed items to the cell vacated by the first click.
+                if (context.heldInventoryItem().active)
+                {
+                    const InventoryItem item = context.heldInventoryItem().item;
+                    std::optional<InventoryItem> replacedItem;
+
+                    if (pParty->tryPlaceItemInMemberInventoryCell(
+                            memberIndex, item, item.gridX, item.gridY, replacedItem))
+                    {
+                        if (replacedItem.has_value())
+                        {
+                            setHeldItem(*replacedItem);
+                        }
+                        else
+                        {
+                            clearHeldItem();
+                        }
+                    }
+                }
+
+                return;
+            }
+
             // The bag overview: items go into and come out of any bag; the open bag stays open.
             if (target.type == GameplayCharacterPointerTargetType::BagOverviewItem
                 || target.type == GameplayCharacterPointerTargetType::BagOverviewCell)
@@ -4126,6 +4196,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 return;
             }
+
 
             if (target.type == GameplayCharacterPointerTargetType::EquipmentSlot)
             {
@@ -4503,6 +4574,23 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
             context.heldInventoryItem().grabOffsetX = activationX - itemRect.x;
             context.heldInventoryItem().grabOffsetY = activationY - itemRect.y;
+
+            if (input.mobileTouchDragStarted)
+            {
+                return;
+            }
+
+            const InventoryItemUseAction useAction = InventoryItemUseRuntime::classifyItemUse(
+                heldItem,
+                *context.itemTable(),
+                context.mergedPotionSettingTable(),
+                context.mergedReagentSettingTable());
+
+            if (canUseInventoryItemByDoubleClick(useAction))
+            {
+                context.heldInventoryItem().doubleClick.arm(
+                    memberIndex, SDL_GetTicks(), activationX, activationY, 6.0f * gridMetrics.scale);
+            }
         };
 
     // The Use key over a pack item does what dropping it on the paperdoll does: drinks, learns, casts or equips it; a

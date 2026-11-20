@@ -578,6 +578,7 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
         m_session.gameplayScreenState().pendingSpellTarget();
 
     const std::string spellName = Engine::localizeKnown(pendingTargetState.spellName, "spell");
+
     std::string prompt =
         pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
             ? Engine::tr("Select actor for {spell}", {{"spell", spellName}})
@@ -586,6 +587,7 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
             : pendingTargetState.targetKind == PartySpellCastTargetKind::GroundPoint
             ? Engine::tr("Select ground point for {spell}", {{"spell", spellName}})
             : Engine::tr("Select target for {spell}", {{"spell", spellName}});
+
 
     if (includeControls)
     {
@@ -597,26 +599,32 @@ std::string GameplaySpellService::pendingTargetSelectionPromptText(bool includeC
         if (mobileGroundTargetConfirmSpell)
         {
             prompt += Engine::tr("  Drag target  Spell button cast  Pause cancel");
+
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Character)
         {
             prompt += Engine::tr("  Tap portrait  Pause cancel");
+
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget)
         {
             prompt += Engine::tr("  Tap target  Pause cancel");
+
         }
         else if (pendingTargetState.targetKind == PartySpellCastTargetKind::Actor
             || pendingTargetState.targetKind == PartySpellCastTargetKind::ActorOrCharacter)
         {
             prompt += Engine::tr("  Tap target  Pause cancel");
+
         }
         else
         {
             prompt += Engine::tr("  Tap target  Pause cancel");
+
         }
 #else
         prompt += Engine::tr("  LMB cast  Esc cancel");
+
 #endif
     }
 

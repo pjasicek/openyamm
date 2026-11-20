@@ -89,6 +89,8 @@ const char *eventDialogActionKindName(EventDialogActionKind kind)
             return "house_resident";
         case EventDialogActionKind::NpcTopic:
             return "npc_topic";
+        case EventDialogActionKind::NpcOfferLodging:
+            return "npc_offer_lodging";
         case EventDialogActionKind::ArenaChallenge:
             return "arena_challenge";
         case EventDialogActionKind::NpcProfessionNews:
@@ -1759,8 +1761,6 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                 || professionId == NpcProfessionId::ExpertHealer
                 || professionId == NpcProfessionId::MasterHealer)
             {
-                restorePartyHealth(*context.pParty);
-
                 if (professionId == NpcProfessionId::ExpertHealer)
                 {
                     for (uint32_t condition = 0; condition < static_cast<uint32_t>(CharacterCondition::Dead);
@@ -1775,6 +1775,8 @@ NpcProfessionActionExecution executeNpcFollowerProfessionAction(
                     restorePartyMana(*context.pParty);
                 }
 
+                // Curing a stat-reducing condition can raise the maximum health again.
+                restorePartyHealth(*context.pParty);
                 applied = true;
             }
             break;
@@ -4763,6 +4765,16 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             setPendingDialogueContext(context.eventRuntimeState, DialogueContextKind::NpcTalk,
                 npcId, currentDialogueHostHouseId(context.eventRuntimeState));
             result.shouldOpenPendingEventDialog = true;
+        }
+        return result;
+    }
+
+    if (action.kind == EventDialogActionKind::NpcOfferLodging)
+    {
+        if (context.pParty != nullptr && context.pWorldRuntime != nullptr)
+        {
+            result.shouldCloseActiveDialog = true;
+            result.pendingInnRest = InnRestRequest{action.id};
         }
         return result;
     }

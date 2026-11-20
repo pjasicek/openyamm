@@ -1,0 +1,13 @@
+format_version: 1
+kind: outdoor_scene_overlay
+source:
+  geometry_file: oute3.odm
+initial_state:
+  chest_policy_overrides:
+    # Storage behind the tavern: models 90/91, events 501/502.
+    # Keep the old storage ids so saved player inventories move with the storage.
+    # Bridge events 76/77 now use ordinary loot ids 0/19 (oute3_storage.lua).
+    - chest_index: 2
+      preserve_on_refill: true
+    - chest_index: 3
+      preserve_on_refill: true

@@ -245,6 +245,7 @@ public:
         float y,
         float z,
         float maxFloorRise) const;
+    bool isInDeepWater(const OutdoorMoveState &state) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
     // Per map entity: decorations that are hidden now (hiddenDecorationEntities) and so do not collide.
     void setHiddenDecorationEntities(const std::vector<bool> &hiddenEntities);

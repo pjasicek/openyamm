@@ -1,7 +1,9 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/TextTable.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayDialogController.h"
@@ -312,7 +314,8 @@ TEST_CASE("MM9 RUDE quest handoff rows close dialogue")
     CHECK(selection.response.empty());
 }
 
-TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key before handoff close")
+TEST_CASE("MM9 Keith Bloodaxe quest acceptance grants the Yobboe quest key before handoff close"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -876,7 +879,8 @@ TEST_CASE("MM9 RUDE quest-key actions queue shared quest presentation when an ov
     CHECK_EQ(runtimeState.pendingSounds.front().soundId, static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
 }
 
-TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its completion keys")
+TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its completion keys"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -910,7 +914,8 @@ TEST_CASE("MM9 Old Man RUDE progression exposes departure and records its comple
     CHECK(party.hasQuestBit(90475));
 }
 
-TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items")
+TEST_CASE("MM9 Old Man exit callback grants canonically mapped reward items"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::string supportLua = loadSourceText("assets_dev/engine/scripts/common/event_support.lua");
     const std::string commonLua = loadSourceText("assets_dev/worlds/mm9/events/common/mm9_common.lua");
@@ -1398,7 +1403,8 @@ TEST_CASE("MM9 RUDE rejects keys outside its declared namespace")
     CHECK_FALSE(table.errors().empty());
 }
 
-TEST_CASE("MM9 world RUDE assets load as one validated package")
+TEST_CASE("MM9 world RUDE assets load as one validated package"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -1416,6 +1422,55 @@ TEST_CASE("MM9 world RUDE assets load as one validated package")
     CHECK(table.hasDialogue(204));
     CHECK(table.hasDialogue(206));
     CHECK(table.npcName(436) == "Old Man");
+}
+
+TEST_CASE("Every source MM9 RUDE skill-training row has a core trainer mapping"
+    * OpenYAMM::Tests::requiresMm9Assets())
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assetFileSystem.initialize(
+        sourceRoot,
+        sourceRoot / "assets_dev",
+        OpenYAMM::Engine::AssetScaleTier::X1,
+        "mm9"));
+
+    OpenYAMM::Game::Mm9RudeDialogueTable table;
+    REQUIRE(table.load(assetFileSystem));
+
+    const std::optional<std::string> trainerText =
+        assetFileSystem.readTextFile("worlds/mm9/data_tables/skill_trainers.txt");
+    REQUIRE(trainerText.has_value());
+    const std::optional<OpenYAMM::Engine::TextTable> trainerRows =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*trainerText);
+    REQUIRE(trainerRows.has_value());
+    std::vector<std::vector<std::string>> rows;
+    for (size_t index = 0; index < trainerRows->getRowCount(); ++index)
+    {
+        rows.push_back(trainerRows->getRow(index));
+    }
+    OpenYAMM::Game::Mm9SkillTrainerTable trainers;
+    REQUIRE(trainers.loadFromRows(rows, table));
+    size_t trainerRowCount = 0;
+    for (uint32_t rudeId = 1; rudeId <= 999; ++rudeId)
+    {
+        const std::vector<OpenYAMM::Game::Mm9RudeRow> &rudeRows = table.rows(rudeId);
+        for (size_t rowIndex = 0; rowIndex < rudeRows.size(); ++rowIndex)
+        {
+            const OpenYAMM::Game::Mm9RudeRow &row = rudeRows[rowIndex];
+            if (row.next != -4)
+            {
+                continue;
+            }
+
+            ++trainerRowCount;
+            CHECK_MESSAGE(
+                trainers.find(rudeId, rowIndex) != nullptr,
+                "Missing trainer mapping for RUDE ", rudeId, " source line ", row.sourceLine);
+        }
+    }
+    CHECK_GT(trainerRowCount, 0u);
+    CHECK_EQ(trainerRowCount, trainers.entries().size());
 }
 
 TEST_CASE("MM9 world data loads transitions trainers and source monster gameplay")
@@ -2100,7 +2155,8 @@ TEST_CASE("MM9 monster overlay leaves legacy monster rows unchanged")
     CHECK_EQ(pLegacyTroglodyte->name, "Troglodyte Soldier");
 }
 
-TEST_CASE("MM9 world quest overlay augments the shared journal without replacing base quests")
+TEST_CASE("MM9 world quest overlay augments the shared journal without replacing base quests"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -2387,7 +2443,8 @@ TEST_CASE("MM9 world quest overlay augments the shared journal without replacing
         }));
 }
 
-TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities")
+TEST_CASE("Bootcamp MM9 dialogue actors retain source object and RUDE identities"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Game::IndoorSceneYmlLoader loader = {};
     std::string errorMessage;

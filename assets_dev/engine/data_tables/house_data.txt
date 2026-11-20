@@ -179,17 +179,17 @@
 177	2	Dark Guild	62	238	Placeholder	Placeholder	Guildmaster	0520	0	0	0	1.5	1		14			6	18	0	0	0	0
 178	4	Dark Guild	100	238	Guild of Night	Anguish	Guildmaster	0520	0	0	0	5	2.5		14			18	6	0	0	0	0
 179	5	Dark Guild	62	238	Placeholder	Placeholder	Guildmaster	0520	0	0	0	1.5	1		14			6	18	0	0	0	0
-180	1	Dark Guild	143	429	Initiate Guild of Dark	Jermaine 	Guildmaster	0362	0	0	0	3	1	-	2			22	2	0	0	0	
-181	3	Dark Guild	141	429	Adept Guild of Dark	Sable 	Guildmaster	0362	0	0	0	4	1	-	2			22	2	0	0	0	
-182	1	Elemental Guild	1	150	Cures and Curses	Yeshin	Scribe	1125	0	0	0	2	1		14	4		6	18	0	0	0	0
-183	3	Elemental Guild	3	154	Elemental Guild	Yiadia	Scribe	1115	0	0	0	2	1		14	11		6	18	0	0	0	0
-184	2	Elemental Guild	2	154	Vexation's Hexes	Vexation	Scribe	1115	0	0	0	3	1.5		14	7		6	18	0	0	0	0
-185	4	Elemental Guild	13	166	Protective Magic	Quian	Scribe	1074	0	0	0	5	2.5		28	10		6	18	0	0	0	0
-186	1	Self Guild	2	159	Self Guild	Kojo	Scribe	1081	0	0	0	3	1.5		14	"10,11"		6	18	0	0	0	0
-187	3	Self Guild	3	159	Self Study	Larin	Scribe	1081	0	0	0	4	2		28	4		6	18	0	0	0	0
-188	4	Self Guild	35	159	Guild of Mind	Didos	Scribe	1081	0	0	0	4	2		28	7		6	18	0	0	0	0
-189	5	Self Guild	151	434	Initiate Guild of the Self	Teliana 	Guildmaster	0197	0	0	0	1.5	1	-	2			6	18	0	0	0	
-190	7	Self Guild	146	434	Adept Guild of the Self	Amarie 	Guildmaster	0197	0	0	0	2.5	1	-	2			6	18	0	0	0	
+180	1	Dark Guild	143	429	Guild of Dark - Initiate	Jermaine 	Guildmaster	0362	0	0	0	3	1	-	2			22	2	0	0	0	
+181	3	Dark Guild	141	429	Guild of Dark - Master	Sable 	Guildmaster	0362	0	0	0	4	1	-	2			22	2	0	0	0	
+182	1	Elemental Guild	1	150	Guild of the Elements - Initiate	Yeshin	Scribe	1125	0	0	0	2	1		14	4		6	18	0	0	0	0
+183	3	Elemental Guild	3	154	Guild of the Elements - Master	Yiadia	Scribe	1115	0	0	0	2	1		14	11		6	18	0	0	0	0
+184	2	Elemental Guild	2	154	Guild of the Elements - Adept	Vexation	Scribe	1115	0	0	0	3	1.5		14	7		6	18	0	0	0	0
+185	4	Elemental Guild	13	166	Guild of the Elements - Grandmaster	Quian	Scribe	1074	0	0	0	5	2.5		28	10		6	18	0	0	0	0
+186	1	Self Guild	2	159	Guild of the Self - Initiate	Kojo	Scribe	1081	0	0	0	3	1.5		14	"10,11"		6	18	0	0	0	0
+187	3	Self Guild	3	159	Guild of the Self - Master	Larin	Scribe	1081	0	0	0	4	2		28	4		6	18	0	0	0	0
+188	4	Self Guild	35	159	Guild of the Self - Grandmaster	Didos	Scribe	1081	0	0	0	4	2		28	7		6	18	0	0	0	0
+189	5	Self Guild	151	434	Guild of the Self - Initiate	Teliana 	Guildmaster	0197	0	0	0	1.5	1	-	2			6	18	0	0	0	
+190	7	Self Guild	146	434	Guild of the Self - Grandmaster	Amarie 	Guildmaster	0197	0	0	0	2.5	1	-	2			6	18	0	0	0	
 191	1	Thieves guild	151	419	Buccaneers' Lair	Hermit	Guildmaster	0022	0	0	0	1.5	1					18	6	0	0	0	
 192	2	Thieves guild	150	419	Buccaneers' Lair	Rob	Guildmaster	0022	0	0	0	2	1			Theives Guilds Get:		18	6	0	0	0	
 193	3	Thieves guild	143	417	Protection Services	Guido	Guildmaster	0024	0	0	0	2.5	1			"""(Skill)"" x5"	(see list A)	18	6	0	0	0	
@@ -1213,7 +1213,7 @@
 1211	704	House	62	253	House 267				0	0	0	1.5				79				0	0		
 1212	705	House	62	252	House 268				0	0	0	1.5				79				0	0		
 1213	19	Alchemist	151	381	Traveler's Supply	Rino	Shopkeeper	0042	0	0	0	2	1	-	1	General Store gets:		5	22	0	0	0	
-1214	5	Elemental Guild	151	427	Initiate Guild of the Elements	Jeremy 	Guildmaster	0045	0	0	0	1.5	1	-	2			6	18	0	0	0	
+1214	5	Elemental Guild	151	427	Guild of the Elements - Initiate	Jeremy 	Guildmaster	0045	0	0	0	1.5	1	-	2			6	18	0	0	0	
 1215	708	House	148	485	King's Library				0	0	0	0	1							0	0		
 1216	709	House	137	435	House				0	0	0	0	1							0	0		
 1217	710	House	138	435	House				0	0	0	0	1							0	0		
@@ -1229,7 +1229,7 @@
 1227	720	House	150	439	House				0	0	0	0	1							0	0		
 1228	721	House	151	435	House				0	0	0	0	1							0	0		
 1229	20	Alchemist	150	380	"Lock, Stock, and Barrel"	Alice	Shopkeeper	0043	0	0	0	2	1	-	1	"""Sell Anything"""	Value /2	5	22	0	0	0	
-1230	6	Elemental Guild	143	427	Adept Guild of the Elements	Hans 	Guildmaster	0045	0	0	0	2.5	1	-	2			6	18	0	0	0	
+1230	6	Elemental Guild	143	427	Guild of the Elements - Master	Hans 	Guildmaster	0045	0	0	0	2.5	1	-	2			6	18	0	0	0	
 1231	724	House	137	436	House				0	0	0	0	1							0	0		
 1232	725	House	138	436	House				0	0	0	0	1							0	0		
 1233	726	House	139	369	House				0	0	0	0	1							0	0		

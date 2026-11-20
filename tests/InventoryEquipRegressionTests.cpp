@@ -518,6 +518,36 @@ TEST_CASE("inventory item use Letter for YOU reads Verdant greeting without cons
     CHECK_FALSE(result.speechId.has_value());
 }
 
+TEST_CASE("localized Genie Lamp is consumed and rewards the targeted party member")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::string> row(17);
+    row[0] = "1418";
+    row[1] = "7item260";
+    row[2] = "Лампа Джинна";
+    row[4] = "N / A";
+    row[5] = "Misc";
+
+    OpenYAMM::Game::ItemTable items;
+    REQUIRE(items.load(assets, {row}, {}));
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    OpenYAMM::Game::InventoryItem lamp = {};
+    lamp.objectDescriptionId = 1418;
+
+    const OpenYAMM::Game::InventoryItemUseResult result =
+        OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 1, lamp, items, nullptr);
+
+    REQUIRE(result.handled);
+    CHECK(result.action == OpenYAMM::Game::InventoryItemUseAction::UseGenieLamp);
+    CHECK(result.consumed);
+    CHECK_EQ(party.member(1)->permanentBonuses.might, 1);
+    CHECK_EQ(party.member(0)->permanentBonuses.might, 0);
+}
+
 TEST_CASE("inventory item use Deck of Fate applies MMerge month and week reward")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -629,6 +659,46 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
     CHECK_EQ(pMember->permanentBonuses.intellect, 50);
     CHECK(horseshoeResult.consumed);
     CHECK_EQ(pMember->skillPoints, 5u);
+}
+
+TEST_CASE("localized horseshoes from all three worlds grant skill points instead of equipping")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Engine::AssetFileSystem assets;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", OpenYAMM::Engine::AssetScaleTier::X1));
+
+    std::vector<std::vector<std::string>> rows;
+    for (const uint32_t itemId : {656u, 1448u, 2083u})
+    {
+        std::vector<std::string> row(17);
+        row[0] = std::to_string(itemId);
+        row[2] = "Подкова";
+        row[4] = "N / A";
+        row[5] = "Misc";
+        rows.push_back(row);
+    }
+
+    OpenYAMM::Game::ItemTable items;
+    REQUIRE(items.load(assets, rows, {}));
+    OpenYAMM::Game::Party party = makeRegressionParty(gameData);
+    const uint32_t initialSkillPoints = party.member(0)->skillPoints;
+
+    for (const uint32_t itemId : {656u, 1448u, 2083u})
+    {
+        CAPTURE(itemId);
+        OpenYAMM::Game::InventoryItem item = {};
+        item.objectDescriptionId = itemId;
+        const uint32_t skillPointsBefore = party.member(0)->skillPoints;
+        CHECK(OpenYAMM::Game::InventoryItemUseRuntime::classifyItemUse(item, items)
+            == OpenYAMM::Game::InventoryItemUseAction::UseHorseshoe);
+        const OpenYAMM::Game::InventoryItemUseResult result =
+            OpenYAMM::Game::InventoryItemUseRuntime::useItemOnMember(party, 0, item, items, nullptr);
+        CHECK(result.handled);
+        CHECK(result.consumed);
+        CHECK_EQ(party.member(0)->skillPoints, skillPointsBefore + 2);
+    }
+    CHECK_EQ(party.member(0)->skillPoints, initialSkillPoints + 6);
 }
 
 TEST_CASE("a Clover gives the member who uses it one skill point")
@@ -1103,6 +1173,98 @@ TEST_CASE("artifact shield blocks condition application")
         CHECK_FALSE(party.applyMemberCondition(0, condition));
         CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(condition)));
     }
+}
+
+TEST_CASE("Power enchant raises effective level and resources only while equipped and intact")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::optional<uint16_t> enchantId =
+        findSpecialEnchantId(gameData.specialItemEnchantTable, SpecialItemEnchantKind::Power);
+    REQUIRE(enchantId.has_value());
+
+    Party party = makeRegressionParty(gameData);
+    Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment = {};
+    pMember->equipmentRuntime = {};
+    pMember->level = 5;
+    pMember->levelModifier = 0;
+    party.refreshDerivedState();
+
+    const CharacterSheetSummary baseline = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    const uint32_t experience = pMember->experience;
+    const uint32_t skillPoints = pMember->skillPoints;
+    const int health = pMember->health;
+    const int spellPoints = pMember->spellPoints;
+    pMember->equipment.mainHand = 79;
+    pMember->equipmentRuntime.mainHand.specialEnchantId = *enchantId;
+    party.refreshDerivedState();
+    party.refreshDerivedState();
+
+    const CharacterSheetSummary enchanted = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    CHECK_EQ(enchanted.level.base, 5);
+    CHECK_EQ(enchanted.level.actual, 10);
+    CHECK_GT(enchanted.health.maximum, baseline.health.maximum);
+    CHECK_GT(enchanted.spellPoints.maximum, baseline.spellPoints.maximum);
+    CHECK_EQ(pMember->levelModifier, 0);
+    CHECK_EQ(pMember->experience, experience);
+    CHECK_EQ(pMember->skillPoints, skillPoints);
+    CHECK_EQ(pMember->health, health);
+    CHECK_EQ(pMember->spellPoints, spellPoints);
+
+    pMember->levelModifier = 20;
+    party.refreshDerivedState();
+    CHECK_EQ(GameMechanics::buildCharacterSheetSummary(*pMember, &gameData.itemTable).level.actual, 30);
+    pMember->levelModifier = 0;
+
+    SUBCASE("broken equipment")
+    {
+        pMember->equipmentRuntime.mainHand.broken = true;
+    }
+    SUBCASE("removed equipment")
+    {
+        pMember->equipment.mainHand = 0;
+        pMember->equipmentRuntime.mainHand = {};
+    }
+    party.refreshDerivedState();
+    const CharacterSheetSummary removed = GameMechanics::buildCharacterSheetSummary(
+        *pMember, &gameData.itemTable);
+    CHECK_EQ(removed.level.actual, baseline.level.actual);
+    CHECK_EQ(removed.health.maximum, baseline.health.maximum);
+    CHECK_EQ(removed.spellPoints.maximum, baseline.spellPoints.maximum);
+}
+
+TEST_CASE("MM7 Sun and Moon cloaks boost their magic school while equipped and intact")
+{
+    using namespace OpenYAMM::Game;
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    Party party = makeRegressionParty(gameData);
+    Character *pMember = party.member(1);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment = {};
+    pMember->equipmentRuntime = {};
+    pMember->skills["LightMagic"] = {"LightMagic", 9, SkillMastery::Master};
+    pMember->skills["DarkMagic"] = {"DarkMagic", 7, SkillMastery::Master};
+
+    pMember->equipment.cloak = 1349;
+    party.assignSpecialItemEnchants();
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("LightMagic"), 4);
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 0);
+
+    pMember->equipment.cloak = 1350;
+    pMember->equipmentRuntime.cloak = {};
+    party.assignSpecialItemEnchants();
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("LightMagic"), 0);
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 3);
+
+    pMember->equipmentRuntime.cloak.broken = true;
+    party.refreshDerivedState();
+    CHECK_EQ(pMember->skillBonus("DarkMagic"), 0);
 }
 
 TEST_CASE("special antidotes enchant blocks poison application")

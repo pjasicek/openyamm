@@ -125,6 +125,7 @@ constexpr uint32_t SaveVersionMawMapsInCraftingPouch = 196;
 
 void migrateLegacyConsumedCorpseMarkers(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyNpcRosters(GameSaveData &data);
+void migrateLegacySnakeTempleLift(GameSaveData &data);
 void migrateLegacyMapAutonotes(GameSaveData &data, uint32_t sourceSaveVersion);
 void migrateLegacyMapHistory(GameSaveData &data, uint32_t sourceSaveVersion);
 // Saves before version 141 recorded MMerge history pages two pages late: moves pages from 3 down by two.

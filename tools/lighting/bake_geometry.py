@@ -3,6 +3,12 @@ bake_indoor.py) and their regression tests."""
 import math
 
 
+def surface_key(points, texture, uvs):
+    """Identify identical oriented surfaces, including material sampling, across model records."""
+    vertices = tuple((tuple(point), tuple(uv)) for point, uv in zip(points, uvs))
+    return texture.lower(), min(vertices[i:] + vertices[:i] for i in range(len(vertices)))
+
+
 def fnv(data):
     """FNV-1a 64 of a byte string: the content hash every bake records for its geometry and dependencies."""
     h = 14695981039346656037

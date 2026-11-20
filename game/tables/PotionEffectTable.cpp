@@ -439,9 +439,10 @@ void parseItemAction(const YAML::Node &node, PotionDefinition &potion)
     {
         potion.itemAction = PotionItemAction::Crafting;
     }
-    else if (action == "temporary_special_enchant")
+    else if (action == "temporary_special_enchant" || action == "permanent_special_enchant")
     {
-        potion.itemAction = PotionItemAction::TemporarySpecialEnchant;
+        potion.itemAction = action == "permanent_special_enchant"
+            ? PotionItemAction::PermanentSpecialEnchant : PotionItemAction::TemporarySpecialEnchant;
         potion.enchant = requireNamed(PotionEnchantNames, node["enchant"], "potion enchantment");
     }
     else

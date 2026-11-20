@@ -1,3 +1,4 @@
+#include "tests/AssetTestSupport.h"
 #include "doctest/doctest.h"
 
 #include "engine/AssetFileSystem.h"
@@ -315,7 +316,8 @@ TEST_CASE("MM9 quest marker presentation data keeps marker semantics distinct "
     CHECK(OpenYAMM::Game::questMarkerOriginOffset(42.0f) == doctest::Approx(29.1f));
 }
 
-TEST_CASE("MM9 quest marker sprite assets resolve through the mounted world")
+TEST_CASE("MM9 quest marker sprite assets resolve through the mounted world"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
@@ -355,7 +357,8 @@ TEST_CASE("MM9 quest marker sprite assets resolve through the mounted world")
 }
 
 TEST_CASE("Checked-in MM9 quest interaction metadata loads through the runtime "
-          "schema")
+          "schema"
+    * OpenYAMM::Tests::requiresMm9Assets())
 {
     const std::filesystem::path path =
         std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm9/state/quest_interactions.yml";

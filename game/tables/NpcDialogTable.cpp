@@ -351,37 +351,10 @@ bool NpcDialogTable::loadGroupNewsFromRows(const std::vector<std::vector<std::st
     return !m_groupNewsIds.empty();
 }
 
-bool NpcDialogTable::loadTextsFromRows(const std::vector<std::vector<std::string>> &rows)
+std::vector<std::vector<std::string>> NpcDialogTable::normalizeTextRows(
+    const std::vector<std::vector<std::string>> &rows)
 {
-    m_texts.clear();
-
-    uint32_t pendingId = 0;
-    std::string pendingText;
-    bool hasPendingText = false;
-
-    auto appendPendingText = [this, &pendingId, &pendingText, &hasPendingText]()
-    {
-        if (hasPendingText)
-        {
-            m_texts[pendingId] = pendingText;
-        }
-    };
-
-    auto appendContinuationText = [&pendingText, &hasPendingText](const std::vector<std::string> &row)
-    {
-        if (!hasPendingText || row.empty())
-        {
-            return;
-        }
-
-        if (!pendingText.empty())
-        {
-            pendingText += '\n';
-        }
-
-        pendingText += row.front();
-    };
-
+    std::vector<std::vector<std::string>> normalizedRows;
     for (const std::vector<std::string> &row : rows)
     {
         if (row.empty())
@@ -393,17 +366,39 @@ bool NpcDialogTable::loadTextsFromRows(const std::vector<std::vector<std::string
 
         if (parseUnsigned(row[0], id))
         {
-            appendPendingText();
-            pendingId = id;
-            pendingText = row.size() > 1 ? row[1] : std::string();
-            hasPendingText = true;
+            normalizedRows.push_back(row);
+            if (normalizedRows.back().size() < 2)
+            {
+                normalizedRows.back().resize(2);
+            }
             continue;
         }
 
-        appendContinuationText(row);
+        if (!normalizedRows.empty())
+        {
+            std::string &text = normalizedRows.back()[1];
+            if (!text.empty())
+            {
+                text += '\n';
+            }
+            text += row.front();
+        }
     }
 
-    appendPendingText();
+    return normalizedRows;
+}
+
+bool NpcDialogTable::loadTextsFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_texts.clear();
+    for (const std::vector<std::string> &row : normalizeTextRows(rows))
+    {
+        uint32_t id = 0;
+        if (parseUnsigned(row[0], id))
+        {
+            m_texts[id] = row[1];
+        }
+    }
     return !m_texts.empty();
 }
 

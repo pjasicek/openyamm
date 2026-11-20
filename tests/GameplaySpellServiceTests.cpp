@@ -16,6 +16,142 @@
 #include <algorithm>
 #include <filesystem>
 
+TEST_CASE("class resource formulas release the table when its game session ends")
+{
+    using namespace OpenYAMM;
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+
+    Game::Character knight;
+    knight.className = "Knight";
+    knight.level = 1;
+    knight.endurance = 10;
+    const int defaultHealth = Game::GameMechanics::calculateBaseCharacterMaxHealth(knight);
+    const int classHealth = Game::GameMechanics::calculateBaseCharacterMaxHealth(knight, &data.classMultiplierTable());
+    REQUIRE_NE(defaultHealth, classHealth);
+
+    {
+        Game::GameSession session;
+        session.bindDataRepository(&data);
+        {
+            Game::GameSession unboundSession;
+        }
+        CHECK_EQ(Game::GameMechanics::calculateBaseCharacterMaxHealth(knight), classHealth);
+    }
+
+    CHECK_EQ(Game::GameMechanics::calculateBaseCharacterMaxHealth(knight), defaultHealth);
+}
+
+TEST_CASE("Gameplay pause freezes party recovery together with actors and resumes without catch-up")
+{
+    using namespace OpenYAMM;
+    class RecoveryWorld : public Tests::PartySpellTestWorldRuntime
+    {
+    public:
+        float movementSeconds = 0.0f;
+        float actorSeconds = 0.0f;
+
+        void updateWorldMovement(const Game::GameplayInputFrame &, float deltaSeconds, bool) override
+        {
+            movementSeconds += deltaSeconds;
+            party()->updateRecovery(deltaSeconds);
+        }
+
+        void updateActorAi(float deltaSeconds) override
+        {
+            actorSeconds += deltaSeconds;
+        }
+    };
+
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    Engine::AssetFileSystem assets;
+    REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
+    Game::GameDataLoader loader;
+    REQUIRE(loader.loadForHeadlessGameplay(assets));
+    Game::GameDataRepository data;
+    data.bind(loader);
+
+    int pauseKind = 0;
+    SUBCASE("right mouse inspection")
+    {
+        pauseKind = 0;
+    }
+    SUBCASE("spell selection")
+    {
+        pauseKind = 1;
+    }
+    SUBCASE("spell targeting after closing the spellbook")
+    {
+        pauseKind = 2;
+    }
+
+    for (const bool indoor : {false, true})
+    {
+        Game::Party party;
+        party.seed(Tests::createSpellRegressionPartySeed());
+        for (size_t index = 0; index < party.members().size(); ++index)
+        {
+            party.applyRecoveryToMember(index, 5.0f);
+        }
+        RecoveryWorld world;
+        world.setIndoorMap(indoor);
+        world.bindParty(&party);
+        Game::GameSession session;
+        Game::GameSettings settings;
+        session.gameplayScreenRuntime().bindSettings(&settings);
+        session.bindDataRepository(&data);
+        session.bindActiveWorldRuntime(&world);
+        session.setCurrentSceneKind(indoor ? Game::SceneKind::Indoor : Game::SceneKind::Outdoor);
+        Game::GameplayInputFrame input;
+        input.screenWidth = 1280;
+        input.screenHeight = 960;
+
+        if (pauseKind == 0)
+        {
+            input.rightMouseButton.held = true;
+        }
+        else if (pauseKind == 1)
+        {
+            session.gameplayScreenState().spellbook().active = true;
+        }
+        else
+        {
+            Game::GameplayScreenState::PendingSpellTargetState &target =
+                session.gameplayScreenState().pendingSpellTarget();
+            target.active = true;
+            target.spellId = Game::spellIdValue(Game::SpellId::FireBolt);
+            target.targetKind = Game::PartySpellCastTargetKind::Actor;
+        }
+
+        for (int frame = 0; frame < 3; ++frame)
+        {
+            session.updateGameplay(input, 1.0f);
+        }
+        CHECK(world.movementSeconds == 0.0f);
+        CHECK(world.actorSeconds == 0.0f);
+        for (const Game::Character &member : party.members())
+        {
+            CHECK(member.recoverySecondsRemaining == doctest::Approx(5.0f));
+        }
+
+        input.rightMouseButton.held = false;
+        session.gameplayScreenState().spellbook().active = false;
+        session.gameplayScreenState().pendingSpellTarget().clear();
+        session.updateGameplay(input, 0.25f);
+        CHECK(world.movementSeconds == doctest::Approx(0.25f));
+        CHECK(world.actorSeconds == doctest::Approx(0.25f));
+        for (const Game::Character &member : party.members())
+        {
+            CHECK(member.recoverySecondsRemaining == doctest::Approx(4.75f));
+        }
+    }
+}
+
 TEST_CASE("quick Heal goes to the member most in danger, else to the one it helps most (GAPS A7.2)")
 {
     using namespace OpenYAMM;
@@ -44,6 +180,8 @@ TEST_CASE("quick Heal goes to the member most in danger, else to the one it help
     Tests::PartySpellTestWorldRuntime world;
     world.bindParty(&party);
     Game::GameSession session;
+    Game::GameSettings settings;
+    session.gameplayScreenRuntime().bindSettings(&settings);
     session.bindDataRepository(&data);
     session.bindActiveWorldRuntime(&world);
     Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
@@ -185,6 +323,36 @@ public:
 TEST_CASE("quick cast attacks instead when the quick spell lacks mana or a target")
 {
     using namespace OpenYAMM;
+    class SpellSceneAdapter : public Game::IGameplayOverlaySceneAdapter
+    {
+    public:
+        explicit SpellSceneAdapter(Game::GameplayScreenRuntime &runtime) : m_runtime(runtime)
+        {
+        }
+
+        float gameplayCameraYawRadians() const override
+        {
+            return 0.0f;
+        }
+
+        void executeActiveDialogAction() override
+        {
+        }
+
+        bool tryCastSpellRequest(const Game::PartySpellCastRequest &request, const std::string &spellName) override
+        {
+            return m_runtime.spellService().resolveSpellRequest(m_runtime, request, spellName).castResult.succeeded();
+        }
+
+        bool trySaveToSelectedGameSlot() override
+        {
+            return false;
+        }
+
+    private:
+        Game::GameplayScreenRuntime &m_runtime;
+    };
+
     const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
     Engine::AssetFileSystem assets;
     REQUIRE(assets.initialize(sourceRoot, sourceRoot / "assets_dev", Engine::AssetScaleTier::X1));
@@ -203,12 +371,16 @@ TEST_CASE("quick cast attacks instead when the quick spell lacks mana or a targe
     Tests::PartySpellTestWorldRuntime world;
     world.bindParty(&party);
     Game::GameSession session;
+    Game::GameSettings settings;
+    session.gameplayScreenRuntime().bindSettings(&settings);
     session.bindDataRepository(&data);
     session.bindActiveWorldRuntime(&world);
     Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
     StartingSceneAdapter scene;
     runtime.bindSceneAdapter(&scene);
     Game::GameplaySpellService &spells = session.gameplaySpellService();
+    SpellSceneAdapter sceneAdapter(runtime);
+    runtime.bindSceneAdapter(&sceneAdapter);
     REQUIRE_EQ(party.activeMemberIndex(), 0);
     Game::GameplaySpellService::QuickSpellStartDisposition expected =
         Game::GameplaySpellService::QuickSpellStartDisposition::AttackFallback;
@@ -310,6 +482,8 @@ TEST_CASE("out of mana spells yield the character turn without blocking combat")
     Tests::PartySpellTestWorldRuntime world;
     world.bindParty(&party);
     Game::GameSession session;
+    Game::GameSettings settings;
+    session.gameplayScreenRuntime().bindSettings(&settings);
     session.bindDataRepository(&data);
     session.bindActiveWorldRuntime(&world);
     Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
@@ -494,10 +668,12 @@ TEST_CASE("a quick Lifedrain takes a hostile within reach; beyond reach it attac
     Tests::PartySpellTestWorldRuntime world;
     world.bindParty(&party);
     world.setPartyPosition(0.0f, 0.0f, 0.0f);
+    Game::GameSettings settings = Game::GameSettings::createDefault();
     Game::GameSession session;
     session.bindDataRepository(&data);
     session.bindActiveWorldRuntime(&world);
     Game::GameplayScreenRuntime &runtime = session.gameplayScreenRuntime();
+    runtime.bindSettings(&settings);
     StartingSceneAdapter scene;
     runtime.bindSceneAdapter(&scene);
     Game::GameplaySpellService &spells = session.gameplaySpellService();

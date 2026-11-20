@@ -133,6 +133,7 @@ enum class PotionItemAction : uint8_t
     RechargeWand,
     Harden,
     TemporarySpecialEnchant,
+    PermanentSpecialEnchant,
     // The ruleset's crafting rules handle it (MAW's Enchant Item and element potions, on the Workbench).
     Crafting,
 };

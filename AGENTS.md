@@ -36,6 +36,8 @@ These rules apply to all AI-generated contributions in this repository.
 
 ## Workflow
 
+- The user resumed builds and test runs on 2026-11-20, lifting the earlier pause while playing.
+  Use the normal focused build/test workflow below. Vulkan builds still require an explicit request for that task.
 - Use the local OpenEnroth checkout at `reference/OpenEnroth-git/`; do not search OpenEnroth on the web when local
   reference is available.
 - For original MM8 engine behavior research (pathing, collision, AI updates, timing or optimizations), use Rizin as
